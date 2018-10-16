@@ -1,0 +1,538 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="WebToolModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Comments">
+          <Key>
+            <PropertyRef Name="PK_Id" />
+          </Key>
+          <Property Name="PK_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="WeekNr" Type="int" Nullable="false" />
+          <Property Name="Year" Type="int" Nullable="false" />
+          <Property Name="Text" Type="nvarchar" MaxLength="300" Nullable="false" />
+          <Property Name="FK_ProjectId" Type="int" Nullable="false" />
+          <Property Name="FK_User" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Projects">
+          <Key>
+            <PropertyRef Name="PK_Id" />
+          </Key>
+          <Property Name="PK_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="DSA" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="TimeEstimation" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="FK_ProjectLeader" Type="int" />
+        </EntityType>
+        <EntityType Name="TaskType">
+          <Key>
+            <PropertyRef Name="PK_Id" />
+          </Key>
+          <Property Name="PK_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TimeRegistration">
+          <Key>
+            <PropertyRef Name="PK_Id" />
+          </Key>
+          <Property Name="PK_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FK_UserId" Type="int" Nullable="false" />
+          <Property Name="FK_ProjectId" Type="int" Nullable="false" />
+          <Property Name="FK_TaskId" Type="int" Nullable="false" />
+          <Property Name="time" Type="int" Nullable="false" />
+          <Property Name="Date" Type="date" Nullable="false" />
+          <Property Name="DateEntry" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserAssignment">
+          <Key>
+            <PropertyRef Name="PK_Id" />
+          </Key>
+          <Property Name="PK_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FK_UserId" Type="int" Nullable="false" />
+          <Property Name="FK_ProjectId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="PK_Id" />
+          </Key>
+          <Property Name="PK_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NK_Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="NK_ZId" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Comments_Projects">
+          <End Role="Projects" Type="Self.Projects" Multiplicity="1" />
+          <End Role="Comments" Type="Self.Comments" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Projects">
+              <PropertyRef Name="PK_Id" />
+            </Principal>
+            <Dependent Role="Comments">
+              <PropertyRef Name="PK_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Comments_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="Comments" Type="Self.Comments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="PK_Id" />
+            </Principal>
+            <Dependent Role="Comments">
+              <PropertyRef Name="FK_User" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Projects_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="Projects" Type="Self.Projects" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="PK_Id" />
+            </Principal>
+            <Dependent Role="Projects">
+              <PropertyRef Name="FK_ProjectLeader" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TimeRegistration_Projects">
+          <End Role="Projects" Type="Self.Projects" Multiplicity="1" />
+          <End Role="TimeRegistration" Type="Self.TimeRegistration" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Projects">
+              <PropertyRef Name="PK_Id" />
+            </Principal>
+            <Dependent Role="TimeRegistration">
+              <PropertyRef Name="FK_ProjectId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TimeRegistration_TaskType">
+          <End Role="TaskType" Type="Self.TaskType" Multiplicity="1" />
+          <End Role="TimeRegistration" Type="Self.TimeRegistration" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TaskType">
+              <PropertyRef Name="PK_Id" />
+            </Principal>
+            <Dependent Role="TimeRegistration">
+              <PropertyRef Name="FK_TaskId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TimeRegistration_TimeRegistration">
+          <End Role="TimeRegistration" Type="Self.TimeRegistration" Multiplicity="1" />
+          <End Role="TimeRegistration1" Type="Self.TimeRegistration" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="TimeRegistration">
+              <PropertyRef Name="PK_Id" />
+            </Principal>
+            <Dependent Role="TimeRegistration1">
+              <PropertyRef Name="PK_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TimeRegistration_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="TimeRegistration" Type="Self.TimeRegistration" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="PK_Id" />
+            </Principal>
+            <Dependent Role="TimeRegistration">
+              <PropertyRef Name="FK_UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserAssignment_Projects">
+          <End Role="Projects" Type="Self.Projects" Multiplicity="1" />
+          <End Role="UserAssignment" Type="Self.UserAssignment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Projects">
+              <PropertyRef Name="PK_Id" />
+            </Principal>
+            <Dependent Role="UserAssignment">
+              <PropertyRef Name="FK_ProjectId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserAssignment_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="UserAssignment" Type="Self.UserAssignment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="PK_Id" />
+            </Principal>
+            <Dependent Role="UserAssignment">
+              <PropertyRef Name="FK_UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="WebToolModelStoreContainer">
+          <EntitySet Name="Comments" EntityType="Self.Comments" Schema="TimeManagement" store:Type="Tables" />
+          <EntitySet Name="Projects" EntityType="Self.Projects" Schema="TimeManagement" store:Type="Tables" />
+          <EntitySet Name="TaskType" EntityType="Self.TaskType" Schema="TimeManagement" store:Type="Tables" />
+          <EntitySet Name="TimeRegistration" EntityType="Self.TimeRegistration" Schema="TimeManagement" store:Type="Tables" />
+          <EntitySet Name="UserAssignment" EntityType="Self.UserAssignment" Schema="TimeManagement" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="TimeManagement" store:Type="Tables" />
+          <AssociationSet Name="FK_Comments_Projects" Association="Self.FK_Comments_Projects">
+            <End Role="Projects" EntitySet="Projects" />
+            <End Role="Comments" EntitySet="Comments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Comments_Users" Association="Self.FK_Comments_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Comments" EntitySet="Comments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Projects_Users" Association="Self.FK_Projects_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Projects" EntitySet="Projects" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TimeRegistration_Projects" Association="Self.FK_TimeRegistration_Projects">
+            <End Role="Projects" EntitySet="Projects" />
+            <End Role="TimeRegistration" EntitySet="TimeRegistration" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TimeRegistration_TaskType" Association="Self.FK_TimeRegistration_TaskType">
+            <End Role="TaskType" EntitySet="TaskType" />
+            <End Role="TimeRegistration" EntitySet="TimeRegistration" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TimeRegistration_TimeRegistration" Association="Self.FK_TimeRegistration_TimeRegistration">
+            <End Role="TimeRegistration" EntitySet="TimeRegistration" />
+            <End Role="TimeRegistration1" EntitySet="TimeRegistration" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TimeRegistration_Users" Association="Self.FK_TimeRegistration_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="TimeRegistration" EntitySet="TimeRegistration" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserAssignment_Projects" Association="Self.FK_UserAssignment_Projects">
+            <End Role="Projects" EntitySet="Projects" />
+            <End Role="UserAssignment" EntitySet="UserAssignment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserAssignment_Users" Association="Self.FK_UserAssignment_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="UserAssignment" EntitySet="UserAssignment" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="WebToolModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Comments">
+          <Key>
+            <PropertyRef Name="PK_Id" />
+          </Key>
+          <Property Name="PK_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="WeekNr" Type="Int32" Nullable="false" />
+          <Property Name="Year" Type="Int32" Nullable="false" />
+          <Property Name="Text" Type="String" MaxLength="300" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="FK_ProjectId" Type="Int32" Nullable="false" />
+          <Property Name="FK_User" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Projects" Relationship="Self.FK_Comments_Projects" FromRole="Comments" ToRole="Projects" />
+          <NavigationProperty Name="Users" Relationship="Self.FK_Comments_Users" FromRole="Comments" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="Projects">
+          <Key>
+            <PropertyRef Name="PK_Id" />
+          </Key>
+          <Property Name="PK_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DSA" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="TimeEstimation" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="FK_ProjectLeader" Type="Int32" />
+          <NavigationProperty Name="Comments" Relationship="Self.FK_Comments_Projects" FromRole="Projects" ToRole="Comments" />
+          <NavigationProperty Name="Users" Relationship="Self.FK_Projects_Users" FromRole="Projects" ToRole="Users" />
+          <NavigationProperty Name="TimeRegistration" Relationship="Self.FK_TimeRegistration_Projects" FromRole="Projects" ToRole="TimeRegistration" />
+          <NavigationProperty Name="UserAssignment" Relationship="Self.FK_UserAssignment_Projects" FromRole="Projects" ToRole="UserAssignment" />
+        </EntityType>
+        <EntityType Name="TaskType">
+          <Key>
+            <PropertyRef Name="PK_Id" />
+          </Key>
+          <Property Name="PK_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="TimeRegistration" Relationship="Self.FK_TimeRegistration_TaskType" FromRole="TaskType" ToRole="TimeRegistration" />
+        </EntityType>
+        <EntityType Name="TimeRegistration">
+          <Key>
+            <PropertyRef Name="PK_Id" />
+          </Key>
+          <Property Name="PK_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FK_UserId" Type="Int32" Nullable="false" />
+          <Property Name="FK_ProjectId" Type="Int32" Nullable="false" />
+          <Property Name="FK_TaskId" Type="Int32" Nullable="false" />
+          <Property Name="time" Type="Int32" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="DateEntry" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="Projects" Relationship="Self.FK_TimeRegistration_Projects" FromRole="TimeRegistration" ToRole="Projects" />
+          <NavigationProperty Name="TaskType" Relationship="Self.FK_TimeRegistration_TaskType" FromRole="TimeRegistration" ToRole="TaskType" />
+          <NavigationProperty Name="TimeRegistration1" Relationship="Self.FK_TimeRegistration_TimeRegistration" FromRole="TimeRegistration" ToRole="TimeRegistration1" />
+          <NavigationProperty Name="TimeRegistration2" Relationship="Self.FK_TimeRegistration_TimeRegistration" FromRole="TimeRegistration1" ToRole="TimeRegistration" />
+          <NavigationProperty Name="Users" Relationship="Self.FK_TimeRegistration_Users" FromRole="TimeRegistration" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="UserAssignment">
+          <Key>
+            <PropertyRef Name="PK_Id" />
+          </Key>
+          <Property Name="PK_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FK_UserId" Type="Int32" Nullable="false" />
+          <Property Name="FK_ProjectId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Projects" Relationship="Self.FK_UserAssignment_Projects" FromRole="UserAssignment" ToRole="Projects" />
+          <NavigationProperty Name="Users" Relationship="Self.FK_UserAssignment_Users" FromRole="UserAssignment" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="PK_Id" />
+          </Key>
+          <Property Name="PK_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NK_Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="NK_ZId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Comments" Relationship="Self.FK_Comments_Users" FromRole="Users" ToRole="Comments" />
+          <NavigationProperty Name="Projects" Relationship="Self.FK_Projects_Users" FromRole="Users" ToRole="Projects" />
+          <NavigationProperty Name="TimeRegistration" Relationship="Self.FK_TimeRegistration_Users" FromRole="Users" ToRole="TimeRegistration" />
+          <NavigationProperty Name="UserAssignment" Relationship="Self.FK_UserAssignment_Users" FromRole="Users" ToRole="UserAssignment" />
+        </EntityType>
+        <Association Name="FK_Comments_Projects">
+          <End Role="Projects" Type="Self.Projects" Multiplicity="1" />
+          <End Role="Comments" Type="Self.Comments" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Projects">
+              <PropertyRef Name="PK_Id" />
+            </Principal>
+            <Dependent Role="Comments">
+              <PropertyRef Name="PK_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Comments_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="Comments" Type="Self.Comments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="PK_Id" />
+            </Principal>
+            <Dependent Role="Comments">
+              <PropertyRef Name="FK_User" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Projects_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="Projects" Type="Self.Projects" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="PK_Id" />
+            </Principal>
+            <Dependent Role="Projects">
+              <PropertyRef Name="FK_ProjectLeader" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TimeRegistration_Projects">
+          <End Role="Projects" Type="Self.Projects" Multiplicity="1" />
+          <End Role="TimeRegistration" Type="Self.TimeRegistration" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Projects">
+              <PropertyRef Name="PK_Id" />
+            </Principal>
+            <Dependent Role="TimeRegistration">
+              <PropertyRef Name="FK_ProjectId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserAssignment_Projects">
+          <End Role="Projects" Type="Self.Projects" Multiplicity="1" />
+          <End Role="UserAssignment" Type="Self.UserAssignment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Projects">
+              <PropertyRef Name="PK_Id" />
+            </Principal>
+            <Dependent Role="UserAssignment">
+              <PropertyRef Name="FK_ProjectId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TimeRegistration_TaskType">
+          <End Role="TaskType" Type="Self.TaskType" Multiplicity="1" />
+          <End Role="TimeRegistration" Type="Self.TimeRegistration" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TaskType">
+              <PropertyRef Name="PK_Id" />
+            </Principal>
+            <Dependent Role="TimeRegistration">
+              <PropertyRef Name="FK_TaskId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TimeRegistration_TimeRegistration">
+          <End Role="TimeRegistration" Type="Self.TimeRegistration" Multiplicity="1" />
+          <End Role="TimeRegistration1" Type="Self.TimeRegistration" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="TimeRegistration">
+              <PropertyRef Name="PK_Id" />
+            </Principal>
+            <Dependent Role="TimeRegistration1">
+              <PropertyRef Name="PK_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TimeRegistration_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="TimeRegistration" Type="Self.TimeRegistration" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="PK_Id" />
+            </Principal>
+            <Dependent Role="TimeRegistration">
+              <PropertyRef Name="FK_UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserAssignment_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="UserAssignment" Type="Self.UserAssignment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="PK_Id" />
+            </Principal>
+            <Dependent Role="UserAssignment">
+              <PropertyRef Name="FK_UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="WebToolEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Comments" EntityType="Self.Comments" />
+          <EntitySet Name="Projects" EntityType="Self.Projects" />
+          <EntitySet Name="TaskType" EntityType="Self.TaskType" />
+          <EntitySet Name="TimeRegistration" EntityType="Self.TimeRegistration" />
+          <EntitySet Name="UserAssignment" EntityType="Self.UserAssignment" />
+          <EntitySet Name="Users" EntityType="Self.Users" />
+          <AssociationSet Name="FK_Comments_Projects" Association="Self.FK_Comments_Projects">
+            <End Role="Projects" EntitySet="Projects" />
+            <End Role="Comments" EntitySet="Comments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Comments_Users" Association="Self.FK_Comments_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Comments" EntitySet="Comments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Projects_Users" Association="Self.FK_Projects_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Projects" EntitySet="Projects" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TimeRegistration_Projects" Association="Self.FK_TimeRegistration_Projects">
+            <End Role="Projects" EntitySet="Projects" />
+            <End Role="TimeRegistration" EntitySet="TimeRegistration" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserAssignment_Projects" Association="Self.FK_UserAssignment_Projects">
+            <End Role="Projects" EntitySet="Projects" />
+            <End Role="UserAssignment" EntitySet="UserAssignment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TimeRegistration_TaskType" Association="Self.FK_TimeRegistration_TaskType">
+            <End Role="TaskType" EntitySet="TaskType" />
+            <End Role="TimeRegistration" EntitySet="TimeRegistration" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TimeRegistration_TimeRegistration" Association="Self.FK_TimeRegistration_TimeRegistration">
+            <End Role="TimeRegistration" EntitySet="TimeRegistration" />
+            <End Role="TimeRegistration1" EntitySet="TimeRegistration" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TimeRegistration_Users" Association="Self.FK_TimeRegistration_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="TimeRegistration" EntitySet="TimeRegistration" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserAssignment_Users" Association="Self.FK_UserAssignment_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="UserAssignment" EntitySet="UserAssignment" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="WebToolModelStoreContainer" CdmEntityContainer="WebToolEntities1">
+          <EntitySetMapping Name="Comments">
+            <EntityTypeMapping TypeName="WebToolModel.Comments">
+              <MappingFragment StoreEntitySet="Comments">
+                <ScalarProperty Name="PK_Id" ColumnName="PK_Id" />
+                <ScalarProperty Name="WeekNr" ColumnName="WeekNr" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="Text" ColumnName="Text" />
+                <ScalarProperty Name="FK_ProjectId" ColumnName="FK_ProjectId" />
+                <ScalarProperty Name="FK_User" ColumnName="FK_User" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Projects">
+            <EntityTypeMapping TypeName="WebToolModel.Projects">
+              <MappingFragment StoreEntitySet="Projects">
+                <ScalarProperty Name="PK_Id" ColumnName="PK_Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="DSA" ColumnName="DSA" />
+                <ScalarProperty Name="TimeEstimation" ColumnName="TimeEstimation" />
+                <ScalarProperty Name="FK_ProjectLeader" ColumnName="FK_ProjectLeader" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TaskType">
+            <EntityTypeMapping TypeName="WebToolModel.TaskType">
+              <MappingFragment StoreEntitySet="TaskType">
+                <ScalarProperty Name="PK_Id" ColumnName="PK_Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TimeRegistration">
+            <EntityTypeMapping TypeName="WebToolModel.TimeRegistration">
+              <MappingFragment StoreEntitySet="TimeRegistration">
+                <ScalarProperty Name="PK_Id" ColumnName="PK_Id" />
+                <ScalarProperty Name="FK_UserId" ColumnName="FK_UserId" />
+                <ScalarProperty Name="FK_ProjectId" ColumnName="FK_ProjectId" />
+                <ScalarProperty Name="FK_TaskId" ColumnName="FK_TaskId" />
+                <ScalarProperty Name="time" ColumnName="time" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="DateEntry" ColumnName="DateEntry" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserAssignment">
+            <EntityTypeMapping TypeName="WebToolModel.UserAssignment">
+              <MappingFragment StoreEntitySet="UserAssignment">
+                <ScalarProperty Name="PK_Id" ColumnName="PK_Id" />
+                <ScalarProperty Name="FK_UserId" ColumnName="FK_UserId" />
+                <ScalarProperty Name="FK_ProjectId" ColumnName="FK_ProjectId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="WebToolModel.Users">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="PK_Id" ColumnName="PK_Id" />
+                <ScalarProperty Name="NK_Name" ColumnName="NK_Name" />
+                <ScalarProperty Name="NK_ZId" ColumnName="NK_ZId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

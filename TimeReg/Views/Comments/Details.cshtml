@@ -1,0 +1,66 @@
+﻿@model TimeReg.Comments
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Comments</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.WeekNr)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.WeekNr)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Year)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Year)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Text)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Text)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FK_ProjectId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FK_ProjectId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Projects.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Projects.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Users.NK_Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Users.NK_Name)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.PK_Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

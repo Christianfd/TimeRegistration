@@ -1,0 +1,58 @@
+﻿@model TimeReg.Projects
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Projects</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DSA)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DSA)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TimeEstimation)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TimeEstimation)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Comments.Text)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Comments.Text)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Users.NK_Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Users.NK_Name)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.PK_Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

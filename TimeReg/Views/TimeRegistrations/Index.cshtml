@@ -1,0 +1,63 @@
+﻿@model IEnumerable<TimeReg.TimeRegistration>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.time)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Date)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DateEntry)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Projects.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TaskType.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Users.NK_Name)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.time)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Date)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DateEntry)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Projects.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TaskType.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Users.NK_Name)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.PK_Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.PK_Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.PK_Id })
+        </td>
+    </tr>
+}
+
+</table>

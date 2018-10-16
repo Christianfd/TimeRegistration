@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="2fd3ae607cd24e0ca13686480b9c11ac" Name="Diagram1">
+        <EntityTypeShape EntityType="WebToolModel.Comments" Width="1.5" PointX="5.25" PointY="6.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebToolModel.Projects" Width="1.5" PointX="3" PointY="7.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebToolModel.TaskType" Width="1.5" PointX="7.125" PointY="4.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebToolModel.TimeRegistration" Width="1.5" PointX="8.25" PointY="6" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebToolModel.UserAssignment" Width="1.5" PointX="5.25" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebToolModel.Users" Width="1.5" PointX="0.75" PointY="4.75" IsExpanded="true" />
+        <AssociationConnector Association="WebToolModel.FK_Comments_Projects" ManuallyRouted="false" />
+        <AssociationConnector Association="WebToolModel.FK_Comments_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="WebToolModel.FK_Projects_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="WebToolModel.FK_TimeRegistration_Projects" ManuallyRouted="false" />
+        <AssociationConnector Association="WebToolModel.FK_UserAssignment_Projects" ManuallyRouted="false" />
+        <AssociationConnector Association="WebToolModel.FK_TimeRegistration_TaskType" ManuallyRouted="false" />
+        <AssociationConnector Association="WebToolModel.FK_TimeRegistration_TimeRegistration" ManuallyRouted="false" />
+        <AssociationConnector Association="WebToolModel.FK_TimeRegistration_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="WebToolModel.FK_UserAssignment_Users" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

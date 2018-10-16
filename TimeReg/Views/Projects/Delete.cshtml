@@ -1,0 +1,64 @@
+﻿@model TimeReg.Projects
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Projects</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DSA)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DSA)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TimeEstimation)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TimeEstimation)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Comments.Text)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Comments.Text)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Users.NK_Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Users.NK_Name)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>
