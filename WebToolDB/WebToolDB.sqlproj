@@ -73,6 +73,8 @@
     <Folder Include="TimeManagement\Stored Procedures\OrderNumber" />
     <Folder Include="TimeManagement\Stored Procedures\TimeType" />
     <Folder Include="TimeManagement\Tables\OrderNumberTables" />
+    <Folder Include="TimeManagement\Views\OrderNumberTools" />
+    <Folder Include="TimeManagement\Views\ProjectViewTools" />
     <Folder Include="TimeManagement\Tables\ProjectTables" />
   </ItemGroup>
   <ItemGroup>
@@ -86,7 +88,6 @@
     <Build Include="Security\TimeManagement.sql" />
     <Build Include="Security\Permissions.sql" />
     <Build Include="TimeManagement\Views\VI_Users.sql" />
-    <Build Include="TimeManagement\Views\VI_TaskType.sql" />
     <Build Include="TimeManagement\Views\VI_UserAssignment.sql" />
     <Build Include="TimeManagement\Views\VI_Projects.sql" />
     <Build Include="TimeManagement\Views\VI_TimeRegistration.sql" />
@@ -115,19 +116,24 @@
     <Build Include="TimeManagement\Stored Procedures\OrderNumber\SP_AddOrderNumber.sql" />
     <Build Include="TimeManagement\Stored Procedures\OrderNumber\SP_RemoveOrderNumber.sql" />
     <Build Include="TimeManagement\Stored Procedures\OrderNumber\SP_UpdateOrderNumber.sql" />
-    <Build Include="TimeManagement\Views\VI_TimeType.sql" />
     <Build Include="TimeManagement\Stored Procedures\TimeType\SP_AddTimeType.sql" />
     <Build Include="TimeManagement\Stored Procedures\TimeType\SP_RemoveTimeType.sql" />
     <Build Include="TimeManagement\Stored Procedures\TimeType\SP_UpdateTimeType.sql" />
     <Build Include="TimeManagement\Tables\OrderNumberTables\RequestOrg.sql" />
     <Build Include="TimeManagement\Tables\OrderNumberTables\Requester.sql" />
     <Build Include="TimeManagement\Tables\OrderNumberTables\CustomerRef.sql" />
+    <Build Include="TimeManagement\Tables\ProjectTables\Country.sql" />
+    <Build Include="TimeManagement\Tables\ProjectTables\PlatformOrProduct.sql" />
     <Build Include="TimeManagement\Tables\ProjectTables\TaskType.sql" />
     <Build Include="TimeManagement\Tables\ProjectTables\TimeType.sql" />
-    <Build Include="TimeManagement\Tables\ProjectTables\UserAssignment.sql" />
-    <Build Include="TimeManagement\Tables\ProjectTables\Country.sql" />
     <Build Include="TimeManagement\Tables\ProjectTables\Turbine.sql" />
-    <Build Include="TimeManagement\Tables\ProjectTables\PlatformOrProduct.sql" />
+    <Build Include="TimeManagement\Tables\ProjectTables\UserAssignment.sql" />
+    <Build Include="TimeManagement\Views\ProjectViewTools\VI_TaskType.sql" />
+    <Build Include="TimeManagement\Views\ProjectViewTools\VI_TimeType.sql" />
+    <Build Include="TimeManagement\Views\OrderNumberTools\VI_CustomerRef.sql" />
+    <Build Include="TimeManagement\Views\OrderNumberTools\VI_Requester.sql" />
+    <Build Include="TimeManagement\Views\OrderNumberTools\VI_RequestOrg.sql" />
+    <Build Include="TimeManagement\Views\VI_ProjectAndOrderTools.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="WebToolDB.refactorlog" />

@@ -27,23 +27,33 @@ namespace TimeReg
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<VI_Comments> VI_Comments { get; set; }
-        public virtual DbSet<VI_UserAssignment> VI_UserAssignment { get; set; }
-        public virtual DbSet<VI_Users> VI_Users { get; set; }
         public virtual DbSet<Comments> Comments { get; set; }
+        public virtual DbSet<OrderNumber> OrderNumber { get; set; }
+        public virtual DbSet<Projects> Projects { get; set; }
         public virtual DbSet<TaskType> TaskType { get; set; }
         public virtual DbSet<TimeRegistration> TimeRegistration { get; set; }
+        public virtual DbSet<TimeType> TimeType { get; set; }
         public virtual DbSet<UserAssignment> UserAssignment { get; set; }
         public virtual DbSet<Users> Users { get; set; }
-        public virtual DbSet<VI_TaskType> VI_TaskType { get; set; }
-        public virtual DbSet<VI_UserTimePerProject> VI_UserTimePerProject { get; set; }
-        public virtual DbSet<VI_TimeRegistration> VI_TimeRegistration { get; set; }
+        public virtual DbSet<Country> Country { get; set; }
+        public virtual DbSet<CustomerRef> CustomerRef { get; set; }
+        public virtual DbSet<PlatformOrProduct> PlatformOrProduct { get; set; }
+        public virtual DbSet<Requester> Requester { get; set; }
+        public virtual DbSet<RequestOrg> RequestOrg { get; set; }
+        public virtual DbSet<Turbine> Turbine { get; set; }
+        public virtual DbSet<VI_Comments> VI_Comments { get; set; }
+        public virtual DbSet<VI_CustomerRef> VI_CustomerRef { get; set; }
         public virtual DbSet<VI_OrderNumber> VI_OrderNumber { get; set; }
-        public virtual DbSet<Projects> Projects { get; set; }
-        public virtual DbSet<OrderNumber> OrderNumber { get; set; }
-        public virtual DbSet<TimeType> TimeType { get; set; }
-        public virtual DbSet<VI_TimeType> VI_TimeType { get; set; }
+        public virtual DbSet<VI_ProjectAndOrderTools> VI_ProjectAndOrderTools { get; set; }
         public virtual DbSet<VI_Projects> VI_Projects { get; set; }
+        public virtual DbSet<VI_Requester> VI_Requester { get; set; }
+        public virtual DbSet<VI_RequestOrg> VI_RequestOrg { get; set; }
+        public virtual DbSet<VI_TaskType> VI_TaskType { get; set; }
+        public virtual DbSet<VI_TimeRegistration> VI_TimeRegistration { get; set; }
+        public virtual DbSet<VI_TimeType> VI_TimeType { get; set; }
+        public virtual DbSet<VI_UserAssignment> VI_UserAssignment { get; set; }
+        public virtual DbSet<VI_Users> VI_Users { get; set; }
+        public virtual DbSet<VI_UserTimePerProject> VI_UserTimePerProject { get; set; }
     
         public virtual ObjectResult<SP_AddUser_Result> SP_AddUser(string userName, string userAuthentity)
         {

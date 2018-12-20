@@ -12,13 +12,9 @@ namespace TimeReg
     using System;
     using System.Collections.Generic;
     
-    public partial class UserAssignment
+    public partial class RequestOrg
     {
         public int PK_Id { get; set; }
-        public int FK_UserId { get; set; }
-        public int FK_ProjectId { get; set; }
-    
-        public virtual Projects Projects { get; set; }
-        public virtual Users Users { get; set; }
+        public string Organization { get; set; }
     }
 }

@@ -18,11 +18,11 @@ namespace TimeReg
         public string Name { get; set; }
         public int FK_OrderNumber { get; set; }
         public int TimeEstimation { get; set; }
-        public Nullable<int> FK_ProjectLeader { get; set; }
+        public int FK_ProjectLeader { get; set; }
         public string UserName { get; set; }
         public string Scope { get; set; }
         public string OrderName { get; set; }
-        public Nullable<int> FK_TimeType { get; set; }
+        public int FK_TimeType { get; set; }
         public string TimeTypeName { get; set; }
         public Nullable<int> timeSum { get; set; }
     }

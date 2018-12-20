@@ -5,34 +5,45 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="a612a07b6598486a91ed0d8c5cd75cea" Name="Diagram1" ZoomLevel="74">
-        <EntityTypeShape EntityType="WebToolModel.VI_Comments" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="WebToolModel.VI_UserAssignment" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="WebToolModel.VI_Users" Width="1.5" PointX="4.75" PointY="3.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="WebToolModel.Comments" Width="1.5" PointX="9.875" PointY="12.5" />
-        <EntityTypeShape EntityType="WebToolModel.TaskType" Width="1.5" PointX="10.625" PointY="15.875" />
-        <EntityTypeShape EntityType="WebToolModel.TimeRegistration" Width="1.5" PointX="12.875" PointY="12" />
-        <EntityTypeShape EntityType="WebToolModel.UserAssignment" Width="1.5" PointX="5.75" PointY="8.125" />
-        <EntityTypeShape EntityType="WebToolModel.Users" Width="1.5" PointX="5.375" PointY="10.75" />
-        <AssociationConnector Association="WebToolModel.FK_Comments_Users" />
-        <AssociationConnector Association="WebToolModel.FK_TimeRegistration_TaskType" />
-        <AssociationConnector Association="WebToolModel.FK_TimeRegistration_TimeRegistration" />
-        <AssociationConnector Association="WebToolModel.FK_TimeRegistration_Users" />
-        <AssociationConnector Association="WebToolModel.FK_UserAssignment_Users" />
-        <EntityTypeShape EntityType="WebToolModel.VI_TaskType" Width="1.5" PointX="0.75" PointY="3.5" />
-        <EntityTypeShape EntityType="WebToolModel.VI_UserTimePerProject" Width="1.5" PointX="4.75" PointY="5.125" />
-        <EntityTypeShape EntityType="WebToolModel.VI_TimeRegistration" Width="1.5" PointX="2.75" PointY="0.75" />
-        <EntityTypeShape EntityType="WebToolModel.VI_OrderNumber" Width="1.5" PointX="2.75" PointY="5.125" />
-        <EntityTypeShape EntityType="WebToolModel.Projects" Width="1.5" PointX="7.625" PointY="10.5" />
+        <EntityTypeShape EntityType="WebToolModel.Comments" Width="1.5" PointX="3" PointY="4.875" />
+        <EntityTypeShape EntityType="WebToolModel.OrderNumber" Width="1.5" PointX="3.5" PointY="8.625" />
+        <EntityTypeShape EntityType="WebToolModel.Projects" Width="1.5" PointX="6" PointY="3.875" />
+        <EntityTypeShape EntityType="WebToolModel.TaskType" Width="1.5" PointX="9" PointY="2.375" />
+        <EntityTypeShape EntityType="WebToolModel.TimeRegistration" Width="1.5" PointX="11.75" PointY="5.5" />
+        <EntityTypeShape EntityType="WebToolModel.TimeType" Width="1.5" PointX="3.625" PointY="2.875" />
+        <EntityTypeShape EntityType="WebToolModel.UserAssignment" Width="1.5" PointX="8.375" PointY="6.375" />
+        <EntityTypeShape EntityType="WebToolModel.Users" Width="1.5" PointX="0.875" PointY="3.375" />
+        <EntityTypeShape EntityType="WebToolModel.Country" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="WebToolModel.CustomerRef" Width="1.5" PointX="5.75" PointY="0.75" />
+        <EntityTypeShape EntityType="WebToolModel.PlatformOrProduct" Width="1.5" PointX="0.75" PointY="8.75" />
+        <EntityTypeShape EntityType="WebToolModel.Requester" Width="1.5" PointX="5.75" PointY="9.75" />
+        <EntityTypeShape EntityType="WebToolModel.RequestOrg" Width="1.5" PointX="7.75" PointY="9.75" />
+        <EntityTypeShape EntityType="WebToolModel.Turbine" Width="1.5" PointX="9.75" PointY="9.75" />
+        <EntityTypeShape EntityType="WebToolModel.VI_Comments" Width="1.5" PointX="11.75" PointY="0.75" />
+        <EntityTypeShape EntityType="WebToolModel.VI_CustomerRef" Width="1.5" PointX="0.75" PointY="11.75" />
+        <EntityTypeShape EntityType="WebToolModel.VI_OrderNumber" Width="1.5" PointX="2.75" PointY="11.75" />
+        <EntityTypeShape EntityType="WebToolModel.VI_ProjectAndOrderTools" Width="1.5" PointX="11.75" PointY="9.75" />
+        <EntityTypeShape EntityType="WebToolModel.VI_Projects" Width="1.5" PointX="4.75" PointY="12.75" />
+        <EntityTypeShape EntityType="WebToolModel.VI_Requester" Width="1.5" PointX="6.75" PointY="12.75" />
+        <EntityTypeShape EntityType="WebToolModel.VI_RequestOrg" Width="1.5" PointX="8.75" PointY="12.75" />
+        <EntityTypeShape EntityType="WebToolModel.VI_TaskType" Width="1.5" PointX="13.75" PointY="0.75" />
+        <EntityTypeShape EntityType="WebToolModel.VI_TimeRegistration" Width="1.5" PointX="13.75" PointY="3.75" />
+        <EntityTypeShape EntityType="WebToolModel.VI_TimeType" Width="1.5" PointX="13.75" PointY="8.75" />
+        <EntityTypeShape EntityType="WebToolModel.VI_UserAssignment" Width="1.5" PointX="10.75" PointY="13.75" />
+        <EntityTypeShape EntityType="WebToolModel.VI_Users" Width="1.5" PointX="13.75" PointY="11.75" />
+        <EntityTypeShape EntityType="WebToolModel.VI_UserTimePerProject" Width="1.5" PointX="0.75" PointY="14.75" />
         <AssociationConnector Association="WebToolModel.FK_Comments_Projects" />
+        <AssociationConnector Association="WebToolModel.FK_Comments_Users" />
+        <AssociationConnector Association="WebToolModel.FK_Projects_OrderNumber" />
+        <AssociationConnector Association="WebToolModel.FK_Projects_TimeType" />
         <AssociationConnector Association="WebToolModel.FK_Projects_Users" />
         <AssociationConnector Association="WebToolModel.FK_TimeRegistration_Projects" />
         <AssociationConnector Association="WebToolModel.FK_UserAssignment_Projects" />
-        <EntityTypeShape EntityType="WebToolModel.OrderNumber" Width="1.5" PointX="9.75" PointY="10.25" />
-        <EntityTypeShape EntityType="WebToolModel.TimeType" Width="1.5" PointX="8.25" PointY="8" />
-        <AssociationConnector Association="WebToolModel.FK_Projects_OrderNumber" />
-        <EntityTypeShape EntityType="WebToolModel.VI_TimeType" Width="1.5" PointX="0.75" PointY="5.125" />
-        <AssociationConnector Association="WebToolModel.FK_Projects_TimeType" />
-        <EntityTypeShape EntityType="WebToolModel.VI_Projects" Width="1.5" PointX="6.75" PointY="0.75" />
+        <AssociationConnector Association="WebToolModel.FK_TimeRegistration_TaskType" />
+        <AssociationConnector Association="WebToolModel.FK_TimeRegistration_TimeRegistration" />
+        <AssociationConnector Association="WebToolModel.FK_TimeRegistration_Users" ManuallyRouted="false" >
+        </AssociationConnector>
+        <AssociationConnector Association="WebToolModel.FK_UserAssignment_Users" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -182,19 +182,28 @@
     </Compile>
     <Compile Include="Controllers\CommentsController.cs" />
     <Compile Include="Controllers\ProjectsController.cs" />
-    <Compile Include="Controllers\TimeTypeController.cs" />
+    <Compile Include="Controllers\ProjectControllers\TimeTypeController.cs" />
     <Compile Include="Controllers\UnusedControllers\AccountController.cs" />
     <Compile Include="Controllers\UnusedControllers\HomeController.cs" />
     <Compile Include="Controllers\UnusedControllers\ManageController.cs" />
-    <Compile Include="Controllers\TaskTypeController.cs" />
+    <Compile Include="Controllers\ProjectControllers\TaskTypeController.cs" />
     <Compile Include="Controllers\TimeRegistrationsController.cs" />
     <Compile Include="Controllers\UserAssignmentsController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
+    <Compile Include="Country.cs">
+      <DependentUpon>WebTool.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CustomerRef.cs">
+      <DependentUpon>WebTool.tt</DependentUpon>
+    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Controllers\OrderNumberController.cs" />
     <Compile Include="OrderNumber.cs">
+      <DependentUpon>WebTool.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PlatformOrProduct.cs">
       <DependentUpon>WebTool.tt</DependentUpon>
     </Compile>
     <Compile Include="Projects.cs">
@@ -209,6 +218,12 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Requester.cs">
+      <DependentUpon>WebTool.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RequestOrg.cs">
+      <DependentUpon>WebTool.tt</DependentUpon>
+    </Compile>
     <Compile Include="SP_AddUser_Result.cs">
       <DependentUpon>WebTool.tt</DependentUpon>
     </Compile>
@@ -224,6 +239,9 @@
       <DependentUpon>WebTool.tt</DependentUpon>
     </Compile>
     <Compile Include="TimeType.cs">
+      <DependentUpon>WebTool.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Turbine.cs">
       <DependentUpon>WebTool.tt</DependentUpon>
     </Compile>
     <Compile Include="UserAssignment.cs">
@@ -246,10 +264,22 @@
     <Compile Include="VI_Comments.cs">
       <DependentUpon>WebTool.tt</DependentUpon>
     </Compile>
+    <Compile Include="VI_CustomerRef.cs">
+      <DependentUpon>WebTool.tt</DependentUpon>
+    </Compile>
     <Compile Include="VI_OrderNumber.cs">
       <DependentUpon>WebTool.tt</DependentUpon>
     </Compile>
+    <Compile Include="VI_ProjectAndOrderTools.cs">
+      <DependentUpon>WebTool.tt</DependentUpon>
+    </Compile>
     <Compile Include="VI_Projects.cs">
+      <DependentUpon>WebTool.tt</DependentUpon>
+    </Compile>
+    <Compile Include="VI_Requester.cs">
+      <DependentUpon>WebTool.tt</DependentUpon>
+    </Compile>
+    <Compile Include="VI_RequestOrg.cs">
       <DependentUpon>WebTool.tt</DependentUpon>
     </Compile>
     <Compile Include="VI_TaskType.cs">
@@ -264,7 +294,6 @@
     <Compile Include="VI_UserAssignment.cs">
       <DependentUpon>WebTool.tt</DependentUpon>
     </Compile>
-    <Compile Include="VI_UserAssignmentController.cs" />
     <Compile Include="VI_Users.cs">
       <DependentUpon>WebTool.tt</DependentUpon>
     </Compile>
@@ -452,6 +481,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Controllers\OrderNumberTool\" />
     <Folder Include="Tools\" />
   </ItemGroup>
   <ItemGroup>

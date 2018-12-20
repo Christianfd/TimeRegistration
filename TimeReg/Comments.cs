@@ -21,7 +21,7 @@ namespace TimeReg
         public int FK_ProjectId { get; set; }
         public int FK_User { get; set; }
     
-        public virtual Users Users { get; set; }
         public virtual Projects Projects { get; set; }
+        public virtual Users Users { get; set; }
     }
 }

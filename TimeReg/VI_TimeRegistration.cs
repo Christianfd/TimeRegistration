@@ -17,6 +17,7 @@ namespace TimeReg
         public int PK_Id { get; set; }
         public int FK_UserId { get; set; }
         public int FK_ProjectId { get; set; }
+        public int FK_OrderId { get; set; }
         public int FK_TaskId { get; set; }
         public int Time { get; set; }
         public System.DateTime Date { get; set; }
@@ -25,7 +26,6 @@ namespace TimeReg
         public string TaskTypeName { get; set; }
         public string ProjectName { get; set; }
         public string UserName { get; set; }
-        public int FK_OrderId { get; set; }
         public string OrderName { get; set; }
     }
 }
