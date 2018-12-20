@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'C:\Users\davis01c\Documents\Visual Studio 2015\Projects\TimeRegistration\TimeReg\WebTool.edmx'. 
+﻿// T4 code generation is enabled for model 'C:\Software\TimeRegistration\TimeReg\WebTool.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.

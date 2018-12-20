@@ -17,21 +17,28 @@ namespace TimeReg
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Projects()
         {
+            this.Comments = new HashSet<Comments>();
             this.TimeRegistration = new HashSet<TimeRegistration>();
             this.UserAssignment = new HashSet<UserAssignment>();
         }
     
         public int PK_Id { get; set; }
         public string Name { get; set; }
-        public string DSA { get; set; }
-        public string TimeEstimation { get; set; }
+        public int FK_OrderNumber { get; set; }
+        public int TimeEstimation { get; set; }
         public Nullable<int> FK_ProjectLeader { get; set; }
+        public string Scope { get; set; }
+        public Nullable<int> FK_TimeType { get; set; }
+        public int Status { get; set; }
     
-        public virtual Comments Comments { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Comments> Comments { get; set; }
         public virtual Users Users { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TimeRegistration> TimeRegistration { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<UserAssignment> UserAssignment { get; set; }
+        public virtual OrderNumber OrderNumber { get; set; }
+        public virtual TimeType TimeType { get; set; }
     }
 }

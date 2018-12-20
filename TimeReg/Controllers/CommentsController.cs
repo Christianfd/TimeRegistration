@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using TimeReg;
+using TimeReg.ViewModels;
 
 namespace TimeReg.Controllers
 {
@@ -17,8 +18,9 @@ namespace TimeReg.Controllers
         // GET: Comments
         public ActionResult Index()
         {
-            var comments = db.Comments.Include(c => c.Projects).Include(c => c.Users);
-            return View(comments.ToList());
+            //Needs View implementation
+           
+            return View(db.VI_Comments.ToList());
         }
 
         // GET: Comments/Details/5
@@ -28,19 +30,28 @@ namespace TimeReg.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Comments comments = db.Comments.Find(id);
+            VI_Comments comments = db.VI_Comments.SingleOrDefault(m => m.PK_Id == id);
             if (comments == null)
             {
                 return HttpNotFound();
             }
+
+            //Initializing Objects for the view bags. - These are used to get the value of the view bags
+            var ProjectsBag = db.VI_Projects.SingleOrDefault(m => m.PK_Id == comments.FK_ProjectId);
+            var UserBag = db.VI_Users.SingleOrDefault(m => m.PK_Id == comments.FK_User);
+
+            //Creating Viewbag and getting the needed values
+            ViewBag.ProjectName = ProjectsBag.Name;
+            ViewBag.UserName = UserBag.NK_Name;
             return View(comments);
         }
 
         // GET: Comments/Create
         public ActionResult Create()
         {
-            ViewBag.PK_Id = new SelectList(db.Projects, "PK_Id", "Name");
-            ViewBag.FK_User = new SelectList(db.Users, "PK_Id", "NK_Name");
+           
+            ViewBag.FK_User = new SelectList(db.VI_Users, "PK_Id", "NK_Name");
+            ViewBag.FK_ProjectId = new SelectList(db.VI_Projects, "PK_Id", "Name");
             return View();
         }
 
@@ -49,17 +60,17 @@ namespace TimeReg.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "PK_Id,WeekNr,Year,Text,FK_ProjectId,FK_User")] Comments comments)
+        public ActionResult Create([Bind(Include = "PK_Id,WeekNr,Year,Text,FK_ProjectId,FK_User")] CommentsViewModel comments)
         {
             if (ModelState.IsValid)
             {
-                db.Comments.Add(comments);
+                db.SP_AddComment(comments.WeekNr, comments.Year, comments.Text, comments.FK_ProjectId, comments.FK_User);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.PK_Id = new SelectList(db.Projects, "PK_Id", "Name", comments.PK_Id);
-            ViewBag.FK_User = new SelectList(db.Users, "PK_Id", "NK_Name", comments.FK_User);
+            ViewBag.FK_User = new SelectList(db.VI_Users, "PK_Id", "NK_Name", "Choose Project");
+            ViewBag.FK_ProjectId = new SelectList(db.VI_Projects, "PK_Id", "Name", "Choose User");
             return View(comments);
         }
 
@@ -70,14 +81,17 @@ namespace TimeReg.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Comments comments = db.Comments.Find(id);
-            if (comments == null)
+            VI_Comments comments = db.VI_Comments.SingleOrDefault(m => m.PK_Id == id);
+            var commentsViewModel = new CommentsViewModel() { PK_Id = comments.PK_Id, WeekNr = comments.WeekNr, Year = comments.Year, Text = comments.Text, FK_ProjectId = comments.FK_ProjectId, FK_User = comments.FK_User };
+            if (commentsViewModel == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.PK_Id = new SelectList(db.Projects, "PK_Id", "Name", comments.PK_Id);
-            ViewBag.FK_User = new SelectList(db.Users, "PK_Id", "NK_Name", comments.FK_User);
-            return View(comments);
+
+            //Creating Viewbags to use as lists where default value is the current selected projectId and User Id
+            ViewBag.ProjectName = new SelectList(db.VI_Projects, "PK_Id", "Name", commentsViewModel.FK_ProjectId);
+            ViewBag.UserName = new SelectList(db.VI_Users, "PK_Id", "NK_Name", commentsViewModel.FK_User);
+            return View(commentsViewModel);
         }
 
         // POST: Comments/Edit/5
@@ -85,16 +99,18 @@ namespace TimeReg.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "PK_Id,WeekNr,Year,Text,FK_ProjectId,FK_User")] Comments comments)
+        public ActionResult Edit([Bind(Include = "PK_Id,WeekNr,Year,Text,FK_ProjectId,FK_User, ProjectName, UserName")] CommentsViewModel comments)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(comments).State = EntityState.Modified;
+               db.SP_UpdateComments(comments.PK_Id, comments.WeekNr, comments.Year, comments.Text, comments.ProjectName, comments.UserName);
+                //The Original Scaffolded method from Entity framework
+                //db.Entry(comments).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.PK_Id = new SelectList(db.Projects, "PK_Id", "Name", comments.PK_Id);
-            ViewBag.FK_User = new SelectList(db.Users, "PK_Id", "NK_Name", comments.FK_User);
+            ViewBag.ProjectName = new SelectList(db.VI_Projects, "PK_Id", "Name", comments.FK_ProjectId);
+            ViewBag.UserName = new SelectList(db.VI_Users, "PK_Id", "NK_Name", comments.FK_User);
             return View(comments);
         }
 
@@ -105,11 +121,20 @@ namespace TimeReg.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Comments comments = db.Comments.Find(id);
+            VI_Comments comments = db.VI_Comments.SingleOrDefault(m => m.PK_Id == id);
             if (comments == null)
             {
                 return HttpNotFound();
             }
+
+            //Initializing Objects for the view bags. - These are used to get the value of the view bags
+            var ProjectsBag = db.VI_Projects.SingleOrDefault(m => m.PK_Id == comments.FK_ProjectId);
+            var UserBag = db.VI_Users.SingleOrDefault(m => m.PK_Id == comments.FK_User);
+
+            //Creating Viewbag and getting the needed values
+            ViewBag.ProjectName = ProjectsBag.Name;
+            ViewBag.UserName = UserBag.NK_Name;
+
             return View(comments);
         }
 
@@ -118,8 +143,8 @@ namespace TimeReg.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Comments comments = db.Comments.Find(id);
-            db.Comments.Remove(comments);
+
+            db.SP_RemoveComment(id);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

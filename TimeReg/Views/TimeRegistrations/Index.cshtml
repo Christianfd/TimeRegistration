@@ -1,4 +1,4 @@
-﻿@model IEnumerable<TimeReg.TimeRegistration>
+﻿@model TimeReg.ViewModels.TimeRegistrationViewModel
 
 @{
     ViewBag.Title = "Index";
@@ -12,47 +12,57 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.time)
+            Project
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Date)
+            Order Number
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.DateEntry)
+            Time
+        </th>
+
+        <th>
+            Date
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Projects.Name)
+            Task Type
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.TaskType.Name)
+            User
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Users.NK_Name)
-        </th>
+        @*<th>
+               Entry Date
+            </th>*@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
+@foreach (var item in Model.VI_TimeRegistration_List) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.time)
+            @Html.DisplayFor(modelItem => item.ProjectName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.OrderName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Time)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Date)
         </td>
         <td>
+            @Html.DisplayFor(modelItem => item.TaskTypeName)
+        </td>
+
+        <td>
+            @Html.DisplayFor(modelItem => item.UserName)
+        </td>
+        @*<td>
             @Html.DisplayFor(modelItem => item.DateEntry)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Projects.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TaskType.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Users.NK_Name)
-        </td>
-        <td>
+          
+        </td>*@
+       
+<td>
             @Html.ActionLink("Edit", "Edit", new { id=item.PK_Id }) |
             @Html.ActionLink("Details", "Details", new { id=item.PK_Id }) |
             @Html.ActionLink("Delete", "Delete", new { id=item.PK_Id })

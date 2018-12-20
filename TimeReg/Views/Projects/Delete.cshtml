@@ -1,4 +1,4 @@
-﻿@model TimeReg.Projects
+﻿@model TimeReg.VI_Projects
 
 @{
     ViewBag.Title = "Delete";
@@ -20,11 +20,11 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.DSA)
+            @Html.DisplayNameFor(model => model.FK_OrderNumber)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.DSA)
+            @Html.DisplayFor(model => model.FK_OrderNumber)
         </dd>
 
         <dt>
@@ -36,6 +36,22 @@
         </dd>
 
         <dt>
+            Project Leader
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.UserName)
+        </dd>
+            
+        <dt>
+            Scope
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Scope)
+        </dd>
+
+
+        @*<dt>
             @Html.DisplayNameFor(model => model.Comments.Text)
         </dt>
 
@@ -49,7 +65,7 @@
 
         <dd>
             @Html.DisplayFor(model => model.Users.NK_Name)
-        </dd>
+        </dd>*@
 
     </dl>
 

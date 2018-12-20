@@ -1,17 +1,17 @@
-﻿@model TimeReg.Users
+﻿@model TimeReg.VI_Users
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Details | " + @Html.DisplayFor(model => model.NK_Name);
 }
 
 <h2>Details</h2>
 
 <div>
-    <h4>Users</h4>
+    <h4>User @Html.DisplayFor(model => model.NK_Name)</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.NK_Name)
+            Name
         </dt>
 
         <dd>
@@ -19,11 +19,23 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.NK_ZId)
+            ZID
         </dt>
 
         <dd>
             @Html.DisplayFor(model => model.NK_ZId)
+        </dd>
+        <i>
+            --------------------------------------------------------------------------------
+        </i>
+        <br/>
+      
+        <dt>
+            Time Registered
+            
+        </dt>
+        <dd>
+              @ViewBag.WeeklyTime.TotalTime <i> Hours in Week @ViewBag.WeeklyTime.Week </i>
         </dd>
 
     </dl>

@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="WebToolModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="WebToolModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Comments">
           <Key>
             <PropertyRef Name="PK_Id" />
@@ -12,9 +12,16 @@
           <Property Name="PK_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="WeekNr" Type="int" Nullable="false" />
           <Property Name="Year" Type="int" Nullable="false" />
-          <Property Name="Text" Type="nvarchar" MaxLength="300" Nullable="false" />
+          <Property Name="Text" Type="nvarchar" MaxLength="1000" Nullable="false" />
           <Property Name="FK_ProjectId" Type="int" Nullable="false" />
           <Property Name="FK_User" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="OrderNumber">
+          <Key>
+            <PropertyRef Name="PK_Id" />
+          </Key>
+          <Property Name="PK_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Number" Type="nvarchar" MaxLength="1000" Nullable="false" />
         </EntityType>
         <EntityType Name="Projects">
           <Key>
@@ -22,9 +29,12 @@
           </Key>
           <Property Name="PK_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="150" Nullable="false" />
-          <Property Name="DSA" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="TimeEstimation" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="FK_OrderNumber" Type="int" Nullable="false" />
+          <Property Name="TimeEstimation" Type="int" Nullable="false" />
           <Property Name="FK_ProjectLeader" Type="int" />
+          <Property Name="Scope" Type="nvarchar" MaxLength="1000" />
+          <Property Name="FK_TimeType" Type="int" />
+          <Property Name="Status" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="TaskType">
           <Key>
@@ -39,11 +49,20 @@
           </Key>
           <Property Name="PK_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="FK_UserId" Type="int" Nullable="false" />
+          <Property Name="FK_OrderId" Type="int" Nullable="false" />
           <Property Name="FK_ProjectId" Type="int" Nullable="false" />
           <Property Name="FK_TaskId" Type="int" Nullable="false" />
-          <Property Name="time" Type="int" Nullable="false" />
+          <Property Name="Time" Type="int" Nullable="false" />
           <Property Name="Date" Type="date" Nullable="false" />
           <Property Name="DateEntry" Type="date" Nullable="false" />
+          <Property Name="Comment" Type="nvarchar" MaxLength="300" />
+        </EntityType>
+        <EntityType Name="TimeType">
+          <Key>
+            <PropertyRef Name="PK_Id" />
+          </Key>
+          <Property Name="PK_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="UserAssignment">
           <Key>
@@ -61,15 +80,162 @@
           <Property Name="NK_Name" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="NK_ZId" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'WebTool.TimeManagement.VI_Comments' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="VI_Comments">
+          <Key>
+            <PropertyRef Name="PK_Id" />
+            <PropertyRef Name="WeekNr" />
+            <PropertyRef Name="Year" />
+            <PropertyRef Name="Text" />
+            <PropertyRef Name="FK_ProjectId" />
+            <PropertyRef Name="FK_User" />
+            <PropertyRef Name="ProjectName" />
+            <PropertyRef Name="UserName" />
+          </Key>
+          <Property Name="PK_Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="WeekNr" Type="int" Nullable="false" />
+          <Property Name="Year" Type="int" Nullable="false" />
+          <Property Name="Text" Type="nvarchar" MaxLength="1000" Nullable="false" />
+          <Property Name="FK_ProjectId" Type="int" Nullable="false" />
+          <Property Name="FK_User" Type="int" Nullable="false" />
+          <Property Name="ProjectName" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'WebTool.TimeManagement.VI_OrderNumber' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="VI_OrderNumber">
+          <Key>
+            <PropertyRef Name="PK_Id" />
+            <PropertyRef Name="Number" />
+          </Key>
+          <Property Name="PK_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Number" Type="nvarchar" MaxLength="1000" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'WebTool.TimeManagement.VI_Projects' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="VI_Projects">
+          <Key>
+            <PropertyRef Name="PK_Id" />
+            <PropertyRef Name="Name" />
+            <PropertyRef Name="FK_OrderNumber" />
+            <PropertyRef Name="TimeEstimation" />
+            <PropertyRef Name="UserName" />
+            <PropertyRef Name="OrderName" />
+          </Key>
+          <Property Name="PK_Id" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="FK_OrderNumber" Type="int" Nullable="false" />
+          <Property Name="TimeEstimation" Type="int" Nullable="false" />
+          <Property Name="FK_ProjectLeader" Type="int" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Scope" Type="nvarchar" MaxLength="1000" />
+          <Property Name="OrderName" Type="nvarchar" MaxLength="1000" Nullable="false" />
+          <Property Name="FK_TimeType" Type="int" />
+          <Property Name="TimeTypeName" Type="nvarchar" MaxLength="50" />
+          <Property Name="timeSum" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'WebTool.TimeManagement.VI_TaskType' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="VI_TaskType">
+          <Key>
+            <PropertyRef Name="PK_Id" />
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="PK_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'WebTool.TimeManagement.VI_TimeRegistration' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="VI_TimeRegistration">
+          <Key>
+            <PropertyRef Name="PK_Id" />
+            <PropertyRef Name="FK_UserId" />
+            <PropertyRef Name="FK_ProjectId" />
+            <PropertyRef Name="FK_OrderId" />
+            <PropertyRef Name="FK_TaskId" />
+            <PropertyRef Name="Time" />
+            <PropertyRef Name="Date" />
+            <PropertyRef Name="DateEntry" />
+            <PropertyRef Name="TaskTypeName" />
+            <PropertyRef Name="ProjectName" />
+            <PropertyRef Name="UserName" />
+            <PropertyRef Name="OrderName" />
+          </Key>
+          <Property Name="PK_Id" Type="int" Nullable="false" />
+          <Property Name="FK_UserId" Type="int" Nullable="false" />
+          <Property Name="FK_ProjectId" Type="int" Nullable="false" />
+          <Property Name="FK_OrderId" Type="int" Nullable="false" />
+          <Property Name="FK_TaskId" Type="int" Nullable="false" />
+          <Property Name="Time" Type="int" Nullable="false" />
+          <Property Name="Date" Type="date" Nullable="false" />
+          <Property Name="DateEntry" Type="date" Nullable="false" />
+          <Property Name="Comment" Type="nvarchar" MaxLength="300" />
+          <Property Name="TaskTypeName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ProjectName" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="OrderName" Type="nvarchar" MaxLength="1000" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'WebTool.TimeManagement.VI_TimeType' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="VI_TimeType">
+          <Key>
+            <PropertyRef Name="PK_Id" />
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="PK_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'WebTool.TimeManagement.VI_UserAssignment' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="VI_UserAssignment">
+          <Key>
+            <PropertyRef Name="PK_Id" />
+            <PropertyRef Name="FK_UserId" />
+            <PropertyRef Name="FK_ProjectId" />
+            <PropertyRef Name="UserName" />
+            <PropertyRef Name="NK_ZId" />
+            <PropertyRef Name="ProjectName" />
+          </Key>
+          <Property Name="PK_Id" Type="int" Nullable="false" />
+          <Property Name="FK_UserId" Type="int" Nullable="false" />
+          <Property Name="FK_ProjectId" Type="int" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="NK_ZId" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ProjectName" Type="nvarchar" MaxLength="150" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'WebTool.TimeManagement.VI_Users' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="VI_Users">
+          <Key>
+            <PropertyRef Name="PK_Id" />
+            <PropertyRef Name="NK_Name" />
+            <PropertyRef Name="NK_ZId" />
+          </Key>
+          <Property Name="PK_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NK_Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="NK_ZId" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'WebTool.TimeManagement.VI_UserTimePerProject' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="VI_UserTimePerProject">
+          <Key>
+            <PropertyRef Name="UserName" />
+            <PropertyRef Name="FK_ProjectId" />
+          </Key>
+          <Property Name="UserName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="timeSum" Type="int" />
+          <Property Name="FK_ProjectId" Type="int" Nullable="false" />
+        </EntityType>
         <Association Name="FK_Comments_Projects">
           <End Role="Projects" Type="Self.Projects" Multiplicity="1" />
-          <End Role="Comments" Type="Self.Comments" Multiplicity="0..1" />
+          <End Role="Comments" Type="Self.Comments" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Projects">
               <PropertyRef Name="PK_Id" />
             </Principal>
             <Dependent Role="Comments">
-              <PropertyRef Name="PK_Id" />
+              <PropertyRef Name="FK_ProjectId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -82,6 +248,30 @@
             </Principal>
             <Dependent Role="Comments">
               <PropertyRef Name="FK_User" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Projects_OrderNumber">
+          <End Role="OrderNumber" Type="Self.OrderNumber" Multiplicity="1" />
+          <End Role="Projects" Type="Self.Projects" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OrderNumber">
+              <PropertyRef Name="PK_Id" />
+            </Principal>
+            <Dependent Role="Projects">
+              <PropertyRef Name="FK_OrderNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Projects_TimeType">
+          <End Role="TimeType" Type="Self.TimeType" Multiplicity="0..1" />
+          <End Role="Projects" Type="Self.Projects" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TimeType">
+              <PropertyRef Name="PK_Id" />
+            </Principal>
+            <Dependent Role="Projects">
+              <PropertyRef Name="FK_TimeType" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -169,13 +359,223 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="SF_TimeUsedProject" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="TimeManagement" ReturnType="int">
+          <Parameter Name="projectId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SP_AddComment" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="TimeManagement">
+          <Parameter Name="weekNumber" Type="int" Mode="In" />
+          <Parameter Name="year" Type="int" Mode="In" />
+          <Parameter Name="text" Type="nvarchar" Mode="In" />
+          <Parameter Name="projectKey" Type="int" Mode="In" />
+          <Parameter Name="userKey" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SP_AddOrderNumber" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="TimeManagement">
+          <Parameter Name="NumberName" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="SP_AddProject" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="TimeManagement">
+          <Parameter Name="ProjectName" Type="nvarchar" Mode="In" />
+          <Parameter Name="OrderNumber" Type="int" Mode="In" />
+          <Parameter Name="TimeEstimation" Type="int" Mode="In" />
+          <Parameter Name="FK_ProjectLeader" Type="int" Mode="In" />
+          <Parameter Name="Scope" Type="nvarchar" Mode="In" />
+          <Parameter Name="timeType" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SP_AddTaskType" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="TimeManagement">
+          <Parameter Name="taskTypeName" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="SP_AddTimeRegistration" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="TimeManagement">
+          <Parameter Name="UserId" Type="int" Mode="In" />
+          <Parameter Name="ProjectId" Type="int" Mode="In" />
+          <Parameter Name="OrderId" Type="int" Mode="In" />
+          <Parameter Name="TaskId" Type="int" Mode="In" />
+          <Parameter Name="TimeRegistered" Type="int" Mode="In" />
+          <Parameter Name="Date" Type="date" Mode="In" />
+          <Parameter Name="DateEntry" Type="date" Mode="In" />
+          <Parameter Name="Comment" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="SP_AddTimeType" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="TimeManagement">
+          <Parameter Name="timeTypeName" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="SP_AddUser" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="TimeManagement">
+          <Parameter Name="UserName" Type="nvarchar" Mode="In" />
+          <Parameter Name="UserAuthentity" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="SP_AddUserAssignment" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="TimeManagement">
+          <Parameter Name="UserId" Type="int" Mode="In" />
+          <Parameter Name="ProjectId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SP_RemoveComment" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="TimeManagement">
+          <Parameter Name="RemoveId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SP_RemoveOrderNumber" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="TimeManagement">
+          <Parameter Name="RemoveId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SP_RemoveProject" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="TimeManagement">
+          <Parameter Name="RemoveId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SP_RemoveTaskType" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="TimeManagement">
+          <Parameter Name="RemoveId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SP_RemoveTimeRegistration" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="TimeManagement">
+          <Parameter Name="RemoveId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SP_RemoveTimeType" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="TimeManagement">
+          <Parameter Name="RemoveId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SP_RemoveUser" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="TimeManagement">
+          <Parameter Name="RemoveId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SP_RemoveUserAssignment" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="TimeManagement">
+          <Parameter Name="RemoveId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SP_TaskTypeFind" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="TimeManagement">
+          <Parameter Name="TaskTypeID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SP_UpdateComments" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="TimeManagement">
+          <Parameter Name="UpdateId" Type="int" Mode="In" />
+          <Parameter Name="WeekNr" Type="int" Mode="In" />
+          <Parameter Name="Year" Type="int" Mode="In" />
+          <Parameter Name="Text" Type="nvarchar" Mode="In" />
+          <Parameter Name="ProjectId" Type="int" Mode="In" />
+          <Parameter Name="UserId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SP_UpdateOrderNumber" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="TimeManagement">
+          <Parameter Name="UpdateId" Type="int" Mode="In" />
+          <Parameter Name="OrderNumberName" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="SP_UpdateProject" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="TimeManagement">
+          <Parameter Name="UpdateId" Type="int" Mode="In" />
+          <Parameter Name="ProjectName" Type="nvarchar" Mode="In" />
+          <Parameter Name="OrderNumber" Type="int" Mode="In" />
+          <Parameter Name="TimeEstimation" Type="int" Mode="In" />
+          <Parameter Name="FK_ProjectLeader" Type="int" Mode="In" />
+          <Parameter Name="Scope" Type="nvarchar" Mode="In" />
+          <Parameter Name="timeType" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SP_UpdateTaskType" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="TimeManagement">
+          <Parameter Name="UpdateId" Type="int" Mode="In" />
+          <Parameter Name="taskTypeName" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="SP_UpdateTimeRegistration" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="TimeManagement">
+          <Parameter Name="UpdateId" Type="int" Mode="In" />
+          <Parameter Name="UserId" Type="int" Mode="In" />
+          <Parameter Name="ProjectId" Type="int" Mode="In" />
+          <Parameter Name="OrderId" Type="int" Mode="In" />
+          <Parameter Name="TaskId" Type="int" Mode="In" />
+          <Parameter Name="TimeRegistered" Type="int" Mode="In" />
+          <Parameter Name="Date" Type="date" Mode="In" />
+          <Parameter Name="DateEntry" Type="date" Mode="In" />
+          <Parameter Name="Comment" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="SP_UpdateTimeType" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="TimeManagement">
+          <Parameter Name="UpdateId" Type="int" Mode="In" />
+          <Parameter Name="timeTypeName" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="SP_UpdateUser" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="TimeManagement">
+          <Parameter Name="UpdateId" Type="int" Mode="In" />
+          <Parameter Name="UserName" Type="nvarchar" Mode="In" />
+          <Parameter Name="UserAuthentity" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="SP_UpdateUserAssignment" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="TimeManagement">
+          <Parameter Name="UpdateId" Type="int" Mode="In" />
+          <Parameter Name="UserId" Type="int" Mode="In" />
+          <Parameter Name="ProjectId" Type="int" Mode="In" />
+        </Function>
         <EntityContainer Name="WebToolModelStoreContainer">
           <EntitySet Name="Comments" EntityType="Self.Comments" Schema="TimeManagement" store:Type="Tables" />
+          <EntitySet Name="OrderNumber" EntityType="Self.OrderNumber" Schema="TimeManagement" store:Type="Tables" />
           <EntitySet Name="Projects" EntityType="Self.Projects" Schema="TimeManagement" store:Type="Tables" />
           <EntitySet Name="TaskType" EntityType="Self.TaskType" Schema="TimeManagement" store:Type="Tables" />
           <EntitySet Name="TimeRegistration" EntityType="Self.TimeRegistration" Schema="TimeManagement" store:Type="Tables" />
+          <EntitySet Name="TimeType" EntityType="Self.TimeType" Schema="TimeManagement" store:Type="Tables" />
           <EntitySet Name="UserAssignment" EntityType="Self.UserAssignment" Schema="TimeManagement" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="TimeManagement" store:Type="Tables" />
+          <EntitySet Name="VI_Comments" EntityType="Self.VI_Comments" store:Type="Views" store:Schema="TimeManagement">
+            <DefiningQuery>SELECT 
+    [VI_Comments].[PK_Id] AS [PK_Id], 
+    [VI_Comments].[WeekNr] AS [WeekNr], 
+    [VI_Comments].[Year] AS [Year], 
+    [VI_Comments].[Text] AS [Text], 
+    [VI_Comments].[FK_ProjectId] AS [FK_ProjectId], 
+    [VI_Comments].[FK_User] AS [FK_User], 
+    [VI_Comments].[ProjectName] AS [ProjectName], 
+    [VI_Comments].[UserName] AS [UserName]
+    FROM [TimeManagement].[VI_Comments] AS [VI_Comments]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="VI_OrderNumber" EntityType="Self.VI_OrderNumber" store:Type="Views" store:Schema="TimeManagement">
+            <DefiningQuery>SELECT 
+    [VI_OrderNumber].[PK_Id] AS [PK_Id], 
+    [VI_OrderNumber].[Number] AS [Number]
+    FROM [TimeManagement].[VI_OrderNumber] AS [VI_OrderNumber]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="VI_Projects" EntityType="Self.VI_Projects" store:Type="Views" store:Schema="TimeManagement">
+            <DefiningQuery>SELECT 
+    [VI_Projects].[PK_Id] AS [PK_Id], 
+    [VI_Projects].[Name] AS [Name], 
+    [VI_Projects].[FK_OrderNumber] AS [FK_OrderNumber], 
+    [VI_Projects].[TimeEstimation] AS [TimeEstimation], 
+    [VI_Projects].[FK_ProjectLeader] AS [FK_ProjectLeader], 
+    [VI_Projects].[UserName] AS [UserName], 
+    [VI_Projects].[Scope] AS [Scope], 
+    [VI_Projects].[OrderName] AS [OrderName], 
+    [VI_Projects].[FK_TimeType] AS [FK_TimeType], 
+    [VI_Projects].[TimeTypeName] AS [TimeTypeName], 
+    [VI_Projects].[timeSum] AS [timeSum]
+    FROM [TimeManagement].[VI_Projects] AS [VI_Projects]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="VI_TaskType" EntityType="Self.VI_TaskType" store:Type="Views" store:Schema="TimeManagement">
+            <DefiningQuery>SELECT 
+    [VI_TaskType].[PK_Id] AS [PK_Id], 
+    [VI_TaskType].[Name] AS [Name]
+    FROM [TimeManagement].[VI_TaskType] AS [VI_TaskType]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="VI_TimeRegistration" EntityType="Self.VI_TimeRegistration" store:Type="Views" store:Schema="TimeManagement">
+            <DefiningQuery>SELECT 
+    [VI_TimeRegistration].[PK_Id] AS [PK_Id], 
+    [VI_TimeRegistration].[FK_UserId] AS [FK_UserId], 
+    [VI_TimeRegistration].[FK_ProjectId] AS [FK_ProjectId], 
+    [VI_TimeRegistration].[FK_OrderId] AS [FK_OrderId], 
+    [VI_TimeRegistration].[FK_TaskId] AS [FK_TaskId], 
+    [VI_TimeRegistration].[Time] AS [Time], 
+    [VI_TimeRegistration].[Date] AS [Date], 
+    [VI_TimeRegistration].[DateEntry] AS [DateEntry], 
+    [VI_TimeRegistration].[Comment] AS [Comment], 
+    [VI_TimeRegistration].[TaskTypeName] AS [TaskTypeName], 
+    [VI_TimeRegistration].[ProjectName] AS [ProjectName], 
+    [VI_TimeRegistration].[UserName] AS [UserName], 
+    [VI_TimeRegistration].[OrderName] AS [OrderName]
+    FROM [TimeManagement].[VI_TimeRegistration] AS [VI_TimeRegistration]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="VI_TimeType" EntityType="Self.VI_TimeType" store:Type="Views" store:Schema="TimeManagement">
+            <DefiningQuery>SELECT 
+    [VI_TimeType].[PK_Id] AS [PK_Id], 
+    [VI_TimeType].[Name] AS [Name]
+    FROM [TimeManagement].[VI_TimeType] AS [VI_TimeType]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="VI_UserAssignment" EntityType="Self.VI_UserAssignment" store:Type="Views" store:Schema="TimeManagement">
+            <DefiningQuery>SELECT 
+    [VI_UserAssignment].[PK_Id] AS [PK_Id], 
+    [VI_UserAssignment].[FK_UserId] AS [FK_UserId], 
+    [VI_UserAssignment].[FK_ProjectId] AS [FK_ProjectId], 
+    [VI_UserAssignment].[UserName] AS [UserName], 
+    [VI_UserAssignment].[NK_ZId] AS [NK_ZId], 
+    [VI_UserAssignment].[ProjectName] AS [ProjectName]
+    FROM [TimeManagement].[VI_UserAssignment] AS [VI_UserAssignment]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="VI_Users" EntityType="Self.VI_Users" store:Type="Views" store:Schema="TimeManagement">
+            <DefiningQuery>SELECT 
+    [VI_Users].[PK_Id] AS [PK_Id], 
+    [VI_Users].[NK_Name] AS [NK_Name], 
+    [VI_Users].[NK_ZId] AS [NK_ZId]
+    FROM [TimeManagement].[VI_Users] AS [VI_Users]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="VI_UserTimePerProject" EntityType="Self.VI_UserTimePerProject" store:Type="Views" store:Schema="TimeManagement">
+            <DefiningQuery>SELECT 
+    [VI_UserTimePerProject].[UserName] AS [UserName], 
+    [VI_UserTimePerProject].[timeSum] AS [timeSum], 
+    [VI_UserTimePerProject].[FK_ProjectId] AS [FK_ProjectId]
+    FROM [TimeManagement].[VI_UserTimePerProject] AS [VI_UserTimePerProject]</DefiningQuery>
+          </EntitySet>
           <AssociationSet Name="FK_Comments_Projects" Association="Self.FK_Comments_Projects">
             <End Role="Projects" EntitySet="Projects" />
             <End Role="Comments" EntitySet="Comments" />
@@ -183,6 +583,14 @@
           <AssociationSet Name="FK_Comments_Users" Association="Self.FK_Comments_Users">
             <End Role="Users" EntitySet="Users" />
             <End Role="Comments" EntitySet="Comments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Projects_OrderNumber" Association="Self.FK_Projects_OrderNumber">
+            <End Role="OrderNumber" EntitySet="OrderNumber" />
+            <End Role="Projects" EntitySet="Projects" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Projects_TimeType" Association="Self.FK_Projects_TimeType">
+            <End Role="TimeType" EntitySet="TimeType" />
+            <End Role="Projects" EntitySet="Projects" />
           </AssociationSet>
           <AssociationSet Name="FK_Projects_Users" Association="Self.FK_Projects_Users">
             <End Role="Users" EntitySet="Users" />
@@ -213,11 +621,238 @@
             <End Role="UserAssignment" EntitySet="UserAssignment" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="WebToolModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="VI_Comments">
+          <Key>
+            <PropertyRef Name="PK_Id" />
+            <PropertyRef Name="WeekNr" />
+            <PropertyRef Name="Year" />
+            <PropertyRef Name="Text" />
+            <PropertyRef Name="FK_ProjectId" />
+            <PropertyRef Name="FK_User" />
+            <PropertyRef Name="ProjectName" />
+            <PropertyRef Name="UserName" />
+          </Key>
+          <Property Name="PK_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="WeekNr" Type="Int32" Nullable="false" />
+          <Property Name="Year" Type="Int32" Nullable="false" />
+          <Property Name="Text" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="FK_ProjectId" Type="Int32" Nullable="false" />
+          <Property Name="FK_User" Type="Int32" Nullable="false" />
+          <Property Name="ProjectName" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="VI_UserAssignment">
+          <Key>
+            <PropertyRef Name="PK_Id" />
+            <PropertyRef Name="FK_UserId" />
+            <PropertyRef Name="FK_ProjectId" />
+            <PropertyRef Name="UserName" />
+            <PropertyRef Name="NK_ZId" />
+            <PropertyRef Name="ProjectName" />
+          </Key>
+          <Property Name="PK_Id" Type="Int32" Nullable="false" />
+          <Property Name="FK_UserId" Type="Int32" Nullable="false" />
+          <Property Name="FK_ProjectId" Type="Int32" Nullable="false" />
+          <Property Name="UserName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="NK_ZId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ProjectName" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="VI_Users">
+          <Key>
+            <PropertyRef Name="PK_Id" />
+            <PropertyRef Name="NK_Name" />
+            <PropertyRef Name="NK_ZId" />
+          </Key>
+          <Property Name="PK_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NK_Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="NK_ZId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="WebToolEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="VI_Comments" EntityType="Self.VI_Comments" />
+          <EntitySet Name="VI_UserAssignment" EntityType="Self.VI_UserAssignment" />
+          <EntitySet Name="VI_Users" EntityType="Self.VI_Users" />
+          <EntitySet Name="Comments" EntityType="WebToolModel.Comments" />
+          <EntitySet Name="TaskType" EntityType="WebToolModel.TaskType" />
+          <EntitySet Name="TimeRegistration" EntityType="WebToolModel.TimeRegistration" />
+          <EntitySet Name="UserAssignment" EntityType="WebToolModel.UserAssignment" />
+          <EntitySet Name="Users" EntityType="WebToolModel.Users" />
+          <AssociationSet Name="FK_Comments_Users" Association="WebToolModel.FK_Comments_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Comments" EntitySet="Comments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TimeRegistration_TaskType" Association="WebToolModel.FK_TimeRegistration_TaskType">
+            <End Role="TaskType" EntitySet="TaskType" />
+            <End Role="TimeRegistration" EntitySet="TimeRegistration" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TimeRegistration_TimeRegistration" Association="WebToolModel.FK_TimeRegistration_TimeRegistration">
+            <End Role="TimeRegistration" EntitySet="TimeRegistration" />
+            <End Role="TimeRegistration1" EntitySet="TimeRegistration" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TimeRegistration_Users" Association="WebToolModel.FK_TimeRegistration_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="TimeRegistration" EntitySet="TimeRegistration" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserAssignment_Users" Association="WebToolModel.FK_UserAssignment_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="UserAssignment" EntitySet="UserAssignment" />
+          </AssociationSet>
+          <FunctionImport Name="SP_AddUser" ReturnType="Collection(WebToolModel.SP_AddUser_Result)">
+            <Parameter Name="UserName" Mode="In" Type="String" />
+            <Parameter Name="UserAuthentity" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_AddTaskType">
+          <Parameter Name="taskTypeName" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_TaskTypeFind" ReturnType="Collection(WebToolModel.SP_TaskTypeFind_Result)">
+          <Parameter Name="TaskTypeID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <EntitySet Name="VI_TaskType" EntityType="WebToolModel.VI_TaskType" />
+          <FunctionImport Name="SP_AddComment">
+            <Parameter Name="weekNumber" Mode="In" Type="Int32" />
+            <Parameter Name="year" Mode="In" Type="Int32" />
+            <Parameter Name="text" Mode="In" Type="String" />
+            <Parameter Name="projectKey" Mode="In" Type="Int32" />
+            <Parameter Name="userKey" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_UpdateTaskType">
+            <Parameter Name="UpdateId" Mode="In" Type="Int32" />
+            <Parameter Name="taskTypeName" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_RemoveTaskType">
+          <Parameter Name="RemoveId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_UpdateComments">
+            <Parameter Name="UpdateId" Mode="In" Type="Int32" />
+            <Parameter Name="WeekNr" Mode="In" Type="Int32" />
+            <Parameter Name="Year" Mode="In" Type="Int32" />
+            <Parameter Name="Text" Mode="In" Type="String" />
+            <Parameter Name="ProjectId" Mode="In" Type="Int32" />
+            <Parameter Name="UserId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_RemoveComment">
+          <Parameter Name="RemoveId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_AddProject">
+            <Parameter Name="ProjectName" Mode="In" Type="String" />
+            <Parameter Name="OrderNumber" Mode="In" Type="Int32" />
+            <Parameter Name="TimeEstimation" Mode="In" Type="Int32" />
+            <Parameter Name="FK_ProjectLeader" Mode="In" Type="Int32" />
+            <Parameter Name="Scope" Mode="In" Type="String" />
+            <Parameter Name="timeType" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_RemoveProject">
+          <Parameter Name="RemoveId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_UpdateProject">
+            <Parameter Name="UpdateId" Mode="In" Type="Int32" />
+            <Parameter Name="ProjectName" Mode="In" Type="String" />
+            <Parameter Name="OrderNumber" Mode="In" Type="Int32" />
+            <Parameter Name="TimeEstimation" Mode="In" Type="Int32" />
+            <Parameter Name="FK_ProjectLeader" Mode="In" Type="Int32" />
+            <Parameter Name="Scope" Mode="In" Type="String" />
+            <Parameter Name="timeType" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_AddTimeRegistration">
+            <Parameter Name="UserId" Mode="In" Type="Int32" />
+            <Parameter Name="ProjectId" Mode="In" Type="Int32" />
+            <Parameter Name="OrderId" Mode="In" Type="Int32" />
+            <Parameter Name="TaskId" Mode="In" Type="Int32" />
+            <Parameter Name="TimeRegistered" Mode="In" Type="Int32" />
+            <Parameter Name="Date" Mode="In" Type="DateTime" />
+            <Parameter Name="DateEntry" Mode="In" Type="DateTime" />
+            <Parameter Name="Comment" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_RemoveTimeRegistration">
+          <Parameter Name="RemoveId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_UpdateTimeRegistration">
+            <Parameter Name="UpdateId" Mode="In" Type="Int32" />
+            <Parameter Name="UserId" Mode="In" Type="Int32" />
+            <Parameter Name="ProjectId" Mode="In" Type="Int32" />
+            <Parameter Name="OrderId" Mode="In" Type="Int32" />
+            <Parameter Name="TaskId" Mode="In" Type="Int32" />
+            <Parameter Name="TimeRegistered" Mode="In" Type="Int32" />
+            <Parameter Name="Date" Mode="In" Type="DateTime" />
+            <Parameter Name="DateEntry" Mode="In" Type="DateTime" />
+            <Parameter Name="Comment" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_RemoveUser">
+          <Parameter Name="RemoveId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_UpdateUser">
+            <Parameter Name="UpdateId" Mode="In" Type="Int32" />
+            <Parameter Name="UserName" Mode="In" Type="String" />
+            <Parameter Name="UserAuthentity" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_AddUserAssignment">
+            <Parameter Name="UserId" Mode="In" Type="Int32" />
+            <Parameter Name="ProjectId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_RemoveUserAssignment">
+          <Parameter Name="RemoveId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_UpdateUserAssignment">
+            <Parameter Name="UpdateId" Mode="In" Type="Int32" />
+            <Parameter Name="UserId" Mode="In" Type="Int32" />
+            <Parameter Name="ProjectId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <EntitySet Name="VI_UserTimePerProject" EntityType="WebToolModel.VI_UserTimePerProject" />
+          <EntitySet Name="VI_TimeRegistration" EntityType="WebToolModel.VI_TimeRegistration" />
+          <EntitySet Name="VI_OrderNumber" EntityType="WebToolModel.VI_OrderNumber" />
+          <FunctionImport Name="SP_AddOrderNumber">
+          <Parameter Name="NumberName" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_RemoveOrderNumber">
+          <Parameter Name="RemoveId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_UpdateOrderNumber">
+            <Parameter Name="UpdateId" Mode="In" Type="Int32" />
+            <Parameter Name="OrderNumberName" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="Projects" EntityType="WebToolModel.Projects" />
+          <AssociationSet Name="FK_Comments_Projects" Association="WebToolModel.FK_Comments_Projects">
+            <End Role="Projects" EntitySet="Projects" />
+            <End Role="Comments" EntitySet="Comments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Projects_Users" Association="WebToolModel.FK_Projects_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Projects" EntitySet="Projects" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TimeRegistration_Projects" Association="WebToolModel.FK_TimeRegistration_Projects">
+            <End Role="Projects" EntitySet="Projects" />
+            <End Role="TimeRegistration" EntitySet="TimeRegistration" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserAssignment_Projects" Association="WebToolModel.FK_UserAssignment_Projects">
+            <End Role="Projects" EntitySet="Projects" />
+            <End Role="UserAssignment" EntitySet="UserAssignment" />
+          </AssociationSet>
+          <EntitySet Name="OrderNumber" EntityType="WebToolModel.OrderNumber" />
+          <EntitySet Name="TimeType" EntityType="WebToolModel.TimeType" />
+          <AssociationSet Name="FK_Projects_OrderNumber" Association="WebToolModel.FK_Projects_OrderNumber">
+            <End Role="OrderNumber" EntitySet="OrderNumber" />
+            <End Role="Projects" EntitySet="Projects" />
+          </AssociationSet>
+          <FunctionImport Name="SP_AddTimeType">
+          <Parameter Name="timeTypeName" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_RemoveTimeType">
+          <Parameter Name="RemoveId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_UpdateTimeType">
+            <Parameter Name="UpdateId" Mode="In" Type="Int32" />
+            <Parameter Name="timeTypeName" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="VI_TimeType" EntityType="WebToolModel.VI_TimeType" />
+          <AssociationSet Name="FK_Projects_TimeType" Association="WebToolModel.FK_Projects_TimeType">
+            <End Role="TimeType" EntitySet="TimeType" />
+            <End Role="Projects" EntitySet="Projects" />
+          </AssociationSet>
+          <EntitySet Name="VI_Projects" EntityType="WebToolModel.VI_Projects" />
+        </EntityContainer>
         <EntityType Name="Comments">
           <Key>
             <PropertyRef Name="PK_Id" />
@@ -225,33 +860,19 @@
           <Property Name="PK_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="WeekNr" Type="Int32" Nullable="false" />
           <Property Name="Year" Type="Int32" Nullable="false" />
-          <Property Name="Text" Type="String" MaxLength="300" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Text" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="true" />
           <Property Name="FK_ProjectId" Type="Int32" Nullable="false" />
           <Property Name="FK_User" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Projects" Relationship="Self.FK_Comments_Projects" FromRole="Comments" ToRole="Projects" />
-          <NavigationProperty Name="Users" Relationship="Self.FK_Comments_Users" FromRole="Comments" ToRole="Users" />
-        </EntityType>
-        <EntityType Name="Projects">
-          <Key>
-            <PropertyRef Name="PK_Id" />
-          </Key>
-          <Property Name="PK_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="DSA" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="TimeEstimation" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="FK_ProjectLeader" Type="Int32" />
-          <NavigationProperty Name="Comments" Relationship="Self.FK_Comments_Projects" FromRole="Projects" ToRole="Comments" />
-          <NavigationProperty Name="Users" Relationship="Self.FK_Projects_Users" FromRole="Projects" ToRole="Users" />
-          <NavigationProperty Name="TimeRegistration" Relationship="Self.FK_TimeRegistration_Projects" FromRole="Projects" ToRole="TimeRegistration" />
-          <NavigationProperty Name="UserAssignment" Relationship="Self.FK_UserAssignment_Projects" FromRole="Projects" ToRole="UserAssignment" />
+          <NavigationProperty Name="Users" Relationship="WebToolModel.FK_Comments_Users" FromRole="Comments" ToRole="Users" />
+          <NavigationProperty Name="Projects" Relationship="WebToolModel.FK_Comments_Projects" FromRole="Comments" ToRole="Projects" />
         </EntityType>
         <EntityType Name="TaskType">
           <Key>
             <PropertyRef Name="PK_Id" />
           </Key>
           <Property Name="PK_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="TimeRegistration" Relationship="Self.FK_TimeRegistration_TaskType" FromRole="TaskType" ToRole="TimeRegistration" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="TimeRegistration" Relationship="WebToolModel.FK_TimeRegistration_TaskType" FromRole="TaskType" ToRole="TimeRegistration" />
         </EntityType>
         <EntityType Name="TimeRegistration">
           <Key>
@@ -261,14 +882,16 @@
           <Property Name="FK_UserId" Type="Int32" Nullable="false" />
           <Property Name="FK_ProjectId" Type="Int32" Nullable="false" />
           <Property Name="FK_TaskId" Type="Int32" Nullable="false" />
-          <Property Name="time" Type="Int32" Nullable="false" />
           <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="DateEntry" Type="DateTime" Nullable="false" Precision="0" />
-          <NavigationProperty Name="Projects" Relationship="Self.FK_TimeRegistration_Projects" FromRole="TimeRegistration" ToRole="Projects" />
-          <NavigationProperty Name="TaskType" Relationship="Self.FK_TimeRegistration_TaskType" FromRole="TimeRegistration" ToRole="TaskType" />
-          <NavigationProperty Name="TimeRegistration1" Relationship="Self.FK_TimeRegistration_TimeRegistration" FromRole="TimeRegistration" ToRole="TimeRegistration1" />
-          <NavigationProperty Name="TimeRegistration2" Relationship="Self.FK_TimeRegistration_TimeRegistration" FromRole="TimeRegistration1" ToRole="TimeRegistration" />
-          <NavigationProperty Name="Users" Relationship="Self.FK_TimeRegistration_Users" FromRole="TimeRegistration" ToRole="Users" />
+          <NavigationProperty Name="TaskType" Relationship="WebToolModel.FK_TimeRegistration_TaskType" FromRole="TimeRegistration" ToRole="TaskType" />
+          <NavigationProperty Name="TimeRegistration1" Relationship="WebToolModel.FK_TimeRegistration_TimeRegistration" FromRole="TimeRegistration" ToRole="TimeRegistration1" />
+          <NavigationProperty Name="TimeRegistration2" Relationship="WebToolModel.FK_TimeRegistration_TimeRegistration" FromRole="TimeRegistration1" ToRole="TimeRegistration" />
+          <NavigationProperty Name="Users" Relationship="WebToolModel.FK_TimeRegistration_Users" FromRole="TimeRegistration" ToRole="Users" />
+          <Property Name="Time" Type="Int32" Nullable="false" />
+          <Property Name="Comment" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Projects" Relationship="WebToolModel.FK_TimeRegistration_Projects" FromRole="TimeRegistration" ToRole="Projects" />
+          <Property Name="FK_OrderId" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="UserAssignment">
           <Key>
@@ -277,36 +900,24 @@
           <Property Name="PK_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="FK_UserId" Type="Int32" Nullable="false" />
           <Property Name="FK_ProjectId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Projects" Relationship="Self.FK_UserAssignment_Projects" FromRole="UserAssignment" ToRole="Projects" />
-          <NavigationProperty Name="Users" Relationship="Self.FK_UserAssignment_Users" FromRole="UserAssignment" ToRole="Users" />
+          <NavigationProperty Name="Users" Relationship="WebToolModel.FK_UserAssignment_Users" FromRole="UserAssignment" ToRole="Users" />
+          <NavigationProperty Name="Projects" Relationship="WebToolModel.FK_UserAssignment_Projects" FromRole="UserAssignment" ToRole="Projects" />
         </EntityType>
         <EntityType Name="Users">
           <Key>
             <PropertyRef Name="PK_Id" />
           </Key>
           <Property Name="PK_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="NK_Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="NK_ZId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Comments" Relationship="Self.FK_Comments_Users" FromRole="Users" ToRole="Comments" />
-          <NavigationProperty Name="Projects" Relationship="Self.FK_Projects_Users" FromRole="Users" ToRole="Projects" />
-          <NavigationProperty Name="TimeRegistration" Relationship="Self.FK_TimeRegistration_Users" FromRole="Users" ToRole="TimeRegistration" />
-          <NavigationProperty Name="UserAssignment" Relationship="Self.FK_UserAssignment_Users" FromRole="Users" ToRole="UserAssignment" />
+          <Property Name="NK_Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="NK_ZId" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Comments" Relationship="WebToolModel.FK_Comments_Users" FromRole="Users" ToRole="Comments" />
+          <NavigationProperty Name="TimeRegistration" Relationship="WebToolModel.FK_TimeRegistration_Users" FromRole="Users" ToRole="TimeRegistration" />
+          <NavigationProperty Name="UserAssignment" Relationship="WebToolModel.FK_UserAssignment_Users" FromRole="Users" ToRole="UserAssignment" />
+          <NavigationProperty Name="Projects" Relationship="WebToolModel.FK_Projects_Users" FromRole="Users" ToRole="Projects" />
         </EntityType>
-        <Association Name="FK_Comments_Projects">
-          <End Role="Projects" Type="Self.Projects" Multiplicity="1" />
-          <End Role="Comments" Type="Self.Comments" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="Projects">
-              <PropertyRef Name="PK_Id" />
-            </Principal>
-            <Dependent Role="Comments">
-              <PropertyRef Name="PK_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Comments_Users">
-          <End Role="Users" Type="Self.Users" Multiplicity="1" />
-          <End Role="Comments" Type="Self.Comments" Multiplicity="*" />
+          <End Type="WebToolModel.Users" Role="Users" Multiplicity="1" />
+          <End Type="WebToolModel.Comments" Role="Comments" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Users">
               <PropertyRef Name="PK_Id" />
@@ -316,45 +927,9 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Projects_Users">
-          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
-          <End Role="Projects" Type="Self.Projects" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Users">
-              <PropertyRef Name="PK_Id" />
-            </Principal>
-            <Dependent Role="Projects">
-              <PropertyRef Name="FK_ProjectLeader" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_TimeRegistration_Projects">
-          <End Role="Projects" Type="Self.Projects" Multiplicity="1" />
-          <End Role="TimeRegistration" Type="Self.TimeRegistration" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Projects">
-              <PropertyRef Name="PK_Id" />
-            </Principal>
-            <Dependent Role="TimeRegistration">
-              <PropertyRef Name="FK_ProjectId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_UserAssignment_Projects">
-          <End Role="Projects" Type="Self.Projects" Multiplicity="1" />
-          <End Role="UserAssignment" Type="Self.UserAssignment" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Projects">
-              <PropertyRef Name="PK_Id" />
-            </Principal>
-            <Dependent Role="UserAssignment">
-              <PropertyRef Name="FK_ProjectId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_TimeRegistration_TaskType">
-          <End Role="TaskType" Type="Self.TaskType" Multiplicity="1" />
-          <End Role="TimeRegistration" Type="Self.TimeRegistration" Multiplicity="*" />
+          <End Type="WebToolModel.TaskType" Role="TaskType" Multiplicity="1" />
+          <End Type="WebToolModel.TimeRegistration" Role="TimeRegistration" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="TaskType">
               <PropertyRef Name="PK_Id" />
@@ -365,8 +940,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_TimeRegistration_TimeRegistration">
-          <End Role="TimeRegistration" Type="Self.TimeRegistration" Multiplicity="1" />
-          <End Role="TimeRegistration1" Type="Self.TimeRegistration" Multiplicity="0..1" />
+          <End Type="WebToolModel.TimeRegistration" Role="TimeRegistration" Multiplicity="1" />
+          <End Type="WebToolModel.TimeRegistration" Role="TimeRegistration1" Multiplicity="0..1" />
           <ReferentialConstraint>
             <Principal Role="TimeRegistration">
               <PropertyRef Name="PK_Id" />
@@ -377,8 +952,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_TimeRegistration_Users">
-          <End Role="Users" Type="Self.Users" Multiplicity="1" />
-          <End Role="TimeRegistration" Type="Self.TimeRegistration" Multiplicity="*" />
+          <End Type="WebToolModel.Users" Role="Users" Multiplicity="1" />
+          <End Type="WebToolModel.TimeRegistration" Role="TimeRegistration" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Users">
               <PropertyRef Name="PK_Id" />
@@ -389,8 +964,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_UserAssignment_Users">
-          <End Role="Users" Type="Self.Users" Multiplicity="1" />
-          <End Role="UserAssignment" Type="Self.UserAssignment" Multiplicity="*" />
+          <End Type="WebToolModel.Users" Role="Users" Multiplicity="1" />
+          <End Type="WebToolModel.UserAssignment" Role="UserAssignment" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Users">
               <PropertyRef Name="PK_Id" />
@@ -400,59 +975,215 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="WebToolEntities1" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Comments" EntityType="Self.Comments" />
-          <EntitySet Name="Projects" EntityType="Self.Projects" />
-          <EntitySet Name="TaskType" EntityType="Self.TaskType" />
-          <EntitySet Name="TimeRegistration" EntityType="Self.TimeRegistration" />
-          <EntitySet Name="UserAssignment" EntityType="Self.UserAssignment" />
-          <EntitySet Name="Users" EntityType="Self.Users" />
-          <AssociationSet Name="FK_Comments_Projects" Association="Self.FK_Comments_Projects">
-            <End Role="Projects" EntitySet="Projects" />
-            <End Role="Comments" EntitySet="Comments" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Comments_Users" Association="Self.FK_Comments_Users">
-            <End Role="Users" EntitySet="Users" />
-            <End Role="Comments" EntitySet="Comments" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Projects_Users" Association="Self.FK_Projects_Users">
-            <End Role="Users" EntitySet="Users" />
-            <End Role="Projects" EntitySet="Projects" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TimeRegistration_Projects" Association="Self.FK_TimeRegistration_Projects">
-            <End Role="Projects" EntitySet="Projects" />
-            <End Role="TimeRegistration" EntitySet="TimeRegistration" />
-          </AssociationSet>
-          <AssociationSet Name="FK_UserAssignment_Projects" Association="Self.FK_UserAssignment_Projects">
-            <End Role="Projects" EntitySet="Projects" />
-            <End Role="UserAssignment" EntitySet="UserAssignment" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TimeRegistration_TaskType" Association="Self.FK_TimeRegistration_TaskType">
-            <End Role="TaskType" EntitySet="TaskType" />
-            <End Role="TimeRegistration" EntitySet="TimeRegistration" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TimeRegistration_TimeRegistration" Association="Self.FK_TimeRegistration_TimeRegistration">
-            <End Role="TimeRegistration" EntitySet="TimeRegistration" />
-            <End Role="TimeRegistration1" EntitySet="TimeRegistration" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TimeRegistration_Users" Association="Self.FK_TimeRegistration_Users">
-            <End Role="Users" EntitySet="Users" />
-            <End Role="TimeRegistration" EntitySet="TimeRegistration" />
-          </AssociationSet>
-          <AssociationSet Name="FK_UserAssignment_Users" Association="Self.FK_UserAssignment_Users">
-            <End Role="Users" EntitySet="Users" />
-            <End Role="UserAssignment" EntitySet="UserAssignment" />
-          </AssociationSet>
-        </EntityContainer>
+        <ComplexType Name="SP_AddUser_Result">
+          <Property Type="Int32" Name="Column1" Nullable="true" />
+          <Property Type="Int32" Name="Column2" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="SP_TaskTypeFind_Result">
+          <Property Type="Int32" Name="PK_Id" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" />
+        </ComplexType>
+        <EntityType Name="VI_TaskType">
+          <Key>
+            <PropertyRef Name="PK_Id" />
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="PK_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="VI_UserTimePerProject">
+          <Key>
+            <PropertyRef Name="UserName" />
+            <PropertyRef Name="FK_ProjectId" />
+          </Key>
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="timeSum" Type="Int32" />
+          <Property Name="FK_ProjectId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="VI_TimeRegistration">
+          <Key>
+            <PropertyRef Name="PK_Id" />
+            <PropertyRef Name="FK_UserId" />
+            <PropertyRef Name="FK_ProjectId" />
+            <PropertyRef Name="FK_TaskId" />
+            <PropertyRef Name="Time" />
+            <PropertyRef Name="Date" />
+            <PropertyRef Name="DateEntry" />
+            <PropertyRef Name="TaskTypeName" />
+            <PropertyRef Name="ProjectName" />
+            <PropertyRef Name="UserName" />
+            <PropertyRef Name="FK_OrderId" />
+            <PropertyRef Name="OrderName" />
+          </Key>
+          <Property Name="PK_Id" Type="Int32" Nullable="false" />
+          <Property Name="FK_UserId" Type="Int32" Nullable="false" />
+          <Property Name="FK_ProjectId" Type="Int32" Nullable="false" />
+          <Property Name="FK_TaskId" Type="Int32" Nullable="false" />
+          <Property Name="Time" Type="Int32" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="DateEntry" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Comment" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="TaskTypeName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ProjectName" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="FK_OrderId" Type="Int32" Nullable="false" />
+          <Property Name="OrderName" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="VI_OrderNumber">
+          <Key>
+            <PropertyRef Name="PK_Id" />
+            <PropertyRef Name="Number" />
+          </Key>
+          <Property Name="PK_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Number" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Projects">
+          <Key>
+            <PropertyRef Name="PK_Id" />
+          </Key>
+          <Property Name="PK_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="FK_OrderNumber" Type="Int32" Nullable="false" />
+          <Property Name="TimeEstimation" Type="Int32" Nullable="false" />
+          <Property Name="FK_ProjectLeader" Type="Int32" />
+          <Property Name="Scope" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Comments" Relationship="WebToolModel.FK_Comments_Projects" FromRole="Projects" ToRole="Comments" />
+          <NavigationProperty Name="Users" Relationship="WebToolModel.FK_Projects_Users" FromRole="Projects" ToRole="Users" />
+          <NavigationProperty Name="TimeRegistration" Relationship="WebToolModel.FK_TimeRegistration_Projects" FromRole="Projects" ToRole="TimeRegistration" />
+          <NavigationProperty Name="UserAssignment" Relationship="WebToolModel.FK_UserAssignment_Projects" FromRole="Projects" ToRole="UserAssignment" />
+          <NavigationProperty Name="OrderNumber" Relationship="WebToolModel.FK_Projects_OrderNumber" FromRole="Projects" ToRole="OrderNumber" />
+          <Property Name="FK_TimeType" Type="Int32" />
+          <NavigationProperty Name="TimeType" Relationship="WebToolModel.FK_Projects_TimeType" FromRole="Projects" ToRole="TimeType" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Comments_Projects">
+          <End Type="WebToolModel.Projects" Role="Projects" Multiplicity="1" />
+          <End Type="WebToolModel.Comments" Role="Comments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Projects">
+              <PropertyRef Name="PK_Id" />
+            </Principal>
+            <Dependent Role="Comments">
+              <PropertyRef Name="FK_ProjectId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Projects_Users">
+          <End Type="WebToolModel.Users" Role="Users" Multiplicity="0..1" />
+          <End Type="WebToolModel.Projects" Role="Projects" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="PK_Id" />
+            </Principal>
+            <Dependent Role="Projects">
+              <PropertyRef Name="FK_ProjectLeader" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TimeRegistration_Projects">
+          <End Type="WebToolModel.Projects" Role="Projects" Multiplicity="1" />
+          <End Type="WebToolModel.TimeRegistration" Role="TimeRegistration" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Projects">
+              <PropertyRef Name="PK_Id" />
+            </Principal>
+            <Dependent Role="TimeRegistration">
+              <PropertyRef Name="FK_ProjectId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserAssignment_Projects">
+          <End Type="WebToolModel.Projects" Role="Projects" Multiplicity="1" />
+          <End Type="WebToolModel.UserAssignment" Role="UserAssignment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Projects">
+              <PropertyRef Name="PK_Id" />
+            </Principal>
+            <Dependent Role="UserAssignment">
+              <PropertyRef Name="FK_ProjectId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="OrderNumber">
+          <Key>
+            <PropertyRef Name="PK_Id" />
+          </Key>
+          <Property Name="PK_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Number" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Projects" Relationship="WebToolModel.FK_Projects_OrderNumber" FromRole="OrderNumber" ToRole="Projects" />
+        </EntityType>
+        <EntityType Name="TimeType">
+          <Key>
+            <PropertyRef Name="PK_Id" />
+          </Key>
+          <Property Name="PK_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Projects" Relationship="WebToolModel.FK_Projects_TimeType" FromRole="TimeType" ToRole="Projects" />
+        </EntityType>
+        <Association Name="FK_Projects_OrderNumber">
+          <End Type="WebToolModel.OrderNumber" Role="OrderNumber" Multiplicity="1" />
+          <End Type="WebToolModel.Projects" Role="Projects" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OrderNumber">
+              <PropertyRef Name="PK_Id" />
+            </Principal>
+            <Dependent Role="Projects">
+              <PropertyRef Name="FK_OrderNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="VI_TimeType">
+          <Key>
+            <PropertyRef Name="PK_Id" />
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="PK_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <Association Name="FK_Projects_TimeType">
+          <End Type="WebToolModel.TimeType" Role="TimeType" Multiplicity="0..1" />
+          <End Type="WebToolModel.Projects" Role="Projects" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TimeType">
+              <PropertyRef Name="PK_Id" />
+            </Principal>
+            <Dependent Role="Projects">
+              <PropertyRef Name="FK_TimeType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="VI_Projects">
+          <Key>
+            <PropertyRef Name="PK_Id" />
+            <PropertyRef Name="Name" />
+            <PropertyRef Name="FK_OrderNumber" />
+            <PropertyRef Name="TimeEstimation" />
+            <PropertyRef Name="UserName" />
+            <PropertyRef Name="OrderName" />
+          </Key>
+          <Property Name="PK_Id" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="FK_OrderNumber" Type="Int32" Nullable="false" />
+          <Property Name="TimeEstimation" Type="Int32" Nullable="false" />
+          <Property Name="FK_ProjectLeader" Type="Int32" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Scope" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="OrderName" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="FK_TimeType" Type="Int32" />
+          <Property Name="TimeTypeName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="timeSum" Type="Int32" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="WebToolModelStoreContainer" CdmEntityContainer="WebToolEntities1">
-          <EntitySetMapping Name="Comments">
-            <EntityTypeMapping TypeName="WebToolModel.Comments">
-              <MappingFragment StoreEntitySet="Comments">
+          <EntitySetMapping Name="VI_Comments">
+            <EntityTypeMapping TypeName="WebToolModel.VI_Comments">
+              <MappingFragment StoreEntitySet="VI_Comments">
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />
                 <ScalarProperty Name="PK_Id" ColumnName="PK_Id" />
                 <ScalarProperty Name="WeekNr" ColumnName="WeekNr" />
                 <ScalarProperty Name="Year" ColumnName="Year" />
@@ -462,53 +1193,215 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Projects">
-            <EntityTypeMapping TypeName="WebToolModel.Projects">
-              <MappingFragment StoreEntitySet="Projects">
+          <EntitySetMapping Name="VI_UserAssignment">
+            <EntityTypeMapping TypeName="WebToolModel.VI_UserAssignment">
+              <MappingFragment StoreEntitySet="VI_UserAssignment">
                 <ScalarProperty Name="PK_Id" ColumnName="PK_Id" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="DSA" ColumnName="DSA" />
-                <ScalarProperty Name="TimeEstimation" ColumnName="TimeEstimation" />
-                <ScalarProperty Name="FK_ProjectLeader" ColumnName="FK_ProjectLeader" />
+                <ScalarProperty Name="FK_UserId" ColumnName="FK_UserId" />
+                <ScalarProperty Name="FK_ProjectId" ColumnName="FK_ProjectId" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="NK_ZId" ColumnName="NK_ZId" />
+                <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VI_Users">
+            <EntityTypeMapping TypeName="WebToolModel.VI_Users">
+              <MappingFragment StoreEntitySet="VI_Users">
+                <ScalarProperty Name="PK_Id" ColumnName="PK_Id" />
+                <ScalarProperty Name="NK_Name" ColumnName="NK_Name" />
+                <ScalarProperty Name="NK_ZId" ColumnName="NK_ZId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Comments">
+            <EntityTypeMapping TypeName="WebToolModel.Comments">
+              <MappingFragment StoreEntitySet="Comments">
+                <ScalarProperty Name="FK_User" ColumnName="FK_User" />
+                <ScalarProperty Name="FK_ProjectId" ColumnName="FK_ProjectId" />
+                <ScalarProperty Name="Text" ColumnName="Text" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="WeekNr" ColumnName="WeekNr" />
+                <ScalarProperty Name="PK_Id" ColumnName="PK_Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="TaskType">
             <EntityTypeMapping TypeName="WebToolModel.TaskType">
               <MappingFragment StoreEntitySet="TaskType">
-                <ScalarProperty Name="PK_Id" ColumnName="PK_Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="PK_Id" ColumnName="PK_Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="TimeRegistration">
             <EntityTypeMapping TypeName="WebToolModel.TimeRegistration">
               <MappingFragment StoreEntitySet="TimeRegistration">
-                <ScalarProperty Name="PK_Id" ColumnName="PK_Id" />
-                <ScalarProperty Name="FK_UserId" ColumnName="FK_UserId" />
-                <ScalarProperty Name="FK_ProjectId" ColumnName="FK_ProjectId" />
-                <ScalarProperty Name="FK_TaskId" ColumnName="FK_TaskId" />
-                <ScalarProperty Name="time" ColumnName="time" />
-                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="FK_OrderId" ColumnName="FK_OrderId" />
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+                <ScalarProperty Name="Time" ColumnName="Time" />
                 <ScalarProperty Name="DateEntry" ColumnName="DateEntry" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="FK_TaskId" ColumnName="FK_TaskId" />
+                <ScalarProperty Name="FK_ProjectId" ColumnName="FK_ProjectId" />
+                <ScalarProperty Name="FK_UserId" ColumnName="FK_UserId" />
+                <ScalarProperty Name="PK_Id" ColumnName="PK_Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="UserAssignment">
             <EntityTypeMapping TypeName="WebToolModel.UserAssignment">
               <MappingFragment StoreEntitySet="UserAssignment">
-                <ScalarProperty Name="PK_Id" ColumnName="PK_Id" />
-                <ScalarProperty Name="FK_UserId" ColumnName="FK_UserId" />
                 <ScalarProperty Name="FK_ProjectId" ColumnName="FK_ProjectId" />
+                <ScalarProperty Name="FK_UserId" ColumnName="FK_UserId" />
+                <ScalarProperty Name="PK_Id" ColumnName="PK_Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="WebToolModel.Users">
               <MappingFragment StoreEntitySet="Users">
-                <ScalarProperty Name="PK_Id" ColumnName="PK_Id" />
-                <ScalarProperty Name="NK_Name" ColumnName="NK_Name" />
                 <ScalarProperty Name="NK_ZId" ColumnName="NK_ZId" />
+                <ScalarProperty Name="NK_Name" ColumnName="NK_Name" />
+                <ScalarProperty Name="PK_Id" ColumnName="PK_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="SP_AddUser" FunctionName="WebToolModel.Store.SP_AddUser">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="WebToolModel.SP_AddUser_Result">
+                <ScalarProperty Name="Column1" ColumnName="Column1" />
+                <ScalarProperty Name="Column2" ColumnName="Column2" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_AddTaskType" FunctionName="WebToolModel.Store.SP_AddTaskType" />
+          <FunctionImportMapping FunctionImportName="SP_TaskTypeFind" FunctionName="WebToolModel.Store.SP_TaskTypeFind">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="WebToolModel.SP_TaskTypeFind_Result">
+                <ScalarProperty Name="PK_Id" ColumnName="PK_Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="VI_TaskType">
+            <EntityTypeMapping TypeName="WebToolModel.VI_TaskType">
+              <MappingFragment StoreEntitySet="VI_TaskType">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="PK_Id" ColumnName="PK_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="SP_AddComment" FunctionName="WebToolModel.Store.SP_AddComment" />
+          <FunctionImportMapping FunctionImportName="SP_UpdateTaskType" FunctionName="WebToolModel.Store.SP_UpdateTaskType" />
+          <FunctionImportMapping FunctionImportName="SP_RemoveTaskType" FunctionName="WebToolModel.Store.SP_RemoveTaskType" />
+          <FunctionImportMapping FunctionImportName="SP_UpdateComments" FunctionName="WebToolModel.Store.SP_UpdateComments" />
+          <FunctionImportMapping FunctionImportName="SP_RemoveComment" FunctionName="WebToolModel.Store.SP_RemoveComment" />
+          <FunctionImportMapping FunctionImportName="SP_AddProject" FunctionName="WebToolModel.Store.SP_AddProject" />
+          <FunctionImportMapping FunctionImportName="SP_RemoveProject" FunctionName="WebToolModel.Store.SP_RemoveProject" />
+          <FunctionImportMapping FunctionImportName="SP_UpdateProject" FunctionName="WebToolModel.Store.SP_UpdateProject" />
+          <FunctionImportMapping FunctionImportName="SP_AddTimeRegistration" FunctionName="WebToolModel.Store.SP_AddTimeRegistration" />
+          <FunctionImportMapping FunctionImportName="SP_RemoveTimeRegistration" FunctionName="WebToolModel.Store.SP_RemoveTimeRegistration" />
+          <FunctionImportMapping FunctionImportName="SP_UpdateTimeRegistration" FunctionName="WebToolModel.Store.SP_UpdateTimeRegistration" />
+          <FunctionImportMapping FunctionImportName="SP_RemoveUser" FunctionName="WebToolModel.Store.SP_RemoveUser" />
+          <FunctionImportMapping FunctionImportName="SP_UpdateUser" FunctionName="WebToolModel.Store.SP_UpdateUser" />
+          <FunctionImportMapping FunctionImportName="SP_AddUserAssignment" FunctionName="WebToolModel.Store.SP_AddUserAssignment" />
+          <FunctionImportMapping FunctionImportName="SP_RemoveUserAssignment" FunctionName="WebToolModel.Store.SP_RemoveUserAssignment" />
+          <FunctionImportMapping FunctionImportName="SP_UpdateUserAssignment" FunctionName="WebToolModel.Store.SP_UpdateUserAssignment" />
+          <EntitySetMapping Name="VI_UserTimePerProject">
+            <EntityTypeMapping TypeName="WebToolModel.VI_UserTimePerProject">
+              <MappingFragment StoreEntitySet="VI_UserTimePerProject">
+                <ScalarProperty Name="FK_ProjectId" ColumnName="FK_ProjectId" />
+                <ScalarProperty Name="timeSum" ColumnName="timeSum" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VI_TimeRegistration">
+            <EntityTypeMapping TypeName="WebToolModel.VI_TimeRegistration">
+              <MappingFragment StoreEntitySet="VI_TimeRegistration">
+                <ScalarProperty Name="OrderName" ColumnName="OrderName" />
+                <ScalarProperty Name="FK_OrderId" ColumnName="FK_OrderId" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />
+                <ScalarProperty Name="TaskTypeName" ColumnName="TaskTypeName" />
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+                <ScalarProperty Name="DateEntry" ColumnName="DateEntry" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Time" ColumnName="Time" />
+                <ScalarProperty Name="FK_TaskId" ColumnName="FK_TaskId" />
+                <ScalarProperty Name="FK_ProjectId" ColumnName="FK_ProjectId" />
+                <ScalarProperty Name="FK_UserId" ColumnName="FK_UserId" />
+                <ScalarProperty Name="PK_Id" ColumnName="PK_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VI_OrderNumber">
+            <EntityTypeMapping TypeName="WebToolModel.VI_OrderNumber">
+              <MappingFragment StoreEntitySet="VI_OrderNumber">
+                <ScalarProperty Name="Number" ColumnName="Number" />
+                <ScalarProperty Name="PK_Id" ColumnName="PK_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="SP_AddOrderNumber" FunctionName="WebToolModel.Store.SP_AddOrderNumber" />
+          <FunctionImportMapping FunctionImportName="SP_RemoveOrderNumber" FunctionName="WebToolModel.Store.SP_RemoveOrderNumber" />
+          <FunctionImportMapping FunctionImportName="SP_UpdateOrderNumber" FunctionName="WebToolModel.Store.SP_UpdateOrderNumber" />
+          <EntitySetMapping Name="Projects">
+            <EntityTypeMapping TypeName="WebToolModel.Projects">
+              <MappingFragment StoreEntitySet="Projects">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="FK_TimeType" ColumnName="FK_TimeType" />
+                <ScalarProperty Name="Scope" ColumnName="Scope" />
+                <ScalarProperty Name="FK_ProjectLeader" ColumnName="FK_ProjectLeader" />
+                <ScalarProperty Name="TimeEstimation" ColumnName="TimeEstimation" />
+                <ScalarProperty Name="FK_OrderNumber" ColumnName="FK_OrderNumber" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="PK_Id" ColumnName="PK_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OrderNumber">
+            <EntityTypeMapping TypeName="WebToolModel.OrderNumber">
+              <MappingFragment StoreEntitySet="OrderNumber">
+                <ScalarProperty Name="Number" ColumnName="Number" />
+                <ScalarProperty Name="PK_Id" ColumnName="PK_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TimeType">
+            <EntityTypeMapping TypeName="WebToolModel.TimeType">
+              <MappingFragment StoreEntitySet="TimeType">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="PK_Id" ColumnName="PK_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="SP_AddTimeType" FunctionName="WebToolModel.Store.SP_AddTimeType" />
+          <FunctionImportMapping FunctionImportName="SP_RemoveTimeType" FunctionName="WebToolModel.Store.SP_RemoveTimeType" />
+          <FunctionImportMapping FunctionImportName="SP_UpdateTimeType" FunctionName="WebToolModel.Store.SP_UpdateTimeType" />
+          <EntitySetMapping Name="VI_TimeType">
+            <EntityTypeMapping TypeName="WebToolModel.VI_TimeType">
+              <MappingFragment StoreEntitySet="VI_TimeType">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="PK_Id" ColumnName="PK_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VI_Projects">
+            <EntityTypeMapping TypeName="WebToolModel.VI_Projects">
+              <MappingFragment StoreEntitySet="VI_Projects">
+                <ScalarProperty Name="timeSum" ColumnName="timeSum" />
+                <ScalarProperty Name="TimeTypeName" ColumnName="TimeTypeName" />
+                <ScalarProperty Name="FK_TimeType" ColumnName="FK_TimeType" />
+                <ScalarProperty Name="OrderName" ColumnName="OrderName" />
+                <ScalarProperty Name="Scope" ColumnName="Scope" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="FK_ProjectLeader" ColumnName="FK_ProjectLeader" />
+                <ScalarProperty Name="TimeEstimation" ColumnName="TimeEstimation" />
+                <ScalarProperty Name="FK_OrderNumber" ColumnName="FK_OrderNumber" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="PK_Id" ColumnName="PK_Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

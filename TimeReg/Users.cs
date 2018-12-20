@@ -18,9 +18,9 @@ namespace TimeReg
         public Users()
         {
             this.Comments = new HashSet<Comments>();
-            this.Projects = new HashSet<Projects>();
             this.TimeRegistration = new HashSet<TimeRegistration>();
             this.UserAssignment = new HashSet<UserAssignment>();
+            this.Projects = new HashSet<Projects>();
         }
     
         public int PK_Id { get; set; }
@@ -30,10 +30,10 @@ namespace TimeReg
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Comments> Comments { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Projects> Projects { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TimeRegistration> TimeRegistration { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<UserAssignment> UserAssignment { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Projects> Projects { get; set; }
     }
 }

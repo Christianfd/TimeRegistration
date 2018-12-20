@@ -1,4 +1,4 @@
-﻿@model TimeReg.TimeRegistration
+﻿@model TimeReg.ViewModels.TimeRegistrationViewModel
 
 @{
     ViewBag.Title = "Delete";
@@ -12,11 +12,11 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.time)
+            @Html.DisplayNameFor(model => model.Time)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.time)
+            @Html.DisplayFor(model => model.Time)
         </dd>
 
         <dt>
@@ -36,27 +36,27 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Projects.Name)
+            @Html.DisplayNameFor(model => model.ProjectName)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Projects.Name)
+            @Html.DisplayFor(model => model.ProjectName)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.TaskType.Name)
+            @Html.DisplayNameFor(model => model.TaskTypeName)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.TaskType.Name)
+            @Html.DisplayFor(model => model.TaskTypeName)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Users.NK_Name)
+            @Html.DisplayNameFor(model => model.UserName)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Users.NK_Name)
+            @Html.DisplayFor(model => model.UserName)
         </dd>
 
     </dl>

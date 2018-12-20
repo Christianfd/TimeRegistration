@@ -1,4 +1,4 @@
-﻿@model TimeReg.Comments
+﻿@model TimeReg.VI_Comments
 
 @{
     ViewBag.Title = "Delete";
@@ -26,39 +26,29 @@
         <dd>
             @Html.DisplayFor(model => model.Year)
         </dd>
+        <dt>
+            Project
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ProjectName)
+        </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Text)
+            By User
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UserName)
+        </dd>
+
+        <dt>
+            Report
         </dt>
 
         <dd>
             @Html.DisplayFor(model => model.Text)
         </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.FK_ProjectId)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.FK_ProjectId)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Projects.Name)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Projects.Name)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Users.NK_Name)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Users.NK_Name)
-        </dd>
-
     </dl>
 
     @using (Html.BeginForm()) {

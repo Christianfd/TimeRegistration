@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Operations Version="1.0" xmlns="http://schemas.microsoft.com/sqlserver/dac/Serialization/2012/02">
+  <Operation Name="Rename Refactor" Key="69f1e7b6-b15e-47de-b6ec-c1e5dc6d6cca" ChangeDateTime="10/17/2018 11:58:04">
+    <Property Name="ElementName" Value="[TimeManagement].[TimeRegistration].[time]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[TimeManagement].[TimeRegistration]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Time" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="3b388855-a5ac-4b4a-8043-965c40b9daa3" ChangeDateTime="11/19/2018 09:28:12">
+    <Property Name="ElementName" Value="[TimeManagement].[Projects].[DSA]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[TimeManagement].[Projects]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="FK_OrderNumber" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="a0103de5-9dba-45fe-b0b0-c3e5a2b3fe68" ChangeDateTime="12/19/2018 11:30:36">
+    <Property Name="ElementName" Value="[TimeManagement].[OrderNumber].[Request_Org]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[TimeManagement].[OrderNumber]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="RequestOrg" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="fc61f7f9-149d-45e1-9b6a-efa6d1b2b47b" ChangeDateTime="12/19/2018 13:10:27">
+    <Property Name="ElementName" Value="[TimeManagement].[OrderNumber].[Customer Ref.]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[TimeManagement].[OrderNumber]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="CustomerRef" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="a250cec1-049d-4dab-badd-5acd1677a761" ChangeDateTime="12/19/2018 13:15:14">
+    <Property Name="ElementName" Value="[TimeManagement].[OrderNumber].[RequestOrg]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[TimeManagement].[OrderNumber]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="FK_RequestOrg" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="299297b1-cc43-45d7-b0d6-0589e291201e" ChangeDateTime="12/19/2018 13:21:55">
+    <Property Name="ElementName" Value="[TimeManagement].[RequestOrg].[Name]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[TimeManagement].[RequestOrg]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Organization" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="4d0d66a2-0323-4487-88d3-83cfd854ebc6" ChangeDateTime="12/19/2018 13:31:11">
+    <Property Name="ElementName" Value="[TimeManagement].[Country].[Name]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[TimeManagement].[Country]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Country" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="f0ba7cd3-201e-44a8-9289-2363a534e9ed" ChangeDateTime="12/19/2018 13:33:28">
+    <Property Name="ElementName" Value="[TimeManagement].[Turbine].[Name]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[TimeManagement].[Turbine]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="TurbineName" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="c15cc04a-62fa-4e66-8dc0-d9d4360d35f3" ChangeDateTime="12/19/2018 13:34:31">
+    <Property Name="ElementName" Value="[TimeManagement].[SiteOrVersion].[Name]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[TimeManagement].[SiteOrVersion]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Version" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="7825bf39-b284-4199-9ac3-d7fb8e1dcd68" ChangeDateTime="12/19/2018 13:36:48">
+    <Property Name="ElementName" Value="[TimeManagement].[PlatformOrProduct].[Name]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[TimeManagement].[PlatformOrProduct]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="ProductName" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="43975cc9-d63e-420d-b11d-404e4731acc8" ChangeDateTime="12/19/2018 13:36:53">
+    <Property Name="ElementName" Value="[TimeManagement].[Country].[Country]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[TimeManagement].[Country]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="CountryName" />
+  </Operation>
+</Operations>

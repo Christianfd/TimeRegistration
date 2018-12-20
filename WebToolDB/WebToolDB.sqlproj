@@ -1,0 +1,135 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <Name>WebToolDB</Name>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectVersion>4.1</ProjectVersion>
+    <ProjectGuid>{29a6faf9-f9ae-4f3c-810b-6a0f4e22d9c1}</ProjectGuid>
+    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql120DatabaseSchemaProvider</DSP>
+    <OutputType>Database</OutputType>
+    <RootPath>
+    </RootPath>
+    <RootNamespace>WebToolDB</RootNamespace>
+    <AssemblyName>WebToolDB</AssemblyName>
+    <ModelCollation>1030,CI</ModelCollation>
+    <DefaultFileStructure>BySchemaAndSchemaType</DefaultFileStructure>
+    <DeployToDatabase>True</DeployToDatabase>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetLanguage>CS</TargetLanguage>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <SqlServerVerification>False</SqlServerVerification>
+    <IncludeCompositeObjects>True</IncludeCompositeObjects>
+    <TargetDatabaseSet>True</TargetDatabaseSet>
+    <DefaultCollation>Danish_Norwegian_CI_AS</DefaultCollation>
+    <DefaultFilegroup>PRIMARY</DefaultFilegroup>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">11.0</VisualStudioVersion>
+    <!-- Default to the v11.0 targets path if the targets file for the current VS version is not found -->
+    <SSDTExists Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets')">True</SSDTExists>
+    <VisualStudioVersion Condition="'$(SSDTExists)' == ''">11.0</VisualStudioVersion>
+  </PropertyGroup>
+  <Import Condition="'$(SQLDBExtensionsRefPath)' != ''" Project="$(SQLDBExtensionsRefPath)\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <ItemGroup>
+    <Folder Include="Properties" />
+    <Folder Include="TimeManagement\" />
+    <Folder Include="TimeManagement\Tables\" />
+    <Folder Include="Security\" />
+    <Folder Include="TimeManagement\Views" />
+    <Folder Include="TimeManagement\Stored Procedures" />
+    <Folder Include="TimeManagement\Stored Procedures\User" />
+    <Folder Include="TimeManagement\Stored Procedures\TaskType" />
+    <Folder Include="TimeManagement\Stored Procedures\Comments" />
+    <Folder Include="TimeManagement\Stored Procedures\Projects" />
+    <Folder Include="TimeManagement\Stored Procedures\TimeRegistration" />
+    <Folder Include="TimeManagement\Stored Procedures\UserAssignment" />
+    <Folder Include="TimeManagement\Stored Procedures\OrderNumber" />
+    <Folder Include="TimeManagement\Stored Procedures\TimeType" />
+    <Folder Include="TimeManagement\Tables\OrderNumberTables" />
+    <Folder Include="TimeManagement\Tables\ProjectTables" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="TimeManagement\Tables\TimeRegistration.sql" />
+    <Build Include="TimeManagement\Tables\Projects.sql" />
+    <Build Include="TimeManagement\Tables\Users.sql" />
+    <Build Include="TimeManagement\Tables\Comments.sql" />
+    <Build Include="Security\AD009_RA201_TMDBTIMEMANAGEMENT_ADMINISTRATOR_L.sql" />
+    <Build Include="Security\AD009_RA201_TMDBTIMEMANAGEMENT_ADMINISTRATOR_L_1.sql" />
+    <Build Include="Security\RoleMemberships.sql" />
+    <Build Include="Security\TimeManagement.sql" />
+    <Build Include="Security\Permissions.sql" />
+    <Build Include="TimeManagement\Views\VI_Users.sql" />
+    <Build Include="TimeManagement\Views\VI_TaskType.sql" />
+    <Build Include="TimeManagement\Views\VI_UserAssignment.sql" />
+    <Build Include="TimeManagement\Views\VI_Projects.sql" />
+    <Build Include="TimeManagement\Views\VI_TimeRegistration.sql" />
+    <Build Include="TimeManagement\Views\VI_Comments.sql" />
+    <Build Include="TimeManagement\Stored Procedures\User\SP_AddUser.sql" />
+    <Build Include="TimeManagement\Stored Procedures\TaskType\SP_AddTaskType.sql" />
+    <Build Include="TimeManagement\Stored Procedures\Comments\SP_AddComment.sql" />
+    <Build Include="TimeManagement\Stored Procedures\TaskType\SP_UpdateTaskType.sql" />
+    <Build Include="TimeManagement\Stored Procedures\TaskType\SP_RemoveTaskType.sql" />
+    <Build Include="TimeManagement\Stored Procedures\Comments\SP_UpdateComments.sql" />
+    <Build Include="TimeManagement\Stored Procedures\Comments\SP_RemoveComment.sql" />
+    <Build Include="TimeManagement\Stored Procedures\Projects\SP_AddProject.sql" />
+    <Build Include="TimeManagement\Stored Procedures\Projects\SP_RemoveProject.sql" />
+    <Build Include="TimeManagement\Stored Procedures\Projects\SP_UpdateProject.sql" />
+    <Build Include="TimeManagement\Stored Procedures\TimeRegistration\SP_AddTimeRegistration.sql" />
+    <Build Include="TimeManagement\Stored Procedures\TimeRegistration\SP_UpdateTimeRegistration.sql" />
+    <Build Include="TimeManagement\Stored Procedures\TimeRegistration\SP_RemoveTimeRegistration.sql" />
+    <Build Include="TimeManagement\Stored Procedures\User\SP_RemoveUser.sql" />
+    <Build Include="TimeManagement\Stored Procedures\User\SP_UpdateUser.sql" />
+    <Build Include="TimeManagement\Stored Procedures\UserAssignment\SP_AddUserAssignment.sql" />
+    <Build Include="TimeManagement\Stored Procedures\UserAssignment\SP_UpdateUserAssignment.sql" />
+    <Build Include="TimeManagement\Stored Procedures\UserAssignment\SP_RemoveUserAssignment.sql" />
+    <Build Include="TimeManagement\Views\VI_UserTimePerProject.sql" />
+    <Build Include="TimeManagement\Tables\OrderNumber.sql" />
+    <Build Include="TimeManagement\Views\VI_OrderNumber.sql" />
+    <Build Include="TimeManagement\Stored Procedures\OrderNumber\SP_AddOrderNumber.sql" />
+    <Build Include="TimeManagement\Stored Procedures\OrderNumber\SP_RemoveOrderNumber.sql" />
+    <Build Include="TimeManagement\Stored Procedures\OrderNumber\SP_UpdateOrderNumber.sql" />
+    <Build Include="TimeManagement\Views\VI_TimeType.sql" />
+    <Build Include="TimeManagement\Stored Procedures\TimeType\SP_AddTimeType.sql" />
+    <Build Include="TimeManagement\Stored Procedures\TimeType\SP_RemoveTimeType.sql" />
+    <Build Include="TimeManagement\Stored Procedures\TimeType\SP_UpdateTimeType.sql" />
+    <Build Include="TimeManagement\Tables\OrderNumberTables\RequestOrg.sql" />
+    <Build Include="TimeManagement\Tables\OrderNumberTables\Requester.sql" />
+    <Build Include="TimeManagement\Tables\OrderNumberTables\CustomerRef.sql" />
+    <Build Include="TimeManagement\Tables\ProjectTables\TaskType.sql" />
+    <Build Include="TimeManagement\Tables\ProjectTables\TimeType.sql" />
+    <Build Include="TimeManagement\Tables\ProjectTables\UserAssignment.sql" />
+    <Build Include="TimeManagement\Tables\ProjectTables\Country.sql" />
+    <Build Include="TimeManagement\Tables\ProjectTables\Turbine.sql" />
+    <Build Include="TimeManagement\Tables\ProjectTables\PlatformOrProduct.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <RefactorLog Include="WebToolDB.refactorlog" />
+  </ItemGroup>
+</Project>

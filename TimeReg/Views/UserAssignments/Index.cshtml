@@ -1,4 +1,4 @@
-﻿@model IEnumerable<TimeReg.UserAssignment>
+﻿@model List<TimeReg.VI_UserAssignment>
 
 @{
     ViewBag.Title = "Index";
@@ -12,10 +12,12 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Projects.Name)
+            Project
+            @*@Html.DisplayNameFor(model => model.ProjectName)*@
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Users.NK_Name)
+            User
+            @*@Html.DisplayNameFor(model => model.UserName)*@
         </th>
         <th></th>
     </tr>
@@ -23,10 +25,10 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.Projects.Name)
+            @Html.DisplayFor(modelItem => item.ProjectName)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Users.NK_Name)
+            @Html.DisplayFor(modelItem => item.UserName)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.PK_Id }) |

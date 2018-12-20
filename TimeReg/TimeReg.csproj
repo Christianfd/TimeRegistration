@@ -44,6 +44,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper, Version=7.0.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.7.0.1\lib\net45\AutoMapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
       <Private>True</Private>
@@ -54,6 +58,10 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -174,15 +182,20 @@
     </Compile>
     <Compile Include="Controllers\CommentsController.cs" />
     <Compile Include="Controllers\ProjectsController.cs" />
+    <Compile Include="Controllers\TimeTypeController.cs" />
     <Compile Include="Controllers\UnusedControllers\AccountController.cs" />
     <Compile Include="Controllers\UnusedControllers\HomeController.cs" />
     <Compile Include="Controllers\UnusedControllers\ManageController.cs" />
-    <Compile Include="Controllers\TaskTypesController.cs" />
+    <Compile Include="Controllers\TaskTypeController.cs" />
     <Compile Include="Controllers\TimeRegistrationsController.cs" />
     <Compile Include="Controllers\UserAssignmentsController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Controllers\OrderNumberController.cs" />
+    <Compile Include="OrderNumber.cs">
+      <DependentUpon>WebTool.tt</DependentUpon>
     </Compile>
     <Compile Include="Projects.cs">
       <DependentUpon>WebTool.tt</DependentUpon>
@@ -196,17 +209,66 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SP_AddUser_Result.cs">
+      <DependentUpon>WebTool.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_TaskTypeFind_Result.cs">
+      <DependentUpon>WebTool.tt</DependentUpon>
+    </Compile>
     <Compile Include="Startup.cs" />
+    <Compile Include="System\Windows\TextDataFormat.cs" />
     <Compile Include="TaskType.cs">
       <DependentUpon>WebTool.tt</DependentUpon>
     </Compile>
     <Compile Include="TimeRegistration.cs">
       <DependentUpon>WebTool.tt</DependentUpon>
     </Compile>
+    <Compile Include="TimeType.cs">
+      <DependentUpon>WebTool.tt</DependentUpon>
+    </Compile>
     <Compile Include="UserAssignment.cs">
       <DependentUpon>WebTool.tt</DependentUpon>
     </Compile>
     <Compile Include="Users.cs">
+      <DependentUpon>WebTool.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\CommentsViewModel.cs" />
+    <Compile Include="ViewModels\OrderNumberViewModel.cs" />
+    <Compile Include="ViewModels\ProjectDetailsViewModel.cs" />
+    <Compile Include="ViewModels\ProjectsViewModel.cs" />
+    <Compile Include="ViewModels\TaskTypeViewModel.cs" />
+    <Compile Include="ViewModels\TimeTypeViewModel.cs" />
+    <Compile Include="ViewModels\ViewModelTools\WeeklyTimeViewModel.cs" />
+    <Compile Include="ViewModels\VITimeRegistrationViewModel.cs" />
+    <Compile Include="ViewModels\TimeRegistrationViewModel.cs" />
+    <Compile Include="ViewModels\UserAssignmentViewModel.cs" />
+    <Compile Include="ViewModels\UsersViewModel.cs" />
+    <Compile Include="VI_Comments.cs">
+      <DependentUpon>WebTool.tt</DependentUpon>
+    </Compile>
+    <Compile Include="VI_OrderNumber.cs">
+      <DependentUpon>WebTool.tt</DependentUpon>
+    </Compile>
+    <Compile Include="VI_Projects.cs">
+      <DependentUpon>WebTool.tt</DependentUpon>
+    </Compile>
+    <Compile Include="VI_TaskType.cs">
+      <DependentUpon>WebTool.tt</DependentUpon>
+    </Compile>
+    <Compile Include="VI_TimeRegistration.cs">
+      <DependentUpon>WebTool.tt</DependentUpon>
+    </Compile>
+    <Compile Include="VI_TimeType.cs">
+      <DependentUpon>WebTool.tt</DependentUpon>
+    </Compile>
+    <Compile Include="VI_UserAssignment.cs">
+      <DependentUpon>WebTool.tt</DependentUpon>
+    </Compile>
+    <Compile Include="VI_UserAssignmentController.cs" />
+    <Compile Include="VI_Users.cs">
+      <DependentUpon>WebTool.tt</DependentUpon>
+    </Compile>
+    <Compile Include="VI_UserTimePerProject.cs">
       <DependentUpon>WebTool.tt</DependentUpon>
     </Compile>
     <Compile Include="WebTool.Context.cs">
@@ -228,6 +290,48 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Styles.css" />
+    <Content Include="Content\themes\base\accordion.css" />
+    <Content Include="Content\themes\base\all.css" />
+    <Content Include="Content\themes\base\autocomplete.css" />
+    <Content Include="Content\themes\base\base.css" />
+    <Content Include="Content\themes\base\button.css" />
+    <Content Include="Content\themes\base\core.css" />
+    <Content Include="Content\themes\base\datepicker.css" />
+    <Content Include="Content\themes\base\dialog.css" />
+    <Content Include="Content\themes\base\draggable.css" />
+    <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="Content\themes\base\images\ui-icons_222222_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_444444_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_454545_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_555555_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_777620_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_777777_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_888888_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_cc0000_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_ffffff_256x240.png" />
+    <Content Include="Content\themes\base\jquery-ui.css" />
+    <Content Include="Content\themes\base\jquery-ui.min.css" />
+    <Content Include="Content\themes\base\menu.css" />
+    <Content Include="Content\themes\base\progressbar.css" />
+    <Content Include="Content\themes\base\resizable.css" />
+    <Content Include="Content\themes\base\selectable.css" />
+    <Content Include="Content\themes\base\selectmenu.css" />
+    <Content Include="Content\themes\base\slider.css" />
+    <Content Include="Content\themes\base\sortable.css" />
+    <Content Include="Content\themes\base\spinner.css" />
+    <Content Include="Content\themes\base\tabs.css" />
+    <Content Include="Content\themes\base\theme.css" />
+    <Content Include="Content\themes\base\tooltip.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -239,13 +343,16 @@
       <LastGenOutput>WebTool.cs</LastGenOutput>
       <DependentUpon>WebTool.edmx</DependentUpon>
     </Content>
+    <None Include="Scripts\jquery-1.12.4.intellisense.js" />
+    <Content Include="Scripts\jquery-1.12.4.js" />
+    <Content Include="Scripts\jquery-1.12.4.min.js" />
+    <Content Include="Scripts\jquery-ui-1.12.1.js" />
+    <Content Include="Scripts\jquery-ui-1.12.1.min.js" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
-    <Content Include="Scripts\jquery-1.10.2.js" />
-    <Content Include="Scripts\jquery-1.10.2.min.js" />
+    <Content Include="Scripts\jquery-1.12.4.min.map" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
@@ -295,11 +402,10 @@
     <Content Include="Views\Users\Details.cshtml" />
     <Content Include="Views\Users\Edit.cshtml" />
     <Content Include="Views\Users\Index.cshtml" />
-    <Content Include="Views\TaskTypes\Create.cshtml" />
-    <Content Include="Views\TaskTypes\Delete.cshtml" />
-    <Content Include="Views\TaskTypes\Details.cshtml" />
-    <Content Include="Views\TaskTypes\Edit.cshtml" />
-    <Content Include="Views\TaskTypes\Index.cshtml" />
+    <Content Include="Views\TaskType\Create.cshtml" />
+    <Content Include="Views\TaskType\Delete.cshtml" />
+    <Content Include="Views\TaskType\Details.cshtml" />
+    <Content Include="Views\TaskType\Edit.cshtml" />
     <Content Include="Views\TimeRegistrations\Create.cshtml" />
     <Content Include="Views\TimeRegistrations\Delete.cshtml" />
     <Content Include="Views\TimeRegistrations\Details.cshtml" />
@@ -310,6 +416,17 @@
     <Content Include="Views\UserAssignments\Details.cshtml" />
     <Content Include="Views\UserAssignments\Edit.cshtml" />
     <Content Include="Views\UserAssignments\Index.cshtml" />
+    <Content Include="Views\Projects\Create.cshtml" />
+    <Content Include="Views\Projects\Delete.cshtml" />
+    <Content Include="Views\Projects\Details.cshtml" />
+    <Content Include="Views\Projects\Edit.cshtml" />
+    <Content Include="Views\Projects\Index.cshtml" />
+    <Content Include="Views\Comments\Create.cshtml" />
+    <Content Include="Views\Comments\Delete.cshtml" />
+    <Content Include="Views\Comments\Details.cshtml" />
+    <Content Include="Views\Comments\Edit.cshtml" />
+    <Content Include="Views\Comments\Index.cshtml" />
+    <Content Include="Views\TaskType\Index.cshtml" />
     <EntityDeploy Include="WebTool.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>WebTool.Designer.cs</LastGenOutput>
@@ -322,19 +439,20 @@
     <Content Include="WebTool.edmx.diagram">
       <DependentUpon>WebTool.edmx</DependentUpon>
     </Content>
-    <Content Include="Views\Projects\Create.cshtml" />
-    <Content Include="Views\Projects\Delete.cshtml" />
-    <Content Include="Views\Projects\Details.cshtml" />
-    <Content Include="Views\Projects\Edit.cshtml" />
-    <Content Include="Views\Projects\Index.cshtml" />
-    <Content Include="Views\Comments\Create.cshtml" />
-    <Content Include="Views\Comments\Delete.cshtml" />
-    <Content Include="Views\Comments\Details.cshtml" />
-    <Content Include="Views\Comments\Edit.cshtml" />
-    <Content Include="Views\Comments\Index.cshtml" />
+    <Content Include="Views\OrderNumber\Create.cshtml" />
+    <Content Include="Views\OrderNumber\Delete.cshtml" />
+    <Content Include="Views\OrderNumber\Details.cshtml" />
+    <Content Include="Views\OrderNumber\Edit.cshtml" />
+    <Content Include="Views\OrderNumber\Index.cshtml" />
+    <Content Include="Views\TimeType\Create.cshtml" />
+    <Content Include="Views\TimeType\Delete.cshtml" />
+    <Content Include="Views\TimeType\Details.cshtml" />
+    <Content Include="Views\TimeType\Edit.cshtml" />
+    <Content Include="Views\TimeType\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Tools\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -342,7 +460,6 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
-    <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

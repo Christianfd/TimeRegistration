@@ -12,6 +12,8 @@ namespace TimeReg
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Core.Objects;
+    using System.Linq;
     
     public partial class WebToolEntities1 : DbContext
     {
@@ -25,11 +27,423 @@ namespace TimeReg
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<VI_Comments> VI_Comments { get; set; }
+        public virtual DbSet<VI_UserAssignment> VI_UserAssignment { get; set; }
+        public virtual DbSet<VI_Users> VI_Users { get; set; }
         public virtual DbSet<Comments> Comments { get; set; }
-        public virtual DbSet<Projects> Projects { get; set; }
         public virtual DbSet<TaskType> TaskType { get; set; }
         public virtual DbSet<TimeRegistration> TimeRegistration { get; set; }
         public virtual DbSet<UserAssignment> UserAssignment { get; set; }
         public virtual DbSet<Users> Users { get; set; }
+        public virtual DbSet<VI_TaskType> VI_TaskType { get; set; }
+        public virtual DbSet<VI_UserTimePerProject> VI_UserTimePerProject { get; set; }
+        public virtual DbSet<VI_TimeRegistration> VI_TimeRegistration { get; set; }
+        public virtual DbSet<VI_OrderNumber> VI_OrderNumber { get; set; }
+        public virtual DbSet<Projects> Projects { get; set; }
+        public virtual DbSet<OrderNumber> OrderNumber { get; set; }
+        public virtual DbSet<TimeType> TimeType { get; set; }
+        public virtual DbSet<VI_TimeType> VI_TimeType { get; set; }
+        public virtual DbSet<VI_Projects> VI_Projects { get; set; }
+    
+        public virtual ObjectResult<SP_AddUser_Result> SP_AddUser(string userName, string userAuthentity)
+        {
+            var userNameParameter = userName != null ?
+                new ObjectParameter("UserName", userName) :
+                new ObjectParameter("UserName", typeof(string));
+    
+            var userAuthentityParameter = userAuthentity != null ?
+                new ObjectParameter("UserAuthentity", userAuthentity) :
+                new ObjectParameter("UserAuthentity", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_AddUser_Result>("SP_AddUser", userNameParameter, userAuthentityParameter);
+        }
+    
+        public virtual int SP_AddTaskType(string taskTypeName)
+        {
+            var taskTypeNameParameter = taskTypeName != null ?
+                new ObjectParameter("taskTypeName", taskTypeName) :
+                new ObjectParameter("taskTypeName", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_AddTaskType", taskTypeNameParameter);
+        }
+    
+        public virtual ObjectResult<SP_TaskTypeFind_Result> SP_TaskTypeFind(Nullable<int> taskTypeID)
+        {
+            var taskTypeIDParameter = taskTypeID.HasValue ?
+                new ObjectParameter("TaskTypeID", taskTypeID) :
+                new ObjectParameter("TaskTypeID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_TaskTypeFind_Result>("SP_TaskTypeFind", taskTypeIDParameter);
+        }
+    
+        public virtual int SP_AddComment(Nullable<int> weekNumber, Nullable<int> year, string text, Nullable<int> projectKey, Nullable<int> userKey)
+        {
+            var weekNumberParameter = weekNumber.HasValue ?
+                new ObjectParameter("weekNumber", weekNumber) :
+                new ObjectParameter("weekNumber", typeof(int));
+    
+            var yearParameter = year.HasValue ?
+                new ObjectParameter("year", year) :
+                new ObjectParameter("year", typeof(int));
+    
+            var textParameter = text != null ?
+                new ObjectParameter("text", text) :
+                new ObjectParameter("text", typeof(string));
+    
+            var projectKeyParameter = projectKey.HasValue ?
+                new ObjectParameter("projectKey", projectKey) :
+                new ObjectParameter("projectKey", typeof(int));
+    
+            var userKeyParameter = userKey.HasValue ?
+                new ObjectParameter("userKey", userKey) :
+                new ObjectParameter("userKey", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_AddComment", weekNumberParameter, yearParameter, textParameter, projectKeyParameter, userKeyParameter);
+        }
+    
+        public virtual int SP_UpdateTaskType(Nullable<int> updateId, string taskTypeName)
+        {
+            var updateIdParameter = updateId.HasValue ?
+                new ObjectParameter("UpdateId", updateId) :
+                new ObjectParameter("UpdateId", typeof(int));
+    
+            var taskTypeNameParameter = taskTypeName != null ?
+                new ObjectParameter("taskTypeName", taskTypeName) :
+                new ObjectParameter("taskTypeName", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_UpdateTaskType", updateIdParameter, taskTypeNameParameter);
+        }
+    
+        public virtual int SP_RemoveTaskType(Nullable<int> removeId)
+        {
+            var removeIdParameter = removeId.HasValue ?
+                new ObjectParameter("RemoveId", removeId) :
+                new ObjectParameter("RemoveId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_RemoveTaskType", removeIdParameter);
+        }
+    
+        public virtual int SP_UpdateComments(Nullable<int> updateId, Nullable<int> weekNr, Nullable<int> year, string text, Nullable<int> projectId, Nullable<int> userId)
+        {
+            var updateIdParameter = updateId.HasValue ?
+                new ObjectParameter("UpdateId", updateId) :
+                new ObjectParameter("UpdateId", typeof(int));
+    
+            var weekNrParameter = weekNr.HasValue ?
+                new ObjectParameter("WeekNr", weekNr) :
+                new ObjectParameter("WeekNr", typeof(int));
+    
+            var yearParameter = year.HasValue ?
+                new ObjectParameter("Year", year) :
+                new ObjectParameter("Year", typeof(int));
+    
+            var textParameter = text != null ?
+                new ObjectParameter("Text", text) :
+                new ObjectParameter("Text", typeof(string));
+    
+            var projectIdParameter = projectId.HasValue ?
+                new ObjectParameter("ProjectId", projectId) :
+                new ObjectParameter("ProjectId", typeof(int));
+    
+            var userIdParameter = userId.HasValue ?
+                new ObjectParameter("UserId", userId) :
+                new ObjectParameter("UserId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_UpdateComments", updateIdParameter, weekNrParameter, yearParameter, textParameter, projectIdParameter, userIdParameter);
+        }
+    
+        public virtual int SP_RemoveComment(Nullable<int> removeId)
+        {
+            var removeIdParameter = removeId.HasValue ?
+                new ObjectParameter("RemoveId", removeId) :
+                new ObjectParameter("RemoveId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_RemoveComment", removeIdParameter);
+        }
+    
+        public virtual int SP_AddProject(string projectName, Nullable<int> orderNumber, Nullable<int> timeEstimation, Nullable<int> fK_ProjectLeader, string scope, Nullable<int> timeType)
+        {
+            var projectNameParameter = projectName != null ?
+                new ObjectParameter("ProjectName", projectName) :
+                new ObjectParameter("ProjectName", typeof(string));
+    
+            var orderNumberParameter = orderNumber.HasValue ?
+                new ObjectParameter("OrderNumber", orderNumber) :
+                new ObjectParameter("OrderNumber", typeof(int));
+    
+            var timeEstimationParameter = timeEstimation.HasValue ?
+                new ObjectParameter("TimeEstimation", timeEstimation) :
+                new ObjectParameter("TimeEstimation", typeof(int));
+    
+            var fK_ProjectLeaderParameter = fK_ProjectLeader.HasValue ?
+                new ObjectParameter("FK_ProjectLeader", fK_ProjectLeader) :
+                new ObjectParameter("FK_ProjectLeader", typeof(int));
+    
+            var scopeParameter = scope != null ?
+                new ObjectParameter("Scope", scope) :
+                new ObjectParameter("Scope", typeof(string));
+    
+            var timeTypeParameter = timeType.HasValue ?
+                new ObjectParameter("timeType", timeType) :
+                new ObjectParameter("timeType", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_AddProject", projectNameParameter, orderNumberParameter, timeEstimationParameter, fK_ProjectLeaderParameter, scopeParameter, timeTypeParameter);
+        }
+    
+        public virtual int SP_RemoveProject(Nullable<int> removeId)
+        {
+            var removeIdParameter = removeId.HasValue ?
+                new ObjectParameter("RemoveId", removeId) :
+                new ObjectParameter("RemoveId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_RemoveProject", removeIdParameter);
+        }
+    
+        public virtual int SP_UpdateProject(Nullable<int> updateId, string projectName, Nullable<int> orderNumber, Nullable<int> timeEstimation, Nullable<int> fK_ProjectLeader, string scope, Nullable<int> timeType)
+        {
+            var updateIdParameter = updateId.HasValue ?
+                new ObjectParameter("UpdateId", updateId) :
+                new ObjectParameter("UpdateId", typeof(int));
+    
+            var projectNameParameter = projectName != null ?
+                new ObjectParameter("ProjectName", projectName) :
+                new ObjectParameter("ProjectName", typeof(string));
+    
+            var orderNumberParameter = orderNumber.HasValue ?
+                new ObjectParameter("OrderNumber", orderNumber) :
+                new ObjectParameter("OrderNumber", typeof(int));
+    
+            var timeEstimationParameter = timeEstimation.HasValue ?
+                new ObjectParameter("TimeEstimation", timeEstimation) :
+                new ObjectParameter("TimeEstimation", typeof(int));
+    
+            var fK_ProjectLeaderParameter = fK_ProjectLeader.HasValue ?
+                new ObjectParameter("FK_ProjectLeader", fK_ProjectLeader) :
+                new ObjectParameter("FK_ProjectLeader", typeof(int));
+    
+            var scopeParameter = scope != null ?
+                new ObjectParameter("Scope", scope) :
+                new ObjectParameter("Scope", typeof(string));
+    
+            var timeTypeParameter = timeType.HasValue ?
+                new ObjectParameter("timeType", timeType) :
+                new ObjectParameter("timeType", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_UpdateProject", updateIdParameter, projectNameParameter, orderNumberParameter, timeEstimationParameter, fK_ProjectLeaderParameter, scopeParameter, timeTypeParameter);
+        }
+    
+        public virtual int SP_AddTimeRegistration(Nullable<int> userId, Nullable<int> projectId, Nullable<int> orderId, Nullable<int> taskId, Nullable<int> timeRegistered, Nullable<System.DateTime> date, Nullable<System.DateTime> dateEntry, string comment)
+        {
+            var userIdParameter = userId.HasValue ?
+                new ObjectParameter("UserId", userId) :
+                new ObjectParameter("UserId", typeof(int));
+    
+            var projectIdParameter = projectId.HasValue ?
+                new ObjectParameter("ProjectId", projectId) :
+                new ObjectParameter("ProjectId", typeof(int));
+    
+            var orderIdParameter = orderId.HasValue ?
+                new ObjectParameter("OrderId", orderId) :
+                new ObjectParameter("OrderId", typeof(int));
+    
+            var taskIdParameter = taskId.HasValue ?
+                new ObjectParameter("TaskId", taskId) :
+                new ObjectParameter("TaskId", typeof(int));
+    
+            var timeRegisteredParameter = timeRegistered.HasValue ?
+                new ObjectParameter("TimeRegistered", timeRegistered) :
+                new ObjectParameter("TimeRegistered", typeof(int));
+    
+            var dateParameter = date.HasValue ?
+                new ObjectParameter("Date", date) :
+                new ObjectParameter("Date", typeof(System.DateTime));
+    
+            var dateEntryParameter = dateEntry.HasValue ?
+                new ObjectParameter("DateEntry", dateEntry) :
+                new ObjectParameter("DateEntry", typeof(System.DateTime));
+    
+            var commentParameter = comment != null ?
+                new ObjectParameter("Comment", comment) :
+                new ObjectParameter("Comment", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_AddTimeRegistration", userIdParameter, projectIdParameter, orderIdParameter, taskIdParameter, timeRegisteredParameter, dateParameter, dateEntryParameter, commentParameter);
+        }
+    
+        public virtual int SP_RemoveTimeRegistration(Nullable<int> removeId)
+        {
+            var removeIdParameter = removeId.HasValue ?
+                new ObjectParameter("RemoveId", removeId) :
+                new ObjectParameter("RemoveId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_RemoveTimeRegistration", removeIdParameter);
+        }
+    
+        public virtual int SP_UpdateTimeRegistration(Nullable<int> updateId, Nullable<int> userId, Nullable<int> projectId, Nullable<int> orderId, Nullable<int> taskId, Nullable<int> timeRegistered, Nullable<System.DateTime> date, Nullable<System.DateTime> dateEntry, string comment)
+        {
+            var updateIdParameter = updateId.HasValue ?
+                new ObjectParameter("UpdateId", updateId) :
+                new ObjectParameter("UpdateId", typeof(int));
+    
+            var userIdParameter = userId.HasValue ?
+                new ObjectParameter("UserId", userId) :
+                new ObjectParameter("UserId", typeof(int));
+    
+            var projectIdParameter = projectId.HasValue ?
+                new ObjectParameter("ProjectId", projectId) :
+                new ObjectParameter("ProjectId", typeof(int));
+    
+            var orderIdParameter = orderId.HasValue ?
+                new ObjectParameter("OrderId", orderId) :
+                new ObjectParameter("OrderId", typeof(int));
+    
+            var taskIdParameter = taskId.HasValue ?
+                new ObjectParameter("TaskId", taskId) :
+                new ObjectParameter("TaskId", typeof(int));
+    
+            var timeRegisteredParameter = timeRegistered.HasValue ?
+                new ObjectParameter("TimeRegistered", timeRegistered) :
+                new ObjectParameter("TimeRegistered", typeof(int));
+    
+            var dateParameter = date.HasValue ?
+                new ObjectParameter("Date", date) :
+                new ObjectParameter("Date", typeof(System.DateTime));
+    
+            var dateEntryParameter = dateEntry.HasValue ?
+                new ObjectParameter("DateEntry", dateEntry) :
+                new ObjectParameter("DateEntry", typeof(System.DateTime));
+    
+            var commentParameter = comment != null ?
+                new ObjectParameter("Comment", comment) :
+                new ObjectParameter("Comment", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_UpdateTimeRegistration", updateIdParameter, userIdParameter, projectIdParameter, orderIdParameter, taskIdParameter, timeRegisteredParameter, dateParameter, dateEntryParameter, commentParameter);
+        }
+    
+        public virtual int SP_RemoveUser(Nullable<int> removeId)
+        {
+            var removeIdParameter = removeId.HasValue ?
+                new ObjectParameter("RemoveId", removeId) :
+                new ObjectParameter("RemoveId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_RemoveUser", removeIdParameter);
+        }
+    
+        public virtual int SP_UpdateUser(Nullable<int> updateId, string userName, string userAuthentity)
+        {
+            var updateIdParameter = updateId.HasValue ?
+                new ObjectParameter("UpdateId", updateId) :
+                new ObjectParameter("UpdateId", typeof(int));
+    
+            var userNameParameter = userName != null ?
+                new ObjectParameter("UserName", userName) :
+                new ObjectParameter("UserName", typeof(string));
+    
+            var userAuthentityParameter = userAuthentity != null ?
+                new ObjectParameter("UserAuthentity", userAuthentity) :
+                new ObjectParameter("UserAuthentity", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_UpdateUser", updateIdParameter, userNameParameter, userAuthentityParameter);
+        }
+    
+        public virtual int SP_AddUserAssignment(Nullable<int> userId, Nullable<int> projectId)
+        {
+            var userIdParameter = userId.HasValue ?
+                new ObjectParameter("UserId", userId) :
+                new ObjectParameter("UserId", typeof(int));
+    
+            var projectIdParameter = projectId.HasValue ?
+                new ObjectParameter("ProjectId", projectId) :
+                new ObjectParameter("ProjectId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_AddUserAssignment", userIdParameter, projectIdParameter);
+        }
+    
+        public virtual int SP_RemoveUserAssignment(Nullable<int> removeId)
+        {
+            var removeIdParameter = removeId.HasValue ?
+                new ObjectParameter("RemoveId", removeId) :
+                new ObjectParameter("RemoveId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_RemoveUserAssignment", removeIdParameter);
+        }
+    
+        public virtual int SP_UpdateUserAssignment(Nullable<int> updateId, Nullable<int> userId, Nullable<int> projectId)
+        {
+            var updateIdParameter = updateId.HasValue ?
+                new ObjectParameter("UpdateId", updateId) :
+                new ObjectParameter("UpdateId", typeof(int));
+    
+            var userIdParameter = userId.HasValue ?
+                new ObjectParameter("UserId", userId) :
+                new ObjectParameter("UserId", typeof(int));
+    
+            var projectIdParameter = projectId.HasValue ?
+                new ObjectParameter("ProjectId", projectId) :
+                new ObjectParameter("ProjectId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_UpdateUserAssignment", updateIdParameter, userIdParameter, projectIdParameter);
+        }
+    
+        public virtual int SP_AddOrderNumber(string numberName)
+        {
+            var numberNameParameter = numberName != null ?
+                new ObjectParameter("NumberName", numberName) :
+                new ObjectParameter("NumberName", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_AddOrderNumber", numberNameParameter);
+        }
+    
+        public virtual int SP_RemoveOrderNumber(Nullable<int> removeId)
+        {
+            var removeIdParameter = removeId.HasValue ?
+                new ObjectParameter("RemoveId", removeId) :
+                new ObjectParameter("RemoveId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_RemoveOrderNumber", removeIdParameter);
+        }
+    
+        public virtual int SP_UpdateOrderNumber(Nullable<int> updateId, string orderNumberName)
+        {
+            var updateIdParameter = updateId.HasValue ?
+                new ObjectParameter("UpdateId", updateId) :
+                new ObjectParameter("UpdateId", typeof(int));
+    
+            var orderNumberNameParameter = orderNumberName != null ?
+                new ObjectParameter("OrderNumberName", orderNumberName) :
+                new ObjectParameter("OrderNumberName", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_UpdateOrderNumber", updateIdParameter, orderNumberNameParameter);
+        }
+    
+        public virtual int SP_AddTimeType(string timeTypeName)
+        {
+            var timeTypeNameParameter = timeTypeName != null ?
+                new ObjectParameter("timeTypeName", timeTypeName) :
+                new ObjectParameter("timeTypeName", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_AddTimeType", timeTypeNameParameter);
+        }
+    
+        public virtual int SP_RemoveTimeType(Nullable<int> removeId)
+        {
+            var removeIdParameter = removeId.HasValue ?
+                new ObjectParameter("RemoveId", removeId) :
+                new ObjectParameter("RemoveId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_RemoveTimeType", removeIdParameter);
+        }
+    
+        public virtual int SP_UpdateTimeType(Nullable<int> updateId, string timeTypeName)
+        {
+            var updateIdParameter = updateId.HasValue ?
+                new ObjectParameter("UpdateId", updateId) :
+                new ObjectParameter("UpdateId", typeof(int));
+    
+            var timeTypeNameParameter = timeTypeName != null ?
+                new ObjectParameter("timeTypeName", timeTypeName) :
+                new ObjectParameter("timeTypeName", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_UpdateTimeType", updateIdParameter, timeTypeNameParameter);
+        }
     }
 }

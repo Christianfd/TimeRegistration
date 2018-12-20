@@ -1,4 +1,4 @@
-﻿@model IEnumerable<TimeReg.Projects>
+﻿@model List<TimeReg.VI_Projects>
 
 @{
     ViewBag.Title = "Index";
@@ -7,24 +7,27 @@
 <h2>Index</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Create New", "Create")    
 </p>
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Name)
+            Project Name
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.DSA)
+            Order Number
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.TimeEstimation)
+            Estimated Time
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Comments.Text)
+            Actual Hours
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Users.NK_Name)
+            Project Leader
+        </th>
+        <th>
+            Time Type
         </th>
         <th></th>
     </tr>
@@ -35,16 +38,20 @@
             @Html.DisplayFor(modelItem => item.Name)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.DSA)
+            @Html.DisplayFor(modelItem => item.OrderName)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.TimeEstimation)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Comments.Text)
+            @Html.DisplayFor(modelItem => item.timeSum)
+        </td>
+
+        <td>
+            @Html.DisplayFor(modelItem => item.UserName)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Users.NK_Name)
+            @Html.DisplayFor(modelItem => item.TimeTypeName)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.PK_Id }) |

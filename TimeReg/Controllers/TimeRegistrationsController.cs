@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using TimeReg;
+using TimeReg.ViewModels;
 
 namespace TimeReg.Controllers
 {
@@ -17,8 +18,8 @@ namespace TimeReg.Controllers
         // GET: TimeRegistrations
         public ActionResult Index()
         {
-            var timeRegistration = db.TimeRegistration.Include(t => t.Projects).Include(t => t.TaskType).Include(t => t.Users);
-            return View(timeRegistration.ToList());
+            var timeRegistrationViewModel = new TimeRegistrationViewModel(db.VI_TimeRegistration.ToList());
+            return View(timeRegistrationViewModel);
         }
 
         // GET: TimeRegistrations/Details/5
@@ -28,7 +29,8 @@ namespace TimeReg.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            TimeRegistration timeRegistration = db.TimeRegistration.Find(id);
+            VI_TimeRegistration timeRegistrationView = db.VI_TimeRegistration.SingleOrDefault(m => m.PK_Id == id);
+            TimeRegistrationViewModel timeRegistration = new TimeRegistrationViewModel(timeRegistrationView);
             if (timeRegistration == null)
             {
                 return HttpNotFound();
@@ -39,9 +41,10 @@ namespace TimeReg.Controllers
         // GET: TimeRegistrations/Create
         public ActionResult Create()
         {
-            ViewBag.FK_ProjectId = new SelectList(db.Projects, "PK_Id", "Name");
-            ViewBag.FK_TaskId = new SelectList(db.TaskType, "PK_Id", "Name");
-            ViewBag.FK_UserId = new SelectList(db.Users, "PK_Id", "NK_Name");
+            ViewBag.FK_ProjectId = new SelectList(db.VI_Projects, "PK_Id", "Name");
+            ViewBag.FK_OrderId = new SelectList(db.VI_OrderNumber, "PK_Id", "Number");
+            ViewBag.FK_TaskId = new SelectList(db.VI_TaskType, "PK_Id", "Name");
+            ViewBag.FK_UserId = new SelectList(db.VI_Users, "PK_Id", "NK_Name");
             return View();
         }
 
@@ -52,18 +55,21 @@ namespace TimeReg.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "PK_Id,FK_UserId,FK_ProjectId,FK_TaskId,time,Date,DateEntry")] TimeRegistration timeRegistration)
+        public ActionResult Create([Bind(Include = "PK_Id,FK_UserId,FK_ProjectId,FK_OrderId,FK_TaskId,time,Date,DateEntry")] TimeRegistrationViewModel timeRegistration)
         {
+            timeRegistration.DateEntry = DateTime.Now;
             if (ModelState.IsValid)
             {
-                db.TimeRegistration.Add(timeRegistration);
+             
+                db.SP_AddTimeRegistration(timeRegistration.FK_UserId, timeRegistration.FK_ProjectId,timeRegistration.FK_OrderId, timeRegistration.FK_TaskId, timeRegistration.Time, timeRegistration.Date, DateTime.Now, timeRegistration.Comment);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.FK_ProjectId = new SelectList(db.Projects, "PK_Id", "Name", timeRegistration.FK_ProjectId);
-            ViewBag.FK_TaskId = new SelectList(db.TaskType, "PK_Id", "Name", timeRegistration.FK_TaskId);
-            ViewBag.FK_UserId = new SelectList(db.Users, "PK_Id", "NK_Name", timeRegistration.FK_UserId);
+            ViewBag.FK_ProjectId = new SelectList(db.VI_Projects, "PK_Id", "Name", timeRegistration.FK_ProjectId);
+            ViewBag.FK_OrderId = new SelectList(db.VI_OrderNumber, "PK_Id", "Number", timeRegistration.FK_OrderId);
+            ViewBag.FK_TaskId = new SelectList(db.VI_TaskType, "PK_Id", "Name", timeRegistration.FK_TaskId);
+            ViewBag.FK_UserId = new SelectList(db.VI_Users, "PK_Id", "NK_Name", timeRegistration.FK_UserId);
             return View(timeRegistration);
         }
 
@@ -74,15 +80,17 @@ namespace TimeReg.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            TimeRegistration timeRegistration = db.TimeRegistration.Find(id);
-            if (timeRegistration == null)
+            VI_TimeRegistration timeRegistration = db.VI_TimeRegistration.SingleOrDefault(m => m.PK_Id == id);
+            var timeRegistrationViewModel = new TimeRegistrationViewModel(timeRegistration);
+            if (timeRegistrationViewModel == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.FK_ProjectId = new SelectList(db.Projects, "PK_Id", "Name", timeRegistration.FK_ProjectId);
-            ViewBag.FK_TaskId = new SelectList(db.TaskType, "PK_Id", "Name", timeRegistration.FK_TaskId);
-            ViewBag.FK_UserId = new SelectList(db.Users, "PK_Id", "NK_Name", timeRegistration.FK_UserId);
-            return View(timeRegistration);
+            ViewBag.FK_ProjectId = new SelectList(db.VI_Projects, "PK_Id", "Name", timeRegistrationViewModel.FK_ProjectId);
+            ViewBag.FK_OrderId = new SelectList(db.VI_OrderNumber, "PK_Id", "Number", timeRegistration.FK_OrderId);
+            ViewBag.FK_TaskId = new SelectList(db.VI_TaskType, "PK_Id", "Name", timeRegistrationViewModel.FK_TaskId);
+            ViewBag.FK_UserId = new SelectList(db.VI_Users, "PK_Id", "NK_Name", timeRegistrationViewModel.FK_UserId);
+            return View(timeRegistrationViewModel);
         }
 
         // POST: TimeRegistrations/Edit/5
@@ -90,17 +98,20 @@ namespace TimeReg.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "PK_Id,FK_UserId,FK_ProjectId,FK_TaskId,time,Date,DateEntry")] TimeRegistration timeRegistration)
+        public ActionResult Edit([Bind(Include = "PK_Id,FK_UserId,FK_ProjectId,FK_OrderId,FK_TaskId,time,Date,DateEntry")] TimeRegistrationViewModel timeRegistration)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(timeRegistration).State = EntityState.Modified;
+                db.SP_UpdateTimeRegistration(timeRegistration.PK_Id, timeRegistration.FK_UserId, timeRegistration.FK_ProjectId, timeRegistration.FK_OrderId, timeRegistration.FK_TaskId, timeRegistration.Time, timeRegistration.Date, timeRegistration.DateEntry, timeRegistration.Comment);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.FK_ProjectId = new SelectList(db.Projects, "PK_Id", "Name", timeRegistration.FK_ProjectId);
-            ViewBag.FK_TaskId = new SelectList(db.TaskType, "PK_Id", "Name", timeRegistration.FK_TaskId);
-            ViewBag.FK_UserId = new SelectList(db.Users, "PK_Id", "NK_Name", timeRegistration.FK_UserId);
+        
+
+            ViewBag.FK_ProjectId = new SelectList(db.VI_Projects, "PK_Id", "Name", timeRegistration.FK_ProjectId);
+            ViewBag.FK_OrderId = new SelectList(db.VI_OrderNumber, "PK_Id", "Number", timeRegistration.FK_OrderId);
+            ViewBag.FK_TaskId = new SelectList(db.VI_TaskType, "PK_Id", "Name", timeRegistration.FK_TaskId);
+            ViewBag.FK_UserId = new SelectList(db.VI_Users, "PK_Id", "NK_Name", timeRegistration.FK_UserId);
             return View(timeRegistration);
         }
 
@@ -111,12 +122,13 @@ namespace TimeReg.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            TimeRegistration timeRegistration = db.TimeRegistration.Find(id);
+            VI_TimeRegistration timeRegistration = db.VI_TimeRegistration.SingleOrDefault(m => m.PK_Id == id);
+            var timeRegistrationViewModel = new TimeRegistrationViewModel(timeRegistration);
             if (timeRegistration == null)
             {
                 return HttpNotFound();
             }
-            return View(timeRegistration);
+            return View(timeRegistrationViewModel);
         }
 
         // POST: TimeRegistrations/Delete/5
@@ -124,11 +136,22 @@ namespace TimeReg.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            TimeRegistration timeRegistration = db.TimeRegistration.Find(id);
-            db.TimeRegistration.Remove(timeRegistration);
+            //VI_TimeRegistration timeRegistration = db.VI_TimeRegistration.SingleOrDefault(m => m.PK_Id == id);
+        
+            db.SP_RemoveTimeRegistration(id);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
+
+
+
+        //[HttpPost]
+        //[STAThread]
+        //public void ClipboardMethod()
+        //{
+        //    String Clipboard;
+        //    Clipboard.SetText("boo yah!", TextDataFormat.Html);
+        //}
 
         protected override void Dispose(bool disposing)
         {

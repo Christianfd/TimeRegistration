@@ -1,63 +1,68 @@
-﻿@model IEnumerable<TimeReg.Comments>
+﻿@model List<TimeReg.VI_Comments>
 
 @{
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
-
+<h2>Index of all comments</h2>
+<p>Table is a placeholder and needs restructure to account for the size of content</p>
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.WeekNr)
+            Week #
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Year)
+            Project
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Text)
+            By User
         </th>
+     
         <th>
-            @Html.DisplayNameFor(model => model.FK_ProjectId)
+           Year
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Projects.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Users.NK_Name)
-        </th>
+     
         <th></th>
     </tr>
 
 @foreach (var item in Model) {
-    <tr>
+    <tr class="table-content">
+   
         <td>
             @Html.DisplayFor(modelItem => item.WeekNr)
         </td>
         <td>
+            @Html.DisplayFor(modelItem => item.ProjectName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UserName)
+        </td>
+     
+        <td>
             @Html.DisplayFor(modelItem => item.Year)
         </td>
+       
         <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.PK_Id }) |
+            @Html.ActionLink("Details", "Details", new { id = item.PK_Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.PK_Id })
+        </td>
+       
+     
+       
+    </tr>
+
+    <tr>
+        <td class="table-comments-text" colspan="5"  >
             @Html.DisplayFor(modelItem => item.Text)
         </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.FK_ProjectId)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Projects.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Users.NK_Name)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.PK_Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.PK_Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.PK_Id })
-        </td>
+       
     </tr>
+
+                  
 }
 
 </table>

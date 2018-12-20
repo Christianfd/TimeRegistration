@@ -1,4 +1,5 @@
-﻿@model TimeReg.Projects
+﻿@model TimeReg.ViewModels.ProjectDetailsViewModel
+
 
 @{
     ViewBag.Title = "Details";
@@ -11,48 +12,118 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Name)
+           Order Number
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Name)
+            @Html.DisplayFor(model => model.VIProjects.OrderName)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.DSA)
+            Project
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.DSA)
+            @Html.DisplayFor(model => model.VIProjects.Name)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.TimeEstimation)
+            Project Scope
         </dt>
-
         <dd>
-            @Html.DisplayFor(model => model.TimeEstimation)
+            @Html.DisplayFor(model => model.VIProjects.Scope)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Comments.Text)
+            @Html.DisplayNameFor(model => model.VIProjects.TimeEstimation)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Comments.Text)
+            @Html.DisplayFor(model => model.VIProjects.TimeEstimation)
         </dd>
+        <dt>
+            Total Time Spent
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.VIProjects.timeSum)
+        </dd>
+
 
         <dt>
-            @Html.DisplayNameFor(model => model.Users.NK_Name)
+            Project Leader
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Users.NK_Name)
+            @Html.DisplayFor(model => model.VIProjects.UserName)
         </dd>
+        <dt>
+            Time Type
+        </dt>
 
+        <dd>
+            @Html.DisplayFor(model => model.VIProjects.TimeTypeName)
+        </dd>
     </dl>
+
+
+
+    <table>
+        <tr>
+            
+            <th>
+                <a class="btn " data-toggle="collapse" href="#collapseUserList" role="button" aria-expanded="false" aria-controls="collapseExample">
+                    Time Distribution
+                </a>
+            </th>
+            <th>
+                <a class="btn " data-toggle="collapse" href="#collapseCommentList" role="button" aria-expanded="false" aria-controls="collapseExample">
+                    Project Comments
+                </a>
+            </th>
+            
+        </tr>
+        <tr>
+            <th class="table-remove-float">
+                <div class="collapse" id="collapseUserList">
+                    <div class="card card-body">
+                        <dl class="dl-horizontal">
+                          
+                                @foreach (var item in Model.VITimeSpentPerUser)
+            {
+                                    <dt>
+                                        @Html.DisplayFor(modelItem => item.UserName)
+                                    </dt>
+                                    <dd>
+                                        @Html.DisplayFor(modelItem => item.timeSum)
+                                    </dd>
+                                }
+                        </dl>
+                    </div>
+                </div>
+            </th>
+            <th>
+
+                <div class="collapse" id="collapseCommentList">
+                    <div class="card card-body ">
+                        <dl class="dl-horizontal">
+                            @foreach (var item in Model.VIComments.Where(m => m.FK_ProjectId == Model.VIProjects.PK_Id))
+            {
+                                <dt>
+                                    Week @Html.DisplayFor(modelItem => item.WeekNr)
+                                </dt>
+                                <dd>
+                                    @Html.DisplayFor(modelItem => item.Text)
+                                </dd>
+                            }
+                        </dl>
+                    </div>
+                </div>
+            </th>
+        </tr>
+    </table>
+
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.PK_Id }) |
+    @Html.ActionLink("Edit", "Edit", new { id = Model.VIProjects.PK_Id }) |
     @Html.ActionLink("Back to List", "Index")
 </p>
