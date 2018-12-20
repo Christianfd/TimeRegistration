@@ -28,19 +28,19 @@ namespace TimeReg
         }
     
         public virtual DbSet<Comments> Comments { get; set; }
+        public virtual DbSet<Country> Country { get; set; }
+        public virtual DbSet<CustomerRef> CustomerRef { get; set; }
         public virtual DbSet<OrderNumber> OrderNumber { get; set; }
+        public virtual DbSet<PlatformOrProduct> PlatformOrProduct { get; set; }
         public virtual DbSet<Projects> Projects { get; set; }
+        public virtual DbSet<Requester> Requester { get; set; }
+        public virtual DbSet<RequestOrg> RequestOrg { get; set; }
         public virtual DbSet<TaskType> TaskType { get; set; }
         public virtual DbSet<TimeRegistration> TimeRegistration { get; set; }
         public virtual DbSet<TimeType> TimeType { get; set; }
+        public virtual DbSet<Turbine> Turbine { get; set; }
         public virtual DbSet<UserAssignment> UserAssignment { get; set; }
         public virtual DbSet<Users> Users { get; set; }
-        public virtual DbSet<Country> Country { get; set; }
-        public virtual DbSet<CustomerRef> CustomerRef { get; set; }
-        public virtual DbSet<PlatformOrProduct> PlatformOrProduct { get; set; }
-        public virtual DbSet<Requester> Requester { get; set; }
-        public virtual DbSet<RequestOrg> RequestOrg { get; set; }
-        public virtual DbSet<Turbine> Turbine { get; set; }
         public virtual DbSet<VI_Comments> VI_Comments { get; set; }
         public virtual DbSet<VI_CustomerRef> VI_CustomerRef { get; set; }
         public virtual DbSet<VI_OrderNumber> VI_OrderNumber { get; set; }

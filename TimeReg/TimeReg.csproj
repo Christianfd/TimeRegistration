@@ -181,6 +181,7 @@
       <DependentUpon>WebTool.tt</DependentUpon>
     </Compile>
     <Compile Include="Controllers\CommentsController.cs" />
+    <Compile Include="Controllers\ProjectAndOrderToolsController.cs" />
     <Compile Include="Controllers\ProjectsController.cs" />
     <Compile Include="Controllers\ProjectControllers\TimeTypeController.cs" />
     <Compile Include="Controllers\UnusedControllers\AccountController.cs" />
@@ -478,6 +479,11 @@
     <Content Include="Views\TimeType\Details.cshtml" />
     <Content Include="Views\TimeType\Edit.cshtml" />
     <Content Include="Views\TimeType\Index.cshtml" />
+    <Content Include="Views\ProjectAndOrderTools\Create.cshtml" />
+    <Content Include="Views\ProjectAndOrderTools\Delete.cshtml" />
+    <Content Include="Views\ProjectAndOrderTools\Details.cshtml" />
+    <Content Include="Views\ProjectAndOrderTools\Edit.cshtml" />
+    <Content Include="Views\ProjectAndOrderTools\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

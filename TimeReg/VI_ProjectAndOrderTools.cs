@@ -17,7 +17,6 @@ namespace TimeReg
         public string Organization { get; set; }
         public string TimeTypeName { get; set; }
         public string TaskTypeName { get; set; }
-        public string CountryName { get; set; }
         public string CustomerRefName { get; set; }
         public string RequesterName { get; set; }
         public string TurbineName { get; set; }

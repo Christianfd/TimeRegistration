@@ -4,21 +4,21 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="a612a07b6598486a91ed0d8c5cd75cea" Name="Diagram1" ZoomLevel="74">
+      <Diagram DiagramId="a612a07b6598486a91ed0d8c5cd75cea" Name="Diagram1" ZoomLevel="64">
         <EntityTypeShape EntityType="WebToolModel.Comments" Width="1.5" PointX="3" PointY="4.875" />
-        <EntityTypeShape EntityType="WebToolModel.OrderNumber" Width="1.5" PointX="3.5" PointY="8.625" />
-        <EntityTypeShape EntityType="WebToolModel.Projects" Width="1.5" PointX="6" PointY="3.875" />
-        <EntityTypeShape EntityType="WebToolModel.TaskType" Width="1.5" PointX="9" PointY="2.375" />
-        <EntityTypeShape EntityType="WebToolModel.TimeRegistration" Width="1.5" PointX="11.75" PointY="5.5" />
-        <EntityTypeShape EntityType="WebToolModel.TimeType" Width="1.5" PointX="3.625" PointY="2.875" />
-        <EntityTypeShape EntityType="WebToolModel.UserAssignment" Width="1.5" PointX="8.375" PointY="6.375" />
-        <EntityTypeShape EntityType="WebToolModel.Users" Width="1.5" PointX="0.875" PointY="3.375" />
         <EntityTypeShape EntityType="WebToolModel.Country" Width="1.5" PointX="0.75" PointY="0.75" />
         <EntityTypeShape EntityType="WebToolModel.CustomerRef" Width="1.5" PointX="5.75" PointY="0.75" />
+        <EntityTypeShape EntityType="WebToolModel.OrderNumber" Width="1.5" PointX="3.75" PointY="8.25" />
         <EntityTypeShape EntityType="WebToolModel.PlatformOrProduct" Width="1.5" PointX="0.75" PointY="8.75" />
+        <EntityTypeShape EntityType="WebToolModel.Projects" Width="1.5" PointX="6" PointY="3.875" />
         <EntityTypeShape EntityType="WebToolModel.Requester" Width="1.5" PointX="5.75" PointY="9.75" />
         <EntityTypeShape EntityType="WebToolModel.RequestOrg" Width="1.5" PointX="7.75" PointY="9.75" />
+        <EntityTypeShape EntityType="WebToolModel.TaskType" Width="1.5" PointX="8.875" PointY="1.5" />
+        <EntityTypeShape EntityType="WebToolModel.TimeRegistration" Width="1.5" PointX="11.25" PointY="4.375" />
+        <EntityTypeShape EntityType="WebToolModel.TimeType" Width="1.5" PointX="3.75" PointY="1.875" />
         <EntityTypeShape EntityType="WebToolModel.Turbine" Width="1.5" PointX="9.75" PointY="9.75" />
+        <EntityTypeShape EntityType="WebToolModel.UserAssignment" Width="1.5" PointX="8.25" PointY="5.25" />
+        <EntityTypeShape EntityType="WebToolModel.Users" Width="1.5" PointX="0.75" PointY="5" />
         <EntityTypeShape EntityType="WebToolModel.VI_Comments" Width="1.5" PointX="11.75" PointY="0.75" />
         <EntityTypeShape EntityType="WebToolModel.VI_CustomerRef" Width="1.5" PointX="0.75" PointY="11.75" />
         <EntityTypeShape EntityType="WebToolModel.VI_OrderNumber" Width="1.5" PointX="2.75" PointY="11.75" />
@@ -41,8 +41,7 @@
         <AssociationConnector Association="WebToolModel.FK_UserAssignment_Projects" />
         <AssociationConnector Association="WebToolModel.FK_TimeRegistration_TaskType" />
         <AssociationConnector Association="WebToolModel.FK_TimeRegistration_TimeRegistration" />
-        <AssociationConnector Association="WebToolModel.FK_TimeRegistration_Users" ManuallyRouted="false" >
-        </AssociationConnector>
+        <AssociationConnector Association="WebToolModel.FK_TimeRegistration_Users" />
         <AssociationConnector Association="WebToolModel.FK_UserAssignment_Users" />
       </Diagram>
     </edmx:Diagrams>

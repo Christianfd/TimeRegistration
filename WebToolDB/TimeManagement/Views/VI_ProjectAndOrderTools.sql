@@ -3,7 +3,6 @@
 		[Organization],
 		[TimeType].[Name] as [TimeTypeName],
 		[TaskType].[Name] as [TaskTypeName],
-		[CountryName],
 		[CustomerRef].[Name] as [CustomerRefName],
 		[Requester].[Name] as [RequesterName],
 		[TurbineName],
@@ -19,6 +18,5 @@
 		[CustomerRef],
 		[Requester],
 		[PlatformOrProduct],
-		[Turbine],
-		[Country]
+		[Turbine]
 
