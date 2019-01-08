@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Data.Entity.Validation;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -53,36 +54,64 @@ namespace TimeReg.Controllers
                 //Check with Mik if this approach is "safe"
                 if (vI_ProjectAndOrderTools.Organization != null )
                 {
-                    var b = new RequestOrg { Organization = vI_ProjectAndOrderTools.Organization };
-                    db.RequestOrg.Add(b);
+                    var org = new RequestOrg { Organization = vI_ProjectAndOrderTools.Organization };
+                    db.RequestOrg.Add(org);
                 }
                 if (vI_ProjectAndOrderTools.TimeTypeName != null)
                 {
-
+                    var timeType = new TimeType { Name = vI_ProjectAndOrderTools.TimeTypeName };
+                    db.TimeType.Add(timeType);
                 }
                 if (vI_ProjectAndOrderTools.TaskTypeName != null)
                 {
+                    var taskType = new TaskType { Name = vI_ProjectAndOrderTools.TaskTypeName };
+                    db.TaskType.Add(taskType);
 
                 }
                 if (vI_ProjectAndOrderTools.CustomerRefName != null)
                 {
-
+                    var customerReference = new CustomerRef { Name = vI_ProjectAndOrderTools.CustomerRefName };
+                    db.CustomerRef.Add(customerReference);
                 }
                 if (vI_ProjectAndOrderTools.RequesterName != null)
                 {
-
+                    var requester = new Requester { Name = vI_ProjectAndOrderTools.RequesterName };
+                    db.Requester.Add(requester);
                 }
                 if (vI_ProjectAndOrderTools.TurbineName != null)
                 {
-
+                    var turbineEntity = new Turbine { TurbineName = vI_ProjectAndOrderTools.TurbineName };
+                    db.Turbine.Add(turbineEntity);
                 }
                 if (vI_ProjectAndOrderTools.ProductName != null)
                 {
+                    var platformOrProduct = new PlatformOrProduct { ProductName = vI_ProjectAndOrderTools.ProductName };
+                    db.PlatformOrProduct.Add(platformOrProduct);
 
                 }
 
                 //db.VI_ProjectAndOrderTools.Add(vI_ProjectAndOrderTools);
-                db.SaveChanges();
+                try
+                {
+                    // Your code...
+                    // Could also be before try if you know the exception occurs in SaveChanges
+
+                    db.SaveChanges();
+                }
+                catch (DbEntityValidationException e)
+                {
+                    foreach (var eve in e.EntityValidationErrors)
+                    {
+                        System.Diagnostics.Debug.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                            eve.Entry.Entity.GetType().Name, eve.Entry.State); 
+                        foreach (var ve in eve.ValidationErrors)
+                        {
+                            System.Diagnostics.Debug.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
+                                ve.PropertyName, ve.ErrorMessage);
+                        }
+                    }
+                    throw;
+                }
                 return RedirectToAction("Index");
             }
 

@@ -7,7 +7,7 @@
       <Diagram DiagramId="a612a07b6598486a91ed0d8c5cd75cea" Name="Diagram1" ZoomLevel="64">
         <EntityTypeShape EntityType="WebToolModel.Comments" Width="1.5" PointX="3" PointY="4.875" />
         <EntityTypeShape EntityType="WebToolModel.Country" Width="1.5" PointX="0.75" PointY="0.75" />
-        <EntityTypeShape EntityType="WebToolModel.CustomerRef" Width="1.5" PointX="5.75" PointY="0.75" />
+        <EntityTypeShape EntityType="WebToolModel.CustomerRef" Width="1.5" PointX="13.375" PointY="14.75" />
         <EntityTypeShape EntityType="WebToolModel.OrderNumber" Width="1.5" PointX="3.75" PointY="8.25" />
         <EntityTypeShape EntityType="WebToolModel.PlatformOrProduct" Width="1.5" PointX="0.75" PointY="8.75" />
         <EntityTypeShape EntityType="WebToolModel.Projects" Width="1.5" PointX="6" PointY="3.875" />
