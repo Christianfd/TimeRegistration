@@ -182,9 +182,21 @@ warning 6002: The table/view 'WebTool.TimeManagement.VI_OrderNumber' does not ha
           <Key>
             <PropertyRef Name="PK_Id" />
             <PropertyRef Name="Number" />
+            <PropertyRef Name="FK_RequestOrg" />
+            <PropertyRef Name="Organization" />
+            <PropertyRef Name="FK_Requester" />
+            <PropertyRef Name="RequesterName" />
+            <PropertyRef Name="FK_CustomerRef" />
+            <PropertyRef Name="CustomerRefName" />
           </Key>
-          <Property Name="PK_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PK_Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="Number" Type="nvarchar" MaxLength="1000" Nullable="false" />
+          <Property Name="FK_RequestOrg" Type="int" Nullable="false" />
+          <Property Name="Organization" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="FK_Requester" Type="int" Nullable="false" />
+          <Property Name="RequesterName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="FK_CustomerRef" Type="int" Nullable="false" />
+          <Property Name="CustomerRefName" Type="nvarchar" MaxLength="100" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'WebTool.TimeManagement.VI_PlatformOrProduct' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -587,6 +599,9 @@ warning 6002: The table/view 'WebTool.TimeManagement.VI_UserTimePerProject' does
         </Function>
         <Function Name="SP_AddOrderNumber" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="TimeManagement">
           <Parameter Name="NumberName" Type="nvarchar" Mode="In" />
+          <Parameter Name="FK_RequestOrg" Type="int" Mode="In" />
+          <Parameter Name="FK_Requester" Type="int" Mode="In" />
+          <Parameter Name="FK_CustomerRef" Type="int" Mode="In" />
         </Function>
         <Function Name="SP_AddPlatformOrProduct" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="TimeManagement">
           <Parameter Name="platformOrProject" Type="nvarchar" Mode="In" />
@@ -691,6 +706,9 @@ warning 6002: The table/view 'WebTool.TimeManagement.VI_UserTimePerProject' does
         <Function Name="SP_UpdateOrderNumber" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="TimeManagement">
           <Parameter Name="UpdateId" Type="int" Mode="In" />
           <Parameter Name="OrderNumberName" Type="nvarchar" Mode="In" />
+          <Parameter Name="FK_RequestOrg" Type="int" Mode="In" />
+          <Parameter Name="FK_Requester" Type="int" Mode="In" />
+          <Parameter Name="FK_CustomerRef" Type="int" Mode="In" />
         </Function>
         <Function Name="SP_UpdateProject" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="TimeManagement">
           <Parameter Name="UpdateId" Type="int" Mode="In" />
@@ -790,7 +808,13 @@ warning 6002: The table/view 'WebTool.TimeManagement.VI_UserTimePerProject' does
           <EntitySet Name="VI_OrderNumber" EntityType="Self.VI_OrderNumber" store:Type="Views" store:Schema="TimeManagement">
             <DefiningQuery>SELECT 
     [VI_OrderNumber].[PK_Id] AS [PK_Id], 
-    [VI_OrderNumber].[Number] AS [Number]
+    [VI_OrderNumber].[Number] AS [Number], 
+    [VI_OrderNumber].[FK_RequestOrg] AS [FK_RequestOrg], 
+    [VI_OrderNumber].[Organization] AS [Organization], 
+    [VI_OrderNumber].[FK_Requester] AS [FK_Requester], 
+    [VI_OrderNumber].[RequesterName] AS [RequesterName], 
+    [VI_OrderNumber].[FK_CustomerRef] AS [FK_CustomerRef], 
+    [VI_OrderNumber].[CustomerRefName] AS [CustomerRefName]
     FROM [TimeManagement].[VI_OrderNumber] AS [VI_OrderNumber]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="VI_PlatformOrProduct" EntityType="Self.VI_PlatformOrProduct" store:Type="Views" store:Schema="TimeManagement">
@@ -1085,6 +1109,9 @@ warning 6002: The table/view 'WebTool.TimeManagement.VI_UserTimePerProject' does
           </FunctionImport>
           <FunctionImport Name="SP_AddOrderNumber">
           <Parameter Name="NumberName" Mode="In" Type="String" />
+            <Parameter Name="FK_RequestOrg" Mode="In" Type="Int32" />
+            <Parameter Name="FK_Requester" Mode="In" Type="Int32" />
+            <Parameter Name="FK_CustomerRef" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="SP_RemoveOrderNumber">
           <Parameter Name="RemoveId" Mode="In" Type="Int32" />
@@ -1092,6 +1119,9 @@ warning 6002: The table/view 'WebTool.TimeManagement.VI_UserTimePerProject' does
           <FunctionImport Name="SP_UpdateOrderNumber">
             <Parameter Name="UpdateId" Mode="In" Type="Int32" />
             <Parameter Name="OrderNumberName" Mode="In" Type="String" />
+            <Parameter Name="FK_RequestOrg" Mode="In" Type="Int32" />
+            <Parameter Name="FK_Requester" Mode="In" Type="Int32" />
+            <Parameter Name="FK_CustomerRef" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="SP_AddTimeType">
           <Parameter Name="timeTypeName" Mode="In" Type="String" />
@@ -1446,9 +1476,21 @@ warning 6002: The table/view 'WebTool.TimeManagement.VI_UserTimePerProject' does
           <Key>
             <PropertyRef Name="PK_Id" />
             <PropertyRef Name="Number" />
+            <PropertyRef Name="FK_RequestOrg" />
+            <PropertyRef Name="Organization" />
+            <PropertyRef Name="FK_Requester" />
+            <PropertyRef Name="RequesterName" />
+            <PropertyRef Name="FK_CustomerRef" />
+            <PropertyRef Name="CustomerRefName" />
           </Key>
           <Property Name="PK_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Number" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="FK_RequestOrg" Type="Int32" Nullable="false" />
+          <Property Name="Organization" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="FK_Requester" Type="Int32" Nullable="false" />
+          <Property Name="RequesterName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="FK_CustomerRef" Type="Int32" Nullable="false" />
+          <Property Name="CustomerRefName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="VI_ProjectAndOrderTools">
           <Key>
@@ -2039,6 +2081,12 @@ warning 6002: The table/view 'WebTool.TimeManagement.VI_UserTimePerProject' does
           <EntitySetMapping Name="VI_OrderNumber">
             <EntityTypeMapping TypeName="WebToolModel.VI_OrderNumber">
               <MappingFragment StoreEntitySet="VI_OrderNumber">
+                <ScalarProperty Name="CustomerRefName" ColumnName="CustomerRefName" />
+                <ScalarProperty Name="FK_CustomerRef" ColumnName="FK_CustomerRef" />
+                <ScalarProperty Name="RequesterName" ColumnName="RequesterName" />
+                <ScalarProperty Name="FK_Requester" ColumnName="FK_Requester" />
+                <ScalarProperty Name="Organization" ColumnName="Organization" />
+                <ScalarProperty Name="FK_RequestOrg" ColumnName="FK_RequestOrg" />
                 <ScalarProperty Name="Number" ColumnName="Number" />
                 <ScalarProperty Name="PK_Id" ColumnName="PK_Id" />
               </MappingFragment>

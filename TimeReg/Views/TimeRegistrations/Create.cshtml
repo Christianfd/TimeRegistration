@@ -6,181 +6,191 @@
 
 @**@
 
-    <h2>Create</h2>
+<h2>Create</h2>
 
 
-    @using (Html.BeginForm())
-    {
-        @Html.AntiForgeryToken()
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
 
-        <div class="form-horizontal">
-            <h4>TimeRegistration</h4>
-            @*Needs the correkt link*@
-            <h6> <a href="https://www.w3schools.com" title="Direct Links to Active CTO Projects">CTO Active Projects</a></h6>
-            <hr />
-            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-            @*<div class="form-group">
-                    @Html.LabelFor(model => model.PK_Id, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.PK_Id, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.PK_Id, "", new { @class = "text-danger" })
-                    </div>
-                </div>*@<div class="form-group">
+    <div class="form-horizontal">
+        <h4>TimeRegistration</h4>
+        @*Needs the correkt link*@
+        <h6> <a href="https://www.w3schools.com" title="Direct Links to Active CTO Projects">CTO Active Projects</a></h6>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @*<div class="form-group">
+                @Html.LabelFor(model => model.PK_Id, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
+                    @Html.EditorFor(model => model.PK_Id, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.PK_Id, "", new { @class = "text-danger" })
                 </div>
-            </div><div class="form-group">
-                <div class="col-md-10">
-                </div>
+            </div>*@<div class="form-group">
+            <div class="col-md-10">
             </div>
-
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.FK_UserId, "User", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @*Auto Selection Should proably happen here*@
-
-                    @Html.DropDownList("FK_UserId", (SelectList)ViewBag.FK_UserId, "Please Select yourself", htmlAttributes: new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.FK_UserId, "", new { @class = "text-danger" })
-                </div>
+        </div><div class="form-group">
+            <div class="col-md-10">
             </div>
+        </div>
 
-            <div class="form-group">
-                @Html.LabelFor(model => model.FK_ProjectId, "Project", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    
-                    @Html.DropDownList("FK_ProjectId", (SelectList)ViewBag.FK_ProjectId, "Please Select a Project", htmlAttributes: new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.FK_ProjectId, "", new { @class = "text-danger" })
-                </div>
+        @*User dropdown*@
+        <div class="form-group">
+            @Html.LabelFor(model => model.FK_UserId, "User", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @*Auto Selection Should proably happen here*@
+                @Html.DropDownList("FK_UserId", (SelectList)ViewBag.FK_UserId, "Please Select yourself", htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.FK_UserId, "", new { @class = "text-danger" })
             </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.FK_OrderId, "Order Number", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.DropDownList("FK_OrderId", (SelectList)ViewBag.FK_OrderId, "Please Select Order Number", htmlAttributes: new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.FK_OrderId, "", new { @class = "text-danger" })
-                    <div>
-                        <button type="button" id="btnScore" class="orderNumberBtn " title="Copy Order Number"
-                                onclick="ClipboardMethod()">
-                            &#x1f4cb
-                        </button>
-                    </div>
-                </div>
-         
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.FK_TaskId, "Task Type", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.DropDownList("FK_TaskId", (SelectList)ViewBag.FK_TaskId, "Please select the Correct Task Type", htmlAttributes: new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.FK_TaskId, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.Time, "Time", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Time, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Time, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label col-md-2 " })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control datepicker", type = "text", textmode = "text", autocomplete = "off" } })
-                    @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.Comment, "Comment", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Comment, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Comment, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            @* Replaced by DateTime.Now *@
-            @*<div class="form-group">
-                    @Html.LabelFor(model => model.DateEntry, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.DateEntry, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.DateEntry, "", new { @class = "text-danger" })
-                    </div>
-
-                </div>*@<div class="form-group">
-                <div class="col-md-10">
-                </div>
-
-            </div><div class="form-group">
-                <div class="col-md-10">
-                </div>
-
-            </div>
-
-
-
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Create" class="btn btn-default" />
+        </div>
+        @*Order Number*@
+        <div class="form-group">
+            @Html.LabelFor(model => model.FK_OrderId, "Order Number", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("FK_OrderId", (SelectList)ViewBag.FK_OrderId, "Please Select Order Number", htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.FK_OrderId, "", new { @class = "text-danger" })
+                @*Button for copying DSA Number*@
+                <div>
+                    <button type="button" id="btnScore" class="orderNumberBtn " title="Copy Order Number"
+                            onclick="ClipboardMethod()">
+                        &#x1f4cb
+                    </button>
                 </div>
             </div>
         </div>
-    }
 
-    <div>
-        @Html.ActionLink("Back to List", "Index")
+        @*Projects drop down list*@
+        <div class="form-group">
+            @Html.LabelFor(model => model.FK_ProjectId, "Project", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+
+                @Html.DropDownList("FK_ProjectId", (SelectList)ViewBag.FK_ProjectId, "Please Select a Project", htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.FK_ProjectId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        @*Selection of Task Id*@
+        <div class="form-group">
+            @Html.LabelFor(model => model.FK_TaskId, "Task Type", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("FK_TaskId", (SelectList)ViewBag.FK_TaskId, "Please select the Correct Task Type", htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.FK_TaskId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        @*Time*@
+        <div class="form-group">
+            @Html.LabelFor(model => model.Time, "Time", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Time, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Time, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        @*Date*@
+        <div class="form-group">
+            @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label col-md-2 " })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control datepicker", type = "text", textmode = "text", autocomplete = "off" } })
+                @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        @*Comment*@
+        <div class="form-group">
+            @Html.LabelFor(model => model.Comment, "Comment", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Comment, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Comment, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        @* Replaced by DateTime.Now *@
+        @*<div class="form-group">
+                @Html.LabelFor(model => model.DateEntry, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.DateEntry, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.DateEntry, "", new { @class = "text-danger" })
+                </div>
+
+            </div>*@
+
+        <div class="form-group">
+            <div class="col-md-10">
+            </div>
+
+        </div><div class="form-group">
+            <div class="col-md-10">
+            </div>
+
+        </div>
+
+
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
     </div>
+}
 
-    @section Scripts {
-        @Scripts.Render("~/bundles/jqueryval")
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
 
-        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/jquery-ui.min.js"></script>
-        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-        <link rel="stylesheet" href="/resources/demos/style.css">
-        <script>
-            $(".datepicker").datepicker({ dateFormat: 'dd/M/yy' }).val();
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/jquery-ui.min.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <script>
+        $(".datepicker").datepicker({ dateFormat: 'dd/M/yy' }).val();
 
 
-
-            function fallbackCopyTextToClipboard(text) {
-                var textArea = document.createElement("textarea");
-                textArea.value = text;
-                document.body.appendChild(textArea);
-                textArea.focus();
-                textArea.select();
-                try {
-                    var successful = document.execCommand("copy");
-                    var msg = successful ? "successful" : "unsuccessful";
-                    console.log("Fallback: Copying text command was " + msg);
-                } catch (err) {
-                    console.error("Fallback: Oops, unable to copy", err);
-                }
-
-                document.body.removeChild(textArea);
-            }
-            function copyTextToClipboard(text) {
-                if (!navigator.clipboard) {
-                    fallbackCopyTextToClipboard(text);
-                    return;
-                }
-                navigator.clipboard.writeText(text).then(
-                  function () {
-                      console.log("Async: Copying to clipboard was successful!");
-                  },
-                  function (err) {
-                      console.error("Async: Could not copy text: ", err);
-                  }
-                );
+        //Clipboard functionality
+        function fallbackCopyTextToClipboard(text) {
+            var textArea = document.createElement("textarea");
+            textArea.value = text;
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            try {
+                var successful = document.execCommand("copy");
+                var msg = successful ? "successful" : "unsuccessful";
+                console.log("Fallback: Copying text command was " + msg);
+            } catch (err) {
+                console.error("Fallback: Oops, unable to copy", err);
             }
 
-            var copyOrderBtn = document.querySelector(".orderNumberBtn");
+            document.body.removeChild(textArea);
+        }
 
-            copyOrderBtn.addEventListener("click", function (event) {
-                var OrderNumber = $("[id*='FK_OrderId'] :selected").text();
-                copyTextToClipboard(OrderNumber);
-            });
-        </script>
-    }
+        //Copies to Clipboard
+        function copyTextToClipboard(text) {
+            if (!navigator.clipboard) {
+                fallbackCopyTextToClipboard(text);
+                return;
+            }
+            navigator.clipboard.writeText(text).then(
+              function () {
+                  console.log("Async: Copying to clipboard was successful!");
+              },
+              function (err) {
+                  console.error("Async: Could not copy text: ", err);
+              }
+            );
+        }
+
+        //Selects the copy button
+        var copyOrderBtn = document.querySelector(".orderNumberBtn");
+
+        //Triggers Copy to clipboard on button click
+        copyOrderBtn.addEventListener("click", function (event) {
+            var OrderNumber = $("[id*='FK_OrderId'] :selected").text();
+            copyTextToClipboard(OrderNumber);
+        });
+    </script>
+}

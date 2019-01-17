@@ -4,13 +4,13 @@
 	@OrderNumber int = 1,
 	@TimeEstimation int,
 	@FK_ProjectLeader int = 2,
-	@Scope nvarchar(200) = "Scope has not been set",
+	@Scope nvarchar(200) = 'No Scope',
 	@timeType int = 9,
-	@SiteOrVersion nvarchar(50) = "Not Assigned",
+	@SiteOrVersion nvarchar(50) = 'Not Assigned',
 	@FK_Country int = 1,
 	@FK_PlatformOrProduct int = 1,
 	@FK_Turbine int = 1,
-	@ProjectComment nvarchar(1000)
+	@ProjectComment nvarchar(1000) = 'No Comment'
 
 
 	

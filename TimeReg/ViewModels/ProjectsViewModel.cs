@@ -24,13 +24,18 @@ namespace TimeReg.ViewModels
         [Required]
         public int FK_TimeType { get; set; }
         public string TimeTypeName { get; set; }
+        [Required]
         public string SiteOrVersion { get; set; }
+        [Required]
         public int FK_Country { get; set; }
         public string CountryName { get; set; }
+        [Required]
         public int FK_PlatformOrProduct { get; set; }
         public string PlatformOrProductName { get; set; }
+        [Required]
         public int FK_Turbine { get; set; }
         public string TurbineName { get; set; }
+        [Required]
         public string ProjectComment { get; set; }
 
 

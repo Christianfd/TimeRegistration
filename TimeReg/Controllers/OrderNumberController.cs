@@ -28,7 +28,7 @@ namespace TimeReg.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             VI_OrderNumber vI_OrderNumber = db.VI_OrderNumber.SingleOrDefault(m => m.PK_Id == id);
-            var orderNumberViewModel = new OrderNumberViewModel {PK_Id = vI_OrderNumber.PK_Id, Number = vI_OrderNumber.Number };
+            var orderNumberViewModel = new OrderNumberViewModel (vI_OrderNumber);
             if (orderNumberViewModel == null)
             {
                 return HttpNotFound();
@@ -39,6 +39,10 @@ namespace TimeReg.Controllers
         // GET: OrderNumber/Create
         public ActionResult Create()
         {
+
+            ViewBag.FK_RequestOrg = new SelectList(db.VI_RequestOrg.OrderBy(x => x.PK_Id), "PK_Id", "Organization");
+            ViewBag.FK_Requester = new SelectList(db.VI_Requester.OrderBy(x => x.PK_Id), "PK_Id", "Name");
+            ViewBag.FK_CustomerRef = new SelectList(db.VI_CustomerRef.OrderBy(x => x.PK_Id), "PK_Id", "Name");
             return View();
         }
 
@@ -47,15 +51,18 @@ namespace TimeReg.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "PK_Id,Number")] OrderNumberViewModel orderNumberViewModel)
+        public ActionResult Create([Bind(Include = "PK_Id,Number,FK_RequestOrg,FK_Requester,FK_CustomerRef")] OrderNumberViewModel orderNumberViewModel)
         {
             if (ModelState.IsValid)
             {
-                db.SP_AddOrderNumber(orderNumberViewModel.Number);
+                db.SP_AddOrderNumber(orderNumberViewModel.Number, orderNumberViewModel.FK_RequestOrg, orderNumberViewModel.FK_Requester, orderNumberViewModel.FK_CustomerRef);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
+            ViewBag.FK_RequestOrg = new SelectList(db.VI_RequestOrg.OrderBy(x => x.PK_Id), "PK_Id", "Organization", orderNumberViewModel.FK_RequestOrg);
+            ViewBag.FK_Requester = new SelectList(db.VI_Requester.OrderBy(x => x.PK_Id), "PK_Id", "Name", orderNumberViewModel.FK_Requester);
+            ViewBag.FK_CustomerRef = new SelectList(db.VI_CustomerRef.OrderBy(x => x.PK_Id), "PK_Id", "Name", orderNumberViewModel.FK_CustomerRef);
             return View(orderNumberViewModel);
         }
 
@@ -67,12 +74,16 @@ namespace TimeReg.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             VI_OrderNumber vI_OrderNumber = db.VI_OrderNumber.SingleOrDefault(m => m.PK_Id == id);
-            var orderNumberViewModel = new OrderNumberViewModel { PK_Id = vI_OrderNumber.PK_Id, Number = vI_OrderNumber.Number };
+            var orderNumberViewModel = new OrderNumberViewModel (vI_OrderNumber);
             if (orderNumberViewModel == null)
             {
                 return HttpNotFound();
             }
-            
+
+            ViewBag.FK_RequestOrg = new SelectList(db.VI_RequestOrg.OrderBy(x => x.PK_Id), "PK_Id", "Organization", orderNumberViewModel.FK_RequestOrg);
+            ViewBag.FK_Requester = new SelectList(db.VI_Requester.OrderBy(x => x.PK_Id), "PK_Id", "Name", orderNumberViewModel.FK_Requester);
+            ViewBag.FK_CustomerRef = new SelectList(db.VI_CustomerRef.OrderBy(x => x.PK_Id), "PK_Id", "Name", orderNumberViewModel.FK_CustomerRef);
+
             return View(orderNumberViewModel);
         }
 
@@ -81,14 +92,19 @@ namespace TimeReg.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "PK_Id,Number")] OrderNumberViewModel orderNumberViewModel)
+        public ActionResult Edit([Bind(Include = "PK_Id,Number,FK_RequestOrg,FK_Requester,FK_CustomerRef")] OrderNumberViewModel orderNumberViewModel)
         {
             if (ModelState.IsValid)
             {
-                db.SP_UpdateOrderNumber(orderNumberViewModel.PK_Id, orderNumberViewModel.Number);
+                db.SP_UpdateOrderNumber(orderNumberViewModel.PK_Id, orderNumberViewModel.Number, orderNumberViewModel.FK_RequestOrg, orderNumberViewModel.FK_Requester, orderNumberViewModel.FK_CustomerRef);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+
+            ViewBag.FK_RequestOrg = new SelectList(db.VI_RequestOrg.OrderBy(x => x.PK_Id), "PK_Id", "Organization", orderNumberViewModel.FK_RequestOrg);
+            ViewBag.FK_Requester = new SelectList(db.VI_Requester.OrderBy(x => x.PK_Id), "PK_Id", "Name", orderNumberViewModel.FK_Requester);
+            ViewBag.FK_CustomerRef = new SelectList(db.VI_CustomerRef.OrderBy(x => x.PK_Id), "PK_Id", "Name", orderNumberViewModel.FK_CustomerRef);
+
             return View(orderNumberViewModel);
         }
 
@@ -100,7 +116,7 @@ namespace TimeReg.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             VI_OrderNumber vI_OrderNumber = db.VI_OrderNumber.SingleOrDefault(m => m.PK_Id == id);
-            var orderNumberViewModel = new OrderNumberViewModel { PK_Id = vI_OrderNumber.PK_Id, Number = vI_OrderNumber.Number };
+            var orderNumberViewModel = new OrderNumberViewModel (vI_OrderNumber);
             if (orderNumberViewModel == null)
             {
                 return HttpNotFound();
@@ -114,7 +130,7 @@ namespace TimeReg.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             VI_OrderNumber vI_OrderNumber = db.VI_OrderNumber.SingleOrDefault(m => m.PK_Id == id);
-            var orderNumberViewModel = new OrderNumberViewModel { PK_Id = vI_OrderNumber.PK_Id, Number = vI_OrderNumber.Number };
+            var orderNumberViewModel = new OrderNumberViewModel (vI_OrderNumber);
             db.SP_RemoveOrderNumber(orderNumberViewModel.PK_Id);
             db.SaveChanges();
             return RedirectToAction("Index");

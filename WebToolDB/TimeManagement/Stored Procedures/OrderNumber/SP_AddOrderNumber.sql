@@ -1,9 +1,12 @@
 ﻿CREATE PROCEDURE [TimeManagement].[SP_AddOrderNumber]
 	
-	@NumberName nvarchar(1000)
+	@NumberName nvarchar(1000),
+	@FK_RequestOrg int,
+	@FK_Requester int,
+	@FK_CustomerRef int
 AS
 
 INSERT INTO [TimeManagement].[OrderNumber]
-([Number])
+([Number], [FK_RequestOrg], [FK_Requester], [FK_CustomerRef])
 
-VALUES (@NumberName)
+VALUES (@NumberName, @FK_RequestOrg, @FK_Requester, @FK_CustomerRef)

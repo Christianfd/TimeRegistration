@@ -16,5 +16,11 @@ namespace TimeReg
     {
         public int PK_Id { get; set; }
         public string Number { get; set; }
+        public int FK_RequestOrg { get; set; }
+        public string Organization { get; set; }
+        public int FK_Requester { get; set; }
+        public string RequesterName { get; set; }
+        public int FK_CustomerRef { get; set; }
+        public string CustomerRefName { get; set; }
     }
 }

@@ -4,7 +4,7 @@
     [FK_OrderNumber]       INT             NOT NULL,
     [TimeEstimation]       INT             NOT NULL,
     [FK_ProjectLeader]     INT             DEFAULT ((2)) NOT NULL,
-    [Scope]                NVARCHAR (200) DEFAULT ('Undefined') NOT NULL,
+    [Scope]                NVARCHAR (200)  DEFAULT ('Undefined') NOT NULL,
     [FK_TimeType]          INT             DEFAULT ((9)) NOT NULL,
     [Status]               INT             DEFAULT ((1)) NOT NULL,
     [StartingDate]         DATE            DEFAULT (getdate()) NOT NULL,

@@ -160,6 +160,7 @@
     <Build Include="TimeManagement\Views\ProjectViewTools\VI_Turbine.sql" />
     <Build Include="TimeManagement\Views\ProjectViewTools\VI_PlatformOrProduct.sql" />
     <Build Include="TimeManagement\Views\ProjectViewTools\VI_Country.sql" />
+    <Build Include="TimeManagement\Views\VI_ProjectAndOrderToolsUnion.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="WebToolDB.refactorlog" />

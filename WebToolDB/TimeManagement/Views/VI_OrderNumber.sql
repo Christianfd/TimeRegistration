@@ -1,6 +1,15 @@
 ﻿CREATE VIEW [TimeManagement].[VI_OrderNumber]
 	AS SELECT [OrderNumber].[PK_Id]
 	  ,[Number]
+	  ,[FK_RequestOrg]
+	  ,[Organization]
+	  ,[FK_Requester]
+	  ,[Requester].[Name] as [RequesterName]
+	  ,[FK_CustomerRef]
+	  ,[CustomerRef].[Name] as [CustomerRefName]
   FROM [OrderNumber]
+  JOIN [RequestOrg] on [OrderNumber].[FK_RequestOrg] = [RequestOrg].[PK_Id]
+  JOIN [Requester] on [OrderNumber].[FK_Requester] = [Requester].[PK_Id]
+  JOIN [CustomerRef] on [OrderNumber].[FK_CustomerRef] = [CustomerRef].[PK_Id]
 
 

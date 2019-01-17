@@ -17,9 +17,9 @@
         @*Project Name*@
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
-            @Html.LabelFor(model => model.Name, "Project Name", htmlAttributes: new { @class = "control-label col-md-2", @id = "ProjectName" })
+            @Html.LabelFor(model => model.Name, "Project Name", htmlAttributes: new { @class = "control-label col-md-2"})
             <div class="col-md-10">
-                @Html.DisplayFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @id = "ProjectName" } })
+                @Html.TextAreaFor(model => model.Name, htmlAttributes: new { @class = "form-control", @id = "ProjectName", @readonly = true , @rows = 2} )
                 @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -27,7 +27,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.FK_PlatformOrProduct, "Platform or Product", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("FK_PlatformOrProduct", (SelectList)ViewBag.FK_PlatformOrProduct, htmlAttributes: new { @class = "form-control" })
+                @Html.DropDownList("FK_PlatformOrProduct", (SelectList)ViewBag.FK_PlatformOrProduct, htmlAttributes: new { @class = "form-control", @id = "PlatformOrProduct" })
                 @Html.ValidationMessageFor(model => model.FK_PlatformOrProduct, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -37,7 +37,7 @@
             @Html.LabelFor(model => model.SiteOrVersion, "Site Or Version", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
 
-                @Html.EditorFor(model => model.SiteOrVersion, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.SiteOrVersion, new { htmlAttributes = new { @class = "form-control", @id = "SiteOrVersion" } })
                 @Html.ValidationMessageFor(model => model.SiteOrVersion, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -55,7 +55,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Scope, "Project Scope", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.TextAreaFor(model => model.Scope, htmlAttributes: new { @class = "form-control", id = "Scope", style = "height:100px" })
+                @Html.TextAreaFor(model => model.Scope, htmlAttributes: new { @class = "form-control", id = "Scope", @rows = 2 })
                 @Html.ValidationMessageFor(model => model.Scope, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -73,7 +73,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.ProjectComment, "Project Comment", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.TextAreaFor(model => model.ProjectComment, htmlAttributes: new { @class = "form-control", style = "height:150px" })
+                @Html.TextAreaFor(model => model.ProjectComment, htmlAttributes: new { @class = "form-control", @rows = 5, @text = "No Comment" })
                 @Html.ValidationMessageFor(model => model.ProjectComment, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -95,7 +95,6 @@
         <div class="form-group">
             @Html.LabelFor(model => model.TimeEstimation, "Time Estimation", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-
                 @Html.EditorFor(model => model.TimeEstimation, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.TimeEstimation, "", new { @class = "text-danger" })
             </div>
@@ -135,14 +134,39 @@
         </div>
 
         @section Scripts {
-
             @Scripts.Render("~/bundles/jqueryval")
             @Scripts.Render("~/bundles/jquery")
-
+          
             <script>
-                    $("#Turbine").change(function () {
-                        $("#ProjectName") = "Test";
+                //Check for a change in the first four rows, which are to determine 
+                $("#PlatformOrProduct, #SiteOrVersion, #Turbine, #Scope ").change(function () {
+                    var ProjectNameValue = "";
+                    if ($("#PlatformOrProduct option:selected").text() != "Not Assigned") {
+                        ProjectNameValue += $("#PlatformOrProduct option:selected").text().replace(/\n/g, "");
+                    } else {
+                        ProjectNameValue += " -";
+                    };
+
+                    ProjectNameValue += " ";
+               
+                    ProjectNameValue += $("#SiteOrVersion").val();
+                 
+                    ProjectNameValue += " ";
+
+                    if ($("#Turbine option:selected").text() != "Not Assigned") {
+                        ProjectNameValue += $("#Turbine option:selected").text();
+                    } else {
+                        ProjectNameValue += " - ";
+                    };
+
+                    ProjectNameValue += "\n";
+                    ProjectNameValue += "- ";
+
+                    ProjectNameValue += $("#Scope").val();
+
+                    $('#ProjectName').val(ProjectNameValue);
+
+
                     });
             </script>
-           
         }
