@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
+﻿using System.Data;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
-using TimeReg;
 using TimeReg.ViewModels;
 
 namespace TimeReg.Controllers
@@ -29,6 +24,7 @@ namespace TimeReg.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             var projects = db.VI_Projects.SingleOrDefault(M => M.PK_Id == id);
                          
             if (projects == null)
@@ -39,7 +35,13 @@ namespace TimeReg.Controllers
             //This view model is created to pass the comments to the view along with the project details.
             //The Comments also needs an orderby function at some point and mabye a user list.
 
-            var projectsViewModel = new ProjectDetailsViewModel() { VIProjects = projects, VIComments = db.VI_Comments.OrderByDescending(m => m.WeekNr), VITimeSpentPerUser = db.VI_UserTimePerProject.Where(m => m.FK_ProjectId == id) };
+            var projectsViewModel = new ProjectDetailsViewModel()
+                                                {
+                                                    VIProjects = projects,
+                                                    VIComments = db.VI_Comments.OrderByDescending(m => m.WeekNr),
+                                                    VITimeSpentPerUser = db.VI_UserTimePerProject.Where(m => m.FK_ProjectId == id)
+                                                };
+
             return View(projectsViewModel);
         }
 
@@ -47,9 +49,12 @@ namespace TimeReg.Controllers
         public ActionResult Create()
         {
             
-            ViewBag.FK_ProjectLeader = new SelectList(db.VI_Users, "PK_Id", "NK_Name");
-            ViewBag.FK_OrderNumber = new SelectList(db.VI_OrderNumber, "PK_Id", "Number");
-            ViewBag.FK_TimeType = new SelectList(db.TimeType, "PK_Id", "Name");
+            ViewBag.FK_ProjectLeader = new SelectList(db.VI_Users.OrderBy(x => x.PK_Id), "PK_Id", "NK_Name");
+            ViewBag.FK_OrderNumber = new SelectList(db.VI_OrderNumber.OrderBy(x => x.PK_Id), "PK_Id", "Number");
+            ViewBag.FK_TimeType = new SelectList(db.TimeType.OrderBy(x => x.PK_Id), "PK_Id", "Name");
+            ViewBag.FK_Country = new SelectList(db.Country.OrderBy(x => x.PK_Id), "PK_Id", "CountryName");
+            ViewBag.FK_PlatformOrProduct = new SelectList(db.PlatformOrProduct.OrderBy(x => x.PK_Id), "PK_Id", "ProductName");
+            ViewBag.FK_Turbine = new SelectList(db.Turbine.OrderBy(x => x.PK_Id), "PK_Id", "TurbineName");
             return View();
         }
 
@@ -58,13 +63,24 @@ namespace TimeReg.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "PK_Id,Name,FK_Ordernumber,TimeEstimation,FK_ProjectLeader,Scope,FK_TimeType")] ProjectsViewModel projects)
+        public ActionResult Create([Bind(Include = "PK_Id,Name,FK_Ordernumber,TimeEstimation,FK_ProjectLeader,Scope,FK_TimeType,SiteOrVersion,FK_Country,FK_PlatformOrProduct,FK_Turbine,ProjectComment")] ProjectsViewModel projects)
         {
             if (ModelState.IsValid)
             {
          
-                db.SP_AddProject(projects.Name,projects.FK_OrderNumber,projects.TimeEstimation, projects.FK_ProjectLeader,projects.Scope, projects.FK_TimeType);
-                //db.Projects.Add(projects);
+                db.SP_AddProject(
+                    projects.Name,
+                    projects.FK_OrderNumber,
+                    projects.TimeEstimation, 
+                    projects.FK_ProjectLeader,
+                    projects.Scope, 
+                    projects.FK_TimeType,
+                    projects.SiteOrVersion,
+                    projects.FK_Country,
+                    projects.FK_PlatformOrProduct,
+                    projects.FK_Turbine,
+                    projects.ProjectComment);
+
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -73,6 +89,9 @@ namespace TimeReg.Controllers
             ViewBag.FK_ProjectLeader = new SelectList(db.VI_Users, "PK_Id", "NK_Name", projects.FK_ProjectLeader);
             ViewBag.FK_OrderNumber = new SelectList(db.VI_OrderNumber, "PK_Id", "Number", projects.FK_OrderNumber);
             ViewBag.FK_TimeType = new SelectList(db.TimeType, "PK_Id", "Name", projects.FK_TimeType);
+            ViewBag.FK_Country = new SelectList(db.Country, "PK_Id", "CountryName", projects.FK_Country);
+            ViewBag.FK_PlatformOrProduct = new SelectList(db.PlatformOrProduct, "PK_Id", "ProductName", projects.FK_PlatformOrProduct);
+            ViewBag.FK_Turbine = new SelectList(db.Turbine, "PK_Id", "TurbineName", projects.FK_Turbine);
 
             return View(projects);
         }
@@ -87,7 +106,23 @@ namespace TimeReg.Controllers
 
 
             VI_Projects projects = db.VI_Projects.SingleOrDefault(m => m.PK_Id == id);
-            var projectsViewModel = new ProjectsViewModel() {PK_Id = projects.PK_Id, Scope = projects.Scope, FK_ProjectLeader = projects.FK_ProjectLeader, TimeEstimation = projects.TimeEstimation, FK_OrderNumber = projects.FK_OrderNumber, Name = projects.Name, UserName = projects.UserName, FK_TimeType = (int)projects.FK_TimeType };
+            var projectsViewModel = new ProjectsViewModel()
+            {
+                PK_Id = projects.PK_Id,
+                Scope = projects.Scope,
+                FK_ProjectLeader = projects.FK_ProjectLeader,
+                TimeEstimation = projects.TimeEstimation,
+                FK_OrderNumber = projects.FK_OrderNumber,
+                Name = projects.Name,
+                UserName = projects.UserName,
+                FK_TimeType = (int)projects.FK_TimeType,
+                SiteOrVersion = projects.SiteOrVersion,
+                FK_Country = projects.FK_Country,
+                FK_PlatformOrProduct = projects.FK_PlatformOrProduct,
+                FK_Turbine = projects.FK_Turbine,
+                ProjectComment = projects.ProjectComment
+            };
+
             if (projects == null)
             {
                 return HttpNotFound();
@@ -97,6 +132,9 @@ namespace TimeReg.Controllers
             ViewBag.FK_ProjectLeader = new SelectList(db.VI_Users, "PK_Id", "NK_Name", projectsViewModel.FK_ProjectLeader);
             ViewBag.FK_OrderNumber = new SelectList(db.VI_OrderNumber, "PK_Id", "Number", projectsViewModel.FK_OrderNumber);
             ViewBag.FK_TimeType = new SelectList(db.TimeType, "PK_Id", "Name", projectsViewModel.FK_TimeType);
+            ViewBag.FK_Country = new SelectList(db.Country, "PK_Id", "CountryName", projectsViewModel.FK_Country);
+            ViewBag.FK_PlatformOrProduct = new SelectList(db.PlatformOrProduct, "PK_Id", "ProductName", projectsViewModel.FK_PlatformOrProduct);
+            ViewBag.FK_Turbine = new SelectList(db.Turbine, "PK_Id", "TurbineName", projectsViewModel.FK_Turbine);
 
             return View(projectsViewModel);
         }
@@ -106,18 +144,36 @@ namespace TimeReg.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "PK_Id,Name,FK_OrderNumber,TimeEstimation,FK_ProjectLeader, Scope, FK_TimeType")] ProjectsViewModel projects)
+        public ActionResult Edit([Bind(Include = "PK_Id,Name,FK_Ordernumber,TimeEstimation,FK_ProjectLeader,Scope,FK_TimeType,SiteOrVersion,FK_Country,FK_PlatformOrProduct,FK_Turbine,ProjectComment")] ProjectsViewModel projects)
         {
             if (ModelState.IsValid)
             {
-                db.SP_UpdateProject(projects.PK_Id, projects.Name, projects.FK_OrderNumber, projects.TimeEstimation, projects.FK_ProjectLeader, projects.Scope, projects.FK_TimeType);
+                db.SP_UpdateProject(
+                    projects.PK_Id,
+                    projects.Name,
+                    projects.FK_OrderNumber,
+                    projects.TimeEstimation,
+                    projects.FK_ProjectLeader,
+                    projects.Scope,
+                    projects.FK_TimeType,
+                    projects.SiteOrVersion,
+                    projects.FK_Country,
+                    projects.FK_PlatformOrProduct,
+                    projects.FK_Turbine,
+                    projects.ProjectComment);
+
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+            //A set of ViewBags containing the nessecary Lists for creating a project - Not sure why I did the PK_Id, nor if they're nessecary here. as it's the edit post.
             ViewBag.PK_Id = new SelectList(db.Comments, "PK_Id", "Text", projects.PK_Id);
-            ViewBag.FK_ProjectLeader = new SelectList(db.VI_Users, "PK_Id", "NK_Name");
-            ViewBag.FK_OrderNumber = new SelectList(db.VI_OrderNumber, "PK_Id", "Number");
-            ViewBag.FK_TimeType = new SelectList(db.TimeType, "PK_Id", "Name");
+            ViewBag.FK_ProjectLeader = new SelectList(db.VI_Users, "PK_Id", "NK_Name", projects.FK_ProjectLeader);
+            ViewBag.FK_OrderNumber = new SelectList(db.VI_OrderNumber, "PK_Id", "Number", projects.FK_OrderNumber);
+            ViewBag.FK_TimeType = new SelectList(db.TimeType, "PK_Id", "Name", projects.FK_TimeType);
+            ViewBag.FK_Country = new SelectList(db.Country, "PK_Id", "CountryName", projects.FK_Country);
+            ViewBag.FK_PlatformOrProduct = new SelectList(db.PlatformOrProduct, "PK_Id", "ProductName", projects.FK_PlatformOrProduct);
+            ViewBag.FK_Turbine = new SelectList(db.Turbine, "PK_Id", "TurbineName", projects.FK_Turbine);
+
             return View(projects);
         }
 

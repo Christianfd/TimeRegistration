@@ -14,8 +14,17 @@ namespace TimeReg
     
     public partial class Country
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Country()
+        {
+            this.Projects = new HashSet<Projects>();
+        }
+    
         public int PK_Id { get; set; }
         public string CountryName { get; set; }
         public string CountryCode { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Projects> Projects { get; set; }
     }
 }

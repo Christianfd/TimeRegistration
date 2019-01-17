@@ -181,6 +181,7 @@
       <DependentUpon>WebTool.tt</DependentUpon>
     </Compile>
     <Compile Include="Controllers\CommentsController.cs" />
+    <Compile Include="Controllers\OverviewController.cs" />
     <Compile Include="Controllers\ProjectAndOrderToolsController.cs" />
     <Compile Include="Controllers\ProjectsController.cs" />
     <Compile Include="Controllers\ProjectControllers\TimeTypeController.cs" />
@@ -265,10 +266,16 @@
     <Compile Include="VI_Comments.cs">
       <DependentUpon>WebTool.tt</DependentUpon>
     </Compile>
+    <Compile Include="VI_Country.cs">
+      <DependentUpon>WebTool.tt</DependentUpon>
+    </Compile>
     <Compile Include="VI_CustomerRef.cs">
       <DependentUpon>WebTool.tt</DependentUpon>
     </Compile>
     <Compile Include="VI_OrderNumber.cs">
+      <DependentUpon>WebTool.tt</DependentUpon>
+    </Compile>
+    <Compile Include="VI_PlatformOrProduct.cs">
       <DependentUpon>WebTool.tt</DependentUpon>
     </Compile>
     <Compile Include="VI_ProjectAndOrderTools.cs">
@@ -290,6 +297,9 @@
       <DependentUpon>WebTool.tt</DependentUpon>
     </Compile>
     <Compile Include="VI_TimeType.cs">
+      <DependentUpon>WebTool.tt</DependentUpon>
+    </Compile>
+    <Compile Include="VI_Turbine.cs">
       <DependentUpon>WebTool.tt</DependentUpon>
     </Compile>
     <Compile Include="VI_UserAssignment.cs">
@@ -484,6 +494,7 @@
     <Content Include="Views\ProjectAndOrderTools\Details.cshtml" />
     <Content Include="Views\ProjectAndOrderTools\Edit.cshtml" />
     <Content Include="Views\ProjectAndOrderTools\Index.cshtml" />
+    <Content Include="Views\Overview\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

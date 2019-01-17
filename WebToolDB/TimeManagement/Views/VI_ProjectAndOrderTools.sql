@@ -1,5 +1,5 @@
 ﻿CREATE VIEW [TimeManagement].[VI_ProjectAndOrderTools]
-	AS SELECT 
+	AS SELECT DISTINCT 
 		[Organization],
 		[TimeType].[Name] as [TimeTypeName],
 		[TaskType].[Name] as [TaskTypeName],

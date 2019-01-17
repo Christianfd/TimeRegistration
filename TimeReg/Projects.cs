@@ -32,9 +32,10 @@ namespace TimeReg
         public int Status { get; set; }
         public System.DateTime StartingDate { get; set; }
         public string SiteOrVersion { get; set; }
-        public Nullable<int> FK_Country { get; set; }
-        public Nullable<int> FK_PlatformOrProduct { get; set; }
-        public Nullable<int> FK_Turbine { get; set; }
+        public int FK_Country { get; set; }
+        public int FK_PlatformOrProduct { get; set; }
+        public int FK_Turbine { get; set; }
+        public string ProjectComment { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Comments> Comments { get; set; }
@@ -45,5 +46,8 @@ namespace TimeReg
         public virtual ICollection<TimeRegistration> TimeRegistration { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<UserAssignment> UserAssignment { get; set; }
+        public virtual Country Country { get; set; }
+        public virtual PlatformOrProduct PlatformOrProduct { get; set; }
+        public virtual Turbine Turbine { get; set; }
     }
 }

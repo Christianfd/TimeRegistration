@@ -14,7 +14,16 @@ namespace TimeReg
     
     public partial class PlatformOrProduct
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public PlatformOrProduct()
+        {
+            this.Projects = new HashSet<Projects>();
+        }
+    
         public int PK_Id { get; set; }
         public string ProductName { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Projects> Projects { get; set; }
     }
 }

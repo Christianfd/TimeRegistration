@@ -55,39 +55,38 @@ namespace TimeReg.Controllers
                 if (vI_ProjectAndOrderTools.Organization != null )
                 {
                     var org = new RequestOrg { Organization = vI_ProjectAndOrderTools.Organization };
-                    db.RequestOrg.Add(org);
+                    db.SP_AddRequestOrg(org.Organization);
                 }
                 if (vI_ProjectAndOrderTools.TimeTypeName != null)
                 {
                     var timeType = new TimeType { Name = vI_ProjectAndOrderTools.TimeTypeName };
-                    db.TimeType.Add(timeType);
+                    db.SP_AddTimeType(timeType.Name);
                 }
                 if (vI_ProjectAndOrderTools.TaskTypeName != null)
                 {
                     var taskType = new TaskType { Name = vI_ProjectAndOrderTools.TaskTypeName };
-                    db.TaskType.Add(taskType);
+                    db.SP_AddTaskType(taskType.Name);
 
                 }
                 if (vI_ProjectAndOrderTools.CustomerRefName != null)
                 {
                     var customerReference = new CustomerRef { Name = vI_ProjectAndOrderTools.CustomerRefName };
-                    db.CustomerRef.Add(customerReference);
+                    db.SP_AddCustomerRef(customerReference.Name);
                 }
                 if (vI_ProjectAndOrderTools.RequesterName != null)
                 {
                     var requester = new Requester { Name = vI_ProjectAndOrderTools.RequesterName };
-                    db.Requester.Add(requester);
+                    db.SP_AddRequester(requester.Name);
                 }
                 if (vI_ProjectAndOrderTools.TurbineName != null)
                 {
                     var turbineEntity = new Turbine { TurbineName = vI_ProjectAndOrderTools.TurbineName };
-                    db.Turbine.Add(turbineEntity);
+                    db.SP_AddTurbine(turbineEntity.TurbineName);
                 }
                 if (vI_ProjectAndOrderTools.ProductName != null)
                 {
                     var platformOrProduct = new PlatformOrProduct { ProductName = vI_ProjectAndOrderTools.ProductName };
-                    db.PlatformOrProduct.Add(platformOrProduct);
-
+                    db.SP_AddPlatformOrProduct(platformOrProduct.ProductName);
                 }
 
                 //db.VI_ProjectAndOrderTools.Add(vI_ProjectAndOrderTools);

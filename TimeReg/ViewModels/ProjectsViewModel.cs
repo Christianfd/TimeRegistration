@@ -18,12 +18,21 @@ namespace TimeReg.ViewModels
         [Required]
         public Nullable<int> FK_ProjectLeader { get; set; }
         public string UserName { get; set; }
-      
+        [Required]
         public string Scope { get; set; }
         public Nullable<int> timeSum { get; set; }
         [Required]
         public int FK_TimeType { get; set; }
         public string TimeTypeName { get; set; }
+        public string SiteOrVersion { get; set; }
+        public int FK_Country { get; set; }
+        public string CountryName { get; set; }
+        public int FK_PlatformOrProduct { get; set; }
+        public string PlatformOrProductName { get; set; }
+        public int FK_Turbine { get; set; }
+        public string TurbineName { get; set; }
+        public string ProjectComment { get; set; }
+
 
      
 

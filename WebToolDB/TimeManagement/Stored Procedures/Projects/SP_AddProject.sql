@@ -4,8 +4,15 @@
 	@OrderNumber int = 1,
 	@TimeEstimation int,
 	@FK_ProjectLeader int = 2,
-	@Scope nvarchar(1000) = "Scope has not been set",
-	@timeType int = 9
+	@Scope nvarchar(200) = "Scope has not been set",
+	@timeType int = 9,
+	@SiteOrVersion nvarchar(50) = "Not Assigned",
+	@FK_Country int = 1,
+	@FK_PlatformOrProduct int = 1,
+	@FK_Turbine int = 1,
+	@ProjectComment nvarchar(1000)
+
+
 	
 AS
 
@@ -16,7 +23,12 @@ INSERT INTO [TimeManagement].[Projects]
 	[TimeEstimation], 
 	[FK_ProjectLeader], 
 	[Scope],
-	[FK_TimeType]
+	[FK_TimeType],
+	[SiteOrVersion],
+	[FK_Country],
+	[FK_PlatformOrProduct],
+	[FK_Turbine],
+	[ProjectComment]
 )
 
 VALUES (
@@ -25,6 +37,11 @@ VALUES (
 	@TimeEstimation, 
 	@FK_ProjectLeader, 
 	@Scope,
-	@timeType
+	@timeType,
+	@SiteOrVersion,
+	@FK_Country,
+	@FK_PlatformOrProduct,
+	@FK_Turbine,
+	@ProjectComment
 		) 
 GO

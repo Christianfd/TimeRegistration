@@ -65,17 +65,25 @@
     <Folder Include="TimeManagement\Views" />
     <Folder Include="TimeManagement\Stored Procedures" />
     <Folder Include="TimeManagement\Stored Procedures\User" />
-    <Folder Include="TimeManagement\Stored Procedures\TaskType" />
     <Folder Include="TimeManagement\Stored Procedures\Comments" />
     <Folder Include="TimeManagement\Stored Procedures\Projects" />
     <Folder Include="TimeManagement\Stored Procedures\TimeRegistration" />
     <Folder Include="TimeManagement\Stored Procedures\UserAssignment" />
     <Folder Include="TimeManagement\Stored Procedures\OrderNumber" />
-    <Folder Include="TimeManagement\Stored Procedures\TimeType" />
     <Folder Include="TimeManagement\Tables\OrderNumberTables" />
     <Folder Include="TimeManagement\Views\OrderNumberTools" />
     <Folder Include="TimeManagement\Views\ProjectViewTools" />
     <Folder Include="TimeManagement\Tables\ProjectTables" />
+    <Folder Include="TimeManagement\Functions\" />
+    <Folder Include="TimeManagement\Stored Procedures\OrderNumberTables" />
+    <Folder Include="TimeManagement\Stored Procedures\Project Tables" />
+    <Folder Include="TimeManagement\Stored Procedures\Project Tables\PlatformOrProduct" />
+    <Folder Include="TimeManagement\Stored Procedures\Project Tables\TaskType" />
+    <Folder Include="TimeManagement\Stored Procedures\Project Tables\TimeType" />
+    <Folder Include="TimeManagement\Stored Procedures\Project Tables\Turbine" />
+    <Folder Include="TimeManagement\Stored Procedures\OrderNumberTables\CustomerRef" />
+    <Folder Include="TimeManagement\Stored Procedures\OrderNumberTables\Requester" />
+    <Folder Include="TimeManagement\Stored Procedures\OrderNumberTables\RequestOrg" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="TimeManagement\Tables\TimeRegistration.sql" />
@@ -93,10 +101,7 @@
     <Build Include="TimeManagement\Views\VI_TimeRegistration.sql" />
     <Build Include="TimeManagement\Views\VI_Comments.sql" />
     <Build Include="TimeManagement\Stored Procedures\User\SP_AddUser.sql" />
-    <Build Include="TimeManagement\Stored Procedures\TaskType\SP_AddTaskType.sql" />
     <Build Include="TimeManagement\Stored Procedures\Comments\SP_AddComment.sql" />
-    <Build Include="TimeManagement\Stored Procedures\TaskType\SP_UpdateTaskType.sql" />
-    <Build Include="TimeManagement\Stored Procedures\TaskType\SP_RemoveTaskType.sql" />
     <Build Include="TimeManagement\Stored Procedures\Comments\SP_UpdateComments.sql" />
     <Build Include="TimeManagement\Stored Procedures\Comments\SP_RemoveComment.sql" />
     <Build Include="TimeManagement\Stored Procedures\Projects\SP_AddProject.sql" />
@@ -116,9 +121,6 @@
     <Build Include="TimeManagement\Stored Procedures\OrderNumber\SP_AddOrderNumber.sql" />
     <Build Include="TimeManagement\Stored Procedures\OrderNumber\SP_RemoveOrderNumber.sql" />
     <Build Include="TimeManagement\Stored Procedures\OrderNumber\SP_UpdateOrderNumber.sql" />
-    <Build Include="TimeManagement\Stored Procedures\TimeType\SP_AddTimeType.sql" />
-    <Build Include="TimeManagement\Stored Procedures\TimeType\SP_RemoveTimeType.sql" />
-    <Build Include="TimeManagement\Stored Procedures\TimeType\SP_UpdateTimeType.sql" />
     <Build Include="TimeManagement\Tables\OrderNumberTables\RequestOrg.sql" />
     <Build Include="TimeManagement\Tables\OrderNumberTables\Requester.sql" />
     <Build Include="TimeManagement\Tables\OrderNumberTables\CustomerRef.sql" />
@@ -134,6 +136,30 @@
     <Build Include="TimeManagement\Views\OrderNumberTools\VI_Requester.sql" />
     <Build Include="TimeManagement\Views\OrderNumberTools\VI_RequestOrg.sql" />
     <Build Include="TimeManagement\Views\VI_ProjectAndOrderTools.sql" />
+    <Build Include="TimeManagement\Functions\SF_TimeUsedProject.sql" />
+    <Build Include="TimeManagement\Stored Procedures\SP_TaskTypeFind.sql" />
+    <Build Include="TimeManagement\Stored Procedures\Project Tables\PlatformOrProduct\SP_AddPlatformOrProduct.sql" />
+    <Build Include="TimeManagement\Stored Procedures\Project Tables\TaskType\SP_AddTaskType.sql" />
+    <Build Include="TimeManagement\Stored Procedures\Project Tables\TaskType\SP_RemoveTaskType.sql" />
+    <Build Include="TimeManagement\Stored Procedures\Project Tables\TaskType\SP_UpdateTaskType.sql" />
+    <Build Include="TimeManagement\Stored Procedures\Project Tables\TimeType\SP_AddTimeType.sql" />
+    <Build Include="TimeManagement\Stored Procedures\Project Tables\TimeType\SP_RemoveTimeType.sql" />
+    <Build Include="TimeManagement\Stored Procedures\Project Tables\TimeType\SP_UpdateTimeType.sql" />
+    <Build Include="TimeManagement\Stored Procedures\Project Tables\Turbine\SP_AddTurbine.sql" />
+    <Build Include="TimeManagement\Stored Procedures\Project Tables\Turbine\SP_RemoveTurbine.sql" />
+    <Build Include="TimeManagement\Stored Procedures\Project Tables\Turbine\SP_UpdateTurbine.sql" />
+    <Build Include="TimeManagement\Stored Procedures\OrderNumberTables\CustomerRef\SP_AddCustomerRef.sql" />
+    <Build Include="TimeManagement\Stored Procedures\OrderNumberTables\CustomerRef\SP_RemoveCustomerRef.sql" />
+    <Build Include="TimeManagement\Stored Procedures\OrderNumberTables\CustomerRef\SP_UpdateCustomerRef.sql" />
+    <Build Include="TimeManagement\Stored Procedures\OrderNumberTables\Requester\SP_AddRequester.sql" />
+    <Build Include="TimeManagement\Stored Procedures\OrderNumberTables\Requester\SP_RemoveRequester.sql" />
+    <Build Include="TimeManagement\Stored Procedures\OrderNumberTables\Requester\SP_UpdateRequester.sql" />
+    <Build Include="TimeManagement\Stored Procedures\OrderNumberTables\RequestOrg\SP_AddRequestOrg.sql" />
+    <Build Include="TimeManagement\Stored Procedures\OrderNumberTables\RequestOrg\SP_RemoveRequestOrg.sql" />
+    <Build Include="TimeManagement\Stored Procedures\OrderNumberTables\RequestOrg\SP_UpdateRequestOrg.sql" />
+    <Build Include="TimeManagement\Views\ProjectViewTools\VI_Turbine.sql" />
+    <Build Include="TimeManagement\Views\ProjectViewTools\VI_PlatformOrProduct.sql" />
+    <Build Include="TimeManagement\Views\ProjectViewTools\VI_Country.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="WebToolDB.refactorlog" />

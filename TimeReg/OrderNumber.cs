@@ -28,5 +28,8 @@ namespace TimeReg
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Projects> Projects { get; set; }
+        public virtual CustomerRef CustomerRef { get; set; }
+        public virtual Requester Requester { get; set; }
+        public virtual RequestOrg RequestOrg { get; set; }
     }
 }

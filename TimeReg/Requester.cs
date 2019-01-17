@@ -14,7 +14,16 @@ namespace TimeReg
     
     public partial class Requester
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Requester()
+        {
+            this.OrderNumber = new HashSet<OrderNumber>();
+        }
+    
         public int PK_Id { get; set; }
         public string Name { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<OrderNumber> OrderNumber { get; set; }
     }
 }

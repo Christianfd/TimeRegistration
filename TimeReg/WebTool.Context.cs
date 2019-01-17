@@ -54,6 +54,9 @@ namespace TimeReg
         public virtual DbSet<VI_UserAssignment> VI_UserAssignment { get; set; }
         public virtual DbSet<VI_Users> VI_Users { get; set; }
         public virtual DbSet<VI_UserTimePerProject> VI_UserTimePerProject { get; set; }
+        public virtual DbSet<VI_Country> VI_Country { get; set; }
+        public virtual DbSet<VI_PlatformOrProduct> VI_PlatformOrProduct { get; set; }
+        public virtual DbSet<VI_Turbine> VI_Turbine { get; set; }
     
         public virtual ObjectResult<SP_AddUser_Result> SP_AddUser(string userName, string userAuthentity)
         {
@@ -171,7 +174,7 @@ namespace TimeReg
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_RemoveComment", removeIdParameter);
         }
     
-        public virtual int SP_AddProject(string projectName, Nullable<int> orderNumber, Nullable<int> timeEstimation, Nullable<int> fK_ProjectLeader, string scope, Nullable<int> timeType)
+        public virtual int SP_AddProject(string projectName, Nullable<int> orderNumber, Nullable<int> timeEstimation, Nullable<int> fK_ProjectLeader, string scope, Nullable<int> timeType, string siteOrVersion, Nullable<int> fK_Country, Nullable<int> fK_PlatformOrProduct, Nullable<int> fK_Turbine, string projectComment)
         {
             var projectNameParameter = projectName != null ?
                 new ObjectParameter("ProjectName", projectName) :
@@ -197,7 +200,27 @@ namespace TimeReg
                 new ObjectParameter("timeType", timeType) :
                 new ObjectParameter("timeType", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_AddProject", projectNameParameter, orderNumberParameter, timeEstimationParameter, fK_ProjectLeaderParameter, scopeParameter, timeTypeParameter);
+            var siteOrVersionParameter = siteOrVersion != null ?
+                new ObjectParameter("SiteOrVersion", siteOrVersion) :
+                new ObjectParameter("SiteOrVersion", typeof(string));
+    
+            var fK_CountryParameter = fK_Country.HasValue ?
+                new ObjectParameter("FK_Country", fK_Country) :
+                new ObjectParameter("FK_Country", typeof(int));
+    
+            var fK_PlatformOrProductParameter = fK_PlatformOrProduct.HasValue ?
+                new ObjectParameter("FK_PlatformOrProduct", fK_PlatformOrProduct) :
+                new ObjectParameter("FK_PlatformOrProduct", typeof(int));
+    
+            var fK_TurbineParameter = fK_Turbine.HasValue ?
+                new ObjectParameter("FK_Turbine", fK_Turbine) :
+                new ObjectParameter("FK_Turbine", typeof(int));
+    
+            var projectCommentParameter = projectComment != null ?
+                new ObjectParameter("ProjectComment", projectComment) :
+                new ObjectParameter("ProjectComment", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_AddProject", projectNameParameter, orderNumberParameter, timeEstimationParameter, fK_ProjectLeaderParameter, scopeParameter, timeTypeParameter, siteOrVersionParameter, fK_CountryParameter, fK_PlatformOrProductParameter, fK_TurbineParameter, projectCommentParameter);
         }
     
         public virtual int SP_RemoveProject(Nullable<int> removeId)
@@ -209,7 +232,7 @@ namespace TimeReg
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_RemoveProject", removeIdParameter);
         }
     
-        public virtual int SP_UpdateProject(Nullable<int> updateId, string projectName, Nullable<int> orderNumber, Nullable<int> timeEstimation, Nullable<int> fK_ProjectLeader, string scope, Nullable<int> timeType)
+        public virtual int SP_UpdateProject(Nullable<int> updateId, string projectName, Nullable<int> orderNumber, Nullable<int> timeEstimation, Nullable<int> fK_ProjectLeader, string scope, Nullable<int> timeType, string siteOrVersion, Nullable<int> fK_Country, Nullable<int> fK_PlatformOrProduct, Nullable<int> fK_Turbine, string projectComment)
         {
             var updateIdParameter = updateId.HasValue ?
                 new ObjectParameter("UpdateId", updateId) :
@@ -239,7 +262,27 @@ namespace TimeReg
                 new ObjectParameter("timeType", timeType) :
                 new ObjectParameter("timeType", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_UpdateProject", updateIdParameter, projectNameParameter, orderNumberParameter, timeEstimationParameter, fK_ProjectLeaderParameter, scopeParameter, timeTypeParameter);
+            var siteOrVersionParameter = siteOrVersion != null ?
+                new ObjectParameter("SiteOrVersion", siteOrVersion) :
+                new ObjectParameter("SiteOrVersion", typeof(string));
+    
+            var fK_CountryParameter = fK_Country.HasValue ?
+                new ObjectParameter("FK_Country", fK_Country) :
+                new ObjectParameter("FK_Country", typeof(int));
+    
+            var fK_PlatformOrProductParameter = fK_PlatformOrProduct.HasValue ?
+                new ObjectParameter("FK_PlatformOrProduct", fK_PlatformOrProduct) :
+                new ObjectParameter("FK_PlatformOrProduct", typeof(int));
+    
+            var fK_TurbineParameter = fK_Turbine.HasValue ?
+                new ObjectParameter("FK_Turbine", fK_Turbine) :
+                new ObjectParameter("FK_Turbine", typeof(int));
+    
+            var projectCommentParameter = projectComment != null ?
+                new ObjectParameter("ProjectComment", projectComment) :
+                new ObjectParameter("ProjectComment", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_UpdateProject", updateIdParameter, projectNameParameter, orderNumberParameter, timeEstimationParameter, fK_ProjectLeaderParameter, scopeParameter, timeTypeParameter, siteOrVersionParameter, fK_CountryParameter, fK_PlatformOrProductParameter, fK_TurbineParameter, projectCommentParameter);
         }
     
         public virtual int SP_AddTimeRegistration(Nullable<int> userId, Nullable<int> projectId, Nullable<int> orderId, Nullable<int> taskId, Nullable<int> timeRegistered, Nullable<System.DateTime> date, Nullable<System.DateTime> dateEntry, string comment)
@@ -454,6 +497,139 @@ namespace TimeReg
                 new ObjectParameter("timeTypeName", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_UpdateTimeType", updateIdParameter, timeTypeNameParameter);
+        }
+    
+        public virtual int SP_AddCustomerRef(string name)
+        {
+            var nameParameter = name != null ?
+                new ObjectParameter("Name", name) :
+                new ObjectParameter("Name", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_AddCustomerRef", nameParameter);
+        }
+    
+        public virtual int SP_AddPlatformOrProduct(string platformOrProject)
+        {
+            var platformOrProjectParameter = platformOrProject != null ?
+                new ObjectParameter("platformOrProject", platformOrProject) :
+                new ObjectParameter("platformOrProject", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_AddPlatformOrProduct", platformOrProjectParameter);
+        }
+    
+        public virtual int SP_AddRequester(string name)
+        {
+            var nameParameter = name != null ?
+                new ObjectParameter("Name", name) :
+                new ObjectParameter("Name", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_AddRequester", nameParameter);
+        }
+    
+        public virtual int SP_AddRequestOrg(string organization)
+        {
+            var organizationParameter = organization != null ?
+                new ObjectParameter("Organization", organization) :
+                new ObjectParameter("Organization", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_AddRequestOrg", organizationParameter);
+        }
+    
+        public virtual int SP_AddTurbine(string turbineName)
+        {
+            var turbineNameParameter = turbineName != null ?
+                new ObjectParameter("turbineName", turbineName) :
+                new ObjectParameter("turbineName", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_AddTurbine", turbineNameParameter);
+        }
+    
+        public virtual int SP_RemoveCustomerRef(Nullable<int> removeId)
+        {
+            var removeIdParameter = removeId.HasValue ?
+                new ObjectParameter("RemoveId", removeId) :
+                new ObjectParameter("RemoveId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_RemoveCustomerRef", removeIdParameter);
+        }
+    
+        public virtual int SP_RemoveRequester(Nullable<int> removeId)
+        {
+            var removeIdParameter = removeId.HasValue ?
+                new ObjectParameter("RemoveId", removeId) :
+                new ObjectParameter("RemoveId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_RemoveRequester", removeIdParameter);
+        }
+    
+        public virtual int SP_RemoveRequestOrg(Nullable<int> removeId)
+        {
+            var removeIdParameter = removeId.HasValue ?
+                new ObjectParameter("RemoveId", removeId) :
+                new ObjectParameter("RemoveId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_RemoveRequestOrg", removeIdParameter);
+        }
+    
+        public virtual int SP_RemoveTurbine(Nullable<int> removeId)
+        {
+            var removeIdParameter = removeId.HasValue ?
+                new ObjectParameter("RemoveId", removeId) :
+                new ObjectParameter("RemoveId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_RemoveTurbine", removeIdParameter);
+        }
+    
+        public virtual int SP_UpdateCustomerRef(Nullable<int> updateId, string name)
+        {
+            var updateIdParameter = updateId.HasValue ?
+                new ObjectParameter("UpdateId", updateId) :
+                new ObjectParameter("UpdateId", typeof(int));
+    
+            var nameParameter = name != null ?
+                new ObjectParameter("Name", name) :
+                new ObjectParameter("Name", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_UpdateCustomerRef", updateIdParameter, nameParameter);
+        }
+    
+        public virtual int SP_UpdateRequester(Nullable<int> updateId, string name)
+        {
+            var updateIdParameter = updateId.HasValue ?
+                new ObjectParameter("UpdateId", updateId) :
+                new ObjectParameter("UpdateId", typeof(int));
+    
+            var nameParameter = name != null ?
+                new ObjectParameter("Name", name) :
+                new ObjectParameter("Name", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_UpdateRequester", updateIdParameter, nameParameter);
+        }
+    
+        public virtual int SP_UpdateRequestOrg(Nullable<int> updateId, string organization)
+        {
+            var updateIdParameter = updateId.HasValue ?
+                new ObjectParameter("UpdateId", updateId) :
+                new ObjectParameter("UpdateId", typeof(int));
+    
+            var organizationParameter = organization != null ?
+                new ObjectParameter("Organization", organization) :
+                new ObjectParameter("Organization", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_UpdateRequestOrg", updateIdParameter, organizationParameter);
+        }
+    
+        public virtual int SP_UpdateTurbine(Nullable<int> updateId, string turbineName)
+        {
+            var updateIdParameter = updateId.HasValue ?
+                new ObjectParameter("UpdateId", updateId) :
+                new ObjectParameter("UpdateId", typeof(int));
+    
+            var turbineNameParameter = turbineName != null ?
+                new ObjectParameter("TurbineName", turbineName) :
+                new ObjectParameter("TurbineName", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_UpdateTurbine", updateIdParameter, turbineNameParameter);
         }
     }
 }

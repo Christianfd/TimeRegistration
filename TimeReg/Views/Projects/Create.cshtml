@@ -14,7 +14,72 @@
     <div class="form-horizontal">
         <h4>Projects</h4>
         <hr />
+        @*Project Name*@
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Name, "Project Name", htmlAttributes: new { @class = "control-label col-md-2", @id = "ProjectName" })
+            <div class="col-md-10">
+                @Html.DisplayFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @id = "ProjectName" } })
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        @*Product Or Platform*@
+        <div class="form-group">
+            @Html.LabelFor(model => model.FK_PlatformOrProduct, "Platform or Product", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("FK_PlatformOrProduct", (SelectList)ViewBag.FK_PlatformOrProduct, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.FK_PlatformOrProduct, "", new { @class = "text-danger" })
+            </div>
+        </div>
 
+        @*Site or Version*@
+        <div class="form-group">
+            @Html.LabelFor(model => model.SiteOrVersion, "Site Or Version", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+
+                @Html.EditorFor(model => model.SiteOrVersion, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.SiteOrVersion, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        @*Turbine*@
+        <div class="form-group">
+            @Html.LabelFor(model => model.FK_Turbine, "Turbine", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("FK_Turbine", (SelectList)ViewBag.FK_Turbine, htmlAttributes: new { @class = "form-control", id = "Turbine" })
+                @Html.ValidationMessageFor(model => model.FK_Turbine, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        @*Project Scope*@
+        <div class="form-group">
+            @Html.LabelFor(model => model.Scope, "Project Scope", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.Scope, htmlAttributes: new { @class = "form-control", id = "Scope", style = "height:100px" })
+                @Html.ValidationMessageFor(model => model.Scope, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        @*Country*@
+        <div class="form-group">
+            @Html.LabelFor(model => model.FK_Country, "Country", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("FK_Country", (SelectList)ViewBag.FK_Country, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.FK_Country, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        @*Project Comment*@
+        <div class="form-group">
+            @Html.LabelFor(model => model.ProjectComment, "Project Comment", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.ProjectComment, htmlAttributes: new { @class = "form-control", style = "height:150px" })
+                @Html.ValidationMessageFor(model => model.ProjectComment, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        @*Order Number*@
         <div class="form-group">
             @Html.LabelFor(model => model.FK_OrderNumber, "Order Number", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -24,16 +89,9 @@
         </div>
 
 
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.Name,"Project Name" , htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
-            </div>
-        </div>
+      
 
-
+        @*Time Estimation*@
         <div class="form-group">
             @Html.LabelFor(model => model.TimeEstimation, "Time Estimation", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -43,6 +101,7 @@
             </div>
         </div>
 
+        @*Project Leader*@
         <div class="form-group">
             @Html.LabelFor(model => model.FK_ProjectLeader, "Project Leader", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -50,7 +109,8 @@
                 @Html.ValidationMessageFor(model => model.FK_ProjectLeader, "", new { @class = "text-danger" })
             </div>
         </div>
-
+        
+        @*Time Type*@
         <div class="form-group">
             @Html.LabelFor(model => model.FK_TimeType, "Time Type", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -60,26 +120,29 @@
         </div>
 
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Scope, "Project Scope", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Scope, new { htmlAttributes = new { @class = "form-control", style = "height:150px" } })
-                @Html.ValidationMessageFor(model => model.Scope, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
+        @*Buttone*@
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Create" class="btn btn-default" />
             </div>
         </div>
     </div>
-}
+      
+        }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
+        <div>
+            @Html.ActionLink("Back to List", "Index")
+        </div>
 
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
+        @section Scripts {
+
+            @Scripts.Render("~/bundles/jqueryval")
+            @Scripts.Render("~/bundles/jquery")
+
+            <script>
+                    $("#Turbine").change(function () {
+                        $("#ProjectName") = "Test";
+                    });
+            </script>
+           
+        }
