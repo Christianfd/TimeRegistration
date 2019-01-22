@@ -9,7 +9,9 @@ namespace TimeReg
         public static void RegisterBundles(BundleCollection bundles)
         {
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-                        "~/Scripts/jquery-{version}.js"));
+                        "~/Scripts/jquery-{version}.js", 
+                        "~/Scripts/jquery-ui-{version}.js",
+                        "~/Scripts/Editable-Select/jquery-editable-select.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*"));
@@ -22,7 +24,9 @@ namespace TimeReg
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
                         "~/Scripts/modernizr-*"));
 
-           
+            //Editable-Select Jquery plugin
+            bundles.Add(new Bundle("~/bundles/Editable-Select").Include(
+                ));
             
             // JQuery validator. - Don't think this is needed - I think you can use the above .../jqueryval  
             bundles.Add(new ScriptBundle("~/bundles/custom-validator").Include(
@@ -35,7 +39,8 @@ namespace TimeReg
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/site.css",
-                      "~/Content/Styles.css"));
+                      "~/Content/Styles.css",
+                      "~/Content/Editable-Select/jquery-editable-select.css"));
 
             bundles.Add(new StyleBundle("~/Content/themes/base/css").Include(
             "~/Content/themes/base/all.css"));

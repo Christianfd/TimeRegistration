@@ -18,9 +18,9 @@
         @Html.HiddenFor(model => model.PK_Id)
 
         <div class="form-group">
-            @Html.LabelFor(model => model.FK_UserId, "FK_UserId", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.FK_UserId, "FK_UserId", htmlAttributes: new { @class = "control-label col-md-2 " })
             <div class="col-md-10">
-                @Html.DropDownList("FK_UserId", null, htmlAttributes: new { @class = "form-control" })
+                @Html.DropDownList("FK_UserId", null, htmlAttributes: new { @class = "form-control selectpicker" })
                 @Html.ValidationMessageFor(model => model.FK_UserId, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -96,15 +96,11 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/jqueryui")
-<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/jquery-ui.min.js"></script>
-<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<link rel="stylesheet" href="/resources/demos/style.css">
+
 <script>
     $(".datepicker").datepicker({ dateFormat: 'dd/M/yy' });
+
+    $(".selectpicker").autocomplete();
 
     //$.validator.methods.date = function (value, element) {
     //    return this.optional(element) || $.datepicker.parseDate('dd/mm/yy', value);
