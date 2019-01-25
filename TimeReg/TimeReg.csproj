@@ -385,6 +385,7 @@
       <LastGenOutput>WebTool.cs</LastGenOutput>
       <DependentUpon>WebTool.edmx</DependentUpon>
     </Content>
+    <None Include="Properties\PublishProfiles\RepIt-RemoveServer.pubxml" />
     <None Include="Scripts\jquery-1.12.4.intellisense.js" />
     <Content Include="Scripts\jquery-1.12.4.js" />
     <Content Include="Scripts\jquery-1.12.4.min.js" />

@@ -40,22 +40,21 @@
         @*User dropdown*@
         <div class="form-group">
             @Html.LabelFor(model => model.FK_UserId, "User", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            <div class="col-md-10 ui-widget">
                 @*Auto Selection Should proably happen here*@
-                @Html.DropDownList("FK_UserId", (SelectList)ViewBag.FK_UserId, "Please Select yourself", htmlAttributes: new { @class = "form-control" })
+                @Html.DropDownList("FK_UserId", (SelectList)ViewBag.FK_UserId, "Please Select yourself", htmlAttributes: new { @class = "form-control selectpicker", @AutoPostBack = "true", })
                 @Html.ValidationMessageFor(model => model.FK_UserId, "", new { @class = "text-danger" })
             </div>
         </div>
         @*Order Number*@
         <div class="form-group">
             @Html.LabelFor(model => model.FK_OrderId, "Order Number", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("FK_OrderId", (SelectList)ViewBag.FK_OrderId, "Please Select Order Number", htmlAttributes: new { @class = "form-control" })
+            <div class="col-md-8 ui-widget">
+                @Html.DropDownList("FK_OrderId", (SelectList)ViewBag.FK_OrderId, "Please Select Order Number", htmlAttributes: new { @class = "form-control selectpicker" })
                 @Html.ValidationMessageFor(model => model.FK_OrderId, "", new { @class = "text-danger" })
                 @*Button for copying DSA Number*@
                 <div>
-                    <button type="button" id="btnScore" class="orderNumberBtn " title="Copy Order Number"
-                            onclick="ClipboardMethod()">
+                    <button type="button" id="btnScore" class="orderNumberBtn" title="Copy Order Number">
                         &#x1f4cb
                     </button>
                 </div>
@@ -65,9 +64,9 @@
         @*Projects drop down list*@
         <div class="form-group">
             @Html.LabelFor(model => model.FK_ProjectId, "Project", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            <div class="col-md-10 ui-widget">
 
-                @Html.DropDownList("FK_ProjectId", (SelectList)ViewBag.FK_ProjectId, "Please Select a Project", htmlAttributes: new { @class = "form-control" })
+                @Html.DropDownList("FK_ProjectId", (SelectList)ViewBag.FK_ProjectId, "Please Select a Project", htmlAttributes: new { @class = "form-control selectpicker" })
                 @Html.ValidationMessageFor(model => model.FK_ProjectId, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -75,8 +74,8 @@
         @*Selection of Task Id*@
         <div class="form-group">
             @Html.LabelFor(model => model.FK_TaskId, "Task Type", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("FK_TaskId", (SelectList)ViewBag.FK_TaskId, "Please select the Correct Task Type", htmlAttributes: new { @class = "form-control" })
+            <div class="col-md-10 ui-widget">
+                @Html.DropDownList("FK_TaskId", (SelectList)ViewBag.FK_TaskId, "Please select the Correct Task Type", htmlAttributes: new { @class = "form-control selectpicker", @value = "&nbsp;" })
                 @Html.ValidationMessageFor(model => model.FK_TaskId, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -108,6 +107,10 @@
             </div>
         </div>
 
+        <div>
+            <button class="btn" id="AjaxTest" value="10">10</button>
+        </div>
+
         @* Replaced by DateTime.Now *@
         @*<div class="form-group">
                 @Html.LabelFor(model => model.DateEntry, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -127,8 +130,8 @@
             </div>
 
         </div>
-
-
+       
+        
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
@@ -136,7 +139,14 @@
             </div>
         </div>
     </div>
+
+
+    
+
+
 }
+
+
 
 <div>
     @Html.ActionLink("Back to List", "Index")
@@ -146,10 +156,9 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/jqueryval")
 
-
+    @*Date Picker and Clipboard Functionality*@
     <script>
         $(".datepicker").datepicker({ dateFormat: 'dd/M/yy' }).val();
-
 
         //Clipboard functionality
         function fallbackCopyTextToClipboard(text) {
@@ -186,7 +195,7 @@
         }
 
         //Selects the copy button
-        var copyOrderBtn = document.querySelector(".orderNumberBtn");
+        var copyOrderBtn = document.querySelector("#btnScore");
 
         //Triggers Copy to clipboard on button click
         copyOrderBtn.addEventListener("click", function (event) {
@@ -194,4 +203,219 @@
             copyTextToClipboard(OrderNumber);
         });
     </script>
+
+    @*Auto Completion Script*@
+    <script>
+        $(function () {
+            $.widget("custom.combobox", {
+                
+                _create: function () {
+                    this.wrapper = $("<span>")
+                      .addClass("custom-combobox")
+                      .attr("id", "combobox" + this.element.attr("id"))
+                      .insertAfter(this.element);
+                   
+                    
+                    this.element.hide();
+                    this._createAutocomplete();
+                    this._createShowAllButton();
+                    this.input.click(function (event) {
+                        var currentValue = $(this).val();
+                        if (currentValue == "") {
+                            $(this).autocomplete('search', '');
+                        } else $(this).autocomplete('search', $(this).val());
+                    });
+                },
+               
+                
+                _createAutocomplete: function () {
+                    var selected = this.element.children(":selected"),
+                      value = selected.val() ? selected.text() : "";
+
+                    this.input = $("<input>")
+                      .appendTo(this.wrapper)
+                      .val(value)
+                      .attr("title", "")
+                      .addClass("custom-combobox-input ui-widget ui-widget-content ui-state-default ui-corner-left form-control")
+                      .autocomplete({
+                          delay: 0,
+                          minLength: 0,
+                          source: $.proxy(this, "_source"),
+                          select: function (event, ui) {        
+                              //alert($(this).closest('span').attr('id'));
+                              
+                              //triggers the corresponding method on index change
+                              DropDown_IndexChange($(this).closest('span').attr('id'));
+                             
+                          
+                    },
+                      })
+                      .tooltip({
+                          classes: {
+                              "ui-tooltip": "ui-state-highlight"
+                          }
+                      });
+
+                    this._on(this.input, {
+                        autocompleteselect: function (event, ui) {
+                            ui.item.option.selected = true;
+                            this._trigger("select", event, {
+                                item: ui.item.option
+                            });
+                        },
+
+                        autocompletechange: "_removeIfInvalid"
+                    });
+                },
+
+                _createShowAllButton: function () {
+                    var input = this.input,
+                      wasOpen = false;
+
+                    $("<a>")
+                      .attr("tabIndex", -1)
+                      .attr("title", "Show All Items")
+                      .tooltip()
+                      .appendTo(this.wrapper)
+                      .button({
+                          icons: {
+                              primary: "ui-icon-triangle-1-s"
+                          },
+                          text: false
+                      })
+                      .removeClass("ui-corner-all")
+                      .addClass("custom-combobox-toggle ui-corner-right")
+                      .on("mousedown", function () {
+                          wasOpen = input.autocomplete("widget").is(":visible");
+                      })
+                      .on("click", function () {
+                          input.trigger("focus");
+
+                          // Close if already visible
+                          if (wasOpen) {
+                              return;
+                          }
+
+                          // Pass empty string as value to search for, displaying all results
+                          input.autocomplete("search", "");
+                      });
+                },
+
+                _source: function (request, response) {
+                    var matcher = new RegExp($.ui.autocomplete.escapeRegex(request.term), "i");
+                    response(this.element.children("option").map(function () {
+                        var text = $(this).text();
+                        if (this.value == request.term && this.value != "") {
+                         
+                            return {
+                                label: text,
+                                value: text,
+                                option: this,
+                                select: true
+
+
+                            };
+                        }
+
+                         
+                        if (this.value && (!request.term || matcher.test(text)))
+                            return {
+                                label: text,
+                                value: text,
+                                option: this
+                            };
+                    }));
+                },
+
+                _removeIfInvalid: function (event, ui) {
+
+                    // Selected an item, nothing to do
+                    if (ui.item) {
+                        return;
+                    }
+
+                    // Search for a match (case-insensitive)
+                    var value = this.input.val(),
+                      valueLowerCase = value.toLowerCase(),
+                      valid = false;
+                    this.element.children("option").each(function () {
+                        if ($(this).text().toLowerCase() === valueLowerCase) {
+                            this.selected = valid = true;
+                            return false;
+                        }
+                    });
+
+                    // Found a match, nothing to do
+                    if (valid) {
+                        return;
+                    }
+
+                    // Remove invalid value
+                    this.input
+                      .val("")
+                      .attr("title", value + " didn't match any item")
+                      .tooltip("open");
+                    this.element.val("");
+                    this._delay(function () {
+                        this.input.tooltip("close").attr("title", "");
+                    }, 2500);
+                    this.input.autocomplete("instance").term = "";
+
+                    return;
+                },
+
+                _destroy: function () {
+                    this.wrapper.remove();
+                    this.element.show();
+                },
+                              
+            });
+
+            $(".selectpicker").combobox();
+        });
+
+     	
+
+     
+
+            </script>
+
+    @*Ajax and Json Handling*@
+    <script>
+
+        $("custom-combobox-input").select();
+
+        function DropDown_IndexChange(id) {
+            if (id != null) {
+                id = id.replace("combobox", "");
+                var key = $("#" + id + " option:selected").val();
+            }
+              
+          
+          console.log("The id trigger was    : " + id);
+          console.log("Corresponding value is: " + key)
+              @*$.getJSON('@Url.Action("AjaxTest")', { dropDownKey: key, dropDownId: id}, function (result) {
+                  if (result != null) {
+                      $("#AjaxTest").val(value);
+                      $("#AjaxTest").text(value);
+                  };
+              });*@
+        };
+
+
+        @*$('#FK_UserId').select(function () {
+            var value1 = 10;
+            console.log("Value1 is currently" + value1);
+            $.getJSON('@Url.Action("AjaxTest")', { value: value1 }, function (value) {
+                console.log("Json Call has happened " + value);
+               
+                       if (value != null )
+                       {
+                           $("#AjaxTest").val(value);
+                           $("#AjaxTest").text(value);
+                       };
+                   });
+               });*@
+    </script>
+
 }

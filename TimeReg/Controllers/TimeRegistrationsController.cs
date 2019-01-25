@@ -41,6 +41,7 @@ namespace TimeReg.Controllers
         // GET: TimeRegistrations/Create
         public ActionResult Create()
         {
+            ViewBag.TestValue = 10;
             ViewBag.FK_ProjectId = new SelectList(db.VI_Projects, "PK_Id", "Name");
             ViewBag.FK_OrderId = new SelectList(db.VI_OrderNumber, "PK_Id", "Number");
             ViewBag.FK_TaskId = new SelectList(db.VI_TaskType, "PK_Id", "Name");
@@ -152,6 +153,13 @@ namespace TimeReg.Controllers
         //    String Clipboard;
         //    Clipboard.SetText("boo yah!", TextDataFormat.Html);
         //}
+
+        [HttpGet]
+        public ActionResult AjaxTest(int value)
+        {
+            value = value * 2;
+            return Json(value, JsonRequestBehavior.AllowGet);
+        }
 
         protected override void Dispose(bool disposing)
         {

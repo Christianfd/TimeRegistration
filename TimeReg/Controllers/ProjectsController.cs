@@ -49,6 +49,8 @@ namespace TimeReg.Controllers
         public ActionResult Create()
         {
             
+            
+
             ViewBag.FK_ProjectLeader = new SelectList(db.VI_Users.OrderBy(x => x.PK_Id), "PK_Id", "NK_Name");
             ViewBag.FK_OrderNumber = new SelectList(db.VI_OrderNumber.OrderBy(x => x.PK_Id), "PK_Id", "Number");
             ViewBag.FK_TimeType = new SelectList(db.TimeType.OrderBy(x => x.PK_Id), "PK_Id", "Name");
