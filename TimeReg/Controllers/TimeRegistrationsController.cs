@@ -61,6 +61,7 @@ namespace TimeReg.Controllers
             timeRegistration.DateEntry = DateTime.Now;
             if (ModelState.IsValid)
             {
+                if (timeRegistration.Comment == null) { timeRegistration.Comment = "No Comment"; }
              
                 db.SP_AddTimeRegistration(timeRegistration.FK_UserId, timeRegistration.FK_ProjectId,timeRegistration.FK_OrderId, timeRegistration.FK_TaskId, timeRegistration.Time, timeRegistration.Date, DateTime.Now, timeRegistration.Comment);
                 db.SaveChanges();
@@ -155,10 +156,25 @@ namespace TimeReg.Controllers
         //}
 
         [HttpGet]
-        public ActionResult AjaxTest(int value)
+        public ActionResult AjaxTest(int dropDownKey, string dropDownId)
         {
-            value = value * 2;
-            return Json(value, JsonRequestBehavior.AllowGet);
+            var key = (int)dropDownKey;
+            var id = (string)dropDownId;
+            
+            if (id == "FK_OrderId")
+            {
+                var ProjectList = new SelectList(db.VI_Projects.Where(m => m.FK_OrderNumber == key), "PK_Id", "Name");
+                return Json(ProjectList, JsonRequestBehavior.AllowGet);
+            }
+
+            if (id == "FK_UserId")
+            {
+                var OrderNumberList = new SelectList(db.VI_UserAssignment.Where(m => m.FK_UserId == key), "FK_OrderNumber", "Number");
+                return Json(OrderNumberList, JsonRequestBehavior.AllowGet);
+            }
+
+            return null;
+         
         }
 
         protected override void Dispose(bool disposing)

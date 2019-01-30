@@ -26,6 +26,7 @@ namespace TimeReg
         public int PK_Id { get; set; }
         public string NK_Name { get; set; }
         public string NK_ZId { get; set; }
+        public short NK_Rights { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Comments> Comments { get; set; }

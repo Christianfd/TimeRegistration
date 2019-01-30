@@ -12,11 +12,10 @@ namespace TimeReg
     using System;
     using System.Collections.Generic;
     
-    public partial class VI_Users
+    public partial class VI_ProjectAndOrderToolsUnion
     {
+        public string Type { get; set; }
+        public string Name { get; set; }
         public int PK_Id { get; set; }
-        public string NK_Name { get; set; }
-        public string NK_ZId { get; set; }
-        public short NK_Rights { get; set; }
     }
 }

@@ -20,5 +20,7 @@ namespace TimeReg
         public string UserName { get; set; }
         public string NK_ZId { get; set; }
         public string ProjectName { get; set; }
+        public int FK_OrderNumber { get; set; }
+        public string Number { get; set; }
     }
 }

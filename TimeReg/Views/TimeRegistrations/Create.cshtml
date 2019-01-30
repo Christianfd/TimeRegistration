@@ -389,33 +389,50 @@
             if (id != null) {
                 id = id.replace("combobox", "");
                 var key = $("#" + id + " option:selected").val();
+                var target = $("");
+                //Based on the calling Id, we need to identify the dropdownlist in need of change:
+                if (id == "FK_UserId")  {target = $("#FK_OrderId")  }
+                if (id == "FK_OrderId") {target = $("#FK_ProjectId")}
+            
+                
+            } else {return}
+
+
+
+            function populateDropDownList(result) {
+                //empty the targeted dropdownlist
+                target.empty();
+                //add the found results
+                $.each(result, function (index, value) {
+                    target.append($('<option/>', {
+                        value: value.Value,
+                        text: value.Text
+                    }));
+                    return;
+                });
+             }
+
+
+            //Ajax Call is currently only needed When Chosing user or Order Number
+            if (id == 'FK_UserId' || id == 'FK_OrderId') {
+                $.getJSON('@Url.Action("AjaxTest")', { dropDownKey: key, dropDownId: id }, function (result) {
+                    if (result != null) {
+
+                        console.log(result);
+                    
+                        populateDropDownList(result, target);
+                    };
+                });
             }
               
           
           console.log("The id trigger was    : " + id);
-          console.log("Corresponding value is: " + key)
-              @*$.getJSON('@Url.Action("AjaxTest")', { dropDownKey: key, dropDownId: id}, function (result) {
-                  if (result != null) {
-                      $("#AjaxTest").val(value);
-                      $("#AjaxTest").text(value);
-                  };
-              });*@
+          console.log("Corresponding value is: " + key);
+          console.log("The DropDown Target is: " + target.attr('id'));
+
+        
+        
         };
-
-
-        @*$('#FK_UserId').select(function () {
-            var value1 = 10;
-            console.log("Value1 is currently" + value1);
-            $.getJSON('@Url.Action("AjaxTest")', { value: value1 }, function (value) {
-                console.log("Json Call has happened " + value);
-               
-                       if (value != null )
-                       {
-                           $("#AjaxTest").val(value);
-                           $("#AjaxTest").text(value);
-                       };
-                   });
-               });*@
     </script>
 
 }

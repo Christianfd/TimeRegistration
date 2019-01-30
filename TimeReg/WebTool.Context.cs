@@ -57,6 +57,7 @@ namespace TimeReg
         public virtual DbSet<VI_Country> VI_Country { get; set; }
         public virtual DbSet<VI_PlatformOrProduct> VI_PlatformOrProduct { get; set; }
         public virtual DbSet<VI_Turbine> VI_Turbine { get; set; }
+        public virtual DbSet<VI_ProjectAndOrderToolsUnion> VI_ProjectAndOrderToolsUnion { get; set; }
     
         public virtual ObjectResult<SP_AddUser_Result> SP_AddUser(string userName, string userAuthentity)
         {
