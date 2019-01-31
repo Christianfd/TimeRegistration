@@ -8,6 +8,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using TimeReg;
+using TimeReg.ViewModels;
 
 namespace TimeReg.Controllers
 {
@@ -18,7 +19,32 @@ namespace TimeReg.Controllers
         // GET: ProjectAndOrderTools
         public ActionResult Index()
         {
-            return View(db.VI_ProjectAndOrderTools.ToList());
+       
+            return View(db.VI_ProjectAndOrderToolsUnion.ToList());
+        }
+
+        [HttpGet]
+        public ActionResult UnionIndexTable()
+        {
+            ViewBag.Requester = db.VI_ProjectAndOrderToolsUnion.Where(m => m.Type == "Requester").ToList();
+            ViewBag.RequestOrg = db.VI_ProjectAndOrderToolsUnion.Where(m => m.Type == "RequestOrg").ToList();
+            ViewBag.CustomerRef = db.VI_ProjectAndOrderToolsUnion.Where(m => m.Type == "CustomerRef").ToList();
+            ViewBag.PlatformOrProduct = db.VI_ProjectAndOrderToolsUnion.Where(m => m.Type == "PlatformOrProduct").ToList();
+            ViewBag.Turbine = db.VI_ProjectAndOrderToolsUnion.Where(m => m.Type == "Turbine").ToList();
+            ViewBag.TimeType = db.VI_ProjectAndOrderToolsUnion.Where(m => m.Type == "TimeType").ToList();
+            ViewBag.TaskType = db.VI_ProjectAndOrderToolsUnion.Where(m => m.Type == "TaskType").ToList();
+            var MaxInt = new int[]
+            {
+                ((IEnumerable<dynamic>)ViewBag.Requester).Count(),
+                ((IEnumerable<dynamic>)ViewBag.RequestOrg).Count(),
+                ((IEnumerable<dynamic>)ViewBag.PlatformOrProduct).Count(),
+                ((IEnumerable<dynamic>)ViewBag.Turbine).Count(),
+                ((IEnumerable<dynamic>)ViewBag.TimeType).Count(),
+                ((IEnumerable<dynamic>)ViewBag.TaskType).Count()
+            };
+
+            ViewBag.MaxInt = MaxInt.Max();
+            return PartialView("_UnionIndexTable", db.VI_ProjectAndOrderToolsUnion.ToList());
         }
 
         // GET: ProjectAndOrderTools/Details/5
@@ -117,37 +143,112 @@ namespace TimeReg.Controllers
             return View(vI_ProjectAndOrderTools);
         }
 
-        // GET: ProjectAndOrderTools/Edit/5
-        public ActionResult Edit(string id)
+ 
+        [HttpGet]
+        public ActionResult UnionEdit(string CRUD, string type, int PK_Id)
         {
-            if (id == null)
+            ProjectOrderUnionViewModel projectOrderUnionViewModel = new ProjectOrderUnionViewModel { };
+            if (PK_Id == 0 || type == null || CRUD == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            VI_ProjectAndOrderTools vI_ProjectAndOrderTools = db.VI_ProjectAndOrderTools.Find(id);
-            if (vI_ProjectAndOrderTools == null)
+
+            //Would like some clean-up here.
+            switch (type)
+            {
+                case "Requester":
+                    var vI_Request = db.VI_Requester.SingleOrDefault(m => m.PK_Id == PK_Id);
+                    projectOrderUnionViewModel.Name = vI_Request.Name;
+                    projectOrderUnionViewModel.Type = type;
+                    projectOrderUnionViewModel.PK_Id = vI_Request.PK_Id;
+                    return PartialView("_UnionEdit", projectOrderUnionViewModel);
+                    break;
+                case "RequestOrg":
+                    var vI_RequestOrg = db.VI_RequestOrg.SingleOrDefault(m => m.PK_Id == PK_Id);
+                    projectOrderUnionViewModel.Name = vI_RequestOrg.Organization;
+                    projectOrderUnionViewModel.Type = type;
+                    projectOrderUnionViewModel.PK_Id = vI_RequestOrg.PK_Id;
+                    return PartialView("_UnionEdit", projectOrderUnionViewModel);
+                    break;
+                case "CustomerRef":
+                    var vI_CustomerRef = db.VI_CustomerRef.SingleOrDefault(m => m.PK_Id == PK_Id);
+                    projectOrderUnionViewModel.Name = vI_CustomerRef.Name;
+                    projectOrderUnionViewModel.Type = type;
+                    projectOrderUnionViewModel.PK_Id = vI_CustomerRef.PK_Id;
+                    return PartialView("_UnionEdit", projectOrderUnionViewModel);
+                    break;
+                case "PlatformOrProduct":
+                    var vI_PlatformOrProduct = db.VI_PlatformOrProduct.SingleOrDefault(m => m.PK_Id == PK_Id);
+                    projectOrderUnionViewModel.Name = vI_PlatformOrProduct.ProductName;
+                    projectOrderUnionViewModel.Type = type;
+                    projectOrderUnionViewModel.PK_Id = vI_PlatformOrProduct.PK_Id;
+                    return PartialView("_UnionEdit", projectOrderUnionViewModel);
+                    break;
+                case "Turbine":
+                    var vI_Turbine = db.VI_Turbine.SingleOrDefault(m => m.PK_Id == PK_Id);
+                    projectOrderUnionViewModel.Name = vI_Turbine.TurbineName;
+                    projectOrderUnionViewModel.Type = type;
+                    projectOrderUnionViewModel.PK_Id = vI_Turbine.PK_Id;
+                    return PartialView("_UnionEdit", projectOrderUnionViewModel);
+                    break;
+                case "TimeType":
+                    var vI_TimeType = db.VI_TimeType.SingleOrDefault(m => m.PK_Id == PK_Id);
+                    projectOrderUnionViewModel.Name = vI_TimeType.Name;
+                    projectOrderUnionViewModel.Type = type;
+                    projectOrderUnionViewModel.PK_Id = vI_TimeType.PK_Id;
+                    return PartialView("_UnionEdit", projectOrderUnionViewModel);
+                    break;
+                case "TaskType":
+                    var vI_TaskType = db.VI_TaskType.SingleOrDefault(m => m.PK_Id == PK_Id);
+                    projectOrderUnionViewModel.Name = vI_TaskType.Name;
+                    projectOrderUnionViewModel.Type = type;
+                    projectOrderUnionViewModel.PK_Id = vI_TaskType.PK_Id;
+                    return PartialView("_UnionEdit", projectOrderUnionViewModel);
+                    break;
+                default:
+                    return HttpNotFound();
+                    break;
+            }
+
+            if (projectOrderUnionViewModel == null)
             {
                 return HttpNotFound();
             }
-            return View(vI_ProjectAndOrderTools);
+            return PartialView("_UnionEdit", projectOrderUnionViewModel);
         }
 
-        // POST: ProjectAndOrderTools/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        //Needs to be changed to have parameter ProjectAndOrderToolsViewModel
-        public ActionResult Edit([Bind(Include = "Organization,TimeTypeName,TaskTypeName,CustomerRefName,RequesterName,TurbineName,ProductName")] VI_ProjectAndOrderTools vI_ProjectAndOrderTools)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(vI_ProjectAndOrderTools).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            return View(vI_ProjectAndOrderTools);
-        }
+        //// POST: ProjectAndOrderTools/Edit/5
+        //// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        //// more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        ////Needs to be changed to have parameter ProjectAndOrderToolsViewModel
+        //public ActionResult UnionEdit([Bind(Include = "Organization,TimeTypeName,TaskTypeName,CustomerRefName,RequesterName,TurbineName,ProductName")] VI_ProjectAndOrderTools vI_ProjectAndOrderTools)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+     
+        //    }
+        //    return View(vI_ProjectAndOrderTools);
+        //}
+
+
+        //// POST: ProjectAndOrderTools/Edit/5
+        //// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        //// more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        ////Needs to be changed to have parameter ProjectAndOrderToolsViewModel
+        //public ActionResult Edit([Bind(Include = "Organization,TimeTypeName,TaskTypeName,CustomerRefName,RequesterName,TurbineName,ProductName")] VI_ProjectAndOrderTools vI_ProjectAndOrderTools)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        db.Entry(vI_ProjectAndOrderTools).State = EntityState.Modified;
+        //        db.SaveChanges();
+        //        return RedirectToAction("Index");
+        //    }
+        //    return View(vI_ProjectAndOrderTools);
+        //}
 
         // GET: ProjectAndOrderTools/Delete/5
         public ActionResult Delete(string id)

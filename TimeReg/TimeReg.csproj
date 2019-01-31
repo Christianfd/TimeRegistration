@@ -255,6 +255,7 @@
     <Compile Include="ViewModels\CommentsViewModel.cs" />
     <Compile Include="ViewModels\OrderNumberViewModel.cs" />
     <Compile Include="ViewModels\ProjectDetailsViewModel.cs" />
+    <Compile Include="ViewModels\ProjectOrderUnionViewModel.cs" />
     <Compile Include="ViewModels\ProjectsViewModel.cs" />
     <Compile Include="ViewModels\TaskTypeViewModel.cs" />
     <Compile Include="ViewModels\TimeTypeViewModel.cs" />
@@ -498,9 +499,11 @@
     <Content Include="Views\ProjectAndOrderTools\Create.cshtml" />
     <Content Include="Views\ProjectAndOrderTools\Delete.cshtml" />
     <Content Include="Views\ProjectAndOrderTools\Details.cshtml" />
-    <Content Include="Views\ProjectAndOrderTools\Edit.cshtml" />
+    <Content Include="Views\ProjectAndOrderTools\_UnionEdit.cshtml" />
     <Content Include="Views\ProjectAndOrderTools\Index.cshtml" />
     <Content Include="Views\Overview\Index.cshtml" />
+    <Content Include="Views\ProjectAndOrderTools\_UnionCreate.cshtml" />
+    <Content Include="Views\ProjectAndOrderTools\_UnionIndexTable.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

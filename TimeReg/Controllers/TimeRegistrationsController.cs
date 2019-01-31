@@ -56,7 +56,7 @@ namespace TimeReg.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "PK_Id,FK_UserId,FK_ProjectId,FK_OrderId,FK_TaskId,time,Date,DateEntry")] TimeRegistrationViewModel timeRegistration)
+        public ActionResult Create([Bind(Include = "PK_Id,FK_UserId,FK_ProjectId,FK_OrderId,FK_TaskId,time,Date,Comment")] TimeRegistrationViewModel timeRegistration)
         {
             timeRegistration.DateEntry = DateTime.Now;
             if (ModelState.IsValid)
@@ -100,11 +100,11 @@ namespace TimeReg.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "PK_Id,FK_UserId,FK_ProjectId,FK_OrderId,FK_TaskId,time,Date,DateEntry")] TimeRegistrationViewModel timeRegistration)
+        public ActionResult Edit([Bind(Include = "PK_Id,FK_UserId,FK_ProjectId,FK_OrderId,FK_TaskId,time,Date, Comment")] TimeRegistrationViewModel timeRegistration)
         {
             if (ModelState.IsValid)
             {
-                db.SP_UpdateTimeRegistration(timeRegistration.PK_Id, timeRegistration.FK_UserId, timeRegistration.FK_ProjectId, timeRegistration.FK_OrderId, timeRegistration.FK_TaskId, timeRegistration.Time, timeRegistration.Date, timeRegistration.DateEntry, timeRegistration.Comment);
+                db.SP_UpdateTimeRegistration(timeRegistration.PK_Id, timeRegistration.FK_UserId, timeRegistration.FK_ProjectId, timeRegistration.FK_OrderId, timeRegistration.FK_TaskId, timeRegistration.Time, timeRegistration.Date, DateTime.Now, timeRegistration.Comment);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<TimeReg.VI_ProjectAndOrderTools>
+﻿@model IEnumerable<TimeReg.VI_ProjectAndOrderToolsUnion>
 
 @{
     ViewBag.Title = "Index";
@@ -9,21 +9,119 @@
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
-<table class="table">
-    <tr>
-        <th></th>
-    </tr>
 
-@foreach (var item in Model) {
-    <tr>
-       
-        <td>
-            @item.Organization
-            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-        </td>
-    </tr>
+<div id="PartialViewTableWrapper"> Loading Table..</div>
+
+<div id="AjaxPartialDialog" class="modal-content">
+    <div id="AjaxPartialContent">
+
+    </div>
+</div>
+
+<!-- Button trigger modal -->
+
+
+<!-- Modal -->
+<div class="modal" id="PartialViewModal" tabindex="-1" role="dialog" aria-labelledby="PartialViewModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="PartialViewModalTitle">Rep It Project And Order Tools</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="PartialViewModalBody">
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" data-CRUD="" id="PartialViewModalSaveButton" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+<a class="Edit" data-uniontype="Requester" data-unionid="2">Edit | </a>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jquery")
+       <script src="~/Scripts/bootstrap.js"></script> 
+
+    @*Ajax table handling*@
+    <script>
+        $(document).ready(function () {
+            UpdateUnionTable();
+        });
+
+
+        function UpdateUnionTable(){
+            $.ajax({
+                url: "/ProjectAndOrderTools/UnionIndexTable",
+                type: "GET"
+            }).done(function (partialViewResult) {
+                $("#PartialViewTableWrapper").html(partialViewResult);
+            })
+        }
+
+    </script>
+           
+
+
+    @*Ajax Handling for the Edit page - and a bit other stuff*@
+    <script>
+        $(document).ready(function () {
+            alert("This works")
+        });
+
+        //Doesn't work with a partial view
+        //$(".Edit").click(function () {
+            
+        //})
+
+            $(document).on('click','.Edit', function(){
+                var UnionOriginElement = $(this);
+                var UnionOriginType = UnionOriginElement.data("uniontype");
+                var UnionOriginId = UnionOriginElement.data("unionid");
+                AjaxUnionHandler("Edit", UnionOriginType, UnionOriginId);
+            })
+
+        function editPartial() {
+            var UnionOriginElement = $(this);
+            var UnionOriginType = UnionOriginElement.data("uniontype");
+            var UnionOriginId = UnionOriginElement.data("unionid");
+            AjaxUnionHandler("Edit", UnionOriginType, UnionOriginId);
+        }
+
+        function AjaxUnionHandler(CRUD, UnionOriginType, UnionOriginId) {
+            console.log("CRUD type was : " + CRUD);
+            console.log("The type was  : " + UnionOriginType);
+            console.log("The id was    : " + UnionOriginId);
+            var UnionType = UnionOriginType;
+            var UnionPK_Id = UnionOriginId;
+            //$("#AjaxPartialDialog").dialog()
+            $("#PartialViewModal").modal('show');
+            //Ajax Call - Needs a more dynamic selection using more JS functions - EG three calls one for delete, one for 
+                $.ajax({
+                    url: "/ProjectAndOrderTools/UnionEdit",
+                    type: "GET",
+                    data: {CRUD: CRUD, type: UnionType, PK_Id: UnionPK_Id }
+                }).done(function (partialViewResult) {
+                    $("#PartialViewModalTitle").text("Rep It -  " + CRUD);
+                    $("#PartialViewModalSaveButton").data("crud", CRUD)
+                    $("#PartialViewModalBody").html(partialViewResult);
+
+                });
+
+
+                $("#PartialViewModalSaveButton").click(function () {
+                    AjaxSQLProcedureHandler();
+                })
+        }
+
+        //I order to properly send the correct information
+        function AjaxSQLProcedureHandler() {
+        }
+    </script>
 }
 
-</table>
+
