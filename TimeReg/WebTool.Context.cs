@@ -656,5 +656,27 @@ namespace TimeReg
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_UpdateTurbine", updateIdParameter, turbineNameParameter);
         }
+    
+        public virtual int SP_RemovePlatformOrProduct(Nullable<int> removeId)
+        {
+            var removeIdParameter = removeId.HasValue ?
+                new ObjectParameter("RemoveId", removeId) :
+                new ObjectParameter("RemoveId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_RemovePlatformOrProduct", removeIdParameter);
+        }
+    
+        public virtual int SP_UpdatePlatformOrProduct(Nullable<int> updateId, string productName)
+        {
+            var updateIdParameter = updateId.HasValue ?
+                new ObjectParameter("UpdateId", updateId) :
+                new ObjectParameter("UpdateId", typeof(int));
+    
+            var productNameParameter = productName != null ?
+                new ObjectParameter("ProductName", productName) :
+                new ObjectParameter("ProductName", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_UpdatePlatformOrProduct", updateIdParameter, productNameParameter);
+        }
     }
 }

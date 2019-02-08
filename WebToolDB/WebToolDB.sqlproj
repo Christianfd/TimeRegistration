@@ -161,6 +161,8 @@
     <Build Include="TimeManagement\Views\ProjectViewTools\VI_PlatformOrProduct.sql" />
     <Build Include="TimeManagement\Views\ProjectViewTools\VI_Country.sql" />
     <Build Include="TimeManagement\Views\VI_ProjectAndOrderToolsUnion.sql" />
+    <Build Include="TimeManagement\Stored Procedures\Project Tables\PlatformOrProduct\SP_RemovePlatformOrProduct.sql" />
+    <Build Include="TimeManagement\Stored Procedures\Project Tables\PlatformOrProduct\SP_UpdatePlatformOrProduct.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="WebToolDB.refactorlog" />

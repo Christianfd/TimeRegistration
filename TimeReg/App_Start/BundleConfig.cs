@@ -14,6 +14,7 @@ namespace TimeReg
                         "~/Scripts/Editable-Select/jquery-editable-select.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
+                        "~/Scripts/unobtrusive-ajax.js",
                         "~/Scripts/jquery.validate*"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryui").Include(

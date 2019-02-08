@@ -1,6 +1,7 @@
 ﻿/// <autosync enabled="true" />
 /// <reference path="bootstrap.js" />
 /// <reference path="editable-select/jquery-editable-select.js" />
+/// <reference path="jquery.unobtrusive-ajax.min.js" />
 /// <reference path="jquery.validate.js" />
 /// <reference path="jquery.validate.unobtrusive.js" />
 /// <reference path="jquery-1.12.4.js" />

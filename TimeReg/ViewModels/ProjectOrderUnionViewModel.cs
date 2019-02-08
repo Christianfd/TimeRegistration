@@ -6,7 +6,6 @@ using System.Web;
 
 namespace TimeReg.ViewModels
 {
-    //Currently not in use***
     public class ProjectOrderUnionViewModel
     {
         [Required]

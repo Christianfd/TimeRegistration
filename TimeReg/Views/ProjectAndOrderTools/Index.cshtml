@@ -1,24 +1,17 @@
 ﻿@model IEnumerable<TimeReg.VI_ProjectAndOrderToolsUnion>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Union Page";
 }
 
 <h2>Index</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    <a class="Create">Create New</a>
 </p>
 
 <div id="PartialViewTableWrapper"> Loading Table..</div>
 
-<div id="AjaxPartialDialog" class="modal-content">
-    <div id="AjaxPartialContent">
-
-    </div>
-</div>
-
-<!-- Button trigger modal -->
 
 
 <!-- Modal -->
@@ -32,7 +25,7 @@
                 </button>
             </div>
             <div class="modal-body" id="PartialViewModalBody">
-                
+
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -41,20 +34,22 @@
         </div>
     </div>
 </div>
-<a class="Edit" data-uniontype="Requester" data-unionid="2">Edit | </a>
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/jquery")
-       <script src="~/Scripts/bootstrap.js"></script> 
+    <script src="~/Scripts/bootstrap.js"></script>
 
-    @*Ajax table handling*@
+    @*Ajax table handling
+        
+        In the following JS the variable "CRUD" means the type of action requested eg: Create, Remove, Update, Details.
+        *@
     <script>
         $(document).ready(function () {
             UpdateUnionTable();
         });
 
 
-        function UpdateUnionTable(){
+        function UpdateUnionTable() {
             $.ajax({
                 url: "/ProjectAndOrderTools/UnionIndexTable",
                 type: "GET"
@@ -64,63 +59,177 @@
         }
 
     </script>
-           
 
 
-    @*Ajax Handling for the Edit page - and a bit other stuff*@
+
+    @*Ajax Handling for the modal on the Edit page - and a bit other stuff*@
     <script>
-        $(document).ready(function () {
-            alert("This works")
+
+
+       //The click handleder for trigering the partialViewHandler. For the Create New, Edit | Details | Delete.
+        $(document).on('click', '.Create', function () {
+            PartialViewHandler($(this), "Create");
         });
 
-        //Doesn't work with a partial view
-        //$(".Edit").click(function () {
-            
-        //})
+        $(document).on('click', '.Edit', function () {
+            PartialViewHandler($(this), "Edit");
+        });
 
-            $(document).on('click','.Edit', function(){
-                var UnionOriginElement = $(this);
-                var UnionOriginType = UnionOriginElement.data("uniontype");
-                var UnionOriginId = UnionOriginElement.data("unionid");
-                AjaxUnionHandler("Edit", UnionOriginType, UnionOriginId);
-            })
+        $(document).on('click', '.Details', function () {
+            PartialViewHandler($(this), "Details");
+        });
 
-        function editPartial() {
-            var UnionOriginElement = $(this);
+        $(document).on('click', '.Delete', function () {
+            PartialViewHandler($(this), "Delete");
+        });
+
+
+        //Partial View Handler, gets the correct information from the "links" clicked. Split due to the Dynamic tables
+        function PartialViewHandler(object, CRUD) {
+            var UnionOriginElement = object;
             var UnionOriginType = UnionOriginElement.data("uniontype");
             var UnionOriginId = UnionOriginElement.data("unionid");
-            AjaxUnionHandler("Edit", UnionOriginType, UnionOriginId);
+            AjaxUnionHandler(CRUD, UnionOriginType, UnionOriginId);
         }
 
+
+        //Handles the AJAX call to return a partial View. The Switch is used to get the correct partial view and then enters it into the modal. Editing the content just enough for it to be ready for the stored procedure part
         function AjaxUnionHandler(CRUD, UnionOriginType, UnionOriginId) {
-            console.log("CRUD type was : " + CRUD);
-            console.log("The type was  : " + UnionOriginType);
-            console.log("The id was    : " + UnionOriginId);
             var UnionType = UnionOriginType;
             var UnionPK_Id = UnionOriginId;
-            //$("#AjaxPartialDialog").dialog()
-            $("#PartialViewModal").modal('show');
-            //Ajax Call - Needs a more dynamic selection using more JS functions - EG three calls one for delete, one for 
-                $.ajax({
-                    url: "/ProjectAndOrderTools/UnionEdit",
-                    type: "GET",
-                    data: {CRUD: CRUD, type: UnionType, PK_Id: UnionPK_Id }
-                }).done(function (partialViewResult) {
-                    $("#PartialViewModalTitle").text("Rep It -  " + CRUD);
-                    $("#PartialViewModalSaveButton").data("crud", CRUD)
-                    $("#PartialViewModalBody").html(partialViewResult);
 
-                });
+            switch (CRUD) {
+                case "Create":
+                    $.ajax({
+                        url: "/ProjectAndOrderTools/UnionCreate",
+                    }).done(function (partialViewResult) {
+                        $("#PartialViewModal").modal('show');
+                        $("#PartialViewModalTitle").text("Rep It -  " + CRUD);
+                        $("#PartialViewModalSaveButton").data("crud", CRUD);
+                        $("#PartialViewModalSaveButton").text("Create");
+                        $("#PartialViewModalBody").html(partialViewResult);
+                    });
+                    break;
+                case "Edit":
+                    $.ajax({
+                        url: "/ProjectAndOrderTools/UnionEdit",
+                        type: "GET",
+                        data: { CRUD: CRUD, type: UnionType, PK_Id: UnionPK_Id }
+                    }).done(function (partialViewResult) {
+                        $("#PartialViewModal").modal('show');
+                        $("#PartialViewModalTitle").text("Rep It -  " + CRUD);
+                        $("#PartialViewModalSaveButton").data({crud: CRUD});
+                        $("#PartialViewModalSaveButton").text("Save Changes");
+                        $("#PartialViewModalBody").html(partialViewResult);
+
+                    });
+                    break;
+                case "Details":
+                    $.ajax({
+                        url: "/ProjectAndOrderTools/UnionDetails",
+                        type: "GET",
+                        data: { CRUD: CRUD, type: UnionType, PK_Id: UnionPK_Id }
+                    }).done(function (partialViewResult) {
+                        $("#PartialViewModal").modal('show');
+                        $("#PartialViewModalTitle").text("Rep It -  " + CRUD);
+                        $("#PartialViewModalSaveButton").data("crud", CRUD);
+                        $("#PartialViewModalSaveButton").text("Close");
+                        $("#PartialViewModalBody").html(partialViewResult);
+                    });
+                    break;
+
+                case "Delete":
+                    $.ajax({
+                        url: "/ProjectAndOrderTools/UnionDelete",
+                        type: "GET",
+                        data: { CRUD: CRUD, type: UnionType, PK_Id: UnionPK_Id }
+                    }).done(function (partialViewResult) {
+                        $("#PartialViewModal").modal('show');
+                        $("#PartialViewModalTitle").text("Rep It -  " + CRUD);
+                        $("#PartialViewModalSaveButton").data("crud", CRUD)
+                        $("#PartialViewModalSaveButton").text("Delete");
+                        $("#PartialViewModalBody").html(partialViewResult);
+                    });
+                    break;
+
+                default:
+                    $.ajax({
+                        url: "/ProjectAndOrderTools/UnionEdit",
+                        type: "GET",
+                        data: { CRUD: CRUD, type: UnionType, PK_Id: UnionPK_Id }
+                    }).done(function (partialViewResult) {
+                        $("#PartialViewModal").modal('show');
+                        $("#PartialViewModalTitle").text("Rep It -  " + CRUD);
+                        $("#PartialViewModalSaveButton").data("crud", CRUD)
+                        $("#PartialViewModalBody").html(partialViewResult);
+                    });
+                    break;
+            }
 
 
-                $("#PartialViewModalSaveButton").click(function () {
-                    AjaxSQLProcedureHandler();
-                })
         }
+    </script>
 
-        //I order to properly send the correct information
-        function AjaxSQLProcedureHandler() {
-        }
+
+    @*This section handles the AJAX calls for stored procedures*@
+    <script>
+
+
+        $("#PartialViewModalSaveButton").click(function () {
+            var CRUD = $(this).data("crud");
+            var form = $("#PartialViewModalBody").children('form');
+            console.log(form.serialize());
+            var ajaxUrl = "";
+            switch (CRUD) {
+                case "Create":
+                    $.ajax({
+                        url: form.attr("action"),
+                        method: "POST",  // post
+                        data: form.serialize(),
+                        success: function (partialResult) {
+                            $("#PartialViewModalBody").html(partialResult);
+                            UpdateUnionTable();
+                        }
+                    });
+                    break;
+                case "Delete":
+                    $.ajax({
+                        url: form.attr("action"),
+                        method: "POST",  // post
+                        data: form.serialize(),
+                        success: function (partialResult) {
+                            console.log("Case 'Deleted' triggered");
+                            if (partialResult == "Delete Confirmed") {
+                                $("#PartialViewModal").modal('hide');
+                            } else {
+                                $("#PartialViewModalBody").html(partialResult);
+                            }
+                            UpdateUnionTable();
+                        }
+                    });
+                    break;
+                  
+                case "Edit":
+                    console.log("Form validated :");
+                    console.log(form);
+                    $.ajax({
+                        url: form.attr("action"),
+                        method: "POST",  // post
+                        data: form.serialize(),
+                        success: function (partialResult) {
+                            $("#PartialViewModalBody").html(partialResult);
+                            UpdateUnionTable();
+                        }
+                    });
+                    break;
+                case "Details":
+                    $("#PartialViewModal").modal('hide');
+                    break;
+                default:
+                    break;
+            }
+         
+        });
     </script>
 }
 

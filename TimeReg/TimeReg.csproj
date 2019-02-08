@@ -384,6 +384,8 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\Editable-Select\jquery-editable-select.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="WebTool.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>WebTool.cs</LastGenOutput>
@@ -504,6 +506,9 @@
     <Content Include="Views\Overview\Index.cshtml" />
     <Content Include="Views\ProjectAndOrderTools\_UnionCreate.cshtml" />
     <Content Include="Views\ProjectAndOrderTools\_UnionIndexTable.cshtml" />
+    <Content Include="Views\ProjectAndOrderTools\_UnionDelete.cshtml" />
+    <Content Include="Views\ProjectAndOrderTools\_DeleteError.cshtml" />
+    <Content Include="Views\ProjectAndOrderTools\_UnionDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

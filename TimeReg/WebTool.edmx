@@ -680,6 +680,9 @@ warning 6002: The table/view 'WebTool.TimeManagement.VI_UserTimePerProject' does
         <Function Name="SP_RemoveOrderNumber" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="TimeManagement">
           <Parameter Name="RemoveId" Type="int" Mode="In" />
         </Function>
+        <Function Name="SP_RemovePlatformOrProduct" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="TimeManagement">
+          <Parameter Name="RemoveId" Type="int" Mode="In" />
+        </Function>
         <Function Name="SP_RemoveProject" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="TimeManagement">
           <Parameter Name="RemoveId" Type="int" Mode="In" />
         </Function>
@@ -728,6 +731,10 @@ warning 6002: The table/view 'WebTool.TimeManagement.VI_UserTimePerProject' does
           <Parameter Name="FK_RequestOrg" Type="int" Mode="In" />
           <Parameter Name="FK_Requester" Type="int" Mode="In" />
           <Parameter Name="FK_CustomerRef" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SP_UpdatePlatformOrProduct" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="TimeManagement">
+          <Parameter Name="UpdateId" Type="int" Mode="In" />
+          <Parameter Name="ProductName" Type="nvarchar" Mode="In" />
         </Function>
         <Function Name="SP_UpdateProject" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="TimeManagement">
           <Parameter Name="UpdateId" Type="int" Mode="In" />
@@ -1304,6 +1311,13 @@ warning 6002: The table/view 'WebTool.TimeManagement.VI_UserTimePerProject' does
             <Parameter Name="TurbineName" Mode="In" Type="String" />
           </FunctionImport>
           <EntitySet Name="VI_ProjectAndOrderToolsUnion" EntityType="WebToolModel.VI_ProjectAndOrderToolsUnion" />
+          <FunctionImport Name="SP_RemovePlatformOrProduct">
+            <Parameter Name="RemoveId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_UpdatePlatformOrProduct">
+            <Parameter Name="UpdateId" Mode="In" Type="Int32" />
+            <Parameter Name="ProductName" Mode="In" Type="String" />
+          </FunctionImport>
           </EntityContainer>
         <ComplexType Name="SP_AddUser_Result">
           <Property Type="Int32" Name="Column1" Nullable="true" />
@@ -2309,6 +2323,8 @@ warning 6002: The table/view 'WebTool.TimeManagement.VI_UserTimePerProject' does
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="SP_RemovePlatformOrProduct" FunctionName="WebToolModel.Store.SP_RemovePlatformOrProduct" />
+          <FunctionImportMapping FunctionImportName="SP_UpdatePlatformOrProduct" FunctionName="WebToolModel.Store.SP_UpdatePlatformOrProduct" />
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

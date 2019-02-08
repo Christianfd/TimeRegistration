@@ -156,7 +156,7 @@ namespace TimeReg.Controllers
         //}
 
         [HttpGet]
-        public ActionResult AjaxTest(int dropDownKey, string dropDownId)
+        public ActionResult AjaxDyanimcDropDown(int dropDownKey, string dropDownId)
         {
             var key = (int)dropDownKey;
             var id = (string)dropDownId;

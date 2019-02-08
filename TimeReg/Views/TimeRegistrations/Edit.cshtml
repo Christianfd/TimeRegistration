@@ -307,7 +307,7 @@
 
             //Ajax Call is currently only needed When Chosing user or Order Number
             if (id == 'FK_UserId' || id == 'FK_OrderId') {
-                $.getJSON('@Url.Action("AjaxTest")', { dropDownKey: key, dropDownId: id }, function (result) {
+                $.getJSON('@Url.Action("AjaxDyanimcDropDown")', { dropDownKey: key, dropDownId: id }, function (result) {
                     if (result != null) {
 
                         console.log(result);

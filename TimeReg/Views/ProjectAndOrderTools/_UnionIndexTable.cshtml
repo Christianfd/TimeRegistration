@@ -15,7 +15,6 @@
     @for (int i = 0; i < ViewBag.MaxInt; i++)
     {
         dynamic item;
-        var line = " | ";
         <tr>
             <td>
                 @if (((IEnumerable<dynamic>)ViewBag.Requester).Count() > i)
@@ -24,18 +23,12 @@
 
                     @item[i].Name;
                     <br />
-                    <a class="Edit" onclick="editPartial()" data-UnionType="@item[i].Type" data-UnionId="@item[i].PK_Id">Edit | </a> 
-                    <a class="Details" data-UnionType="@item[i].Type" data-UnionId="@item[i].PK_Id">Details | </a> 
-                    <a class="Delete" data-UnionType="@item[i].Type" data-UnionId="@item[i].PK_Id">Delete | </a> 
+                    <a class="Edit" data-UnionType="@item[i].Type" data-UnionId="@item[i].PK_Id">Edit</a> <span> | </span>
+                    <a class="Details" data-UnionType="@item[i].Type" data-UnionId="@item[i].PK_Id">Details</a> <span> | </span>
+                    <a class="Delete" data-UnionType="@item[i].Type" data-UnionId="@item[i].PK_Id">Delete</a> 
 
                 }
             </td>
-
-
-
-
-
-
 
             <td>
                 @if (((IEnumerable<dynamic>)ViewBag.RequestOrg).Count() > i)
@@ -44,11 +37,9 @@
 
                     @item[i].Name;
                     <br />
-                     <a class="Edit" data-UnionType="@item[i].Type" data-UnionId="@item[i].PK_Id">Edit | </a> 
-                    <a class="Details" data-UnionType="@item[i].Type" data-UnionId="@item[i].PK_Id">Details | </a> 
-                    <a class="Delete" data-UnionType="@item[i].Type" data-UnionId="@item[i].PK_Id">Delete | </a> 
-
-
+                    <a class="Edit" data-UnionType="@item[i].Type" data-UnionId="@item[i].PK_Id">Edit</a> <span> | </span>
+                    <a class="Details" data-UnionType="@item[i].Type" data-UnionId="@item[i].PK_Id">Details</a> <span> | </span>
+                    <a class="Delete" data-UnionType="@item[i].Type" data-UnionId="@item[i].PK_Id">Delete</a> 
                 }
             </td>
 
@@ -59,11 +50,9 @@
 
                     @item[i].Name;
                     <br />
-                    <a class="Edit" data-UnionType="@item[i].Type" data-UnionId="@item[i].PK_Id">Edit | </a>
-                    <a class="Details" data-UnionType="@item[i].Type" data-UnionId="@item[i].PK_Id">Details | </a>
-                    <a class="Delete" data-UnionType="@item[i].Type" data-UnionId="@item[i].PK_Id">Delete | </a>
-
-
+                    <a class="Edit" data-UnionType="@item[i].Type" data-UnionId="@item[i].PK_Id">Edit</a> <span> | </span>
+                    <a class="Details" data-UnionType="@item[i].Type" data-UnionId="@item[i].PK_Id">Details</a> <span> | </span>
+                    <a class="Delete" data-UnionType="@item[i].Type" data-UnionId="@item[i].PK_Id">Delete</a> 
                 }
             </td>
             <td>
@@ -73,11 +62,9 @@
 
                     @item[i].Name;
                     <br />
-                    <a class="Edit" data-UnionType="@item[i].Type" data-UnionId="@item[i].PK_Id">Edit | </a>
-                    <a class="Details" data-UnionType="@item[i].Type" data-UnionId="@item[i].PK_Id">Details | </a>
-                    <a class="Delete" data-UnionType="@item[i].Type" data-UnionId="@item[i].PK_Id">Delete | </a>
-
-
+                    <a class="Edit" data-UnionType="@item[i].Type" data-UnionId="@item[i].PK_Id">Edit</a> <span> | </span>
+                    <a class="Details" data-UnionType="@item[i].Type" data-UnionId="@item[i].PK_Id">Details</a> <span> | </span>
+                    <a class="Delete" data-UnionType="@item[i].Type" data-UnionId="@item[i].PK_Id">Delete</a> 
                 }
             </td>
             <td>
@@ -87,11 +74,9 @@
 
                     @item[i].Name;
                     <br />
-                    <a class="Edit" data-UnionType="@item[i].Type" data-UnionId="@item[i].PK_Id">Edit | </a>
-                    <a class="Details" data-UnionType="@item[i].Type" data-UnionId="@item[i].PK_Id">Details | </a>
-                    <a class="Delete" data-UnionType="@item[i].Type" data-UnionId="@item[i].PK_Id">Delete | </a>
-
-
+                    <a class="Edit" data-UnionType="@item[i].Type" data-UnionId="@item[i].PK_Id">Edit</a> <span> | </span>
+                    <a class="Details" data-UnionType="@item[i].Type" data-UnionId="@item[i].PK_Id">Details</a> <span> | </span>
+                    <a class="Delete" data-UnionType="@item[i].Type" data-UnionId="@item[i].PK_Id">Delete</a> 
                 }
             </td>
             <td>
@@ -100,11 +85,9 @@
                     item = ViewBag.TimeType;
                     @item[i].Name;
                     <br />
-                    <a class="Edit" data-UnionType="@item[i].Type" data-UnionId="@item[i].PK_Id">Edit | </a>
-                    <a class="Details" data-UnionType="@item[i].Type" data-UnionId="@item[i].PK_Id">Details | </a>
-                    <a class="Delete" data-UnionType="@item[i].Type" data-UnionId="@item[i].PK_Id">Delete | </a>
-
-
+                    <a class="Edit" data-UnionType="@item[i].Type" data-UnionId="@item[i].PK_Id">Edit</a> <span> | </span>
+                    <a class="Details" data-UnionType="@item[i].Type" data-UnionId="@item[i].PK_Id">Details</a> <span> | </span>
+                    <a class="Delete" data-UnionType="@item[i].Type" data-UnionId="@item[i].PK_Id">Delete</a> 
                 }
             </td>
             <td>
@@ -114,17 +97,11 @@
 
                     @item[i].Name;
                     <br />
-                    <a class="Edit" data-UnionType="@item[i].Type" data-UnionId="@item[i].PK_Id">Edit | </a>
-                    <a class="Details" data-UnionType="@item[i].Type" data-UnionId="@item[i].PK_Id">Details | </a>
-                    <a class="Delete" data-UnionType="@item[i].Type" data-UnionId="@item[i].PK_Id">Delete | </a>
-
-
+                    <a class="Edit" data-UnionType="@item[i].Type" data-UnionId="@item[i].PK_Id">Edit</a> <span> | </span>
+                    <a class="Details" data-UnionType="@item[i].Type" data-UnionId="@item[i].PK_Id">Details</a> <span> | </span>
+                    <a class="Delete" data-UnionType="@item[i].Type" data-UnionId="@item[i].PK_Id">Delete</a> 
                 }
             </td>
         </tr>
-
-                }
-
-    
-
+       }
 </table>
