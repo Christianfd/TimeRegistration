@@ -16,7 +16,14 @@
                 <li>@Html.ActionLink("Overview", "Index", "Overview")</li>
             
             </ul>
-            @Html.Partial("_LoginPartial")
+            @using Microsoft.AspNet.Identity
+            @if (Request.IsAuthenticated)
+            {
+            @Html.Action("UserPartial", "WindowsAuth", new { ZId = User.Identity.GetUserName() })
+            }
+
+            @*Replaced by above line to use a controller*@
+            @*@Html.Partial("_LoginPartial")*@
         </div>
     </div>
 </div>

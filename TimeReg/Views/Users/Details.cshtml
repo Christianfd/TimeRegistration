@@ -25,9 +25,7 @@
         <dd>
             @Html.DisplayFor(model => model.NK_ZId)
         </dd>
-        <i>
-            --------------------------------------------------------------------------------
-        </i>
+        <hr />
         <br/>
       
         <dt>
@@ -41,6 +39,11 @@
     </dl>
 </div>
 <p>
+    <a class="btn btn-default" href="/TimeRegistrations">Time Registration &raquo;</a>
+    <a class="btn btn-default" href="/Comments/Create">Weekly Comment &raquo;</a>
+</p>
+<p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.PK_Id }) |
     @Html.ActionLink("Back to List", "Index")
 </p>
+

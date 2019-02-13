@@ -50,7 +50,7 @@ namespace TimeReg.Controllers
                 ViewBag.WeeklyTime = firstResult;
             } else
             {
-                ViewBag.WeeklyTime = new WeeklyTimeViewModel { Week = 0, Year = 0, TotalTime = 0 };
+                ViewBag.WeeklyTime = new WeeklyTimeViewModel { Week = weekNo, Year = DateTime.Now.Year, TotalTime = 0 };
             }
           
               
@@ -147,6 +147,12 @@ namespace TimeReg.Controllers
 			db.SaveChanges();
 			return RedirectToAction("Index");
 		}
+
+        public ActionResult Account()
+        {
+
+            return View();
+        }
 
 		protected override void Dispose(bool disposing)
 		{
