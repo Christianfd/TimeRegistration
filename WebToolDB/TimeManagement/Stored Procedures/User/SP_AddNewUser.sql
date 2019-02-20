@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE [TimeManagement].[SP_AddUser]
+﻿CREATE PROCEDURE [TimeManagement].[SP_AddNewUser]
 	@Name nvarchar(100),
 	@Auth nvarchar(50)
 

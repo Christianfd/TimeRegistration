@@ -41,7 +41,7 @@
 
     @*Ajax table handling
         
-        In the following JS the variable "CRUD" means the type of action requested eg: Create, Remove, Update, Details.
+        In the following JS the variable "CRUD" represents the type of action requested eg: Create, Remove, Update, Details.
         *@
     <script>
         $(document).ready(function () {
@@ -179,7 +179,6 @@
             var CRUD = $(this).data("crud");
             var form = $("#PartialViewModalBody").children('form');
             console.log(form.serialize());
-            var ajaxUrl = "";
             switch (CRUD) {
                 case "Create":
                     $.ajax({
@@ -210,8 +209,7 @@
                     break;
                   
                 case "Edit":
-                    console.log("Form validated :");
-                    console.log(form);
+             
                     $.ajax({
                         url: form.attr("action"),
                         method: "POST",  // post

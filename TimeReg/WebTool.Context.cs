@@ -678,5 +678,40 @@ namespace TimeReg
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_UpdatePlatformOrProduct", updateIdParameter, productNameParameter);
         }
+    
+        public virtual int SP_AddNewUser(string name, string auth)
+        {
+            var nameParameter = name != null ?
+                new ObjectParameter("Name", name) :
+                new ObjectParameter("Name", typeof(string));
+    
+            var authParameter = auth != null ?
+                new ObjectParameter("Auth", auth) :
+                new ObjectParameter("Auth", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_AddNewUser", nameParameter, authParameter);
+        }
+    
+        public virtual int SP_AddTaskType1(string taskTypeName)
+        {
+            var taskTypeNameParameter = taskTypeName != null ?
+                new ObjectParameter("taskTypeName", taskTypeName) :
+                new ObjectParameter("taskTypeName", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_AddTaskType1", taskTypeNameParameter);
+        }
+    
+        public virtual int SP_AddUser1(string name, string auth)
+        {
+            var nameParameter = name != null ?
+                new ObjectParameter("Name", name) :
+                new ObjectParameter("Name", typeof(string));
+    
+            var authParameter = auth != null ?
+                new ObjectParameter("Auth", auth) :
+                new ObjectParameter("Auth", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_AddUser1", nameParameter, authParameter);
+        }
     }
 }

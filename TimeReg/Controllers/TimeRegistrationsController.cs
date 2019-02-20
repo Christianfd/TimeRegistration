@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -145,15 +146,8 @@ namespace TimeReg.Controllers
             return RedirectToAction("Index");
         }
 
+        //Dynamic Page Content is being added below:
 
-
-        //[HttpPost]
-        //[STAThread]
-        //public void ClipboardMethod()
-        //{
-        //    String Clipboard;
-        //    Clipboard.SetText("boo yah!", TextDataFormat.Html);
-        //}
 
         [HttpGet]
         public ActionResult AjaxDyanimcDropDown(int dropDownKey, string dropDownId)
@@ -177,6 +171,34 @@ namespace TimeReg.Controllers
          
         }
 
+        [HttpGet]
+        public ActionResult IndexTable(Nullable<int> id)
+        {
+            TimeRegistrationViewModel timeRegistrationViewModel;
+
+            if (id == null)
+            {
+                var user = User.Identity.GetUserName();
+                id = db.VI_Users.Where(m => m.NK_ZId == user).SingleOrDefault().PK_Id;
+
+            }
+
+            try
+            {
+                timeRegistrationViewModel = new TimeRegistrationViewModel(db.VI_TimeRegistration.Where(m => m.FK_UserId == id).ToList());
+
+            } catch(Exception e)
+            {
+                return Json(e.Message, JsonRequestBehavior.AllowGet);
+            }
+
+            return PartialView("_IndexTable", timeRegistrationViewModel);
+
+        }
+
+        
+
+        
         protected override void Dispose(bool disposing)
         {
             if (disposing)

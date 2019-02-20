@@ -1,9 +1,15 @@
 ﻿@{
     ViewBag.Title = "Home Page";
 }
+@using Microsoft.AspNet.Identity
+<div id="WindowsAuth" hidden="true" readonly="true">@User.Identity.GetUserName()</div>
+
+
+
 
 <div class="jumbotron">
     <h1>RepIT</h1>
+    <span class="ui-state-error error-span" hidden="true"></span>
     <p class="lead">It just works</p>
     <p><a href="TimeRegistrations/Create" class="btn btn-primary btn-lg">Register Time &raquo;</a></p>
 </div>
@@ -28,3 +34,100 @@
         <p><a class="btn btn-default" href="Projects">See Projects &raquo;</a></p>
     </div>
 </div>
+
+
+<div class="modal" id="NewUserModal" tabindex="-1" role="dialog" aria-labelledby="NewUserModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="NewUserModalTitle">New User Identified</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="NewUserModalBody">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" data-CRUD="" id="NewUserModalSaveButton" class="btn btn-primary">Register</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jquery")
+    <script src="~/Scripts/bootstrap.js"></script>
+
+
+    <script>
+        //This does a check to see if a new user is accessing the home page and then gives the user the option to create an account with a proper name
+        $(document).ready(function () {
+            var UserName = $("#WindowsAuth").text();
+            $.ajax({
+                url: "/Home/UserCheck",
+                method: "Get",
+                data: { ZId: UserName }
+            }).done(function (Result) {
+
+                if (Result == "true") {
+                    //Do Nothing
+
+                } else if (Result == "Unable to Access database") {
+                    //Possibly Show DB error
+                    $(".error-span").toggle();
+                    $(".error-span").text(Result);
+                } else {
+                    //Prompts the user to create choose a UserName
+                    $("#NewUserModal").modal('show');
+                    $("#NewUserModalBody").html(Result);
+                }
+            });
+        });
+
+
+        //function test(UserName) {
+        //    var Username = test;
+        //    $.ajax({
+        //        url: "/Home/UserCheck",
+        //        method: "Get",
+        //        data: { ZId: UserName }
+        //    }).done(function (Result) {
+
+        //        if (Result == "true") {
+        //            //Do Nothing
+
+        //        } else if (Result == "Unable to Access database") {
+        //            //Possibly Show DB error
+        //            $(".error-span").toggle();
+        //            $(".error-span").text(Result);
+        //        } else {
+        //            //Prompts the user to create choose a UserName
+        //            $("#NewUserModal").modal('show');
+        //            $("#NewUserModalBody").html(Result);
+
+        //        }
+        //    });
+        //}
+
+
+        $("#NewUserModalSaveButton").click(function () {
+            var form = $("#NewUserModalBody").children('form');
+            $.ajax({
+                url: form.attr("action"),
+                method: "POST",  // post
+                data: form.serialize(),
+                success: function (Result) {
+                    if (Result == "Successful") {
+                        $("#NewUserModal").modal('hide');
+                    } else {
+                        $("#NewUserModalBody").html(Result);
+                    }
+
+                }
+            });
+        });
+
+    </script>
+}

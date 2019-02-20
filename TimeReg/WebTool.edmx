@@ -616,6 +616,10 @@ warning 6002: The table/view 'WebTool.TimeManagement.VI_UserTimePerProject' does
         <Function Name="SP_AddCustomerRef" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="TimeManagement">
           <Parameter Name="Name" Type="nvarchar" Mode="In" />
         </Function>
+        <Function Name="SP_AddNewUser" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="TimeManagement">
+          <Parameter Name="Name" Type="nvarchar" Mode="In" />
+          <Parameter Name="Auth" Type="nvarchar" Mode="In" />
+        </Function>
         <Function Name="SP_AddOrderNumber" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="TimeManagement">
           <Parameter Name="NumberName" Type="nvarchar" Mode="In" />
           <Parameter Name="FK_RequestOrg" Type="int" Mode="In" />
@@ -664,8 +668,8 @@ warning 6002: The table/view 'WebTool.TimeManagement.VI_UserTimePerProject' does
           <Parameter Name="turbineName" Type="nvarchar" Mode="In" />
         </Function>
         <Function Name="SP_AddUser" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="TimeManagement">
-          <Parameter Name="UserName" Type="nvarchar" Mode="In" />
-          <Parameter Name="UserAuthentity" Type="nvarchar" Mode="In" />
+          <Parameter Name="Name" Type="nvarchar" Mode="In" />
+          <Parameter Name="Auth" Type="nvarchar" Mode="In" />
         </Function>
         <Function Name="SP_AddUserAssignment" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="TimeManagement">
           <Parameter Name="UserId" Type="int" Mode="In" />
@@ -1312,11 +1316,22 @@ warning 6002: The table/view 'WebTool.TimeManagement.VI_UserTimePerProject' does
           </FunctionImport>
           <EntitySet Name="VI_ProjectAndOrderToolsUnion" EntityType="WebToolModel.VI_ProjectAndOrderToolsUnion" />
           <FunctionImport Name="SP_RemovePlatformOrProduct">
-            <Parameter Name="RemoveId" Mode="In" Type="Int32" />
+          <Parameter Name="RemoveId" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="SP_UpdatePlatformOrProduct">
             <Parameter Name="UpdateId" Mode="In" Type="Int32" />
             <Parameter Name="ProductName" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_AddNewUser">
+            <Parameter Name="Name" Mode="In" Type="String" />
+            <Parameter Name="Auth" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_AddTaskType1">
+            <Parameter Name="taskTypeName" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_AddUser1">
+            <Parameter Name="Name" Mode="In" Type="String" />
+            <Parameter Name="Auth" Mode="In" Type="String" />
           </FunctionImport>
           </EntityContainer>
         <ComplexType Name="SP_AddUser_Result">
@@ -1937,15 +1952,6 @@ warning 6002: The table/view 'WebTool.TimeManagement.VI_UserTimePerProject' does
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="WebToolModelStoreContainer" CdmEntityContainer="WebToolEntities1">
-          <FunctionImportMapping FunctionImportName="SP_AddUser" FunctionName="WebToolModel.Store.SP_AddUser">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="WebToolModel.SP_AddUser_Result">
-                <ScalarProperty Name="Column1" ColumnName="Column1" />
-                <ScalarProperty Name="Column2" ColumnName="Column2" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="SP_AddTaskType" FunctionName="WebToolModel.Store.SP_AddTaskType" />
           <FunctionImportMapping FunctionImportName="SP_TaskTypeFind" FunctionName="WebToolModel.Store.SP_TaskTypeFind">
             <ResultMapping>
               <ComplexTypeMapping TypeName="WebToolModel.SP_TaskTypeFind_Result">
@@ -2325,6 +2331,9 @@ warning 6002: The table/view 'WebTool.TimeManagement.VI_UserTimePerProject' does
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="SP_RemovePlatformOrProduct" FunctionName="WebToolModel.Store.SP_RemovePlatformOrProduct" />
           <FunctionImportMapping FunctionImportName="SP_UpdatePlatformOrProduct" FunctionName="WebToolModel.Store.SP_UpdatePlatformOrProduct" />
+          <FunctionImportMapping FunctionImportName="SP_AddNewUser" FunctionName="WebToolModel.Store.SP_AddNewUser" />
+          <FunctionImportMapping FunctionImportName="SP_AddTaskType1" FunctionName="WebToolModel.Store.SP_AddTaskType" />
+          <FunctionImportMapping FunctionImportName="SP_AddUser1" FunctionName="WebToolModel.Store.SP_AddUser" />
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

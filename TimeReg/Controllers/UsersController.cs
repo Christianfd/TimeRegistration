@@ -97,7 +97,7 @@ namespace TimeReg.Controllers
 				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 			}
 			VI_Users users = db.VI_Users.SingleOrDefault(m => m.PK_Id == id);
-			UsersViewModel usersViewModel = new UsersViewModel(users);
+            UsersViewModel usersViewModel = new UsersViewModel(users);
 			if (users == null)
 			{
 				return HttpNotFound();

@@ -9,65 +9,36 @@
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
-<table class="table">
-    <tr>
-        <th>
-            Project
-        </th>
-        <th>
-            Order Number
-        </th>
-        <th>
-            Time
-        </th>
 
-        <th>
-            Date
-        </th>
-        <th>
-            Task Type
-        </th>
-        <th>
-            User
-        </th>
-        @*<th>
-               Entry Date
-            </th>*@
-        <th></th>
-    </tr>
 
-@foreach (var item in Model.VI_TimeRegistration_List) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.ProjectName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.OrderName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Time)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Date)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TaskTypeName)
-        </td>
+<div id="PartialViewTableWrapper"> Loading TimeRegistrations..</div>
 
-        <td>
-            @Html.DisplayFor(modelItem => item.UserName)
-        </td>
-        @*<td>
-            @Html.DisplayFor(modelItem => item.DateEntry)
-          
-        </td>*@
-       
-<td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.PK_Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.PK_Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.PK_Id })
-        </td>
-    </tr>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jquery")
+    <script src="~/Scripts/bootstrap.js"></script>
+
+    @*Ajax table handling
+
+        In the following JS the variable "CRUD" represents the type of action requested eg: Create, Remove, Update, Details.
+    *@
+    <script>
+        $(document).ready(function () {
+            UpdateUnionTable();
+        });
+
+
+        function UpdateUnionTable() {
+            $.ajax({
+                url: "/TimeRegistrations/IndexTable",
+                type: "GET"
+            }).done(function (partialViewResult) {
+                $("#PartialViewTableWrapper").html(partialViewResult);
+            })
+        }
+
+    </script>
+
+
 }
-
-</table>

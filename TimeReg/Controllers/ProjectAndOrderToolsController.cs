@@ -175,7 +175,6 @@ namespace TimeReg.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-
             if (ModelState.IsValid)
             {
                 switch (type)
