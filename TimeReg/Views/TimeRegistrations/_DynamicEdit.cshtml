@@ -1,0 +1,79 @@
+﻿@model TimeReg.ViewModels.TimeRegistrationViewModel
+
+@{
+    ViewBag.Title = "Edit";
+}
+<h2>Edit</h2>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>TimeRegistration</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.PK_Id)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.FK_UserId, "FK_UserId", htmlAttributes: new { @class = "control-label col-md-2 " })
+            <div class="col-md-10 ui-widget">
+                @Html.DropDownList("FK_UserId", null, htmlAttributes: new { @class = "form-control selectpicker"})
+                @Html.ValidationMessageFor(model => model.FK_UserId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.FK_OrderId, "Order Number", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10 ui-widget">
+                @Html.DropDownList("FK_OrderId", null, htmlAttributes: new { @class = "form-control selectpicker" })
+                @Html.ValidationMessageFor(model => model.FK_OrderId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.FK_ProjectId, "FK_ProjectId", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10 ui-widget">
+                @Html.DropDownList("FK_ProjectId", null, htmlAttributes: new { @class = "form-control selectpicker" })
+                @Html.ValidationMessageFor(model => model.FK_ProjectId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.FK_TaskId, "FK_TaskId", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10 ui-widget">
+                @Html.DropDownList("FK_TaskId", null, htmlAttributes: new { @class = "form-control selectpicker" })
+                @Html.ValidationMessageFor(model => model.FK_TaskId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Time, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Time, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Time, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control datepicker", autocomplete = "off" } })
+                @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Comment, "Comment", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Comment, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Comment, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+    </div>
+}
+
+<a class="Details" data-DynamicId="@Html.DisplayFor(model => model.PK_Id)">Details</a> <span> | </span>
+<a class="Delete"  data-DynamicId="@Html.DisplayFor(model => model.PK_Id)">Delete</a> 

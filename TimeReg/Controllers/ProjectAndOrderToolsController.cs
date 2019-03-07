@@ -67,6 +67,7 @@ namespace TimeReg.Controllers
             return View();
         }
 
+        [HttpGet]
         public ActionResult UnionCreate()
         {
             return PartialView("_UnionCreate");

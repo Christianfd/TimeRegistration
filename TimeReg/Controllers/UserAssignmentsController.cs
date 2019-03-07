@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -20,8 +21,10 @@ namespace TimeReg.Controllers
         public ActionResult Index()
         {
             //Needs View Implementation
-           
-            return View(db.VI_UserAssignment.ToList());
+            var windowsAuth = User.Identity.GetUserName();
+            var windowsAuthId = db.VI_Users.Where(m => m.NK_ZId == windowsAuth).SingleOrDefault().PK_Id;
+
+            return View(db.VI_UserAssignment.Where(m => m.FK_UserId == windowsAuthId).ToList());
         }
 
         // GET: UserAssignments/Details/5

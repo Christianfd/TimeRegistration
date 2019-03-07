@@ -46,6 +46,7 @@ namespace TimeReg.ViewModels
             FK_UserId = viTimeRegistration.FK_UserId;
             FK_ProjectId = viTimeRegistration.FK_ProjectId;
             FK_TaskId = viTimeRegistration.FK_TaskId;
+            FK_OrderId = viTimeRegistration.FK_OrderId;
             Time = viTimeRegistration.Time;
             Date = viTimeRegistration.Date;
             DateEntry = viTimeRegistration.DateEntry;

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -18,9 +19,11 @@ namespace TimeReg.Controllers
         // GET: Comments
         public ActionResult Index()
         {
-            //Needs View implementation
-           
-            return View(db.VI_Comments.ToList());
+            //Created so the user can only see his/her own comments
+            var windowsAuth = User.Identity.GetUserName();
+            var windowsAuthId = db.VI_Users.Where(m => m.NK_ZId == windowsAuth).SingleOrDefault().PK_Id;
+
+            return View(db.VI_Comments.Where(m => m.PK_Id == windowsAuthId).ToList());
         }
 
         // GET: Comments/Details/5

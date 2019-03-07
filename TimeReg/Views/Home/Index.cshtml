@@ -73,15 +73,20 @@
 
                 if (Result == "true") {
                     //Do Nothing
-
+                    console.log("Result True = triggered")
+                    console.log(Result)
                 } else if (Result == "Unable to Access database") {
                     //Possibly Show DB error
                     $(".error-span").toggle();
                     $(".error-span").text(Result);
+                    console.log("Result Unable to Access database = triggered")
+                    console.log(Result)
                 } else {
                     //Prompts the user to create choose a UserName
                     $("#NewUserModal").modal('show');
                     $("#NewUserModalBody").html(Result);
+                    console.log("new user should be triggered")
+                    console.log(Result)
                 }
             });
         });
