@@ -47,7 +47,19 @@ namespace TimeReg.Controllers
             ViewBag.FK_ProjectId = new SelectList(db.VI_Projects, "PK_Id", "Name");
             ViewBag.FK_OrderId = new SelectList(db.VI_OrderNumber, "PK_Id", "Number");
             ViewBag.FK_TaskId = new SelectList(db.VI_TaskType, "PK_Id", "Name");
-            ViewBag.FK_UserId = new SelectList(db.VI_Users, "PK_Id", "NK_Name");
+
+
+            //Logic For only being able to see one self
+            //Futher Logic is needed to make it so superusers and above can select other users
+            try {
+                var userZID = User.Identity.GetUserName();
+                ViewBag.FK_UserId = new SelectList(db.VI_Users.Where(m => m.NK_ZId == userZID), "PK_Id", "NK_Name");
+            }
+            catch {
+                //Needs better catch logic
+                ViewBag.FK_UserId = new SelectList(db.VI_Users, "PK_Id", "NK_Name");
+            }
+            
             return View();
         }
 

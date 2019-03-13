@@ -104,60 +104,68 @@
 }
 
 
-@section Scripts {
+@*@section Scripts {
 @Scripts.Render("~/bundles/jquery")
-@Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/bundles/jqueryval")*@
 
     @*Date Picker and Clipboard Functionality*@
     <script>
+
+
+
         $(".datepicker").datepicker({ dateFormat: 'dd/M/yy' }).val();
 
         //Clipboard functionality
-        function fallbackCopyTextToClipboard(text) {
-            var textArea = document.createElement("textarea");
-            textArea.value = text;
-            document.body.appendChild(textArea);
-            textArea.focus();
-            textArea.select();
-            try {
-                var successful = document.execCommand("copy");
-                var msg = successful ? "successful" : "unsuccessful";
-                console.log("Fallback: Copying text command was " + msg);
-            } catch (err) {
-                console.error("Fallback: Oops, unable to copy", err);
-            }
+        //function fallbackCopyTextToClipboard(text) {
+        //    var textArea = document.createElement("textarea");
+        //    textArea.value = text;
+        //    document.body.appendChild(textArea);
+        //    textArea.focus();
+        //    textArea.select();
+        //    try {
+        //        var successful = document.execCommand("copy");
+        //        var msg = successful ? "successful" : "unsuccessful";
+        //        console.log("Fallback: Copying text command was " + msg);
+        //    } catch (err) {
+        //        console.error("Fallback: Oops, unable to copy", err);
+        //    }
 
-            document.body.removeChild(textArea);
-        }
+        //    document.body.removeChild(textArea);
+        //}
 
-        //Copies to Clipboard
-        function copyTextToClipboard(text) {
-            if (!navigator.clipboard) {
-                fallbackCopyTextToClipboard(text);
-                return;
-            }
-            navigator.clipboard.writeText(text).then(
-              function () {
-                  console.log("Async: Copying to clipboard was successful!");
-              },
-              function (err) {
-                  console.error("Async: Could not copy text: ", err);
-              }
-            );
-        }
+        ////Copies to Clipboard
+        //function copyTextToClipboard(text) {
+        //    if (!navigator.clipboard) {
+        //        fallbackCopyTextToClipboard(text);
+        //        return;
+        //    }
+        //    navigator.clipboard.writeText(text).then(
+        //      function () {
+        //          console.log("Async: Copying to clipboard was successful!");
+        //      },
+        //      function (err) {
+        //          console.error("Async: Could not copy text: ", err);
+        //      }
+        //    );
+        //}
 
-        //Selects the copy button
-        var copyOrderBtn = document.querySelector("#btnScore");
+        ////Selects the copy button
+        //var copyOrderBtn = document.querySelector("#btnScore");
 
-        //Triggers Copy to clipboard on button click
-        copyOrderBtn.addEventListener("click", function (event) {
-            var OrderNumber = $("[id*='FK_OrderId'] :selected").text();
-            copyTextToClipboard(OrderNumber);
-        });
+        ////Triggers Copy to clipboard on button click
+        //copyOrderBtn.addEventListener("click", function (event) {
+        //    var OrderNumber = $("[id*='FK_OrderId'] :selected").text();
+        //    copyTextToClipboard(OrderNumber);
+        //});
+
+
+
+
+
+
     </script>
-
-    @*Auto Completion Script*@
-    <script>
+@*Auto Completion Script*@
+<script>
         $(function () {
             $.widget("custom.combobox", {
 
@@ -172,6 +180,12 @@
                     this._createAutocomplete();
                     this._createShowAllButton();
                     this.input.click(function (event) {
+                        var currentValue = $(this).val();
+                        if (currentValue == "") {
+                            $(this).autocomplete('search', '');
+                        } else $(this).autocomplete('search', $(this).val());
+                    });
+                    this.input.change(function (event) {
                         var currentValue = $(this).val();
                         if (currentValue == "") {
                             $(this).autocomplete('search', '');
@@ -192,12 +206,18 @@
                       .autocomplete({
                           delay: 0,
                           minLength: 0,
+                          change: function (event, ui) {
+
+                              //Triggers the Ajax call on the change event
+                              DropDown_IndexChange($(this).closest('span').attr('id'));
+
+                          },
                           source: $.proxy(this, "_source"),
                           select: function (event, ui) {
-                              //alert($(this).closest('span').attr('id'));
 
                               //triggers the corresponding method on index change
                               DropDown_IndexChange($(this).closest('span').attr('id'));
+
 
 
                     },
@@ -218,6 +238,20 @@
 
                         autocompletechange: "_removeIfInvalid"
                     });
+
+                    //This triggers a validity check on change - if it mathces top one it gets a succesful SQL call
+                    this._on(this.input, {
+                        autocompleteselect: function (event, ui) {
+                            this._trigger("change", event, {
+                                item: ui.item.option
+                            });
+                        },
+
+                        autocompletechange: "_removeIfInvalid"
+                    });
+
+
+
                 },
 
                 _createShowAllButton: function () {
@@ -324,18 +358,20 @@
             });
 
             $(".selectpicker").combobox();
+            $("custom-combobox").focusout(function () {
+                Alert("triggered");
+            });
         });
 
 
 
 
-
-    </script>
+</script>
 
     @*Ajax and Json Handling*@
     <script>
 
-        $("custom-combobox-input").select();
+        @*$("custom-combobox-input").select();
 
         function DropDown_IndexChange(id) {
             if (id != null) {
@@ -382,7 +418,7 @@
 
 
 
-        };
+        };*@
     </script>
 
-}
+@*}*@

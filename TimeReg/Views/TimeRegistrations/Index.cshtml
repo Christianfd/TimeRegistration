@@ -7,67 +7,240 @@
 <h2>Index</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    <a class="Create">Create New</a>
 </p>
-<table class="table">
-    <tr>
-        <th>
-            Project
-        </th>
-        <th>
-            Order Number
-        </th>
-        <th>
-            Time
-        </th>
 
-        <th>
-            Date
-        </th>
-        <th>
-            Task Type
-        </th>
-        <th>
-            User
-        </th>
-        @*<th>
-               Entry Date
-            </th>*@
-        <th></th>
-    </tr>
 
-@foreach (var item in Model.VI_TimeRegistration_List) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.ProjectName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.OrderName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Time)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Date)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TaskTypeName)
-        </td>
+<div id="PartialViewTableWrapper"> Loading TimeRegistrations..</div>
 
-        <td>
-            @Html.DisplayFor(modelItem => item.UserName)
-        </td>
-        @*<td>
-            @Html.DisplayFor(modelItem => item.DateEntry)
-          
-        </td>*@
-       
-<td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.PK_Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.PK_Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.PK_Id })
-        </td>
-    </tr>
+<!-- Modal -->
+<div class="modal" id="PartialViewModal" tabindex="-1" role="dialog" aria-labelledby="PartialViewModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="PartialViewModalTitle">Rep It Project And Order Tools</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="PartialViewModalBody">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" data-CRUD="" id="PartialViewModalSaveButton" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    
+
+
+
+    @*Ajax table handling
+
+        In the following JS the variable "CRUD" represents the type of action requested eg: Create, Remove, Update, Details.
+    *@
+    <script>
+        $(document).ready(function () {
+            UpdateDynamicTable();
+        });
+
+
+        function UpdateDynamicTable() {
+            $.ajax({
+                url: "/TimeRegistrations/IndexTable",
+                type: "GET"
+            }).done(function (partialViewResult) {
+                $("#PartialViewTableWrapper").html(partialViewResult);
+            })
+        }
+
+    </script>
+
+
+
+
+
+    @*Ajax Handling for the modal on the Edit page - and a bit other stuff*@
+    <script>
+
+
+       //The click handler for trigering the partialViewHandler. For the Create New, Edit | Details | Delete.
+        $(document).on('click', '.Create', function () {
+            PartialViewHandler($(this), "Create");
+        });
+
+        $(document).on('click', '.Edit', function () {
+            PartialViewHandler($(this), "Edit");
+        });
+
+        $(document).on('click', '.Details', function () {
+            PartialViewHandler($(this), "Details");
+        });
+
+        $(document).on('click', '.Delete', function () {
+            PartialViewHandler($(this), "Delete");
+        });
+
+
+        //Partial View Handler, gets the correct information from the "links" clicked. Split due to the Dynamic tables
+        function PartialViewHandler(object, CRUD) {
+            var DynamicOriginElement = object;
+            var DynamicOriginId = DynamicOriginElement.data("dynamicid");
+            AjaxDynamicHandler(CRUD, DynamicOriginId);
+        }
+
+
+        //Handles the AJAX call to return a partial View. The Switch is used to get the correct partial view and then enters it into the modal. Editing the content just enough for it to be ready for the stored procedure part
+        function AjaxDynamicHandler(CRUD, DynamicOriginId) {
+            var DynamicPK_Id = DynamicOriginId;
+            console.log(DynamicOriginId);
+            switch (CRUD) {
+                case "Create":
+                    $.ajax({
+                        url: "/TimeRegistrations/DynamicCreate"
+                    }).done(function (partialViewResult) {
+                        $("#PartialViewModal").modal('show');
+                        $("#PartialViewModalTitle").text("Rep It -  " + CRUD);
+                        $("#PartialViewModalSaveButton").data("crud", CRUD);
+                        $("#PartialViewModalSaveButton").text("Create");
+                        $("#PartialViewModalBody").html(partialViewResult);
+                    });
+                    break;
+                case "Edit":
+                    $.ajax({
+                        url: "/TimeRegistrations/DynamicEdit",
+                        type: "GET",
+                        data: { CRUD: CRUD, PK_Id: DynamicPK_Id }
+                    }).done(function (partialViewResult) {
+                        $("#PartialViewModal").modal('show');
+                        $("#PartialViewModalTitle").text("Rep It -  " + CRUD);
+                        $("#PartialViewModalSaveButton").data({crud: CRUD});
+                        $("#PartialViewModalSaveButton").text("Save Changes");
+                        $("#PartialViewModalBody").html(partialViewResult);
+
+                    });
+                    break;
+                case "Details":
+                    $.ajax({
+                        url: "/TimeRegistrations/DynamicDetails",
+                        type: "GET",
+                        data: { CRUD: CRUD, PK_Id: DynamicPK_Id }
+                    }).done(function (partialViewResult) {
+                        $("#PartialViewModal").modal('show');
+                        $("#PartialViewModalTitle").text("Rep It -  " + CRUD);
+                        $("#PartialViewModalSaveButton").data("crud", CRUD);
+                        $("#PartialViewModalSaveButton").text("Close");
+                        $("#PartialViewModalBody").html(partialViewResult);
+                    });
+                    break;
+
+                case "Delete":
+                    $.ajax({
+                        url: "/TimeRegistrations/DynamicDelete",
+                        type: "GET",
+                        data: { CRUD: CRUD, PK_Id: DynamicPK_Id }
+                    }).done(function (partialViewResult) {
+                        $("#PartialViewModal").modal('show');
+                        $("#PartialViewModalTitle").text("Rep It -  " + CRUD);
+                        $("#PartialViewModalSaveButton").data("crud", CRUD)
+                        $("#PartialViewModalSaveButton").text("Delete");
+                        $("#PartialViewModalBody").html(partialViewResult);
+                    });
+                    break;
+
+                default:
+                    $.ajax({
+                        url: "/TimeRegistrations/DynamicEdit",
+                        type: "GET",
+                        data: { CRUD: CRUD,  PK_Id: DynamicPK_Id }
+                    }).done(function (partialViewResult) {
+                        $("#PartialViewModal").modal('show');
+                        $("#PartialViewModalTitle").text("Rep It -  " + CRUD);
+                        $("#PartialViewModalSaveButton").data("crud", CRUD)
+                        $("#PartialViewModalBody").html(partialViewResult);
+                    });
+                    break;
+            }
+
+
+        }
+    </script>
+
+
+    @*This section handles the AJAX calls for stored procedures for the model save button*@
+    <script>
+
+
+        $("#PartialViewModalSaveButton").click(function () {
+            var CRUD = $(this).data("crud");
+            var form = $("#PartialViewModalBody").children('form');
+            console.log(form.serialize());
+            switch (CRUD) {
+                case "Create":
+                    $.ajax({
+                        url: form.attr("action"),
+                        method: "POST",  // post
+                        data: form.serialize(),
+                        success: function (partialResult) {
+                            $("#PartialViewModalBody").html(partialResult);
+                            UpdateDynamicTable();
+                        }
+                    });
+                    break;
+                case "Delete":
+                    $.ajax({
+                        url: form.attr("action"),
+                        method: "POST",  // post
+                        data: form.serialize(),
+                        success: function (partialResult) {
+                            console.log("Case 'Deleted' triggered");
+                            console.log(partialResult);
+                            if (partialResult == "Delete Confirmed") {
+                                $("#PartialViewModal").modal('hide');
+                            } else {
+                                $("#PartialViewModalBody").html(partialResult);
+                            }
+                            UpdateDynamicTable();
+                        }
+                    });
+                    break;
+
+                case "Edit":
+
+                    $.ajax({
+                        url: form.attr("action"),
+                        method: "POST",  // post
+                        data: form.serialize(),
+                        success: function (partialResult) {
+                            $("#PartialViewModalBody").html(partialResult);
+                            UpdateDynamicTable();
+                        }
+                    });
+                    break;
+                case "Details":
+                    $("#PartialViewModal").modal('hide');
+                    break;
+                default:
+                    break;
+            }
+
+        });
+    </script>
+
+
+
+
+    @*Below is for the Create and Edit modals*@
+
+
+    
+
 }
-
-</table>

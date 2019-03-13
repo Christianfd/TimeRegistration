@@ -84,17 +84,16 @@
     <Folder Include="TimeManagement\Stored Procedures\OrderNumberTables\CustomerRef" />
     <Folder Include="TimeManagement\Stored Procedures\OrderNumberTables\Requester" />
     <Folder Include="TimeManagement\Stored Procedures\OrderNumberTables\RequestOrg" />
+    <Folder Include="Security\Groups" />
+    <Folder Include="Security\Permissions" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="TimeManagement\Tables\TimeRegistration.sql" />
     <Build Include="TimeManagement\Tables\Projects.sql" />
     <Build Include="TimeManagement\Tables\Users.sql" />
     <Build Include="TimeManagement\Tables\Comments.sql" />
-    <Build Include="Security\AD009_RA201_TMDBTIMEMANAGEMENT_ADMINISTRATOR_L.sql" />
-    <Build Include="Security\AD009_RA201_TMDBTIMEMANAGEMENT_ADMINISTRATOR_L_1.sql" />
     <Build Include="Security\RoleMemberships.sql" />
     <Build Include="Security\TimeManagement.sql" />
-    <Build Include="Security\Permissions.sql" />
     <Build Include="TimeManagement\Views\VI_Users.sql" />
     <Build Include="TimeManagement\Views\VI_UserAssignment.sql" />
     <Build Include="TimeManagement\Views\VI_Projects.sql" />
@@ -164,6 +163,12 @@
     <Build Include="TimeManagement\Stored Procedures\User\SP_AddUser.sql" />
     <Build Include="TimeManagement\Stored Procedures\Project Tables\TaskType\SP_AddTaskType.sql" />
     <Build Include="TimeManagement\Stored Procedures\User\SP_AddNewUser.sql" />
+    <Build Include="Security\Groups\AD009_RA201_TMDBTIMEMANAGEMENT_ADMINISTRATOR_L.sql" />
+    <Build Include="Security\Permissions\Permission_ADMINISTRATOR.sql" />
+    <Build Include="Security\Groups\AD009_RA201_TMDBTIMEMANAGEMENT_SUPERUSER_L.sql" />
+    <Build Include="Security\Groups\AD009_RA201_TMDBTIMEMANAGEMENT_USER_L.sql" />
+    <Build Include="Security\Permissions\Permission_SUPERUSER.sql" />
+    <Build Include="Security\Permissions\Permission_USER.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="WebToolDB.refactorlog" />

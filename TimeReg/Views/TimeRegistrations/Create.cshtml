@@ -218,6 +218,12 @@
                             $(this).autocomplete('search', '');
                         } else $(this).autocomplete('search', $(this).val());
                     });
+                    this.input.change(function (event) {
+                        var currentValue = $(this).val();
+                        if (currentValue == "") {
+                            $(this).autocomplete('search', '');
+                        } else $(this).autocomplete('search', $(this).val());
+                    });
                 },
                
                 
@@ -233,12 +239,18 @@
                       .autocomplete({
                           delay: 0,
                           minLength: 0,
+                          change: function (event, ui) {
+
+                              //Triggers the Ajax call on the change event
+                              DropDown_IndexChange($(this).closest('span').attr('id'));
+
+                          },
                           source: $.proxy(this, "_source"),
                           select: function (event, ui) {        
-                              //alert($(this).closest('span').attr('id'));
                               
                               //triggers the corresponding method on index change
                               DropDown_IndexChange($(this).closest('span').attr('id'));
+
                              
                           
                     },
@@ -259,6 +271,20 @@
 
                         autocompletechange: "_removeIfInvalid"
                     });
+
+                    //This triggers a validity check on change - if it mathces top one it gets a succesful SQL call
+                    this._on(this.input, {
+                        autocompleteselect: function (event, ui) {
+                            this._trigger("change", event, {
+                                item: ui.item.option
+                            });
+                        },
+
+                        autocompletechange: "_removeIfInvalid"
+                    });
+
+                 
+
                 },
 
                 _createShowAllButton: function () {
@@ -365,6 +391,9 @@
             });
 
             $(".selectpicker").combobox();
+            $("custom-combobox").focusout(function () {
+                Alert("triggered");
+            });
         });
 
      	
@@ -376,54 +405,56 @@
     @*Ajax and Json Handling*@
     <script>
 
-        $("custom-combobox-input").select();
+        $("custom-combobox").focusout(function () {
+        Alert("triggered");
+        });
 
-        function DropDown_IndexChange(id) {
-            if (id != null) {
-                id = id.replace("combobox", "");
-                var key = $("#" + id + " option:selected").val();
-                var target = $("");
-                //Based on the calling Id, we need to identify the dropdownlist in need of change:
-                if (id == "FK_UserId")  {target = $("#FK_OrderId")  }
-                if (id == "FK_OrderId") {target = $("#FK_ProjectId")}
-            } else {return}
-
-
-
-            function populateDropDownList(result) {
-                //empty the targeted dropdownlist
-                target.empty();
-                //add the found results
-                $.each(result, function (index, value) {
-                    target.append($('<option/>', {
-                        value: value.Value,
-                        text: value.Text
-                    }));
-                    return;
-                });
-             }
+            function DropDown_IndexChange(id) {
+                if (id != null) {
+                    id = id.replace("combobox", "");
+                    var key = $("#" + id + " option:selected").val();
+                    var target = $("");
+                    //Based on the calling Id, we need to identify the dropdownlist in need of change:
+                    if (id == "FK_UserId")  {target = $("#FK_OrderId")  }
+                    if (id == "FK_OrderId") {target = $("#FK_ProjectId")}
+                } else {return}
 
 
-            //Ajax Call is currently only needed When Chosing user or Order Number
-            if (id == 'FK_UserId' || id == 'FK_OrderId') {
-                $.getJSON('@Url.Action("AjaxDyanimcDropDown")', { dropDownKey: key, dropDownId: id }, function (result) {
-                    if (result != null) {
 
-                        console.log(result);
+                function populateDropDownList(result) {
+                    //empty the targeted dropdownlist
+                    target.empty();
+                    //add the found results
+                    $.each(result, function (index, value) {
+                        target.append($('<option/>', {
+                            value: value.Value,
+                            text: value.Text
+                        }));
+                        return;
+                    });
+                }
+
+
+                //Ajax Call is currently only needed When Chosing user or Order Number
+                if (id == 'FK_UserId' || id == 'FK_OrderId') {
+                    $.getJSON('@Url.Action("AjaxDyanimcDropDown")', { dropDownKey: key, dropDownId: id }, function (result) {
+                        if (result != null) {
+
+                            console.log(result);
                     
-                        populateDropDownList(result, target);
-                    };
-                });
-            }
+                            populateDropDownList(result, target);
+                        };
+                    });
+                }
               
           
-          console.log("The id trigger was    : " + id);
-          console.log("Corresponding value is: " + key);
-          console.log("The DropDown Target is: " + target.attr('id'));
+                console.log("The id trigger was    : " + id);
+                console.log("Corresponding value is: " + key);
+                console.log("The DropDown Target is: " + target.attr('id'));
 
         
         
-        };
+            };
     </script>
 
 }
