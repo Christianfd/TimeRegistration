@@ -22,5 +22,6 @@ namespace TimeReg
         public string RequesterName { get; set; }
         public int FK_CustomerRef { get; set; }
         public string CustomerRefName { get; set; }
+        public string Title { get; set; }
     }
 }

@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
-using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using TimeReg;
+using TimeReg.Tools;
 using TimeReg.ViewModels;
 using TimeReg.ViewModels.ViewModelTools;
 
@@ -37,26 +37,23 @@ namespace TimeReg.Controllers
 				return HttpNotFound();
 			}
 
-			//Sets up a calendar to find the current date.
-			var culture = CultureInfo.CurrentCulture;
-			int weekNo = culture.Calendar.GetWeekOfYear(
-			DateTime.Now,
-			culture.DateTimeFormat.CalendarWeekRule,
-			culture.DateTimeFormat.FirstDayOfWeek);
+            //Gets the current week
+            var weekNo = CalendarHelper.GetWeekNr();
 
-            var result = db.Database.SqlQuery<WeeklyTimeViewModel>("SELECT	cast(datepart(wk, date) as int) Week, year(date) as Year, sum(Time) as [TotalTime] FROM	[TimeManagement].[TimeRegistration] WHERE FK_UserId = @p0 AND datepart(wk, date) = @p1 AND year(date) = @p2	group by datepart(wk, date), year(date)", id, weekNo, DateTime.Now.Year).ToList();
-            var firstResult = result.FirstOrDefault();
-            if (firstResult != null) {
-                ViewBag.WeeklyTime = firstResult;
-            } else
-            {
-                ViewBag.WeeklyTime = new WeeklyTimeViewModel { Week = weekNo, Year = DateTime.Now.Year, TotalTime = 0 };
-            }
-          
-              
-                
-            
-            return View(users);
+
+			var result = db.Database.SqlQuery<WeeklyTimeViewModel>("SELECT	cast(datepart(wk, date) as int) Week, year(date) as Year, sum(Time) as [TotalTime] FROM	[TimeManagement].[TimeRegistration] WHERE FK_UserId = @p0 AND datepart(wk, date) = @p1 AND year(date) = @p2	group by datepart(wk, date), year(date)", id, weekNo, DateTime.Now.Year).ToList();
+			var firstResult = result.FirstOrDefault();
+			if (firstResult != null) {
+				ViewBag.WeeklyTime = firstResult;
+			} else
+			{
+				ViewBag.WeeklyTime = new WeeklyTimeViewModel { Week = weekNo, Year = DateTime.Now.Year, TotalTime = 0 };
+			}
+		  
+			  
+				
+			
+			return View(users);
 		}
 
 		// GET: Users/Create
@@ -97,7 +94,7 @@ namespace TimeReg.Controllers
 				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 			}
 			VI_Users users = db.VI_Users.SingleOrDefault(m => m.PK_Id == id);
-            UsersViewModel usersViewModel = new UsersViewModel(users);
+			UsersViewModel usersViewModel = new UsersViewModel(users);
 			if (users == null)
 			{
 				return HttpNotFound();
@@ -148,11 +145,11 @@ namespace TimeReg.Controllers
 			return RedirectToAction("Index");
 		}
 
-        public ActionResult Account()
-        {
+		public ActionResult Account()
+		{
 
-            return View();
-        }
+			return View();
+		}
 
 		protected override void Dispose(bool disposing)
 		{

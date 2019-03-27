@@ -59,37 +59,6 @@ namespace TimeReg
         public virtual DbSet<VI_Turbine> VI_Turbine { get; set; }
         public virtual DbSet<VI_ProjectAndOrderToolsUnion> VI_ProjectAndOrderToolsUnion { get; set; }
     
-        public virtual ObjectResult<SP_AddUser_Result> SP_AddUser(string userName, string userAuthentity)
-        {
-            var userNameParameter = userName != null ?
-                new ObjectParameter("UserName", userName) :
-                new ObjectParameter("UserName", typeof(string));
-    
-            var userAuthentityParameter = userAuthentity != null ?
-                new ObjectParameter("UserAuthentity", userAuthentity) :
-                new ObjectParameter("UserAuthentity", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_AddUser_Result>("SP_AddUser", userNameParameter, userAuthentityParameter);
-        }
-    
-        public virtual int SP_AddTaskType(string taskTypeName)
-        {
-            var taskTypeNameParameter = taskTypeName != null ?
-                new ObjectParameter("taskTypeName", taskTypeName) :
-                new ObjectParameter("taskTypeName", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_AddTaskType", taskTypeNameParameter);
-        }
-    
-        public virtual ObjectResult<SP_TaskTypeFind_Result> SP_TaskTypeFind(Nullable<int> taskTypeID)
-        {
-            var taskTypeIDParameter = taskTypeID.HasValue ?
-                new ObjectParameter("TaskTypeID", taskTypeID) :
-                new ObjectParameter("TaskTypeID", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_TaskTypeFind_Result>("SP_TaskTypeFind", taskTypeIDParameter);
-        }
-    
         public virtual int SP_AddComment(Nullable<int> weekNumber, Nullable<int> year, string text, Nullable<int> projectKey, Nullable<int> userKey)
         {
             var weekNumberParameter = weekNumber.HasValue ?
@@ -438,7 +407,7 @@ namespace TimeReg
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_UpdateUserAssignment", updateIdParameter, userIdParameter, projectIdParameter);
         }
     
-        public virtual int SP_AddOrderNumber(string numberName, Nullable<int> fK_RequestOrg, Nullable<int> fK_Requester, Nullable<int> fK_CustomerRef)
+        public virtual int SP_AddOrderNumber(string numberName, Nullable<int> fK_RequestOrg, Nullable<int> fK_Requester, Nullable<int> fK_CustomerRef, string title)
         {
             var numberNameParameter = numberName != null ?
                 new ObjectParameter("NumberName", numberName) :
@@ -456,7 +425,11 @@ namespace TimeReg
                 new ObjectParameter("FK_CustomerRef", fK_CustomerRef) :
                 new ObjectParameter("FK_CustomerRef", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_AddOrderNumber", numberNameParameter, fK_RequestOrgParameter, fK_RequesterParameter, fK_CustomerRefParameter);
+            var titleParameter = title != null ?
+                new ObjectParameter("title", title) :
+                new ObjectParameter("title", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_AddOrderNumber", numberNameParameter, fK_RequestOrgParameter, fK_RequesterParameter, fK_CustomerRefParameter, titleParameter);
         }
     
         public virtual int SP_RemoveOrderNumber(Nullable<int> removeId)
@@ -468,7 +441,7 @@ namespace TimeReg
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_RemoveOrderNumber", removeIdParameter);
         }
     
-        public virtual int SP_UpdateOrderNumber(Nullable<int> updateId, string orderNumberName, Nullable<int> fK_RequestOrg, Nullable<int> fK_Requester, Nullable<int> fK_CustomerRef)
+        public virtual int SP_UpdateOrderNumber(Nullable<int> updateId, string orderNumberName, Nullable<int> fK_RequestOrg, Nullable<int> fK_Requester, Nullable<int> fK_CustomerRef, string title)
         {
             var updateIdParameter = updateId.HasValue ?
                 new ObjectParameter("UpdateId", updateId) :
@@ -490,7 +463,11 @@ namespace TimeReg
                 new ObjectParameter("FK_CustomerRef", fK_CustomerRef) :
                 new ObjectParameter("FK_CustomerRef", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_UpdateOrderNumber", updateIdParameter, orderNumberNameParameter, fK_RequestOrgParameter, fK_RequesterParameter, fK_CustomerRefParameter);
+            var titleParameter = title != null ?
+                new ObjectParameter("title", title) :
+                new ObjectParameter("title", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_UpdateOrderNumber", updateIdParameter, orderNumberNameParameter, fK_RequestOrgParameter, fK_RequesterParameter, fK_CustomerRefParameter, titleParameter);
         }
     
         public virtual int SP_AddTimeType(string timeTypeName)
@@ -692,16 +669,16 @@ namespace TimeReg
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_AddNewUser", nameParameter, authParameter);
         }
     
-        public virtual int SP_AddTaskType1(string taskTypeName)
+        public virtual int SP_AddTaskType(string taskTypeName)
         {
             var taskTypeNameParameter = taskTypeName != null ?
                 new ObjectParameter("taskTypeName", taskTypeName) :
                 new ObjectParameter("taskTypeName", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_AddTaskType1", taskTypeNameParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_AddTaskType", taskTypeNameParameter);
         }
     
-        public virtual int SP_AddUser1(string name, string auth)
+        public virtual int SP_AddUser(string name, string auth)
         {
             var nameParameter = name != null ?
                 new ObjectParameter("Name", name) :
@@ -711,7 +688,7 @@ namespace TimeReg
                 new ObjectParameter("Auth", auth) :
                 new ObjectParameter("Auth", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_AddUser1", nameParameter, authParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_AddUser", nameParameter, authParameter);
         }
     }
 }

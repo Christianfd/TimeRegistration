@@ -18,13 +18,13 @@
 <div class="modal" id="PartialViewModal" tabindex="-1" role="dialog" aria-labelledby="PartialViewModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header col-12">
                 <h5 class="modal-title" id="PartialViewModalTitle">Rep It Project And Order Tools</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body" id="PartialViewModalBody" >
+            <div class="modal-body " id="PartialViewModalBody" >
 
             </div>
             <div class="modal-footer">
@@ -51,7 +51,7 @@
 
         function UpdateUnionTable() {
             $.ajax({
-                url: "/ProjectAndOrderTools/UnionIndexTable",
+                url: '@Url.Content("~/ProjectAndOrderTools/UnionIndexTable")',
                 type: "GET"
             }).done(function (partialViewResult) {
                 $("#PartialViewTableWrapper").html(partialViewResult);
@@ -102,18 +102,18 @@
             switch (CRUD) {
                 case "Create":
                     $.ajax({
-                        url: "/ProjectAndOrderTools/UnionCreate",
+                        url: '@Url.Content("~/ProjectAndOrderTools/UnionCreate")',
                     }).done(function (partialViewResult) {
                         $("#PartialViewModal").modal('show');
                         $("#PartialViewModalTitle").text("Rep It -  " + CRUD);
                         $("#PartialViewModalSaveButton").data("crud", CRUD);
                         $("#PartialViewModalSaveButton").text("Create");
                         $("#PartialViewModalBody").html(partialViewResult);
-                    });
+                        });
                     break;
                 case "Edit":
                     $.ajax({
-                        url: "/ProjectAndOrderTools/UnionEdit",
+                        url: '@Url.Content("~/ProjectAndOrderTools/UnionEdit")',
                         type: "GET",
                         data: { CRUD: CRUD, type: UnionType, PK_Id: UnionPK_Id }
                     }).done(function (partialViewResult) {
@@ -123,11 +123,11 @@
                         $("#PartialViewModalSaveButton").text("Save Changes");
                         $("#PartialViewModalBody").html(partialViewResult);
 
-                    });
+                        });
                     break;
                 case "Details":
                     $.ajax({
-                        url: "/ProjectAndOrderTools/UnionDetails",
+                        url: '@Url.Content("~/ProjectAndOrderTools/UnionDetails")',
                         type: "GET",
                         data: { CRUD: CRUD, type: UnionType, PK_Id: UnionPK_Id }
                     }).done(function (partialViewResult) {
@@ -141,7 +141,7 @@
 
                 case "Delete":
                     $.ajax({
-                        url: "/ProjectAndOrderTools/UnionDelete",
+                        url: '@Url.Content("~/ProjectAndOrderTools/UnionDelete")',
                         type: "GET",
                         data: { CRUD: CRUD, type: UnionType, PK_Id: UnionPK_Id }
                     }).done(function (partialViewResult) {
@@ -155,7 +155,7 @@
 
                 default:
                     $.ajax({
-                        url: "/ProjectAndOrderTools/UnionEdit",
+                        url: '@Url.Content("~/ProjectAndOrderTools/UnionEdit")',
                         type: "GET",
                         data: { CRUD: CRUD, type: UnionType, PK_Id: UnionPK_Id }
                     }).done(function (partialViewResult) {
@@ -189,7 +189,11 @@
                         success: function (partialResult) {
                             $("#PartialViewModalBody").html(partialResult);
                             UpdateUnionTable();
+                        },
+                        error: function (xhr, ajaxOptions, thrownError) {
+                            UpdateUnionTable();
                         }
+                        
                     });
                     break;
                 case "Delete":

@@ -20,18 +20,18 @@
         <p>
             Click below to write a comment for your project for the weekly report.
         </p>
-        <p><a class="btn btn-default" href="Comments/Create">Comment &raquo;</a></p>
+        <p><a class="btn btn-secondary" href="Comments/Create">Comment &raquo;</a></p>
     </div>
     <div class="col-md-4">
         <h2>Time Registration Index</h2>
-        <p>Create project easily.</p>
-        <p><a class="btn btn-default" href="TimeRegistrations">Time Registration &raquo;</a></p>
+        <p>Go to the time registration page and create or manage your hours</p>
+        <p><a class="btn btn-secondary" href="TimeRegistrations">Time Registration &raquo;</a></p>
         <p> </p>
     </div>
     <div class="col-md-4">
         <h2>Project Index</h2>
         <p>You can easily find a project through the project list, which will feature sorting and filtering.</p>
-        <p><a class="btn btn-default" href="Projects">See Projects &raquo;</a></p>
+        <p><a class="btn btn-secondary" href="Projects">See Projects &raquo;</a></p>
     </div>
 </div>
 
@@ -66,7 +66,7 @@
         $(document).ready(function () {
             var UserName = $("#WindowsAuth").text();
             $.ajax({
-                url: "/Home/UserCheck",
+                url: '@Url.Content("~/Home/UserCheck")',
                 method: "Get",
                 data: { ZId: UserName }
             }).done(function (Result) {
@@ -119,6 +119,7 @@
 
         $("#NewUserModalSaveButton").click(function () {
             var form = $("#NewUserModalBody").children('form');
+            var path = '@Url.Content("~/Home/UserCheck")';
             $.ajax({
                 url: form.attr("action"),
                 method: "POST",  // post
@@ -126,6 +127,7 @@
                 success: function (Result) {
                     if (Result == "Successful") {
                         $("#NewUserModal").modal('hide');
+                        window.location.reload();
                     } else {
                         $("#NewUserModalBody").html(Result);
                     }

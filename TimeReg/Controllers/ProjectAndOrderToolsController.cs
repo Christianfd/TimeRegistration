@@ -265,7 +265,6 @@ namespace TimeReg.Controllers
                         break;
                     default:
                         return PartialView("_DeleteError");
-                        break;
 
                 }
                 string removed = "Delete Confirmed";
@@ -309,52 +308,45 @@ namespace TimeReg.Controllers
                     projectOrderUnionViewModel.Type = type;
                     projectOrderUnionViewModel.PK_Id = vI_Request.PK_Id;
                     return projectOrderUnionViewModel;
-                    break;
                 case "RequestOrg":
                     var vI_RequestOrg = db.VI_RequestOrg.SingleOrDefault(m => m.PK_Id == PK_Id);
                     projectOrderUnionViewModel.Name = vI_RequestOrg.Organization;
                     projectOrderUnionViewModel.Type = type;
                     projectOrderUnionViewModel.PK_Id = vI_RequestOrg.PK_Id;
                     return projectOrderUnionViewModel;
-                    break;
                 case "CustomerRef":
                     var vI_CustomerRef = db.VI_CustomerRef.SingleOrDefault(m => m.PK_Id == PK_Id);
                     projectOrderUnionViewModel.Name = vI_CustomerRef.Name;
                     projectOrderUnionViewModel.Type = type;
                     projectOrderUnionViewModel.PK_Id = vI_CustomerRef.PK_Id;
                     return projectOrderUnionViewModel;
-                    break;
                 case "PlatformOrProduct":
                     var vI_PlatformOrProduct = db.VI_PlatformOrProduct.SingleOrDefault(m => m.PK_Id == PK_Id);
                     projectOrderUnionViewModel.Name = vI_PlatformOrProduct.ProductName;
                     projectOrderUnionViewModel.Type = type;
                     projectOrderUnionViewModel.PK_Id = vI_PlatformOrProduct.PK_Id;
                     return projectOrderUnionViewModel;
-                    break;
                 case "Turbine":
                     var vI_Turbine = db.VI_Turbine.SingleOrDefault(m => m.PK_Id == PK_Id);
                     projectOrderUnionViewModel.Name = vI_Turbine.TurbineName;
                     projectOrderUnionViewModel.Type = type;
                     projectOrderUnionViewModel.PK_Id = vI_Turbine.PK_Id;
                     return projectOrderUnionViewModel; 
-                    break;
                 case "TimeType":
                     var vI_TimeType = db.VI_TimeType.SingleOrDefault(m => m.PK_Id == PK_Id);
                     projectOrderUnionViewModel.Name = vI_TimeType.Name;
                     projectOrderUnionViewModel.Type = type;
                     projectOrderUnionViewModel.PK_Id = vI_TimeType.PK_Id;
                     return projectOrderUnionViewModel;
-                    break;
                 case "TaskType":
                     var vI_TaskType = db.VI_TaskType.SingleOrDefault(m => m.PK_Id == PK_Id);
                     projectOrderUnionViewModel.Name = vI_TaskType.Name;
                     projectOrderUnionViewModel.Type = type;
                     projectOrderUnionViewModel.PK_Id = vI_TaskType.PK_Id;
                     return projectOrderUnionViewModel;
-                    break;
+                    
                 default:
                     return projectOrderUnionViewModel = null;
-                    break;
             }
         }
 

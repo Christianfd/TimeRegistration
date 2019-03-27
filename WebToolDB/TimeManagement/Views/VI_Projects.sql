@@ -9,7 +9,7 @@
 	  ,[Number] as [OrderName]
 	  ,[FK_TimeType]
 	  ,[TimeType].[Name] as [TimeTypeName]
-	  ,[SiteOrVersion]
+	  ,[Projects].[SiteOrVersion]
 	  ,[FK_Country]
 	  ,[Country].[CountryName] as [CountryName]
 	  ,[FK_PlatformOrProduct]

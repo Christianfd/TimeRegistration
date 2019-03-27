@@ -1,4 +1,4 @@
-﻿<div class="navbar navbar-inverse navbar-fixed-top">
+﻿@*<div class="navbar navbar-dark navbar-fixed-top bg-dark">
     <div class="container">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -22,8 +22,35 @@
             @Html.Action("UserPartial", "WindowsAuth", new { ZId = User.Identity.GetUserName() })
             }
 
-            @*Replaced by above line to use a controller*@
-            @*@Html.Partial("_LoginPartial")*@
+            Replaced by above line to use a controller
+            @Html.Partial("_LoginPartial") 
+
         </div>
     </div>
-</div>
+</div>*@
+
+
+
+@*Boostrap 4.0 Updated NavBar*@
+<nav class="navbar navbar-expand-sm navbar-dark fixed-top bg-dark">
+        <div class="container">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+        @Html.ActionLink("RepIt", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+        <div class="navbar-collapse collapse" id="navbarSupportedContent">
+
+            <ul class="nav navbar-nav mr-auto">
+                <li class="nav-item">@Html.ActionLink("Time Registration", "Index", "TimeRegistrations", null, new { @class = "nav-link" })</li>
+                <li class="nav-item">@Html.ActionLink("Weekly Comment", "Index", "Comments", null, new { @class = "nav-link" })</li>
+                <li class="nav-item">@Html.ActionLink("Overview", "Index", "Overview", null, new { @class = "nav-link" })</li>
+            </ul>
+
+            @using Microsoft.AspNet.Identity
+            @if (Request.IsAuthenticated)
+            {
+                @Html.Action("UserPartial", "WindowsAuth", new { ZId = User.Identity.GetUserName(), @class = "nav-link" })
+            }
+        </div>
+    </div>
+</nav>

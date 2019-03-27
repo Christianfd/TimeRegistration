@@ -86,6 +86,8 @@
     <Folder Include="TimeManagement\Stored Procedures\OrderNumberTables\RequestOrg" />
     <Folder Include="Security\Groups" />
     <Folder Include="Security\Permissions" />
+    <Folder Include="TimeManagement\PostDeployment" />
+    <Folder Include="TimeManagement\PostDeployment\PDScripts" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="TimeManagement\Tables\TimeRegistration.sql" />
@@ -135,7 +137,6 @@
     <Build Include="TimeManagement\Views\OrderNumberTools\VI_RequestOrg.sql" />
     <Build Include="TimeManagement\Views\VI_ProjectAndOrderTools.sql" />
     <Build Include="TimeManagement\Functions\SF_TimeUsedProject.sql" />
-    <Build Include="TimeManagement\Stored Procedures\SP_TaskTypeFind.sql" />
     <Build Include="TimeManagement\Stored Procedures\Project Tables\PlatformOrProduct\SP_AddPlatformOrProduct.sql" />
     <Build Include="TimeManagement\Stored Procedures\Project Tables\TaskType\SP_RemoveTaskType.sql" />
     <Build Include="TimeManagement\Stored Procedures\Project Tables\TaskType\SP_UpdateTaskType.sql" />
@@ -169,8 +170,16 @@
     <Build Include="Security\Groups\AD009_RA201_TMDBTIMEMANAGEMENT_USER_L.sql" />
     <Build Include="Security\Permissions\Permission_SUPERUSER.sql" />
     <Build Include="Security\Permissions\Permission_USER.sql" />
+    <None Include="TimeManagement\PostDeployment\PDScripts\PDExample.sql" />
+    <None Include="TimeManagement\PostDeployment\PDScripts\PDCountry.sql" />
+    <None Include="TimeManagement\PostDeployment\PDScripts\PDOrderNumber.sql" />
+    <None Include="TimeManagement\PostDeployment\PDScripts\PDTypes.sql" />
+    <None Include="TimeManagement\PostDeployment\PDScripts\PDUnionPage.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="WebToolDB.refactorlog" />
+  </ItemGroup>
+  <ItemGroup>
+    <PostDeploy Include="TimeManagement\PostDeployment\Script.PostDeployment1.sql" />
   </ItemGroup>
 </Project>

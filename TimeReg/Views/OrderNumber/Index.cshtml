@@ -12,6 +12,7 @@
 <table class="table">
     <tr>
         <th>Order Number</th>
+        <th>Title</th>
         <th>Requesting Organization</th>
         <th>Requester</th>
         <th>Customer Reference</th>
@@ -24,6 +25,11 @@
         <td>
             @Html.DisplayFor(modelItem => item.Number)
         </td>
+
+        <td>
+            @Html.DisplayFor(modelItem => item.Title)
+        </td>
+
         <td>
             @Html.DisplayFor(modelItem => item.Organization)
         </td>

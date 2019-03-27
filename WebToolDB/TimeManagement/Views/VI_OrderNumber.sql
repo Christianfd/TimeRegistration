@@ -7,6 +7,7 @@
 	  ,[Requester].[Name] as [RequesterName]
 	  ,[FK_CustomerRef]
 	  ,[CustomerRef].[Name] as [CustomerRefName]
+	  ,[Title]
   FROM [OrderNumber]
   JOIN [RequestOrg] on [OrderNumber].[FK_RequestOrg] = [RequestOrg].[PK_Id]
   JOIN [Requester] on [OrderNumber].[FK_Requester] = [Requester].[PK_Id]

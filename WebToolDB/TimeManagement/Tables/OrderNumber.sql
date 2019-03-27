@@ -4,6 +4,7 @@
     [FK_RequestOrg]  INT             DEFAULT ((1)) NOT NULL,
     [FK_Requester]   INT             DEFAULT ((1)) NOT NULL,
     [FK_CustomerRef] INT             DEFAULT ((1)) NOT NULL,
+	[Title]		     NVARCHAR (100)  DEFAULT ('Placeholder') NOT NULL,
     CONSTRAINT [PK_OrderNumber] PRIMARY KEY CLUSTERED ([PK_Id] ASC),
     CONSTRAINT [FK_OrderNumber_CustomerRef] FOREIGN KEY ([FK_CustomerRef]) REFERENCES [TimeManagement].[CustomerRef] ([PK_Id]),
     CONSTRAINT [FK_OrderNumber_Requester] FOREIGN KEY ([FK_Requester]) REFERENCES [TimeManagement].[Requester] ([PK_Id]),

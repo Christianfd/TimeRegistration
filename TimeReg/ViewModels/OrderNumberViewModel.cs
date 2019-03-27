@@ -20,6 +20,8 @@ namespace TimeReg.ViewModels
         [Required]
         public int FK_CustomerRef { get; set; }
         public string CustomerRefName { get; set; }
+        [Required]
+        public string Title { get; set; }
 
 
 
@@ -35,6 +37,7 @@ namespace TimeReg.ViewModels
             RequesterName = vI_OrderNumber.RequesterName;
             FK_CustomerRef = vI_OrderNumber.FK_CustomerRef;
             CustomerRefName = vI_OrderNumber.CustomerRefName;
+            Title = vI_OrderNumber.Title;
         }
 
 

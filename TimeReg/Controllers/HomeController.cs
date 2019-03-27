@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Hosting;
 using System.Web.Mvc;
 using TimeReg.ViewModels;
 
@@ -10,6 +11,7 @@ namespace TimeReg.Controllers
 {
     public class HomeController : Controller
     {
+       
         private WebToolEntities1 db = new WebToolEntities1();
         public ActionResult Index()
         {
@@ -54,8 +56,7 @@ namespace TimeReg.Controllers
             {
                 return PartialView("_NewUserPartial", model);
             }
-            message = "Unsuccessful";
-            return Json(message, JsonRequestBehavior.AllowGet);
+
         }
 
         [HttpGet]

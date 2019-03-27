@@ -40,6 +40,7 @@
           <Property Name="FK_RequestOrg" Type="int" Nullable="false" />
           <Property Name="FK_Requester" Type="int" Nullable="false" />
           <Property Name="FK_CustomerRef" Type="int" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="100" Nullable="false" />
         </EntityType>
         <EntityType Name="PlatformOrProduct">
           <Key>
@@ -189,6 +190,7 @@ warning 6002: The table/view 'WebTool.TimeManagement.VI_OrderNumber' does not ha
             <PropertyRef Name="RequesterName" />
             <PropertyRef Name="FK_CustomerRef" />
             <PropertyRef Name="CustomerRefName" />
+            <PropertyRef Name="Title" />
           </Key>
           <Property Name="PK_Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="Number" Type="nvarchar" MaxLength="1000" Nullable="false" />
@@ -198,6 +200,7 @@ warning 6002: The table/view 'WebTool.TimeManagement.VI_OrderNumber' does not ha
           <Property Name="RequesterName" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="FK_CustomerRef" Type="int" Nullable="false" />
           <Property Name="CustomerRefName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="100" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'WebTool.TimeManagement.VI_PlatformOrProduct' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -325,6 +328,7 @@ warning 6002: The table/view 'WebTool.TimeManagement.VI_TimeRegistration' does n
             <PropertyRef Name="Time" />
             <PropertyRef Name="Date" />
             <PropertyRef Name="DateEntry" />
+            
             <PropertyRef Name="TaskTypeName" />
             <PropertyRef Name="ProjectName" />
             <PropertyRef Name="UserName" />
@@ -338,7 +342,7 @@ warning 6002: The table/view 'WebTool.TimeManagement.VI_TimeRegistration' does n
           <Property Name="Time" Type="int" Nullable="false" />
           <Property Name="Date" Type="date" Nullable="false" />
           <Property Name="DateEntry" Type="date" Nullable="false" />
-          <Property Name="Comment" Type="nvarchar" MaxLength="300" />
+          <Property Name="Comment" Type="nvarchar" MaxLength="300" Nullable="false" />
           <Property Name="TaskTypeName" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="ProjectName" Type="nvarchar" MaxLength="150" Nullable="false" />
           <Property Name="UserName" Type="nvarchar" MaxLength="100" Nullable="false" />
@@ -625,6 +629,7 @@ warning 6002: The table/view 'WebTool.TimeManagement.VI_UserTimePerProject' does
           <Parameter Name="FK_RequestOrg" Type="int" Mode="In" />
           <Parameter Name="FK_Requester" Type="int" Mode="In" />
           <Parameter Name="FK_CustomerRef" Type="int" Mode="In" />
+          <Parameter Name="title" Type="nvarchar" Mode="In" />
         </Function>
         <Function Name="SP_AddPlatformOrProduct" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="TimeManagement">
           <Parameter Name="platformOrProject" Type="nvarchar" Mode="In" />
@@ -714,9 +719,6 @@ warning 6002: The table/view 'WebTool.TimeManagement.VI_UserTimePerProject' does
         <Function Name="SP_RemoveUserAssignment" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="TimeManagement">
           <Parameter Name="RemoveId" Type="int" Mode="In" />
         </Function>
-        <Function Name="SP_TaskTypeFind" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="TimeManagement">
-          <Parameter Name="TaskTypeID" Type="int" Mode="In" />
-        </Function>
         <Function Name="SP_UpdateComments" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="TimeManagement">
           <Parameter Name="UpdateId" Type="int" Mode="In" />
           <Parameter Name="WeekNr" Type="int" Mode="In" />
@@ -735,6 +737,7 @@ warning 6002: The table/view 'WebTool.TimeManagement.VI_UserTimePerProject' does
           <Parameter Name="FK_RequestOrg" Type="int" Mode="In" />
           <Parameter Name="FK_Requester" Type="int" Mode="In" />
           <Parameter Name="FK_CustomerRef" Type="int" Mode="In" />
+          <Parameter Name="title" Type="nvarchar" Mode="In" />
         </Function>
         <Function Name="SP_UpdatePlatformOrProduct" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="TimeManagement">
           <Parameter Name="UpdateId" Type="int" Mode="In" />
@@ -844,7 +847,8 @@ warning 6002: The table/view 'WebTool.TimeManagement.VI_UserTimePerProject' does
     [VI_OrderNumber].[FK_Requester] AS [FK_Requester], 
     [VI_OrderNumber].[RequesterName] AS [RequesterName], 
     [VI_OrderNumber].[FK_CustomerRef] AS [FK_CustomerRef], 
-    [VI_OrderNumber].[CustomerRefName] AS [CustomerRefName]
+    [VI_OrderNumber].[CustomerRefName] AS [CustomerRefName], 
+    [VI_OrderNumber].[Title] AS [Title]
     FROM [TimeManagement].[VI_OrderNumber] AS [VI_OrderNumber]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="VI_PlatformOrProduct" EntityType="Self.VI_PlatformOrProduct" store:Type="Views" store:Schema="TimeManagement">
@@ -1038,16 +1042,6 @@ warning 6002: The table/view 'WebTool.TimeManagement.VI_UserTimePerProject' does
     <edmx:ConceptualModels>
       <Schema Namespace="WebToolModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="WebToolEntities1" annotation:LazyLoadingEnabled="true">
-          <FunctionImport Name="SP_AddUser" ReturnType="Collection(WebToolModel.SP_AddUser_Result)">
-            <Parameter Name="UserName" Mode="In" Type="String" />
-            <Parameter Name="UserAuthentity" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="SP_AddTaskType">
-          <Parameter Name="taskTypeName" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="SP_TaskTypeFind" ReturnType="Collection(WebToolModel.SP_TaskTypeFind_Result)">
-          <Parameter Name="TaskTypeID" Mode="In" Type="Int32" />
-          </FunctionImport>
           <FunctionImport Name="SP_AddComment">
             <Parameter Name="weekNumber" Mode="In" Type="Int32" />
             <Parameter Name="year" Mode="In" Type="Int32" />
@@ -1152,6 +1146,7 @@ warning 6002: The table/view 'WebTool.TimeManagement.VI_UserTimePerProject' does
             <Parameter Name="FK_RequestOrg" Mode="In" Type="Int32" />
             <Parameter Name="FK_Requester" Mode="In" Type="Int32" />
             <Parameter Name="FK_CustomerRef" Mode="In" Type="Int32" />
+            <Parameter Name="title" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="SP_RemoveOrderNumber">
           <Parameter Name="RemoveId" Mode="In" Type="Int32" />
@@ -1162,6 +1157,7 @@ warning 6002: The table/view 'WebTool.TimeManagement.VI_UserTimePerProject' does
             <Parameter Name="FK_RequestOrg" Mode="In" Type="Int32" />
             <Parameter Name="FK_Requester" Mode="In" Type="Int32" />
             <Parameter Name="FK_CustomerRef" Mode="In" Type="Int32" />
+            <Parameter Name="title" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="SP_AddTimeType">
           <Parameter Name="timeTypeName" Mode="In" Type="String" />
@@ -1326,22 +1322,14 @@ warning 6002: The table/view 'WebTool.TimeManagement.VI_UserTimePerProject' does
             <Parameter Name="Name" Mode="In" Type="String" />
             <Parameter Name="Auth" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="SP_AddTaskType1">
-            <Parameter Name="taskTypeName" Mode="In" Type="String" />
+          <FunctionImport Name="SP_AddTaskType">
+          <Parameter Name="taskTypeName" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="SP_AddUser1">
+          <FunctionImport Name="SP_AddUser">
             <Parameter Name="Name" Mode="In" Type="String" />
             <Parameter Name="Auth" Mode="In" Type="String" />
           </FunctionImport>
           </EntityContainer>
-        <ComplexType Name="SP_AddUser_Result">
-          <Property Type="Int32" Name="Column1" Nullable="true" />
-          <Property Type="Int32" Name="Column2" Nullable="true" />
-        </ComplexType>
-        <ComplexType Name="SP_TaskTypeFind_Result">
-          <Property Type="Int32" Name="PK_Id" Nullable="false" />
-          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" />
-        </ComplexType>
         <EntityType Name="Comments">
           <Key>
             <PropertyRef Name="PK_Id" />
@@ -1385,6 +1373,7 @@ warning 6002: The table/view 'WebTool.TimeManagement.VI_UserTimePerProject' does
           <NavigationProperty Name="CustomerRef" Relationship="WebToolModel.FK_OrderNumber_CustomerRef" FromRole="OrderNumber" ToRole="CustomerRef" />
           <NavigationProperty Name="Requester" Relationship="WebToolModel.FK_OrderNumber_Requester" FromRole="OrderNumber" ToRole="Requester" />
           <NavigationProperty Name="RequestOrg" Relationship="WebToolModel.FK_OrderNumber_RequestOrg" FromRole="OrderNumber" ToRole="RequestOrg" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="PlatformOrProduct">
           <Key>
@@ -1542,6 +1531,7 @@ warning 6002: The table/view 'WebTool.TimeManagement.VI_UserTimePerProject' does
             <PropertyRef Name="RequesterName" />
             <PropertyRef Name="FK_CustomerRef" />
             <PropertyRef Name="CustomerRefName" />
+            <PropertyRef Name="Title" />
           </Key>
           <Property Name="PK_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Number" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="true" />
@@ -1551,6 +1541,7 @@ warning 6002: The table/view 'WebTool.TimeManagement.VI_UserTimePerProject' does
           <Property Name="RequesterName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="FK_CustomerRef" Type="Int32" Nullable="false" />
           <Property Name="CustomerRefName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="VI_ProjectAndOrderTools">
           <Key>
@@ -1651,7 +1642,7 @@ warning 6002: The table/view 'WebTool.TimeManagement.VI_UserTimePerProject' does
           <Property Name="Time" Type="Int32" Nullable="false" />
           <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="DateEntry" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="Comment" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="Comment" Type="String" MaxLength="300" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="TaskTypeName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ProjectName" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="UserName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
@@ -1952,14 +1943,6 @@ warning 6002: The table/view 'WebTool.TimeManagement.VI_UserTimePerProject' does
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="WebToolModelStoreContainer" CdmEntityContainer="WebToolEntities1">
-          <FunctionImportMapping FunctionImportName="SP_TaskTypeFind" FunctionName="WebToolModel.Store.SP_TaskTypeFind">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="WebToolModel.SP_TaskTypeFind_Result">
-                <ScalarProperty Name="PK_Id" ColumnName="PK_Id" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="SP_AddComment" FunctionName="WebToolModel.Store.SP_AddComment" />
           <FunctionImportMapping FunctionImportName="SP_UpdateTaskType" FunctionName="WebToolModel.Store.SP_UpdateTaskType" />
           <FunctionImportMapping FunctionImportName="SP_RemoveTaskType" FunctionName="WebToolModel.Store.SP_RemoveTaskType" />
@@ -2014,6 +1997,7 @@ warning 6002: The table/view 'WebTool.TimeManagement.VI_UserTimePerProject' does
           <EntitySetMapping Name="OrderNumber">
             <EntityTypeMapping TypeName="WebToolModel.OrderNumber">
               <MappingFragment StoreEntitySet="OrderNumber">
+                <ScalarProperty Name="Title" ColumnName="Title" />
                 <ScalarProperty Name="FK_CustomerRef" ColumnName="FK_CustomerRef" />
                 <ScalarProperty Name="FK_Requester" ColumnName="FK_Requester" />
                 <ScalarProperty Name="FK_RequestOrg" ColumnName="FK_RequestOrg" />
@@ -2149,6 +2133,7 @@ warning 6002: The table/view 'WebTool.TimeManagement.VI_UserTimePerProject' does
           <EntitySetMapping Name="VI_OrderNumber">
             <EntityTypeMapping TypeName="WebToolModel.VI_OrderNumber">
               <MappingFragment StoreEntitySet="VI_OrderNumber">
+                <ScalarProperty Name="Title" ColumnName="Title" />
                 <ScalarProperty Name="CustomerRefName" ColumnName="CustomerRefName" />
                 <ScalarProperty Name="FK_CustomerRef" ColumnName="FK_CustomerRef" />
                 <ScalarProperty Name="RequesterName" ColumnName="RequesterName" />
@@ -2332,8 +2317,8 @@ warning 6002: The table/view 'WebTool.TimeManagement.VI_UserTimePerProject' does
           <FunctionImportMapping FunctionImportName="SP_RemovePlatformOrProduct" FunctionName="WebToolModel.Store.SP_RemovePlatformOrProduct" />
           <FunctionImportMapping FunctionImportName="SP_UpdatePlatformOrProduct" FunctionName="WebToolModel.Store.SP_UpdatePlatformOrProduct" />
           <FunctionImportMapping FunctionImportName="SP_AddNewUser" FunctionName="WebToolModel.Store.SP_AddNewUser" />
-          <FunctionImportMapping FunctionImportName="SP_AddTaskType1" FunctionName="WebToolModel.Store.SP_AddTaskType" />
-          <FunctionImportMapping FunctionImportName="SP_AddUser1" FunctionName="WebToolModel.Store.SP_AddUser" />
+          <FunctionImportMapping FunctionImportName="SP_AddTaskType" FunctionName="WebToolModel.Store.SP_AddTaskType" />
+          <FunctionImportMapping FunctionImportName="SP_AddUser" FunctionName="WebToolModel.Store.SP_AddUser" />
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

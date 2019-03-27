@@ -7,3 +7,4 @@ INSERT INTO [TimeManagement].[TaskType]
 ([Name])
 
 VALUES (@taskTypeName)
+GO

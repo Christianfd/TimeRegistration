@@ -51,11 +51,11 @@ namespace TimeReg.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "PK_Id,Number,FK_RequestOrg,FK_Requester,FK_CustomerRef")] OrderNumberViewModel orderNumberViewModel)
+        public ActionResult Create([Bind(Include = "PK_Id,Number,FK_RequestOrg,FK_Requester,FK_CustomerRef,Title")] OrderNumberViewModel orderNumberViewModel)
         {
             if (ModelState.IsValid)
             {
-                db.SP_AddOrderNumber(orderNumberViewModel.Number, orderNumberViewModel.FK_RequestOrg, orderNumberViewModel.FK_Requester, orderNumberViewModel.FK_CustomerRef);
+                db.SP_AddOrderNumber(orderNumberViewModel.Number, orderNumberViewModel.FK_RequestOrg, orderNumberViewModel.FK_Requester, orderNumberViewModel.FK_CustomerRef, orderNumberViewModel.Title);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -92,11 +92,11 @@ namespace TimeReg.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "PK_Id,Number,FK_RequestOrg,FK_Requester,FK_CustomerRef")] OrderNumberViewModel orderNumberViewModel)
+        public ActionResult Edit([Bind(Include = "PK_Id,Number,FK_RequestOrg,FK_Requester,FK_CustomerRef,Title")] OrderNumberViewModel orderNumberViewModel)
         {
             if (ModelState.IsValid)
             {
-                db.SP_UpdateOrderNumber(orderNumberViewModel.PK_Id, orderNumberViewModel.Number, orderNumberViewModel.FK_RequestOrg, orderNumberViewModel.FK_Requester, orderNumberViewModel.FK_CustomerRef);
+                db.SP_UpdateOrderNumber(orderNumberViewModel.PK_Id, orderNumberViewModel.Number, orderNumberViewModel.FK_RequestOrg, orderNumberViewModel.FK_Requester, orderNumberViewModel.FK_CustomerRef, orderNumberViewModel.Title);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }

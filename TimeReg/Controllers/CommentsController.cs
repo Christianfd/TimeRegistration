@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using TimeReg;
 using TimeReg.ViewModels;
+using TimeReg.Tools;
 
 namespace TimeReg.Controllers
 {
@@ -23,7 +24,7 @@ namespace TimeReg.Controllers
             var windowsAuth = User.Identity.GetUserName();
             var windowsAuthId = db.VI_Users.Where(m => m.NK_ZId == windowsAuth).SingleOrDefault().PK_Id;
 
-            return View(db.VI_Comments.Where(m => m.PK_Id == windowsAuthId).ToList());
+            return View(db.VI_Comments.Where(m => m.FK_User == windowsAuthId).ToList());
         }
 
         // GET: Comments/Details/5
@@ -52,9 +53,26 @@ namespace TimeReg.Controllers
         // GET: Comments/Create
         public ActionResult Create()
         {
-           
-            ViewBag.FK_User = new SelectList(db.VI_Users, "PK_Id", "NK_Name");
-            ViewBag.FK_ProjectId = new SelectList(db.VI_Projects, "PK_Id", "Name");
+
+            var year = DateTime.Now.Year;
+            var weekNo = CalendarHelper.GetWeekNr();
+
+            //Created so the user can default to him
+            try
+            {
+                var windowsAuth = User.Identity.GetUserName();
+                var windowsAuthId = db.VI_Users.Where(m => m.NK_ZId == windowsAuth).SingleOrDefault().PK_Id;
+                ViewBag.FK_User = new SelectList(db.VI_Users, "PK_Id", "NK_Name", 3);
+                ViewBag.Year = year;
+            }
+            catch
+            {
+                ViewBag.FK_User = new SelectList(db.VI_Users, "PK_Id", "NK_Name", "Please Select User");
+            }
+
+          
+          
+            ViewBag.FK_ProjectId = new SelectList(db.VI_Projects, "PK_Id", "Name", "Please Select Project");
             return View();
         }
 
@@ -72,8 +90,8 @@ namespace TimeReg.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.FK_User = new SelectList(db.VI_Users, "PK_Id", "NK_Name", "Choose Project");
-            ViewBag.FK_ProjectId = new SelectList(db.VI_Projects, "PK_Id", "Name", "Choose User");
+            ViewBag.FK_User = new SelectList(db.VI_Users, "PK_Id", "NK_Name", comments.FK_User);
+            ViewBag.FK_ProjectId = new SelectList(db.VI_Projects, "PK_Id", "Name", comments.FK_ProjectId);
             return View(comments);
         }
 

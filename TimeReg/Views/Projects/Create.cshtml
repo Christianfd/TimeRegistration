@@ -17,7 +17,7 @@
         @*Project Name*@
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
-            @Html.LabelFor(model => model.Name, "Project Name", htmlAttributes: new { @class = "control-label col-md-2"})
+            @Html.LabelFor(model => model.Name, "Project Name", htmlAttributes: new { @class = "col-form-label col-md-2"})
             <div class="col-md-10">
                 @Html.TextAreaFor(model => model.Name, htmlAttributes: new { @class = "form-control", @id = "ProjectName", @readonly = true , @rows = 2} )
                 @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
@@ -25,7 +25,7 @@
         </div>
         @*Product Or Platform*@
         <div class="form-group">
-            @Html.LabelFor(model => model.FK_PlatformOrProduct, "Platform or Product", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.FK_PlatformOrProduct, "Platform or Product", htmlAttributes: new { @class = "col-form-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownList("FK_PlatformOrProduct", (SelectList)ViewBag.FK_PlatformOrProduct, htmlAttributes: new { @class = "form-control", @id = "PlatformOrProduct" })
                 @Html.ValidationMessageFor(model => model.FK_PlatformOrProduct, "", new { @class = "text-danger" })
@@ -34,7 +34,7 @@
 
         @*Site or Version*@
         <div class="form-group">
-            @Html.LabelFor(model => model.SiteOrVersion, "Site Or Version", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.SiteOrVersion, "Site Or Version", htmlAttributes: new { @class = "col-form-label col-md-2" })
             <div class="col-md-10">
 
                 @Html.EditorFor(model => model.SiteOrVersion, new { htmlAttributes = new { @class = "form-control", @id = "SiteOrVersion" } })
@@ -44,7 +44,7 @@
 
         @*Turbine*@
         <div class="form-group">
-            @Html.LabelFor(model => model.FK_Turbine, "Turbine", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.FK_Turbine, "Turbine", htmlAttributes: new { @class = "col-form-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownList("FK_Turbine", (SelectList)ViewBag.FK_Turbine, htmlAttributes: new { @class = "form-control", id = "Turbine" })
                 @Html.ValidationMessageFor(model => model.FK_Turbine, "", new { @class = "text-danger" })
@@ -53,7 +53,7 @@
 
         @*Project Scope*@
         <div class="form-group">
-            @Html.LabelFor(model => model.Scope, "Project Scope", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Scope, "Project Scope", htmlAttributes: new { @class = "col-form-label col-md-2" })
             <div class="col-md-10">
                 @Html.TextAreaFor(model => model.Scope, htmlAttributes: new { @class = "form-control", id = "Scope", @rows = 2 })
                 @Html.ValidationMessageFor(model => model.Scope, "", new { @class = "text-danger" })
@@ -62,7 +62,7 @@
 
         @*Country*@
         <div class="form-group">
-            @Html.LabelFor(model => model.FK_Country, "Country", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.FK_Country, "Country", htmlAttributes: new { @class = "col-form-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownList("FK_Country", (SelectList)ViewBag.FK_Country, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.FK_Country, "", new { @class = "text-danger" })
@@ -71,7 +71,7 @@
 
         @*Project Comment*@
         <div class="form-group">
-            @Html.LabelFor(model => model.ProjectComment, "Project Comment", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.ProjectComment, "Project Comment", htmlAttributes: new { @class = "col-form-label col-md-2" })
             <div class="col-md-10">
                 @Html.TextAreaFor(model => model.ProjectComment, htmlAttributes: new { @class = "form-control", @rows = 5, @text = "No Comment" })
                 @Html.ValidationMessageFor(model => model.ProjectComment, "", new { @class = "text-danger" })
@@ -81,7 +81,7 @@
 
         @*Order Number*@
         <div class="form-group">
-            @Html.LabelFor(model => model.FK_OrderNumber, "Order Number", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.FK_OrderNumber, "Order Number", htmlAttributes: new { @class = "col-form-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownList("FK_OrderNumber", (SelectList)ViewBag.FK_OrderNumber, "Please Select Order Number", htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.FK_ProjectLeader, "", new { @class = "text-danger" })
@@ -93,7 +93,7 @@
 
         @*Time Estimation*@
         <div class="form-group">
-            @Html.LabelFor(model => model.TimeEstimation, "Time Estimation", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.TimeEstimation, "Time Estimation", htmlAttributes: new { @class = "col-form-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.TimeEstimation, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.TimeEstimation, "", new { @class = "text-danger" })
@@ -102,7 +102,7 @@
 
         @*Project Leader*@
         <div class="form-group">
-            @Html.LabelFor(model => model.FK_ProjectLeader, "Project Leader", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.FK_ProjectLeader, "Project Leader", htmlAttributes: new { @class = "col-form-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownList("FK_ProjectLeader", (SelectList)ViewBag.FK_ProjectLeader, "Please Select One" , htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.FK_ProjectLeader, "", new { @class = "text-danger" })
@@ -111,7 +111,7 @@
         
         @*Time Type*@
         <div class="form-group">
-            @Html.LabelFor(model => model.FK_TimeType, "Time Type", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.FK_TimeType, "Time Type", htmlAttributes: new { @class = "col-form-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownList("FK_TimeType", (SelectList)ViewBag.FK_TimeType, "Please Select Type", htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.FK_ProjectLeader, "", new { @class = "text-danger" })
@@ -122,7 +122,7 @@
         @*Buttone*@
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Create" class="btn btn-outline-secondary" />
             </div>
         </div>
     </div>

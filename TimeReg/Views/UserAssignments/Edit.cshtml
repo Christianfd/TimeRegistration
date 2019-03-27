@@ -18,7 +18,7 @@
         @Html.HiddenFor(model => model.PK_Id)
 
         <div class="form-group">
-            @Html.LabelFor(model => model.FK_UserId, "FK_UserId", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.FK_UserId, "FK_UserId", htmlAttributes: new { @class = "col-form-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownList("FK_UserId", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.FK_UserId, "", new { @class = "text-danger" })
@@ -26,7 +26,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.FK_ProjectId, "FK_ProjectId", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.FK_ProjectId, "FK_ProjectId", htmlAttributes: new { @class = "col-form-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownList("FK_ProjectId", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.FK_ProjectId, "", new { @class = "text-danger" })
@@ -35,7 +35,7 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <input type="submit" value="Save" class="btn btn-outline-secondary" />
             </div>
         </div>
     </div>
