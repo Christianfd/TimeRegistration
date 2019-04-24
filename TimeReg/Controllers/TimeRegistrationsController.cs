@@ -21,177 +21,13 @@ namespace TimeReg.Controllers
         public ActionResult Index()
         {
             var timeRegistrationViewModel = new TimeRegistrationViewModel(db.VI_TimeRegistration.OrderByDescending(m => m.Date).ToList());
+            ViewBag.CurrentController = "TimeRegistrations";
             return View(timeRegistrationViewModel);
         }
-
-        // GET: TimeRegistrations/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            VI_TimeRegistration timeRegistrationView = db.VI_TimeRegistration.SingleOrDefault(m => m.PK_Id == id);
-            TimeRegistrationViewModel timeRegistration = new TimeRegistrationViewModel(timeRegistrationView);
-            if (timeRegistration == null)
-            {
-                return HttpNotFound();
-            }
-            return View(timeRegistration);
-        }
-
-        // GET: TimeRegistrations/Create
-        public ActionResult Create()
-        {
-            ViewBag.TestValue = 10;
-            ViewBag.FK_ProjectId = new SelectList(db.VI_Projects, "PK_Id", "Name");
-            ViewBag.FK_OrderId = new SelectList(db.VI_OrderNumber, "PK_Id", "Number");
-            ViewBag.FK_TaskId = new SelectList(db.VI_TaskType, "PK_Id", "Name");
-
-
-            //Logic For only being able to see one self
-            //Futher Logic is needed to make it so superusers and above can select other users
-            try {
-                var userZID = User.Identity.GetUserName();
-                ViewBag.FK_UserId = new SelectList(db.VI_Users.Where(m => m.NK_ZId == userZID), "PK_Id", "NK_Name");
-            }
-            catch {
-                //Needs better catch logic
-                ViewBag.FK_UserId = new SelectList(db.VI_Users, "PK_Id", "NK_Name");
-            }
-            
-            return View();
-        }
-
-     
-
-        // POST: TimeRegistrations/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "PK_Id,FK_UserId,FK_ProjectId,FK_OrderId,FK_TaskId,time,Date,Comment")] TimeRegistrationViewModel timeRegistration)
-        {
-            timeRegistration.DateEntry = DateTime.Now;
-            if (ModelState.IsValid)
-            {
-                if (timeRegistration.Comment == null) { timeRegistration.Comment = "No Comment"; }
-             
-                db.SP_AddTimeRegistration(timeRegistration.FK_UserId, timeRegistration.FK_ProjectId,timeRegistration.FK_OrderId, timeRegistration.FK_TaskId, timeRegistration.Time, timeRegistration.Date, DateTime.Now, timeRegistration.Comment);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-
-            ViewBag.FK_ProjectId = new SelectList(db.VI_Projects, "PK_Id", "Name", timeRegistration.FK_ProjectId);
-            ViewBag.FK_OrderId = new SelectList(db.VI_OrderNumber, "PK_Id", "Number", timeRegistration.FK_OrderId);
-            ViewBag.FK_TaskId = new SelectList(db.VI_TaskType, "PK_Id", "Name", timeRegistration.FK_TaskId);
-            ViewBag.FK_UserId = new SelectList(db.VI_Users, "PK_Id", "NK_Name", timeRegistration.FK_UserId);
-            return View(timeRegistration);
-        }
-
-        // GET: TimeRegistrations/Edit/5
-        public ActionResult Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            VI_TimeRegistration timeRegistration = db.VI_TimeRegistration.SingleOrDefault(m => m.PK_Id == id);
-            var timeRegistrationViewModel = new TimeRegistrationViewModel(timeRegistration);
-            if (timeRegistrationViewModel == null)
-            {
-                return HttpNotFound();
-            }
-            ViewBag.FK_ProjectId = new SelectList(db.VI_Projects, "PK_Id", "Name", timeRegistrationViewModel.FK_ProjectId);
-            ViewBag.FK_OrderId = new SelectList(db.VI_OrderNumber, "PK_Id", "Number", timeRegistration.FK_OrderId);
-            ViewBag.FK_TaskId = new SelectList(db.VI_TaskType, "PK_Id", "Name", timeRegistrationViewModel.FK_TaskId);
-            ViewBag.FK_UserId = new SelectList(db.VI_Users, "PK_Id", "NK_Name", timeRegistrationViewModel.FK_UserId);
-            return View(timeRegistrationViewModel);
-        }
-
-        // POST: TimeRegistrations/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "PK_Id,FK_UserId,FK_ProjectId,FK_OrderId,FK_TaskId,time,Date, Comment")] TimeRegistrationViewModel timeRegistration)
-        {
-            if (ModelState.IsValid)
-            {
-                db.SP_UpdateTimeRegistration(timeRegistration.PK_Id, timeRegistration.FK_UserId, timeRegistration.FK_ProjectId, timeRegistration.FK_OrderId, timeRegistration.FK_TaskId, timeRegistration.Time, timeRegistration.Date, DateTime.Now, timeRegistration.Comment);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-        
-
-            ViewBag.FK_ProjectId = new SelectList(db.VI_Projects, "PK_Id", "Name", timeRegistration.FK_ProjectId);
-            ViewBag.FK_OrderId = new SelectList(db.VI_OrderNumber, "PK_Id", "Number", timeRegistration.FK_OrderId);
-            ViewBag.FK_TaskId = new SelectList(db.VI_TaskType, "PK_Id", "Name", timeRegistration.FK_TaskId);
-            ViewBag.FK_UserId = new SelectList(db.VI_Users, "PK_Id", "NK_Name", timeRegistration.FK_UserId);
-            return View(timeRegistration);
-        }
-
-        // GET: TimeRegistrations/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            VI_TimeRegistration timeRegistration = db.VI_TimeRegistration.SingleOrDefault(m => m.PK_Id == id);
-            var timeRegistrationViewModel = new TimeRegistrationViewModel(timeRegistration);
-            if (timeRegistration == null)
-            {
-                return HttpNotFound();
-            }
-            return View(timeRegistrationViewModel);
-        }
-
-        // POST: TimeRegistrations/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            //VI_TimeRegistration timeRegistration = db.VI_TimeRegistration.SingleOrDefault(m => m.PK_Id == id);
-        
-            db.SP_RemoveTimeRegistration(id);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
-
-
-
-
-
 
 
 
         //Dynamic Page Content is being added below:
-
-
-        [HttpGet]
-        public ActionResult AjaxDyanimcDropDown(int dropDownKey, string dropDownId)
-        {
-            var key = (int)dropDownKey;
-            var id = (string)dropDownId;
-            
-            if (id == "FK_OrderId")
-            {
-                var ProjectList = new SelectList(db.VI_Projects.Where(m => m.FK_OrderNumber == key), "PK_Id", "Name");
-                return Json(ProjectList, JsonRequestBehavior.AllowGet);
-            }
-
-            if (id == "FK_UserId")
-            {
-                var OrderNumberList = new SelectList(db.VI_UserAssignment.Where(m => m.FK_UserId == key), "FK_OrderNumber", "Number");
-                return Json(OrderNumberList, JsonRequestBehavior.AllowGet);
-            }
-
-            return null;
-         
-        }
-
-
         //Below is WiP Code for creating a more dynamic Time Registration page
         [HttpGet]
         public ActionResult IndexTable(Nullable<int> id)
@@ -207,9 +43,10 @@ namespace TimeReg.Controllers
 
             try
             {
-                timeRegistrationViewModel = new TimeRegistrationViewModel(db.VI_TimeRegistration.Where(m => m.FK_UserId == id).ToList());
+                timeRegistrationViewModel = new TimeRegistrationViewModel(db.VI_TimeRegistration.Where(m => m.FK_UserId == id).OrderByDescending(m => m.Date).ToList());
 
-            } catch(Exception e)
+            }
+            catch (Exception e)
             {
                 return Json(e.Message, JsonRequestBehavior.AllowGet);
             }
@@ -217,6 +54,67 @@ namespace TimeReg.Controllers
             return PartialView("_IndexTable", timeRegistrationViewModel);
 
         }
+
+        [HttpGet]
+        public ActionResult AjaxDyanimcDropDown(int dropDownKey, string dropDownId)
+        {
+            var key = (int)dropDownKey;
+            var id = (string)dropDownId;
+            
+            if (id == "FK_OrderId")
+            {
+                SelectList ProjectList = new SelectList(db.VI_Projects.Where(m => m.FK_OrderNumber == key), "PK_Id", "Name");
+
+
+
+                //Check to see if the choosen order number has any projects. If not they get access to all projects
+                if (ProjectList.Count() >= 1)
+                {
+                    return Json(ProjectList, JsonRequestBehavior.AllowGet);
+                }
+                else {
+                    ProjectList = new SelectList(db.VI_Projects, "PK_Id", "Name");
+                    return Json(ProjectList, JsonRequestBehavior.AllowGet);
+                }
+
+            }
+
+            if (id == "FK_UserId")
+            {
+                //var OrderNumberList = new SelectList(db.VI_UserAssignment.Where(m => m.FK_UserId == key), "FK_OrderNumber", "Number");
+
+                var OrderNumberList = new SelectList((from c in db.VI_UserAssignment.Where(m => m.FK_UserId == key)
+                                                     select new
+                                                     {
+                                                         ID_Value = c.FK_OrderNumber,
+                                                         NumberAndTitle = c.Number + " :: " + c.Title
+                                                     }), "ID_Value", "NumberAndTitle");
+
+                //Check to see if this user as any assigned projects/ordernumbers. If not they get access to all order numbers
+                if (OrderNumberList.Count() >= 1)
+                {
+                    return Json(OrderNumberList, JsonRequestBehavior.AllowGet);
+
+                }
+                else {
+                    OrderNumberList = new SelectList((from c in db.VI_OrderNumber
+                                    select new
+                                    {
+                                        ID_Value = c.PK_Id,
+                                        NumberAndTitle = c.Number + " :: " + c.Title
+                                    }), "ID_Value", "NumberAndTitle");
+                    return Json(OrderNumberList, JsonRequestBehavior.AllowGet);
+                }
+
+
+            }
+
+            return null;
+         
+        }
+
+
+    
 
 
 
@@ -241,20 +139,35 @@ namespace TimeReg.Controllers
             ViewBag.FK_ProjectId = new SelectList(db.VI_Projects, "PK_Id", "Name");
             ViewBag.FK_TaskId = new SelectList(db.VI_TaskType, "PK_Id", "Name");
 
-            //Auto Selects the user id based on windows authentification
+            //Auto Selects the user id & corresponding OrderNumber based on windows authentification
             try
             {
                 var windowsAuth = User.Identity.GetUserName();
                 var windowsAuthId = db.VI_Users.Where(m => m.NK_ZId == windowsAuth).SingleOrDefault().PK_Id;
                 ViewBag.FK_UserId = new SelectList(db.VI_Users, "PK_Id", "NK_Name", windowsAuthId);
-                ViewBag.FK_OrderId = new SelectList(db.VI_UserAssignment.Where(m => m.FK_UserId == windowsAuthId), "FK_OrderNumber", "Number");
+                //ViewBag.FK_OrderId = new SelectList(db.VI_UserAssignment.Where(m => m.FK_UserId == windowsAuthId), "FK_OrderNumber", "Number");
+
+                ViewBag.FK_OrderId = new SelectList((from c in db.VI_UserAssignment.Where(m => m.FK_UserId == windowsAuthId)
+                                                      select new
+                                                      {
+                                                          ID_Value = c.FK_OrderNumber,
+                                                          NumberAndTitle = c.Number + " :: " + c.Title
+                                                      }), "ID_Value", "NumberAndTitle");
             }
 
             catch
             {
                 ViewBag.FK_UserId = new SelectList(db.VI_Users, "PK_Id", "NK_Name");
-                ViewBag.FK_OrderId = new SelectList(db.VI_OrderNumber, "PK_Id", "Number");
 
+                //ViewBag.FK_OrderId = new SelectList(db.VI_OrderNumber, "PK_Id", "Number");
+
+                //Below is an attempt to create a List of ordernumber where it uses both the number and the title
+                ViewBag.FK_OrderId = new SelectList((from c in db.VI_OrderNumber
+                                                     select new
+                                                     {
+                                                         ID_Value = c.PK_Id,
+                                                         NumberAndTitle = c.Number + " :: " + c.Title
+                                                     }), "ID_Value", "NumberAndTitle");
             }
 
             return PartialView("_DynamicCreate");
@@ -264,6 +177,9 @@ namespace TimeReg.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DynamicCreate([Bind(Include = "PK_Id,FK_UserId,FK_ProjectId,FK_OrderId,FK_TaskId,time,Date, Comment")] TimeRegistrationViewModel timeRegistration)
         {
+
+
+            //If it's able to create a new entry it'll return an empty view(So you can keep creating new entries.
             if (ModelState.IsValid)
             {
           if (timeRegistration != null)
@@ -274,9 +190,18 @@ namespace TimeReg.Controllers
 
                         db.SP_AddTimeRegistration(timeRegistration.FK_UserId, timeRegistration.FK_ProjectId, timeRegistration.FK_OrderId, timeRegistration.FK_TaskId, timeRegistration.Time, timeRegistration.Date, DateTime.Now, timeRegistration.Comment);
                         db.SaveChanges();
+                        //var messageModel = new TimeRegistrationViewModel { Message = "Your Entry has been added" };
+
+                        //Emptying the viewmodel, currently not in use
+                        timeRegistration = new TimeRegistrationViewModel { };
+
+                        //Returns The string "add confirmed" so we can clear the form and it's ready to be reused
+                        string removed = "Add Confirmed";
+                        return Json(removed, JsonRequestBehavior.AllowGet);
                     }
                     catch (DbEntityValidationException e)
                     {
+                        //IIRC to double tjec which part of the model is causing errors. and what type of error it is.
                         foreach (var eve in e.EntityValidationErrors)
                         {
                             System.Diagnostics.Debug.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
@@ -294,43 +219,77 @@ namespace TimeReg.Controllers
                     ViewBag.FK_ProjectId = new SelectList(db.VI_Projects, "PK_Id", "Name");
                     ViewBag.FK_TaskId = new SelectList(db.VI_TaskType, "PK_Id", "Name");
 
-                    //Auto Selects the user id based on windows authentification
+                    //Auto Selects the user id & corresponding OrderNumber based on windows authentification
                     try
                     {
                         var windowsAuth = User.Identity.GetUserName();
                         var windowsAuthId = db.VI_Users.Where(m => m.NK_ZId == windowsAuth).SingleOrDefault().PK_Id;
                         ViewBag.FK_UserId = new SelectList(db.VI_Users, "PK_Id", "NK_Name", windowsAuthId);
-                        ViewBag.FK_OrderId = new SelectList(db.VI_UserAssignment.Where(m => m.FK_UserId == windowsAuthId), "FK_OrderNumber", "Number");
+                        //ViewBag.FK_OrderId = new SelectList(db.VI_UserAssignment.Where(m => m.FK_UserId == windowsAuthId), "FK_OrderNumber", "Number");
+
+                        ViewBag.FK_OrderId = new SelectList((from c in db.VI_UserAssignment.Where(m => m.FK_UserId == windowsAuthId)
+                                                             select new
+                                                             {
+                                                                 ID_Value = c.FK_OrderNumber,
+                                                                 NumberAndTitle = c.Number + " :: " + c.Title
+                                                             }), "ID_Value", "NumberAndTitle");
                     }
 
                     catch
                     {
                         ViewBag.FK_UserId = new SelectList(db.VI_Users, "PK_Id", "NK_Name");
-                        ViewBag.FK_OrderId = new SelectList(db.VI_OrderNumber, "PK_Id", "Number");
 
+                        //ViewBag.FK_OrderId = new SelectList(db.VI_OrderNumber, "PK_Id", "Number");
+
+                        //Below is an attempt to create a List of ordernumber where it uses both the number and the title
+                        ViewBag.FK_OrderId = new SelectList((from c in db.VI_OrderNumber
+                                                             select new
+                                                             {
+                                                                 ID_Value = c.PK_Id,
+                                                                 NumberAndTitle = c.Number + " :: " + c.Title
+                                                             }), "ID_Value", "NumberAndTitle");
                     }
 
+
+                    //Passes the empty viewmodel to clean up previous data.
                     return PartialView("_DynamicCreate");
                 }
             }
 
+            //Else it'll return the model, so you can fix whatever error occured
+
             ViewBag.FK_ProjectId = new SelectList(db.VI_Projects, "PK_Id", "Name", timeRegistration.FK_ProjectId);
             ViewBag.FK_TaskId = new SelectList(db.VI_TaskType, "PK_Id", "Name", timeRegistration.FK_TaskId);
-
-            //Auto Selects the user id based on windows authentification
+            
+            //Auto Selects the user id & corresponding OrderNumber based on windows authentification
             try
             {
                 var windowsAuth = User.Identity.GetUserName();
                 var windowsAuthId = db.VI_Users.Where(m => m.NK_ZId == windowsAuth).SingleOrDefault().PK_Id;
                 ViewBag.FK_UserId = new SelectList(db.VI_Users, "PK_Id", "NK_Name", windowsAuthId);
-                ViewBag.FK_OrderId = new SelectList(db.VI_UserAssignment.Where(m => m.FK_UserId == windowsAuthId), "FK_OrderNumber", "Number");
+                //ViewBag.FK_OrderId = new SelectList(db.VI_UserAssignment.Where(m => m.FK_UserId == windowsAuthId), "FK_OrderNumber", "Number");
+
+                ViewBag.FK_OrderId = new SelectList((from c in db.VI_UserAssignment.Where(m => m.FK_UserId == windowsAuthId)
+                                                     select new
+                                                     {
+                                                         ID_Value = c.FK_OrderNumber,
+                                                         NumberAndTitle = c.Number + " :: " + c.Title
+                                                     }), "ID_Value", "NumberAndTitle", timeRegistration.FK_OrderId);
             }
 
             catch
             {
                 ViewBag.FK_UserId = new SelectList(db.VI_Users, "PK_Id", "NK_Name", timeRegistration.FK_UserId);
-                ViewBag.FK_OrderId = new SelectList(db.VI_OrderNumber, "PK_Id", "Number", timeRegistration.FK_OrderId);
 
+                //ViewBag.FK_OrderId = new SelectList(db.VI_OrderNumber, "PK_Id", "Number");
+
+                //Below is an attempt to create a List of ordernumber where it uses both the number and the title
+                ViewBag.FK_OrderId = new SelectList((from c in db.VI_OrderNumber
+                                                     select new
+                                                     {
+                                                         ID_Value = c.PK_Id,
+                                                         NumberAndTitle = c.Number + " :: " + c.Title
+                                                     }), "ID_Value", "NumberAndTitle", timeRegistration.FK_OrderId);
             }
 
             return PartialView("_DynamicCreate", timeRegistration);
@@ -360,7 +319,12 @@ namespace TimeReg.Controllers
                 var windowsAuth = User.Identity.GetUserName();
                 var windowsAuthId = db.VI_Users.Where(m => m.NK_ZId == windowsAuth).SingleOrDefault().PK_Id;
                 ViewBag.FK_UserId = new SelectList(db.VI_Users, "PK_Id", "NK_Name", windowsAuthId);
-                ViewBag.FK_OrderId = new SelectList(db.VI_UserAssignment.Where(m => m.FK_UserId == windowsAuthId), "FK_OrderNumber", "Number", timeRegistrationViewModel.FK_OrderId);
+                ViewBag.FK_OrderId = new SelectList((from c in db.VI_UserAssignment.Where(m => m.FK_UserId == windowsAuthId)
+                                                     select new
+                                                     {
+                                                         ID_Value = c.FK_OrderNumber,
+                                                         NumberAndTitle = c.Number + " :: " + c.Title
+                                                     }), "ID_Value", "NumberAndTitle", timeRegistrationViewModel.FK_OrderId);
                 ViewBag.FK_ProjectId = new SelectList(db.VI_Projects.Where(m => m.FK_OrderNumber == timeRegistrationViewModel.FK_OrderId), "PK_Id", "Name", timeRegistrationViewModel.FK_ProjectId);
             }
 
@@ -389,8 +353,18 @@ namespace TimeReg.Controllers
 
             if (ModelState.IsValid)
             {
-                db.SP_UpdateTimeRegistration(timeRegistration.PK_Id, timeRegistration.FK_UserId, timeRegistration.FK_ProjectId, timeRegistration.FK_OrderId, timeRegistration.FK_TaskId, timeRegistration.Time, timeRegistration.Date, DateTime.Now, timeRegistration.Comment);
-                db.SaveChanges();
+                try
+                {
+
+
+                    db.SP_UpdateTimeRegistration(timeRegistration.PK_Id, timeRegistration.FK_UserId, timeRegistration.FK_ProjectId, timeRegistration.FK_OrderId, timeRegistration.FK_TaskId, timeRegistration.Time, timeRegistration.Date, DateTime.Now, timeRegistration.Comment);
+                    db.SaveChanges();
+                    string removed = "Edit Confirmed";
+                    return Json(removed, JsonRequestBehavior.AllowGet);
+                } catch
+                {
+
+                }
             }
 
 
@@ -399,10 +373,30 @@ namespace TimeReg.Controllers
                 return HttpNotFound();
             }
 
-            ViewBag.FK_ProjectId = new SelectList(db.VI_Projects, "PK_Id", "Name", timeRegistration.FK_ProjectId);
-            ViewBag.FK_OrderId = new SelectList(db.VI_OrderNumber, "PK_Id", "Number", timeRegistration.FK_OrderId);
             ViewBag.FK_TaskId = new SelectList(db.VI_TaskType, "PK_Id", "Name", timeRegistration.FK_TaskId);
-            ViewBag.FK_UserId = new SelectList(db.VI_Users, "PK_Id", "NK_Name", timeRegistration.FK_UserId);
+
+            try
+            {
+                var windowsAuth = User.Identity.GetUserName();
+                var windowsAuthId = db.VI_Users.Where(m => m.NK_ZId == windowsAuth).SingleOrDefault().PK_Id;
+                ViewBag.FK_UserId = new SelectList(db.VI_Users, "PK_Id", "NK_Name", windowsAuthId);
+                ViewBag.FK_OrderId = new SelectList((from c in db.VI_UserAssignment.Where(m => m.FK_UserId == windowsAuthId)
+                                                     select new
+                                                     {
+                                                         ID_Value = c.FK_OrderNumber,
+                                                         NumberAndTitle = c.Number + " :: " + c.Title
+                                                     }), "ID_Value", "NumberAndTitle", timeRegistration.FK_OrderId);
+                ViewBag.FK_ProjectId = new SelectList(db.VI_Projects.Where(m => m.FK_OrderNumber == timeRegistration.FK_OrderId), "PK_Id", "Name", timeRegistration.FK_ProjectId);
+            }
+
+            catch
+            {
+                ViewBag.FK_UserId = new SelectList(db.VI_Users, "PK_Id", "NK_Name", timeRegistration.PK_Id);
+                ViewBag.FK_OrderId = new SelectList(db.VI_OrderNumber, "PK_Id", "Number", timeRegistration.FK_OrderId);
+                ViewBag.FK_ProjectId = new SelectList(db.VI_Projects, "PK_Id", "Name", timeRegistration.FK_ProjectId);
+
+
+            }
 
             return PartialView("_DynamicEdit", timeRegistration);
 
@@ -428,11 +422,12 @@ namespace TimeReg.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DynamicDelete(TimeRegistrationViewModel model)
         {
-            int PK_Id = model.PK_Id;
 
             if (model != null)
             {
-              try
+                int PK_Id = model.PK_Id;
+
+                try
                 {
                     db.SP_RemoveTimeRegistration(PK_Id);
                     db.SaveChanges();
@@ -461,6 +456,231 @@ namespace TimeReg.Controllers
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        //Static CRUD pages below:
+
+
+        public ActionResult IndexDynamicEdition()
+        {
+            var timeRegistrationViewModel = new TimeRegistrationViewModel(db.VI_TimeRegistration.OrderByDescending(m => m.Date).ToList());
+            return View(timeRegistrationViewModel);
+        }
+
+        // GET: TimeRegistrations/Details/5
+        public ActionResult Details(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            VI_TimeRegistration timeRegistrationView = db.VI_TimeRegistration.SingleOrDefault(m => m.PK_Id == id);
+            TimeRegistrationViewModel timeRegistration = new TimeRegistrationViewModel(timeRegistrationView);
+            if (timeRegistration == null)
+            {
+                return HttpNotFound();
+            }
+            return View(timeRegistration);
+        }
+
+        // GET: TimeRegistrations/Create
+        public ActionResult Create()
+        {
+            ViewBag.TestValue = 10;
+            ViewBag.FK_ProjectId = new SelectList(db.VI_Projects, "PK_Id", "Name");
+            ViewBag.FK_TaskId = new SelectList(db.VI_TaskType, "PK_Id", "Name");
+
+            //ViewBag.FK_OrderId = new SelectList(db.VI_OrderNumber, "PK_Id", "Number");
+
+            //Below is an attempt to create a List of ordernumber where it uses both the number and the title
+            ViewBag.FK_OrderId = new SelectList((from c in db.VI_OrderNumber
+                                                 select new
+                                                 {
+                                                     ID_Value = c.PK_Id,
+                                                     NumberAndTitle = c.Number + " :: " + c.Title
+                                                 }), "ID_Value", "NumberAndTitle");
+
+
+
+            //Logic For only being able to see one self
+            //Futher Logic is needed to make it so superusers and above can select other users
+            try
+            {
+
+                var userZID = User.Identity.GetUserName();
+                ViewBag.FK_UserId = new SelectList(db.VI_Users.Where(m => m.NK_ZId == userZID), "PK_Id", "NK_Name");
+            }
+            catch
+            {
+                //Needs better catch logic
+                ViewBag.FK_UserId = new SelectList(db.VI_Users, "PK_Id", "NK_Name");
+            }
+
+            return View();
+        }
+
+
+
+        // POST: TimeRegistrations/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create([Bind(Include = "PK_Id,FK_UserId,FK_ProjectId,FK_OrderId,FK_TaskId,time,Date,Comment")] TimeRegistrationViewModel timeRegistration)
+        {
+            timeRegistration.DateEntry = DateTime.Now;
+            if (ModelState.IsValid)
+            {
+                if (timeRegistration.Comment == null) { timeRegistration.Comment = "No Comment"; }
+
+                db.SP_AddTimeRegistration(timeRegistration.FK_UserId, timeRegistration.FK_ProjectId, timeRegistration.FK_OrderId, timeRegistration.FK_TaskId, timeRegistration.Time, timeRegistration.Date, DateTime.Now, timeRegistration.Comment);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+
+            ViewBag.FK_ProjectId = new SelectList(db.VI_Projects, "PK_Id", "Name", timeRegistration.FK_ProjectId);
+            ViewBag.FK_TaskId = new SelectList(db.VI_TaskType, "PK_Id", "Name", timeRegistration.FK_TaskId);
+            ViewBag.FK_UserId = new SelectList(db.VI_Users, "PK_Id", "NK_Name", timeRegistration.FK_UserId);
+
+            //ViewBag.FK_OrderId = new SelectList(db.VI_OrderNumber, "PK_Id", "Number", timeRegistration.FK_OrderId);
+
+            //Below is an attempt to create a List of ordernumber where it uses both the number and the title
+            ViewBag.FK_OrderId = new SelectList((from c in db.VI_OrderNumber
+                                                 select new
+                                                 {
+                                                     ID_Value = c.PK_Id,
+                                                     NumberAndTitle = c.Number + " :: " + c.Title
+                                                 }), "ID_Value", "NumberAndTitle", timeRegistration.FK_OrderId);
+
+            return View(timeRegistration);
+        }
+
+        // GET: TimeRegistrations/Edit/5
+        public ActionResult Edit(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            VI_TimeRegistration timeRegistration = db.VI_TimeRegistration.SingleOrDefault(m => m.PK_Id == id);
+            var timeRegistrationViewModel = new TimeRegistrationViewModel(timeRegistration);
+            if (timeRegistrationViewModel == null)
+            {
+                return HttpNotFound();
+            }
+            ViewBag.FK_ProjectId = new SelectList(db.VI_Projects, "PK_Id", "Name", timeRegistrationViewModel.FK_ProjectId);
+            ViewBag.FK_TaskId = new SelectList(db.VI_TaskType, "PK_Id", "Name", timeRegistrationViewModel.FK_TaskId);
+            ViewBag.FK_UserId = new SelectList(db.VI_Users, "PK_Id", "NK_Name", timeRegistrationViewModel.FK_UserId);
+
+            //ViewBag.FK_OrderId = new SelectList(db.VI_OrderNumber, "PK_Id", "Number", timeRegistration.FK_OrderId);
+
+            //Below is an attempt to create a List of ordernumber where it uses both the number and the title
+            ViewBag.FK_OrderId = new SelectList((from c in db.VI_OrderNumber
+                                                 select new
+                                                 {
+                                                     ID_Value = c.PK_Id,
+                                                     NumberAndTitle = c.Number + " :: " + c.Title
+                                                 }), "ID_Value", "NumberAndTitle", timeRegistration.FK_OrderId);
+
+            return View(timeRegistrationViewModel);
+        }
+
+        // POST: TimeRegistrations/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit([Bind(Include = "PK_Id,FK_UserId,FK_ProjectId,FK_OrderId,FK_TaskId,time,Date, Comment")] TimeRegistrationViewModel timeRegistration)
+        {
+            if (ModelState.IsValid)
+            {
+                db.SP_UpdateTimeRegistration(timeRegistration.PK_Id, timeRegistration.FK_UserId, timeRegistration.FK_ProjectId, timeRegistration.FK_OrderId, timeRegistration.FK_TaskId, timeRegistration.Time, timeRegistration.Date, DateTime.Now, timeRegistration.Comment);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+
+
+            ViewBag.FK_ProjectId = new SelectList(db.VI_Projects, "PK_Id", "Name", timeRegistration.FK_ProjectId);
+            ViewBag.FK_TaskId = new SelectList(db.VI_TaskType, "PK_Id", "Name", timeRegistration.FK_TaskId);
+            ViewBag.FK_UserId = new SelectList(db.VI_Users, "PK_Id", "NK_Name", timeRegistration.FK_UserId);
+
+            //ViewBag.FK_OrderId = new SelectList(db.VI_OrderNumber, "PK_Id", "Number", timeRegistration.FK_OrderId);
+
+            //Below is an attempt to create a List of ordernumber where it uses both the number and the title
+            ViewBag.FK_OrderId = new SelectList((from c in db.VI_OrderNumber
+                                                 select new
+                                                 {
+                                                     ID_Value = c.PK_Id,
+                                                     NumberAndTitle = c.Number + " :: " + c.Title
+                                                 }), "ID_Value", "NumberAndTitle", timeRegistration.FK_OrderId);
+
+            return View(timeRegistration);
+        }
+
+        // GET: TimeRegistrations/Delete/5
+        public ActionResult Delete(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            VI_TimeRegistration timeRegistration = db.VI_TimeRegistration.SingleOrDefault(m => m.PK_Id == id);
+            var timeRegistrationViewModel = new TimeRegistrationViewModel(timeRegistration);
+            if (timeRegistration == null)
+            {
+                return HttpNotFound();
+            }
+            return View(timeRegistrationViewModel);
+        }
+
+        // POST: TimeRegistrations/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(int id)
+        {
+            //VI_TimeRegistration timeRegistration = db.VI_TimeRegistration.SingleOrDefault(m => m.PK_Id == id);
+
+            db.SP_RemoveTimeRegistration(id);
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+
+
+
+
+
+
+
+
+
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -471,3 +691,33 @@ namespace TimeReg.Controllers
         }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

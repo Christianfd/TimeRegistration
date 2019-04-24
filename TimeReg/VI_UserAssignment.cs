@@ -22,5 +22,6 @@ namespace TimeReg
         public string ProjectName { get; set; }
         public int FK_OrderNumber { get; set; }
         public string Number { get; set; }
+        public string Title { get; set; }
     }
 }

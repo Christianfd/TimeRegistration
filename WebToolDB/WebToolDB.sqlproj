@@ -175,6 +175,7 @@
     <None Include="TimeManagement\PostDeployment\PDScripts\PDOrderNumber.sql" />
     <None Include="TimeManagement\PostDeployment\PDScripts\PDTypes.sql" />
     <None Include="TimeManagement\PostDeployment\PDScripts\PDUnionPage.sql" />
+    <None Include="TimeManagement\PostDeployment\PDScripts\PDProjects.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="WebToolDB.refactorlog" />

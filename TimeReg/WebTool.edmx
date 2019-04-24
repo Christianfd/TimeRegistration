@@ -380,6 +380,7 @@ warning 6002: The table/view 'WebTool.TimeManagement.VI_UserAssignment' does not
             <PropertyRef Name="ProjectName" />
             <PropertyRef Name="FK_OrderNumber" />
             <PropertyRef Name="Number" />
+            <PropertyRef Name="Title" />
           </Key>
           <Property Name="PK_Id" Type="int" Nullable="false" />
           <Property Name="FK_UserId" Type="int" Nullable="false" />
@@ -389,6 +390,7 @@ warning 6002: The table/view 'WebTool.TimeManagement.VI_UserAssignment' does not
           <Property Name="ProjectName" Type="nvarchar" MaxLength="150" Nullable="false" />
           <Property Name="FK_OrderNumber" Type="int" Nullable="false" />
           <Property Name="Number" Type="nvarchar" MaxLength="1000" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="100" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'WebTool.TimeManagement.VI_Users' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -954,7 +956,8 @@ warning 6002: The table/view 'WebTool.TimeManagement.VI_UserTimePerProject' does
     [VI_UserAssignment].[NK_ZId] AS [NK_ZId], 
     [VI_UserAssignment].[ProjectName] AS [ProjectName], 
     [VI_UserAssignment].[FK_OrderNumber] AS [FK_OrderNumber], 
-    [VI_UserAssignment].[Number] AS [Number]
+    [VI_UserAssignment].[Number] AS [Number], 
+    [VI_UserAssignment].[Title] AS [Title]
     FROM [TimeManagement].[VI_UserAssignment] AS [VI_UserAssignment]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="VI_Users" EntityType="Self.VI_Users" store:Type="Views" store:Schema="TimeManagement">
@@ -1666,6 +1669,7 @@ warning 6002: The table/view 'WebTool.TimeManagement.VI_UserTimePerProject' does
             <PropertyRef Name="ProjectName" />
             <PropertyRef Name="FK_OrderNumber" />
             <PropertyRef Name="Number" />
+            <PropertyRef Name="Title" />
           </Key>
           <Property Name="PK_Id" Type="Int32" Nullable="false" />
           <Property Name="FK_UserId" Type="Int32" Nullable="false" />
@@ -1675,6 +1679,7 @@ warning 6002: The table/view 'WebTool.TimeManagement.VI_UserTimePerProject' does
           <Property Name="ProjectName" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="FK_OrderNumber" Type="Int32" Nullable="false" />
           <Property Name="Number" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="VI_Users">
           <Key>
@@ -2237,6 +2242,7 @@ warning 6002: The table/view 'WebTool.TimeManagement.VI_UserTimePerProject' does
           <EntitySetMapping Name="VI_UserAssignment">
             <EntityTypeMapping TypeName="WebToolModel.VI_UserAssignment">
               <MappingFragment StoreEntitySet="VI_UserAssignment">
+                <ScalarProperty Name="Title" ColumnName="Title" />
                 <ScalarProperty Name="Number" ColumnName="Number" />
                 <ScalarProperty Name="FK_OrderNumber" ColumnName="FK_OrderNumber" />
                 <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />

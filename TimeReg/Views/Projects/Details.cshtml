@@ -2,7 +2,7 @@
 
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Projects - Details | " + @Html.DisplayFor(model => model.VIProjects.Name);
 }
 
 <h2>Details</h2>
@@ -71,12 +71,12 @@
         <tr>
             
             <th>
-                <a class="btn " data-toggle="collapse" href="#collapseUserList" role="button" aria-expanded="false" aria-controls="collapseExample">
+                <a class="btn btn-success" data-toggle="collapse" href="#collapseUserList" role="button" aria-expanded="false" aria-controls="collapseExample">
                     Time Distribution
                 </a>
             </th>
             <th>
-                <a class="btn " data-toggle="collapse" href="#collapseCommentList" role="button" aria-expanded="false" aria-controls="collapseExample">
+                <a class="btn btn-info" data-toggle="collapse" href="#collapseCommentList" role="button" aria-expanded="false" aria-controls="collapseExample">
                     Project Comments
                 </a>
             </th>
@@ -111,6 +111,7 @@
                                 <dt>
                                     Week @Html.DisplayFor(modelItem => item.WeekNr)
                                 </dt>
+                               
                                 <dd>
                                     @Html.DisplayFor(modelItem => item.Text)
                                 </dd>

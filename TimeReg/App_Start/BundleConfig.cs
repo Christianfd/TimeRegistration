@@ -11,7 +11,8 @@ namespace TimeReg
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                         "~/Scripts/jquery-{version}.js", 
                         "~/Scripts/jquery-ui-{version}.js",
-                        "~/Scripts/Editable-Select/jquery-editable-select.js"));
+                        "~/Scripts/Editable-Select/jquery-editable-select.js",
+                        "~/Scripts/Chosen/chosen.jquery.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/unobtrusive-ajax.js",
@@ -33,13 +34,19 @@ namespace TimeReg
             bundles.Add(new ScriptBundle("~/bundles/custom-validator").Include(
                                   "~/Scripts/script-custom-validator.js"));
 
+            //Variation with popper
+            //bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
+            //          "~/Scripts/popper.js",
+            //          "~/Scripts/bootstrap.js",
+            //          "~/Scripts/respond.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
-                      "~/Scripts/bootstrap.js",
-                      "~/Scripts/respond.js",
-                      "~/Scripts/popper.js"));
+                     "~/Scripts/bootstrap.js",
+                     "~/Scripts/respond.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
+                      "~/Scripts/Chosen/chosen.css",
                       "~/Content/site.css",
                       "~/Content/Styles.css",
                       "~/Content/Editable-Select/jquery-editable-select.css"));

@@ -34,12 +34,13 @@
     </div>
 </div>
 
+<div id="AjaxJSLoader"></div>
+
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-
     @Scripts.Render("~/bundles/jquery")
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
     @Scripts.Render("~/bundles/bootstrap")
-    <script></script>
 
 
 
@@ -241,6 +242,22 @@
 
     @*Below is for the Create and Edit modals*@
 
+
+    @*Auto Completion Script -- Use Class "selectpicker" on dropdowns*@
+    <script>
+    function loadSearchableDropDown() {
+        $.ajax({
+            url: '@Url.Content("~/Scripts/tools/searchableDropDown.js")',
+            dataType: "script",
+            cache: true,
+            success: function () {
+
+            }
+        });
+    }
+
+
+    </script>
 
 
 

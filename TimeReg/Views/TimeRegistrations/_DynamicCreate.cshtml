@@ -7,7 +7,7 @@
     <div class="form-horizontal">
         <h4>TimeRegistration</h4>
         @*Needs the correkt link*@
-        <h6> <a href="https://www.w3schools.com" title="Direct Links to Active CTO Projects">CTO Active Projects</a></h6>
+        @*<h6> <a href="https://www.w3schools.com" title="Direct Links to Active CTO Projects">CTO Active Projects</a></h6>*@
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
@@ -25,7 +25,8 @@
             @Html.LabelFor(model => model.FK_UserId, "User", htmlAttributes: new { @class = "col-form-label col-md-2" })
             <div class="col-md-10 ui-widget">
                 @*Auto Selection Should proably happen here*@
-                @Html.DropDownList("FK_UserId", null, htmlAttributes: new { @class = "form-control selectpicker", @AutoPostBack = "true"})
+                @Html.DropDownList("FK_UserId", null, htmlAttributes: new { @class = "form-control selectpicker", @AutoPostBack = "true" })
+                <br />
                 @Html.ValidationMessageFor(model => model.FK_UserId, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -34,6 +35,7 @@
             @Html.LabelFor(model => model.FK_OrderId, "Order Number", htmlAttributes: new { @class = "col-form-label col-md-2" })
             <div class="col-md-8 ui-widget">
                 @Html.DropDownList("FK_OrderId", (SelectList)ViewBag.FK_OrderId, "Please Select Order Number", htmlAttributes: new { @class = "form-control selectpicker" })
+                <br />
                 @Html.ValidationMessageFor(model => model.FK_OrderId, "", new { @class = "text-danger" })
                 @*Button for copying DSA Number*@
                 <div>
@@ -50,6 +52,7 @@
             <div class="col-md-10 ui-widget">
 
                 @Html.DropDownList("FK_ProjectId", (SelectList)ViewBag.FK_ProjectId, "Please Select a Project", htmlAttributes: new { @class = "form-control selectpicker" })
+                <br />
                 @Html.ValidationMessageFor(model => model.FK_ProjectId, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -59,6 +62,7 @@
             @Html.LabelFor(model => model.FK_TaskId, "Task Type", htmlAttributes: new { @class = "col-form-label col-md-2" })
             <div class="col-md-10 ui-widget">
                 @Html.DropDownList("FK_TaskId", (SelectList)ViewBag.FK_TaskId, "Please select the Correct Task Type", htmlAttributes: new { @class = "form-control selectpicker", @value = "&nbsp;" })
+                <br />
                 @Html.ValidationMessageFor(model => model.FK_TaskId, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -68,6 +72,7 @@
             @Html.LabelFor(model => model.Time, "Time", htmlAttributes: new { @class = "col-form-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Time, new { htmlAttributes = new { @class = "form-control" } })
+                <br />
                 @Html.ValidationMessageFor(model => model.Time, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -77,6 +82,7 @@
             @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "col-form-label col-md-2 " })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control datepicker", type = "text", textmode = "text", autocomplete = "off" } })
+                <br />
                 @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -86,6 +92,7 @@
             @Html.LabelFor(model => model.Comment, "Comment", htmlAttributes: new { @class = "col-form-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Comment, new { htmlAttributes = new { @class = "form-control" } })
+                <br />
                 @Html.ValidationMessageFor(model => model.Comment, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -102,70 +109,94 @@
             </div>*@
     </div>
 }
+@*OrderNumber trim to "Number Handling"*@
+<script>
+        function OrderNumberSplit(text) {
+            var splitText = text.split(" :: ", 1)[0];
+            var trimText = $.trim(splitText);
+            return trimText;
 
+        }
+</script>
+
+<script>
+    $(".datepicker").datepicker({ dateFormat: 'dd/M/yy' }).val();
+    $(".selectpicker").chosen();
+    //Clipboard functionality
+    function fallbackCopyTextToClipboard(text) {
+        var textArea = document.createElement("textarea");
+        textArea.value = text;
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+        try {
+            var successful = document.execCommand("copy");
+            var msg = successful ? "successful" : "unsuccessful";
+            console.log("Fallback: Copying text command was " + msg);
+        } catch (err) {
+            console.error("Fallback: Oops, unable to copy", err);
+        }
+
+        document.body.removeChild(textArea);
+    }
+
+    //Copies to Clipboard
+    function copyTextToClipboard(text) {
+        if (!navigator.clipboard) {
+            fallbackCopyTextToClipboard(text);
+            return;
+        }
+        navigator.clipboard.writeText(text).then(
+          function () {
+              console.log("Async: Copying to clipboard was successful!");
+          },
+          function (err) {
+              console.error("Async: Could not copy text: ", err);
+          }
+        );
+    }
+
+    //Selects the copy button
+    var copyOrderBtn = document.querySelector("#btnScore");
+
+    //Triggers Copy to clipboard on button click
+    copyOrderBtn.addEventListener("click", function (event) {
+        var OrderNumberText = $("[id*='FK_OrderId'] :selected").text();
+        //split and trims the value first
+        OrderNumberText = OrderNumberSplit(OrderNumberText);
+        //Clipboard Functionality
+        copyTextToClipboard(OrderNumberText);
+    });
+</script>
 
 @*@section Scripts {
-@Scripts.Render("~/bundles/jquery")
-@Scripts.Render("~/bundles/jqueryval")*@
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")*@
 
-    @*Date Picker and Clipboard Functionality*@
-    <script>
+@*Loads all needed documents in an attempt to get it to work*@
+@*<script src="~/Scripts/jqeury-{version}.js"
+            type="text/javascript"></script>
+    <script src="~/Scripts/jqeury-ui-{version}.js"
+            type="text/javascript"></script>
+    <script src="~/Scripts/Editable-Select/jquery-editable-select.js"
+            type="text/javascript"></script>
+    <script src="~/Scripts/unobtrusive-ajax.js"
+            type="text/javascript"></script>
+    <script src="~/Scripts/jquery.validate*"
+            type="text/javascript"></script>*@
 
 
 
+
+@*Auto Completion Script -- Use Class "selectpicker" on dropdowns*@
+@*<script src="~/Scripts/tools/searchableDropDown.js"
+    type="text/javascript"></script>*@
+
+@*Date Picker and Clipboard Functionality*@
+
+@*<script>
         $(".datepicker").datepicker({ dateFormat: 'dd/M/yy' }).val();
 
-        //Clipboard functionality
-        //function fallbackCopyTextToClipboard(text) {
-        //    var textArea = document.createElement("textarea");
-        //    textArea.value = text;
-        //    document.body.appendChild(textArea);
-        //    textArea.focus();
-        //    textArea.select();
-        //    try {
-        //        var successful = document.execCommand("copy");
-        //        var msg = successful ? "successful" : "unsuccessful";
-        //        console.log("Fallback: Copying text command was " + msg);
-        //    } catch (err) {
-        //        console.error("Fallback: Oops, unable to copy", err);
-        //    }
-
-        //    document.body.removeChild(textArea);
-        //}
-
-        ////Copies to Clipboard
-        //function copyTextToClipboard(text) {
-        //    if (!navigator.clipboard) {
-        //        fallbackCopyTextToClipboard(text);
-        //        return;
-        //    }
-        //    navigator.clipboard.writeText(text).then(
-        //      function () {
-        //          console.log("Async: Copying to clipboard was successful!");
-        //      },
-        //      function (err) {
-        //          console.error("Async: Could not copy text: ", err);
-        //      }
-        //    );
-        //}
-
-        ////Selects the copy button
-        //var copyOrderBtn = document.querySelector("#btnScore");
-
-        ////Triggers Copy to clipboard on button click
-        //copyOrderBtn.addEventListener("click", function (event) {
-        //    var OrderNumber = $("[id*='FK_OrderId'] :selected").text();
-        //    copyTextToClipboard(OrderNumber);
-        //});
-
-
-
-
-
-
-    </script>
-@*Auto Completion Script*@
-<script>
         $(function () {
             $.widget("custom.combobox", {
 
@@ -208,19 +239,28 @@
                           minLength: 0,
                           change: function (event, ui) {
 
-                              //Triggers the Ajax call on the change event
-                              DropDown_IndexChange($(this).closest('span').attr('id'));
+                              try {
+                                  //Triggers the Ajax call on the change event
+                                  DropDown_IndexChange($(this).closest('span').attr('id'));
+                              } catch (err) {
+                                  console.log(err);
+                              }
+
 
                           },
                           source: $.proxy(this, "_source"),
                           select: function (event, ui) {
 
-                              //triggers the corresponding method on index change
-                              DropDown_IndexChange($(this).closest('span').attr('id'));
+                              try {
+                                  //Triggers the Ajax call on the change event
+                                  DropDown_IndexChange($(this).closest('span').attr('id'));
+                              } catch (err) {
+                                  console.log(err);
+                              }
 
 
 
-                    },
+                          },
                       })
                       .tooltip({
                           classes: {
@@ -358,67 +398,112 @@
             });
 
             $(".selectpicker").combobox();
-            $("custom-combobox").focusout(function () {
-                Alert("triggered");
-            });
+            //$("custom-combobox").focusout(function () {
+            //    Alert("triggered");
+            //});
         });
 
 
 
 
-</script>
 
-    @*Ajax and Json Handling*@
-    <script>
+        //Clipboard functionality
+        //function fallbackCopyTextToClipboard(text) {
+        //    var textArea = document.createElement("textarea");
+        //    textArea.value = text;
+        //    document.body.appendChild(textArea);
+        //    textArea.focus();
+        //    textArea.select();
+        //    try {
+        //        var successful = document.execCommand("copy");
+        //        var msg = successful ? "successful" : "unsuccessful";
+        //        console.log("Fallback: Copying text command was " + msg);
+        //    } catch (err) {
+        //        console.error("Fallback: Oops, unable to copy", err);
+        //    }
 
-        @*$("custom-combobox-input").select();
+        //    document.body.removeChild(textArea);
+        //}
 
-        function DropDown_IndexChange(id) {
-            if (id != null) {
-                id = id.replace("combobox", "");
-                var key = $("#" + id + " option:selected").val();
-                var target = $("");
-                //Based on the calling Id, we need to identify the dropdownlist in need of change:
-                if (id == "FK_UserId")  {target = $("#FK_OrderId")  }
-                if (id == "FK_OrderId") {target = $("#FK_ProjectId")}
-            } else {return}
+        ////Copies to Clipboard
+        //function copyTextToClipboard(text) {
+        //    if (!navigator.clipboard) {
+        //        fallbackCopyTextToClipboard(text);
+        //        return;
+        //    }
+        //    navigator.clipboard.writeText(text).then(
+        //      function () {
+        //          console.log("Async: Copying to clipboard was successful!");
+        //      },
+        //      function (err) {
+        //          console.error("Async: Could not copy text: ", err);
+        //      }
+        //    );
+        //}
+
+        ////Selects the copy button
+        //var copyOrderBtn = document.querySelector("#btnScore");
+
+        ////Triggers Copy to clipboard on button click
+        //copyOrderBtn.addEventListener("click", function (event) {
+        //    var OrderNumber = $("[id*='FK_OrderId'] :selected").text();
+        //    copyTextToClipboard(OrderNumber);
+        //});
+    </script>*@
 
 
 
-            function populateDropDownList(result) {
-                //empty the targeted dropdownlist
-                target.empty();
-                //add the found results
-                $.each(result, function (index, value) {
-                    target.append($('<option/>', {
-                        value: value.Value,
-                        text: value.Text
-                    }));
-                    return;
-                });
+@*Ajax and Json Handling*@
+@*<script>
+
+        $("custom-combobox-input").select();
+
+         function DropDown_IndexChange(id) {
+             if (id != null) {
+                 id = id.replace("combobox", "");
+                 var key = $("#" + id + " option:selected").val();
+                 var target = $("");
+                 //Based on the calling Id, we need to identify the dropdownlist in need of change:
+                 if (id == "FK_UserId")  {target = $("#FK_OrderId")  }
+                 if (id == "FK_OrderId") {target = $("#FK_ProjectId")}
+             } else {return}
+
+
+
+             function populateDropDownList(result) {
+                 //empty the targeted dropdownlist
+                 target.empty();
+                 //add the found results
+                 $.each(result, function (index, value) {
+                     target.append($('<option/>', {
+                         value: value.Value,
+                         text: value.Text
+                     }));
+                     return;
+                 });
+              }
+
+
+             //Ajax Call is currently only needed When Chosing user or Order Number
+             if (id == 'FK_UserId' || id == 'FK_OrderId') {
+                 $.getJSON('@Url.Action("AjaxDyanimcDropDown")', { dropDownKey: key, dropDownId: id }, function (result) {
+                     if (result != null) {
+
+                         console.log(result);
+
+                         populateDropDownList(result, target);
+                     };
+                 });
              }
 
 
-            //Ajax Call is currently only needed When Chosing user or Order Number
-            if (id == 'FK_UserId' || id == 'FK_OrderId') {
-                $.getJSON('@Url.Action("AjaxDyanimcDropDown")', { dropDownKey: key, dropDownId: id }, function (result) {
-                    if (result != null) {
-
-                        console.log(result);
-
-                        populateDropDownList(result, target);
-                    };
-                });
-            }
-
-
-          console.log("The id trigger was    : " + id);
-          console.log("Corresponding value is: " + key);
-          console.log("The DropDown Target is: " + target.attr('id'));
+           console.log("The id trigger was    : " + id);
+           console.log("Corresponding value is: " + key);
+           console.log("The DropDown Target is: " + target.attr('id'));
 
 
 
-        };*@
-    </script>
+         };
+        </script>
 
-@*}*@
+    }*@

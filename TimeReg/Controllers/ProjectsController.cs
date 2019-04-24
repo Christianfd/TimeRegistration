@@ -52,7 +52,14 @@ namespace TimeReg.Controllers
             
 
             ViewBag.FK_ProjectLeader = new SelectList(db.VI_Users.OrderBy(x => x.PK_Id), "PK_Id", "NK_Name");
-            ViewBag.FK_OrderNumber = new SelectList(db.VI_OrderNumber.OrderBy(x => x.PK_Id), "PK_Id", "Number");
+
+            ViewBag.FK_OrderNumber = new SelectList((from c in db.VI_OrderNumber
+                                                 select new
+                                                 {
+                                                     ID_Value = c.PK_Id,
+                                                     NumberAndTitle = c.Number + " :: " + c.Title
+                                                 }), "ID_Value", "NumberAndTitle");
+
             ViewBag.FK_TimeType = new SelectList(db.TimeType.OrderBy(x => x.PK_Id), "PK_Id", "Name");
             ViewBag.FK_Country = new SelectList(db.Country.OrderBy(x => x.PK_Id), "PK_Id", "CountryName");
             ViewBag.FK_PlatformOrProduct = new SelectList(db.PlatformOrProduct.OrderBy(x => x.PK_Id), "PK_Id", "ProductName");
@@ -89,7 +96,12 @@ namespace TimeReg.Controllers
 
 
             ViewBag.FK_ProjectLeader = new SelectList(db.VI_Users, "PK_Id", "NK_Name", projects.FK_ProjectLeader);
-            ViewBag.FK_OrderNumber = new SelectList(db.VI_OrderNumber, "PK_Id", "Number", projects.FK_OrderNumber);
+            ViewBag.FK_OrderNumber = new SelectList((from c in db.VI_OrderNumber
+                                                     select new
+                                                     {
+                                                         ID_Value = c.PK_Id,
+                                                         NumberAndTitle = c.Number + " :: " + c.Title
+                                                     }), "ID_Value", "NumberAndTitle", projects.FK_OrderNumber);
             ViewBag.FK_TimeType = new SelectList(db.TimeType, "PK_Id", "Name", projects.FK_TimeType);
             ViewBag.FK_Country = new SelectList(db.Country, "PK_Id", "CountryName", projects.FK_Country);
             ViewBag.FK_PlatformOrProduct = new SelectList(db.PlatformOrProduct, "PK_Id", "ProductName", projects.FK_PlatformOrProduct);
@@ -132,7 +144,12 @@ namespace TimeReg.Controllers
 
 
             ViewBag.FK_ProjectLeader = new SelectList(db.VI_Users, "PK_Id", "NK_Name", projectsViewModel.FK_ProjectLeader);
-            ViewBag.FK_OrderNumber = new SelectList(db.VI_OrderNumber, "PK_Id", "Number", projectsViewModel.FK_OrderNumber);
+            ViewBag.FK_OrderNumber = new SelectList((from c in db.VI_OrderNumber
+                                                     select new
+                                                     {
+                                                         ID_Value = c.PK_Id,
+                                                         NumberAndTitle = c.Number + " :: " + c.Title
+                                                     }), "ID_Value", "NumberAndTitle", projects.FK_OrderNumber);
             ViewBag.FK_TimeType = new SelectList(db.TimeType, "PK_Id", "Name", projectsViewModel.FK_TimeType);
             ViewBag.FK_Country = new SelectList(db.Country, "PK_Id", "CountryName", projectsViewModel.FK_Country);
             ViewBag.FK_PlatformOrProduct = new SelectList(db.PlatformOrProduct, "PK_Id", "ProductName", projectsViewModel.FK_PlatformOrProduct);
@@ -170,7 +187,12 @@ namespace TimeReg.Controllers
             //A set of ViewBags containing the nessecary Lists for creating a project - Not sure why I did the PK_Id, nor if they're nessecary here. as it's the edit post.
             ViewBag.PK_Id = new SelectList(db.Comments, "PK_Id", "Text", projects.PK_Id);
             ViewBag.FK_ProjectLeader = new SelectList(db.VI_Users, "PK_Id", "NK_Name", projects.FK_ProjectLeader);
-            ViewBag.FK_OrderNumber = new SelectList(db.VI_OrderNumber, "PK_Id", "Number", projects.FK_OrderNumber);
+            ViewBag.FK_OrderNumber = new SelectList((from c in db.VI_OrderNumber
+                                                     select new
+                                                     {
+                                                         ID_Value = c.PK_Id,
+                                                         NumberAndTitle = c.Number + " :: " + c.Title
+                                                     }), "ID_Value", "NumberAndTitle", projects.FK_OrderNumber);
             ViewBag.FK_TimeType = new SelectList(db.TimeType, "PK_Id", "Name", projects.FK_TimeType);
             ViewBag.FK_Country = new SelectList(db.Country, "PK_Id", "CountryName", projects.FK_Country);
             ViewBag.FK_PlatformOrProduct = new SelectList(db.PlatformOrProduct, "PK_Id", "ProductName", projects.FK_PlatformOrProduct);

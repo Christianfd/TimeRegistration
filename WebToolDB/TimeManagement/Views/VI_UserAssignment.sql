@@ -6,7 +6,8 @@
 				[Users].[NK_ZId],
 				[Projects].[Name] as [ProjectName],
 				[FK_OrderNumber],
-				[Number]
+				[Number],
+				[Title]
 
 		FROM [TimeManagement].[UserAssignment]
 		JOIN

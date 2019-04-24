@@ -62,7 +62,7 @@ namespace TimeReg.Controllers
             {
                 var windowsAuth = User.Identity.GetUserName();
                 var windowsAuthId = db.VI_Users.Where(m => m.NK_ZId == windowsAuth).SingleOrDefault().PK_Id;
-                ViewBag.FK_User = new SelectList(db.VI_Users, "PK_Id", "NK_Name", 3);
+                ViewBag.FK_User = new SelectList(db.VI_Users, "PK_Id", "NK_Name", windowsAuthId);
                 ViewBag.Year = year;
             }
             catch

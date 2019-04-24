@@ -34,6 +34,8 @@ namespace TimeReg.ViewModels
         public string UserName { get; set; }
         public List<TimeReg.VI_TimeRegistration> VI_TimeRegistration_List { get; set; }
 
+        public string Message { get; set; }
+
 
 
         public TimeRegistrationViewModel() { }

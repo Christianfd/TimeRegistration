@@ -2,6 +2,12 @@
 This is the post-deployment with value usable by the union page
 */
 
+IF NOT EXISTS(SELECT TOP(1) [PK_Id] FROM TimeManagement.Users)
+BEGIN
+DBCC CHECKIDENT ('[TimeManagement].[Users]', RESEED, 0) 
+INSERT INTO[TimeManagement].[Users] VALUES ( 'To Be Decided', 'N/A', '3');
+END
+
 IF NOT EXISTS(SELECT TOP(1) [PK_Id] FROM TimeManagement.OrderNumber)
 BEGIN
 DBCC CHECKIDENT ('[TimeManagement].[OrderNumber]', RESEED, 0) 
@@ -23,4 +29,3 @@ INSERT INTO[TimeManagement].[OrderNumber] ([Number],[FK_RequestOrg],[FK_Requeste
 INSERT INTO[TimeManagement].[OrderNumber] ([Number],[FK_RequestOrg],[FK_Requester],[FK_CustomerRef], [Title]) VALUES ( '2010', 1,1,1,'Party illness special'); 
 INSERT INTO[TimeManagement].[OrderNumber] ([Number],[FK_RequestOrg],[FK_Requester],[FK_CustomerRef], [Title]) VALUES ( '2000', 1,1,1,'Illness');
 END
-

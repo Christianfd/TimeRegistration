@@ -1,74 +1,106 @@
 ﻿@model TimeReg.ViewModels.TimeRegistrationViewModel
 
 @{
-    ViewBag.Title = "Time Registrations - Index";
+    ViewBag.Title = "Index";
 }
 
-<h2>Time Registrations</h2>
+<h2>Index</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    <a href="javascript:void()" class="Create">Create New</a>
 </p>
-<table class="table">
-    <tr>
-        <th>
-            Project
-        </th>
-        <th>
-            Order Number
-        </th>
-        <th>
-            Time
-        </th>
 
-        <th>
-            Date
-        </th>
-        <th>
-            Task Type
-        </th>
-        <th>
-            User
-        </th>
-        @*<th>
-               Entry Date
-            </th>*@
-        <th></th>
-    </tr>
 
-    @foreach (var item in Model.VI_TimeRegistration_List)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.ProjectName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.OrderName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Time)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Date)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TaskTypeName)
-            </td>
+<div id="PartialViewTableWrapper"> Loading TimeRegistrations..</div>
 
-            <td>
-                @Html.DisplayFor(modelItem => item.UserName)
-            </td>
-            @*<td>
-                    @Html.DisplayFor(modelItem => item.DateEntry)
+<!-- Modal -->
+<div class="modal" id="PartialViewModal" tabindex="-1" role="dialog" aria-labelledby="PartialViewModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="PartialViewModalTitle">Rep It Project And Order Tools</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="PartialViewModalBody">
 
-                </td>*@
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" data-crud="" id="PartialViewModalSaveButton" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
 
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.PK_Id }) |
-                @Html.ActionLink("Details", "Details", new { id = item.PK_Id }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.PK_Id })
-            </td>
-        </tr>
-    }
+<div id="AjaxJSLoader"></div>
 
-</table>
+<input type="hidden" id="currentControllerPath" value="@Url.Content("~/"+ViewBag.CurrentController)" />
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jquery")
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+    @Scripts.Render("~/bundles/bootstrap")
+    
+    <script src="~/Scripts/tools/dynamicCrudPages.js"></script>
+
+
+
+    @*Below is for the Create and Edit modals*@
+
+    @*On dropdownlist change to check if the other dropdowns need to be changed*@
+    <script>
+
+        $(document).on('change', '.selectpicker', function () {
+            DropDown_IndexChange(this.id);
+
+        });
+
+            function DropDown_IndexChange(id) {
+                if (id != null) {
+                    id = id.replace("combobox", "");
+                    var key = $("#" + id + " option:selected").val();
+                    var target = $("");
+                    //Based on the calling Id, we need to identify the dropdownlist in need of change:
+                    if (id == "FK_UserId") { target = $("#FK_OrderId") }
+                    if (id == "FK_OrderId") { target = $("#FK_ProjectId") }
+                } else { return }
+
+
+                function populateDropDownList(result) {
+                    //empty the targeted dropdownlist
+                    target.empty();
+                    //add the found results
+                    $.each(result, function (index, value) {
+                        target.append($('<option/>', {
+                            value: value.Value,
+                            text: value.Text
+                        }));
+                        $(".selectpicker").trigger("chosen:updated");
+                        return;
+                    });
+                }
+
+
+                //Ajax Call is currently only needed When Chosing user or Order Number
+                if (id == 'FK_UserId' || id == 'FK_OrderId') {
+                    $.getJSON('@Url.Action("AjaxDyanimcDropDown")', { dropDownKey: key, dropDownId: id }, function (result) {
+                        if (result != null) {
+
+                            console.log(result);
+
+                            populateDropDownList(result, target);
+                        };
+                    });
+                }
+
+                console.log("The id trigger was    : " + id);
+                console.log("Corresponding value is: " + key);
+                console.log("The DropDown Target is: " + target.attr('id'));
+            };
+</script>
+
+}

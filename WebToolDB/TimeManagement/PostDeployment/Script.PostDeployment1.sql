@@ -15,3 +15,4 @@ Post-Deployment Script Template
 :r .\PDScripts/PDTypes.sql
 :r .\PDScripts/PDUnionPage.sql
 :r .\PDScripts/PDOrderNumber.sql
+:r .\PDScripts/PDProjects.sql

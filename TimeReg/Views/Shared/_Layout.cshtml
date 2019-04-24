@@ -8,8 +8,7 @@
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/jquery")
     @Styles.Render("~/Content/themes/base/css")
-
-    
+    @RenderSection("styles", false);
 
 </head>
 <body>
@@ -18,11 +17,11 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - Project And Time Management in RepIt</p>
+            <p>&copy; @DateTime.Now.Year - Project And Time Management in RepIt - By Christian Davis</p>
         </footer>
     </div>
 
-   
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
 </body>
