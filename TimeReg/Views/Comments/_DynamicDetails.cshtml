@@ -1,0 +1,57 @@
+﻿@model TimeReg.VI_Comments
+
+<div>
+    <h4>Comments</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.WeekNr)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.WeekNr)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Year)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Year)
+        </dd>
+
+      
+
+     
+
+        <dt>
+           Project
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ProjectName)
+        </dd>
+
+        <dt>
+           By User
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UserName)
+        </dd>
+
+        <dt>
+            Report
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Text)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    <a href="javascript:void()" class="Edit" data-DynamicId="@Html.DisplayFor(item => item.PK_Id)">Edit</a> <span> | </span>
+    <a href="javascript:void()" class="Delete" data-DynamicId="@Html.DisplayFor(item => item.PK_Id)">Delete</a>
+
+</p>

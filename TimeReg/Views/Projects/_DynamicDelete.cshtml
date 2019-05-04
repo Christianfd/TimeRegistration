@@ -1,0 +1,84 @@
+﻿@model TimeReg.VI_Projects
+
+
+
+<h3>Are you sure you want to delete this?</h3>
+
+    <h4>Projects</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FK_OrderNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FK_OrderNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TimeEstimation)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TimeEstimation)
+        </dd>
+
+        <dt>
+            Project Leader
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.UserName)
+        </dd>
+            
+        <dt>
+            Scope
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Scope)
+        </dd>
+
+
+        @*<dt>
+            @Html.DisplayNameFor(model => model.Comments.Text)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Comments.Text)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Users.NK_Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Users.NK_Name)
+        </dd>*@
+
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        <div class="form-group" Hidden>
+            @Html.LabelFor(model => model.PK_Id, htmlAttributes: new { @class = "col-form-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.PK_Id, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+                @Html.ValidationMessageFor(model => model.PK_Id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    }
+
+
+    <a href="javascript:void()" class="Edit" data-DynamicId="@Html.DisplayFor(model => model.PK_Id)">Edit</a> <span> | </span>
+    <a href="javascript:void()" class="Details" data-DynamicId="@Html.DisplayFor(model => model.PK_Id)">Details</a>
+
+

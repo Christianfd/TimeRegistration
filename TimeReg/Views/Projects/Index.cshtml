@@ -7,58 +7,42 @@
 <h2>Project List</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")    
+    <a href="javascript:void()" class="Create">Create New</a>
 </p>
-<table class="table">
-    <tr>
-        <th>
-            Project Name
-        </th>
-        <th>
-            Order Number
-        </th>
-        <th>
-            Estimated Time
-        </th>
-        <th>
-            Actual Hours
-        </th>
-        <th>
-            Project Leader
-        </th>
-        <th>
-            Time Type
-        </th>
-        <th></th>
-    </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.OrderName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TimeEstimation)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.timeSum)
-        </td>
 
-        <td>
-            @Html.DisplayFor(modelItem => item.UserName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TimeTypeName)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.PK_Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.PK_Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.PK_Id })
-        </td>
-    </tr>
+<div id="PartialViewTableWrapper"> Loading TimeRegistrations..</div>
+
+<!-- Modal -->
+<div class="modal" id="PartialViewModal" tabindex="-1" role="dialog" aria-labelledby="PartialViewModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="PartialViewModalTitle">Rep It Project And Order Tools</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="PartialViewModalBody">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" data-crud="" id="PartialViewModalSaveButton" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="AjaxJSLoader"></div>
+
+<input type="hidden" id="currentControllerPath" value="@Url.Content("~/"+ViewBag.CurrentController)" />
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jquery")
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+    @Scripts.Render("~/bundles/bootstrap")
+
+    <script src="~/Scripts/tools/dynamicCrudPages.js"></script>
 }
-
-</table>

@@ -1,0 +1,66 @@
+﻿@model TimeReg.VI_Comments
+
+<h3>Are you sure you want to delete this?</h3>
+
+    <h4>Comments</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.WeekNr)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.WeekNr)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Year)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Year)
+        </dd>
+        <dt>
+            Project
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ProjectName)
+        </dd>
+
+        <dt>
+            By User
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UserName)
+        </dd>
+
+        <dt>
+            Report
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Text)
+        </dd>
+    </dl>
+
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        <div class="form-group" hidden>
+            @Html.LabelFor(model => model.PK_Id, htmlAttributes: new { @class = "col-form-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.PK_Id, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+                @Html.ValidationMessageFor(model => model.PK_Id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    }
+
+
+    <a href="javascript:void()" class="Edit" data-DynamicId="@Html.DisplayFor(model => model.PK_Id)">Edit</a> <span> | </span>
+    <a href="javascript:void()" class="Details" data-DynamicId="@Html.DisplayFor(model => model.PK_Id)">Details</a>
+
+
+

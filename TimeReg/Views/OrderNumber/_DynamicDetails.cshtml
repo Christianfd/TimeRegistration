@@ -1,0 +1,40 @@
+﻿@model TimeReg.ViewModels.OrderNumberViewModel
+
+<div>
+    <h4>Order Number</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Number)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Number)
+        </dd>
+
+        <dt>Title</dt>
+        <dd>@Html.DisplayFor(model => model.Title)</dd>
+
+        <dt>Requesting Organization</dt>
+        <dd> @Html.DisplayFor(model => model.Organization)</dd>
+
+        <dt>Requester</dt>
+        <dd>@Html.DisplayFor(model => model.RequesterName)</dd>
+
+        <dt>Customer Reference</dt>
+        <dd>@Html.DisplayFor(model => model.CustomerRefName)</dd>
+
+
+
+    </dl>
+</div>
+<p>
+    @*This is used to avoid manipulation of the standard ordernumbers*@
+
+    @if (@Model.PK_Id >= 18)
+    {
+        <a href="javascript:void()" class="Edit" data-DynamicId="@Html.DisplayFor(item => item.PK_Id)">Edit</a> <span> | </span>
+        <a href="javascript:void()" class="Delete" data-DynamicId="@Html.DisplayFor(item => item.PK_Id)">Delete</a>
+
+    }
+</p>

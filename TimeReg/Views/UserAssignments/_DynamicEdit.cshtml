@@ -1,0 +1,42 @@
+﻿@model TimeReg.ViewModels.UserAssignmentViewModel
+<h2>Edit</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>UserAssignment</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.PK_Id)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.FK_UserId, "User", htmlAttributes: new { @class = "col-form-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("FK_UserId", null, htmlAttributes: new { @class = "form-control selectpicker" })
+                @Html.ValidationMessageFor(model => model.FK_UserId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.FK_ProjectId, "Project", htmlAttributes: new { @class = "col-form-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("FK_ProjectId", null, htmlAttributes: new { @class = "form-control selectpicker" })
+                @Html.ValidationMessageFor(model => model.FK_ProjectId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        </div>
+
+}
+
+<div>
+    <a href="javascript:void()" class="Details" data-DynamicId="@Html.DisplayFor(model => model.PK_Id)">Details</a> <span> | </span>
+    <a href="javascript:void()" class="Delete" data-DynamicId="@Html.DisplayFor(model => model.PK_Id)">Delete</a>
+</div>
+
+
+<script>
+    $(".selectpicker").chosen();
+</script>

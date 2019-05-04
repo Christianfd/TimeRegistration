@@ -1,0 +1,149 @@
+﻿@model TimeReg.ViewModels.ProjectDetailsViewModel
+
+
+@{
+    ViewBag.Title = "Projects - Details | " + @Html.DisplayFor(model => model.VIProjects.Name);
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Projects</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Order Number
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.VIProjects.OrderName)
+        </dd>
+
+        <dt>
+            Project
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.VIProjects.Name)
+        </dd>
+
+        <dt>
+            Project Scope
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.VIProjects.Scope)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.VIProjects.TimeEstimation)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.VIProjects.TimeEstimation)
+        </dd>
+        <dt>
+            Total Time Spent
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.VIProjects.timeSum)
+        </dd>
+
+
+        <dt>
+            Project Leader
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.VIProjects.UserName)
+        </dd>
+        <dt>
+            Time Type
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.VIProjects.TimeTypeName)
+        </dd>
+    </dl>
+
+
+
+    <table>
+        <tr>
+
+            <th>
+                <a class="btn btn-success" onclick="toggleUserTimeList()" role="button">
+                    Time Distribution
+                </a>
+            </th>
+            <th>
+                <a class="btn btn-info" onclick="toggleProjectComments()" role="button">
+                    Project Comments
+                </a>
+            </th>
+
+        </tr>
+        <tr>
+            <th class="table-remove-float">
+                <div id="collapseUserList" style="display: none;">
+                    <div class="card card-body">
+                        <dl class="dl-horizontal">
+
+                            @foreach (var item in Model.VITimeSpentPerUser)
+                            {
+                                <dt>
+                                    @Html.DisplayFor(modelItem => item.UserName)
+                                </dt>
+                                <dd>
+                                    @Html.DisplayFor(modelItem => item.timeSum) hours
+                                </dd>
+                            }
+                        </dl>
+                    </div>
+                </div>
+            </th>
+            <th>
+
+                <div id="collapseCommentList" style="display: none;">
+                    <div class="card card-body">
+                        <dl class="dl-horizontal">
+                            @foreach (var item in Model.VIComments.Where(m => m.FK_ProjectId == Model.VIProjects.PK_Id))
+                            {
+                                <dt>
+                                    Week @Html.DisplayFor(modelItem => item.WeekNr)
+                                </dt>
+
+                                <dd>
+                                    @Html.DisplayFor(modelItem => item.Text)
+                                </dd>
+                            }
+                        </dl>
+                    </div>
+                </div>
+            </th>
+        </tr>
+    </table>
+
+</div>
+<p>
+    @if (@Model.VIProjects.PK_Id >= 18)
+    {
+        <a href="javascript:void()" class="Edit" data-DynamicId="@Html.DisplayFor(item => item.VIProjects.PK_Id)">Edit</a> <span> | </span>
+        <a href="javascript:void()" class="Delete" data-DynamicId="@Html.DisplayFor(item => item.VIProjects.PK_Id)">Delete</a>
+
+    }
+
+
+
+</p>
+
+
+<script>
+
+    function toggleProjectComments() {
+        $("#collapseCommentList").toggle();
+    }
+
+    function toggleUserTimeList() {
+        $("#collapseUserList").toggle();
+    }
+</script>

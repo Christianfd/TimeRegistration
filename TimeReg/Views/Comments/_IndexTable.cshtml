@@ -1,0 +1,59 @@
+﻿@model List<TimeReg.VI_Comments>
+
+<table class="table">
+    <tr>
+        <th>
+            Week #
+        </th>
+        <th>
+            Project
+        </th>
+        <th>
+            By User
+        </th>
+     
+        <th>
+           Year
+        </th>
+     
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr class="table-content">
+   
+        <td>
+            @Html.DisplayFor(modelItem => item.WeekNr)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ProjectName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UserName)
+        </td>
+     
+        <td>
+            @Html.DisplayFor(modelItem => item.Year)
+        </td>
+       
+        <td>
+            <a href="javascript:void()" class="Edit" data-DynamicId="@item.PK_Id">Edit</a> <span> | </span>
+            <a href="javascript:void()" class="Details" data-DynamicId="@item.PK_Id">Details</a> <span> | </span>
+            <a href="javascript:void()" class="Delete" data-DynamicId="@item.PK_Id">Delete</a>
+        </td>
+       
+     
+       
+    </tr>
+
+    <tr>
+        <td class="table-comments-text" colspan="5"  >
+            @Html.DisplayFor(modelItem => item.Text)
+        </td>
+       
+    </tr>
+
+                  
+}
+
+</table>
