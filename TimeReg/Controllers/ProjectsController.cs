@@ -485,7 +485,7 @@ namespace TimeReg.Controllers
                                                      }), "ID_Value", "NumberAndTitle", projects.FK_OrderNumber);
             ViewBag.FK_TimeType = new SelectList(db.TimeType, "PK_Id", "Name", projects.FK_TimeType);
             ViewBag.FK_Country = new SelectList(db.Country, "PK_Id", "CountryName", projects.FK_Country);
-            ViewBag.FK_PlatformOrProduct = new SelectList(db.PlatformOrProduct, "PK_Id", "ProductName", projects.FK_PlatformOrProduct);
+            ViewBag.FK_PlatformOrProduct = new SelectList(db.VI_PlatformOrProduct, "PK_Id", "ProductName", projects.FK_PlatformOrProduct);
             ViewBag.FK_Turbine = new SelectList(db.Turbine, "PK_Id", "TurbineName", projects.FK_Turbine);
 
             return View(projects);

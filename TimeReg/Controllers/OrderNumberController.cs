@@ -121,7 +121,7 @@ namespace TimeReg.Controllers
             ViewBag.FK_Requester = new SelectList(db.VI_Requester.OrderBy(x => x.PK_Id), "PK_Id", "Name", orderNumberViewModel.FK_Requester);
             ViewBag.FK_CustomerRef = new SelectList(db.VI_CustomerRef.OrderBy(x => x.PK_Id), "PK_Id", "Name", orderNumberViewModel.FK_CustomerRef);
 
-            return PartialView("_DynamicEdit",orderNumberViewModel);
+            return PartialView("_DynamicEdit", orderNumberViewModel);
         }
 
         // GET: OrderNumber/Delete/5
