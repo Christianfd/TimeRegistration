@@ -4,7 +4,7 @@ This is the post-deployment with value usable by the union page
 
 IF NOT EXISTS(SELECT TOP(1) [PK_Id] FROM TimeManagement.Projects)
 BEGIN
-DBCC CHECKIDENT ('[TimeManagement].[Projects]', RESEED, 0) 
+DBCC CHECKIDENT ('[TimeManagement].[Projects]', RESEED, 1) 
 INSERT INTO[TimeManagement].[Projects] ([FK_OrderNumber], [TimeEstimation], [FK_TimeType], [Name]) VALUES ( 1,1,5,'Internal Training'); 
 INSERT INTO[TimeManagement].[Projects] ([FK_OrderNumber], [TimeEstimation], [FK_TimeType], [Name]) VALUES ( 2,1,7,'Blood Donor'); 
 INSERT INTO[TimeManagement].[Projects] ([FK_OrderNumber], [TimeEstimation], [FK_TimeType], [Name]) VALUES ( 3,1,7,'Dentist'); 

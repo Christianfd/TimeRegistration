@@ -10,7 +10,15 @@
 	@FK_Country int,
 	@FK_PlatformOrProduct int,
 	@FK_Turbine int,
-	@ProjectComment nvarchar(1000)
+	@ProjectComment nvarchar(1000),
+
+
+	@FK_RequestOrg int,
+	@FK_Requester int,
+	@FK_CustomerRef int
+
+
+
 AS
 	UPDATE [TimeManagement].[Projects] 
 	SET	[TimeManagement].[Projects].[Name] = @ProjectName,
@@ -23,7 +31,12 @@ AS
 		[FK_Country] = @FK_Country,
 		[FK_PlatformOrProduct] = @FK_PlatformOrProduct,
 		[FK_Turbine] = @FK_Turbine,
-		[ProjectComment] = @ProjectComment
+		[ProjectComment] = @ProjectComment,
+
+
+		FK_RequestOrg = @FK_RequestOrg,
+		FK_Requester = @FK_Requester,
+		FK_CustomerRef = @FK_CustomerRef
 		
 	WHERE [TimeManagement].[Projects].[PK_Id] = @UpdateId
 

@@ -4,14 +4,17 @@
     <tr>
         <th>Order Number</th>
         <th>Title</th>
-        <th>Requesting Organization</th>
-        <th>Requester</th>
-        <th>Customer Reference</th>
+        @*
+            Removed after OrderNumber merge
+            <th>Requesting Organization</th>
+            <th>Requester</th>
+            <th>Customer Reference</th>*@
         <th></th>
 
     </tr>
 
-@foreach (var item in Model) {
+@foreach (var item in Model)
+{
     <tr>
         <td>
             @Html.DisplayFor(modelItem => item.Number)
@@ -21,15 +24,20 @@
             @Html.DisplayFor(modelItem => item.Title)
         </td>
 
+        @*
+                
+        Removed after OrderNumber Merge
+        
         <td>
-            @Html.DisplayFor(modelItem => item.Organization)
-        </td>
-        <td>
-            @Html.DisplayFor(d => item.RequesterName)
-        </td>
-        <td>
-            @Html.DisplayFor(d => item.CustomerRefName)
-        </td>
+                @Html.DisplayFor(modelItem => item.Organization)
+            </td>
+            <td>
+                @Html.DisplayFor(d => item.RequesterName)
+            </td>
+            <td>
+                @Html.DisplayFor(d => item.CustomerRefName)
+            </td>*@
+
         <td>
             @if (@item.PK_Id > 17)
             {

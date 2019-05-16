@@ -8,7 +8,6 @@
         <EntityTypeShape EntityType="WebToolModel.Comments" Width="1.5" PointX="0.625" PointY="5.5" />
         <EntityTypeShape EntityType="WebToolModel.Country" Width="1.5" PointX="4.125" PointY="3.875" />
         <EntityTypeShape EntityType="WebToolModel.CustomerRef" Width="1.5" PointX="4.75" PointY="11.75" />
-        <EntityTypeShape EntityType="WebToolModel.OrderNumber" Width="1.5" PointX="3.125" PointY="8.5" />
         <EntityTypeShape EntityType="WebToolModel.PlatformOrProduct" Width="1.5" PointX="0.75" PointY="8" />
         <EntityTypeShape EntityType="WebToolModel.Projects" Width="1.5" PointX="6" PointY="3.875" />
         <EntityTypeShape EntityType="WebToolModel.Requester" Width="1.5" PointX="5.75" PointY="9.75" />
@@ -21,7 +20,6 @@
         <EntityTypeShape EntityType="WebToolModel.Users" Width="1.5" PointX="1.25" PointY="1" />
         <EntityTypeShape EntityType="WebToolModel.VI_Comments" Width="1.5" PointX="11.75" PointY="0.75" />
         <EntityTypeShape EntityType="WebToolModel.VI_CustomerRef" Width="1.5" PointX="0.75" PointY="11.75" />
-        <EntityTypeShape EntityType="WebToolModel.VI_OrderNumber" Width="1.5" PointX="2.75" PointY="14.375" />
         <EntityTypeShape EntityType="WebToolModel.VI_ProjectAndOrderTools" Width="1.5" PointX="11.75" PointY="9.75" />
         <EntityTypeShape EntityType="WebToolModel.VI_Projects" Width="1.5" PointX="4.75" PointY="14.125" />
         <EntityTypeShape EntityType="WebToolModel.VI_Requester" Width="1.5" PointX="6.625" PointY="13.5" />
@@ -34,7 +32,6 @@
         <EntityTypeShape EntityType="WebToolModel.VI_UserTimePerProject" Width="1.5" PointX="0.75" PointY="14.75" />
         <AssociationConnector Association="WebToolModel.FK_Comments_Projects" />
         <AssociationConnector Association="WebToolModel.FK_Comments_Users" />
-        <AssociationConnector Association="WebToolModel.FK_Projects_OrderNumber" />
         <AssociationConnector Association="WebToolModel.FK_Projects_TimeType" />
         <AssociationConnector Association="WebToolModel.FK_Projects_Users" />
         <AssociationConnector Association="WebToolModel.FK_TimeRegistration_Projects" />
@@ -44,15 +41,18 @@
         <AssociationConnector Association="WebToolModel.FK_TimeRegistration_Users" />
         <AssociationConnector Association="WebToolModel.FK_UserAssignment_Users" />
         <AssociationConnector Association="WebToolModel.FK_Projects_Country" />
-        <AssociationConnector Association="WebToolModel.FK_OrderNumber_CustomerRef" />
-        <AssociationConnector Association="WebToolModel.FK_OrderNumber_Requester" />
-        <AssociationConnector Association="WebToolModel.FK_OrderNumber_RequestOrg" />
         <AssociationConnector Association="WebToolModel.FK_Projects_PlatformOrProduct" />
         <AssociationConnector Association="WebToolModel.FK_Projects_Turbine" />
         <EntityTypeShape EntityType="WebToolModel.VI_Country" Width="1.5" PointX="3.375" PointY="0.75" />
         <EntityTypeShape EntityType="WebToolModel.VI_PlatformOrProduct" Width="1.5" PointX="5.375" PointY="0.75" />
         <EntityTypeShape EntityType="WebToolModel.VI_Turbine" Width="1.5" PointX="7.375" PointY="0.75" />
         <EntityTypeShape EntityType="WebToolModel.VI_ProjectAndOrderToolsUnion" Width="1.5" PointX="13.375" PointY="14.75" />
+        <AssociationConnector Association="WebToolModel.FK_Projects_CustomerRef" />
+        <AssociationConnector Association="WebToolModel.FK_Projects_Requester" />
+        <AssociationConnector Association="WebToolModel.FK_Projects_RequestOrg" />
+        <EntityTypeShape EntityType="WebToolModel.OrderNumber" Width="1.5" PointX="3.25" PointY="8.375" />
+        <AssociationConnector Association="WebToolModel.FK_Projects_OrderNumber" />
+        <EntityTypeShape EntityType="WebToolModel.VI_OrderNumber" Width="1.5" PointX="2.75" PointY="14.625" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

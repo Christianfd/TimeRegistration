@@ -2,7 +2,7 @@
 
 IF NOT EXISTS(SELECT TOP(1) [CountryName] FROM TimeManagement.Country)
 BEGIN
-DBCC CHECKIDENT ('[TimeManagement].[Country]', RESEED, 0) 
+DBCC CHECKIDENT ('[TimeManagement].[Country]', RESEED, 1) 
 INSERT INTO[TimeManagement].[Country] ([CountryCode], [CountryName]) VALUES ( 'AF', 'Afghanistan');
 INSERT INTO[TimeManagement].[Country] ([CountryCode], [CountryName]) VALUES ( 'AL', 'Albania');
 INSERT INTO[TimeManagement].[Country] ([CountryCode], [CountryName]) VALUES ( 'DZ', 'Algeria');

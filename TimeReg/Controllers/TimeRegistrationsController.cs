@@ -32,7 +32,7 @@ namespace TimeReg.Controllers
         [HttpGet]
         public ActionResult IndexTable(Nullable<int> id)
         {
-            TimeRegistrationViewModel timeRegistrationViewModel;
+            //TimeRegistrationViewModel timeRegistrationViewModel;
 
             if (id == null)
             {
@@ -41,9 +41,32 @@ namespace TimeReg.Controllers
 
             }
 
+
+           
+
+
             try
             {
-                timeRegistrationViewModel = new TimeRegistrationViewModel(db.VI_TimeRegistration.Where(m => m.FK_UserId == id).OrderByDescending(m => m.Date).ToList());
+                //timeRegistrationViewModel = new TimeRegistrationViewModel(db.VI_TimeRegistration.Where(m => m.FK_UserId == id).OrderByDescending(m => m.Date).ToList());
+
+                var timeRegistration = (from viTimeRegistration in db.VI_TimeRegistration.Where(m => m.FK_UserId == id).OrderByDescending(m => m.Date)
+                                        select new TimeRegistrationViewModel()
+                                        {
+                                            PK_Id = viTimeRegistration.PK_Id,
+                                            FK_UserId = viTimeRegistration.FK_UserId,
+                                            FK_ProjectId = viTimeRegistration.FK_ProjectId,
+                                            FK_TaskId = viTimeRegistration.FK_TaskId,
+                                            FK_OrderId = viTimeRegistration.FK_OrderId,
+                                            Time = viTimeRegistration.Time,
+                                            Date = viTimeRegistration.Date,
+                                            DateEntry = viTimeRegistration.DateEntry,
+                                            TaskTypeName = viTimeRegistration.TaskTypeName,
+                                            ProjectName = viTimeRegistration.ProjectName,
+                                            UserName = viTimeRegistration.UserName,
+                                            Comment = viTimeRegistration.Comment,
+                                            OrderName = viTimeRegistration.OrderName
+                                        });
+                return PartialView("_IndexTable", timeRegistration.ToList());
 
             }
             catch (Exception e)
@@ -51,7 +74,7 @@ namespace TimeReg.Controllers
                 return Json(e.Message, JsonRequestBehavior.AllowGet);
             }
 
-            return PartialView("_IndexTable", timeRegistrationViewModel);
+            //return PartialView("_IndexTable", timeRegistration.toList());
 
         }
 
@@ -145,14 +168,32 @@ namespace TimeReg.Controllers
                 var windowsAuth = User.Identity.GetUserName();
                 var windowsAuthId = db.VI_Users.Where(m => m.NK_ZId == windowsAuth).SingleOrDefault().PK_Id;
                 ViewBag.FK_UserId = new SelectList(db.VI_Users, "PK_Id", "NK_Name", windowsAuthId);
+
+
                 //ViewBag.FK_OrderId = new SelectList(db.VI_UserAssignment.Where(m => m.FK_UserId == windowsAuthId), "FK_OrderNumber", "Number");
 
-                ViewBag.FK_OrderId = new SelectList((from c in db.VI_UserAssignment.Where(m => m.FK_UserId == windowsAuthId)
+                var OrderNumberList = new SelectList((from c in db.VI_UserAssignment.Where(m => m.FK_UserId == windowsAuthId)
                                                       select new
                                                       {
                                                           ID_Value = c.FK_OrderNumber,
                                                           NumberAndTitle = c.Number + " :: " + c.Title
                                                       }), "ID_Value", "NumberAndTitle");
+
+                //Check to see if this user as any assigned projects/ordernumbers. If not they get access to all order numbers
+                if (OrderNumberList.Count() >= 1)
+                {
+                    ViewBag.FK_OrderId = OrderNumberList;
+                }
+                else
+                {
+                    ViewBag.FK_OrderId = new SelectList((from c in db.VI_OrderNumber
+                                                         select new
+                                                         {
+                                                             ID_Value = c.PK_Id,
+                                                             NumberAndTitle = c.Number + " :: " + c.Title
+                                                         }), "ID_Value", "NumberAndTitle");
+                }
+
             }
 
             catch
@@ -219,6 +260,9 @@ namespace TimeReg.Controllers
                     ViewBag.FK_ProjectId = new SelectList(db.VI_Projects, "PK_Id", "Name");
                     ViewBag.FK_TaskId = new SelectList(db.VI_TaskType, "PK_Id", "Name");
 
+
+
+
                     //Auto Selects the user id & corresponding OrderNumber based on windows authentification
                     try
                     {
@@ -227,12 +271,40 @@ namespace TimeReg.Controllers
                         ViewBag.FK_UserId = new SelectList(db.VI_Users, "PK_Id", "NK_Name", windowsAuthId);
                         //ViewBag.FK_OrderId = new SelectList(db.VI_UserAssignment.Where(m => m.FK_UserId == windowsAuthId), "FK_OrderNumber", "Number");
 
-                        ViewBag.FK_OrderId = new SelectList((from c in db.VI_UserAssignment.Where(m => m.FK_UserId == windowsAuthId)
-                                                             select new
-                                                             {
-                                                                 ID_Value = c.FK_OrderNumber,
-                                                                 NumberAndTitle = c.Number + " :: " + c.Title
-                                                             }), "ID_Value", "NumberAndTitle");
+                        //ViewBag.FK_OrderId = new SelectList((from c in db.VI_UserAssignment.Where(m => m.FK_UserId == windowsAuthId)
+                        //                                     select new
+                        //                                     {
+                        //                                         ID_Value = c.FK_OrderNumber,
+                        //                                         NumberAndTitle = c.Number + " :: " + c.Title
+                        //                                     }), "ID_Value", "NumberAndTitle");
+
+
+
+                        var OrderNumberList = new SelectList((from c in db.VI_UserAssignment.Where(m => m.FK_UserId == windowsAuthId)
+                                                              select new
+                                                              {
+                                                                  ID_Value = c.FK_OrderNumber,
+                                                                  NumberAndTitle = c.Number + " :: " + c.Title
+                                                              }), "ID_Value", "NumberAndTitle", timeRegistration.FK_OrderId);
+
+                        //Check to see if this user as any assigned projects/ordernumbers. If not they get access to all order numbers
+                        if (OrderNumberList.Count() >= 1)
+                        {
+                            ViewBag.FK_OrderId = OrderNumberList;
+                        }
+                        else
+                        {
+                            ViewBag.FK_OrderId = new SelectList((from c in db.VI_OrderNumber
+                                                              select new
+                                                              {
+                                                                  ID_Value = c.PK_Id,
+                                                                  NumberAndTitle = c.Number + " :: " + c.Title
+                                                              }), "ID_Value", "NumberAndTitle", timeRegistration.FK_OrderId);
+                        }
+
+                        
+
+
                     }
 
                     catch
@@ -269,12 +341,29 @@ namespace TimeReg.Controllers
                 ViewBag.FK_UserId = new SelectList(db.VI_Users, "PK_Id", "NK_Name", windowsAuthId);
                 //ViewBag.FK_OrderId = new SelectList(db.VI_UserAssignment.Where(m => m.FK_UserId == windowsAuthId), "FK_OrderNumber", "Number");
 
-                ViewBag.FK_OrderId = new SelectList((from c in db.VI_UserAssignment.Where(m => m.FK_UserId == windowsAuthId)
-                                                     select new
-                                                     {
-                                                         ID_Value = c.FK_OrderNumber,
-                                                         NumberAndTitle = c.Number + " :: " + c.Title
-                                                     }), "ID_Value", "NumberAndTitle", timeRegistration.FK_OrderId);
+
+                var OrderNumberList = new SelectList((from c in db.VI_UserAssignment.Where(m => m.FK_UserId == windowsAuthId)
+                                                      select new
+                                                      {
+                                                          ID_Value = c.FK_OrderNumber,
+                                                          NumberAndTitle = c.Number + " :: " + c.Title
+                                                      }), "ID_Value", "NumberAndTitle", timeRegistration.FK_OrderId);
+
+                //Check to see if this user as any assigned projects/ordernumbers. If not they get access to all order numbers
+                if (OrderNumberList.Count() >= 1)
+                {
+                    ViewBag.FK_OrderId = OrderNumberList;
+                }
+                else
+                {
+                    ViewBag.FK_OrderId = new SelectList((from c in db.VI_OrderNumber
+                                                         select new
+                                                         {
+                                                             ID_Value = c.PK_Id,
+                                                             NumberAndTitle = c.Number + " :: " + c.Title
+                                                         }), "ID_Value", "NumberAndTitle", timeRegistration.FK_OrderId);
+                }
+
             }
 
             catch
@@ -319,12 +408,27 @@ namespace TimeReg.Controllers
                 var windowsAuth = User.Identity.GetUserName();
                 var windowsAuthId = db.VI_Users.Where(m => m.NK_ZId == windowsAuth).SingleOrDefault().PK_Id;
                 ViewBag.FK_UserId = new SelectList(db.VI_Users, "PK_Id", "NK_Name", windowsAuthId);
-                ViewBag.FK_OrderId = new SelectList((from c in db.VI_UserAssignment.Where(m => m.FK_UserId == windowsAuthId)
-                                                     select new
-                                                     {
-                                                         ID_Value = c.FK_OrderNumber,
-                                                         NumberAndTitle = c.Number + " :: " + c.Title
-                                                     }), "ID_Value", "NumberAndTitle", timeRegistrationViewModel.FK_OrderId);
+                var OrderNumberList = new SelectList((from c in db.VI_UserAssignment.Where(m => m.FK_UserId == windowsAuthId)
+                                                      select new
+                                                      {
+                                                          ID_Value = c.FK_OrderNumber,
+                                                          NumberAndTitle = c.Number + " :: " + c.Title
+                                                      }), "ID_Value", "NumberAndTitle", timeRegistrationViewModel.FK_OrderId);
+
+                //Check to see if this user as any assigned projects/ordernumbers. If not they get access to all order numbers
+                if (OrderNumberList.Count() >= 1)
+                {
+                    ViewBag.FK_OrderId = OrderNumberList;
+                }
+                else
+                {
+                    ViewBag.FK_OrderId = new SelectList((from c in db.VI_OrderNumber
+                                                         select new
+                                                         {
+                                                             ID_Value = c.PK_Id,
+                                                             NumberAndTitle = c.Number + " :: " + c.Title
+                                                         }), "ID_Value", "NumberAndTitle", timeRegistrationViewModel.FK_OrderId);
+                }
                 ViewBag.FK_ProjectId = new SelectList(db.VI_Projects.Where(m => m.FK_OrderNumber == timeRegistrationViewModel.FK_OrderId), "PK_Id", "Name", timeRegistrationViewModel.FK_ProjectId);
             }
 
@@ -380,12 +484,28 @@ namespace TimeReg.Controllers
                 var windowsAuth = User.Identity.GetUserName();
                 var windowsAuthId = db.VI_Users.Where(m => m.NK_ZId == windowsAuth).SingleOrDefault().PK_Id;
                 ViewBag.FK_UserId = new SelectList(db.VI_Users, "PK_Id", "NK_Name", windowsAuthId);
-                ViewBag.FK_OrderId = new SelectList((from c in db.VI_UserAssignment.Where(m => m.FK_UserId == windowsAuthId)
-                                                     select new
-                                                     {
-                                                         ID_Value = c.FK_OrderNumber,
-                                                         NumberAndTitle = c.Number + " :: " + c.Title
-                                                     }), "ID_Value", "NumberAndTitle", timeRegistration.FK_OrderId);
+                var OrderNumberList = new SelectList((from c in db.VI_UserAssignment.Where(m => m.FK_UserId == windowsAuthId)
+                                                      select new
+                                                      {
+                                                          ID_Value = c.FK_OrderNumber,
+                                                          NumberAndTitle = c.Number + " :: " + c.Title
+                                                      }), "ID_Value", "NumberAndTitle", timeRegistration.FK_OrderId);
+
+                //Check to see if this user as any assigned projects/ordernumbers. If not they get access to all order numbers
+                if (OrderNumberList.Count() >= 1)
+                {
+                    ViewBag.FK_OrderId = OrderNumberList;
+                }
+                else
+                {
+                    ViewBag.FK_OrderId = new SelectList((from c in db.VI_OrderNumber
+                                                         select new
+                                                         {
+                                                             ID_Value = c.PK_Id,
+                                                             NumberAndTitle = c.Number + " :: " + c.Title
+                                                         }), "ID_Value", "NumberAndTitle", timeRegistration.FK_OrderId);
+                }
+
                 ViewBag.FK_ProjectId = new SelectList(db.VI_Projects.Where(m => m.FK_OrderNumber == timeRegistration.FK_OrderId), "PK_Id", "Name", timeRegistration.FK_ProjectId);
             }
 

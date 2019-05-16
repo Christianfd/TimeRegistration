@@ -30,7 +30,6 @@ namespace TimeReg
         public virtual DbSet<Comments> Comments { get; set; }
         public virtual DbSet<Country> Country { get; set; }
         public virtual DbSet<CustomerRef> CustomerRef { get; set; }
-        public virtual DbSet<OrderNumber> OrderNumber { get; set; }
         public virtual DbSet<PlatformOrProduct> PlatformOrProduct { get; set; }
         public virtual DbSet<Projects> Projects { get; set; }
         public virtual DbSet<Requester> Requester { get; set; }
@@ -43,7 +42,6 @@ namespace TimeReg
         public virtual DbSet<Users> Users { get; set; }
         public virtual DbSet<VI_Comments> VI_Comments { get; set; }
         public virtual DbSet<VI_CustomerRef> VI_CustomerRef { get; set; }
-        public virtual DbSet<VI_OrderNumber> VI_OrderNumber { get; set; }
         public virtual DbSet<VI_ProjectAndOrderTools> VI_ProjectAndOrderTools { get; set; }
         public virtual DbSet<VI_Projects> VI_Projects { get; set; }
         public virtual DbSet<VI_Requester> VI_Requester { get; set; }
@@ -58,6 +56,8 @@ namespace TimeReg
         public virtual DbSet<VI_PlatformOrProduct> VI_PlatformOrProduct { get; set; }
         public virtual DbSet<VI_Turbine> VI_Turbine { get; set; }
         public virtual DbSet<VI_ProjectAndOrderToolsUnion> VI_ProjectAndOrderToolsUnion { get; set; }
+        public virtual DbSet<OrderNumber> OrderNumber { get; set; }
+        public virtual DbSet<VI_OrderNumber> VI_OrderNumber { get; set; }
     
         public virtual int SP_AddComment(Nullable<int> weekNumber, Nullable<int> year, string text, Nullable<int> projectKey, Nullable<int> userKey)
         {
@@ -144,7 +144,7 @@ namespace TimeReg
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_RemoveComment", removeIdParameter);
         }
     
-        public virtual int SP_AddProject(string projectName, Nullable<int> orderNumber, Nullable<int> timeEstimation, Nullable<int> fK_ProjectLeader, string scope, Nullable<int> timeType, string siteOrVersion, Nullable<int> fK_Country, Nullable<int> fK_PlatformOrProduct, Nullable<int> fK_Turbine, string projectComment)
+        public virtual int SP_AddProject(string projectName, Nullable<int> orderNumber, Nullable<int> timeEstimation, Nullable<int> fK_ProjectLeader, string scope, Nullable<int> timeType, string siteOrVersion, Nullable<int> fK_Country, Nullable<int> fK_PlatformOrProduct, Nullable<int> fK_Turbine, string projectComment, Nullable<int> fK_RequestOrg, Nullable<int> fK_Requester, Nullable<int> fK_CustomerRef)
         {
             var projectNameParameter = projectName != null ?
                 new ObjectParameter("ProjectName", projectName) :
@@ -190,7 +190,19 @@ namespace TimeReg
                 new ObjectParameter("ProjectComment", projectComment) :
                 new ObjectParameter("ProjectComment", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_AddProject", projectNameParameter, orderNumberParameter, timeEstimationParameter, fK_ProjectLeaderParameter, scopeParameter, timeTypeParameter, siteOrVersionParameter, fK_CountryParameter, fK_PlatformOrProductParameter, fK_TurbineParameter, projectCommentParameter);
+            var fK_RequestOrgParameter = fK_RequestOrg.HasValue ?
+                new ObjectParameter("FK_RequestOrg", fK_RequestOrg) :
+                new ObjectParameter("FK_RequestOrg", typeof(int));
+    
+            var fK_RequesterParameter = fK_Requester.HasValue ?
+                new ObjectParameter("FK_Requester", fK_Requester) :
+                new ObjectParameter("FK_Requester", typeof(int));
+    
+            var fK_CustomerRefParameter = fK_CustomerRef.HasValue ?
+                new ObjectParameter("FK_CustomerRef", fK_CustomerRef) :
+                new ObjectParameter("FK_CustomerRef", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_AddProject", projectNameParameter, orderNumberParameter, timeEstimationParameter, fK_ProjectLeaderParameter, scopeParameter, timeTypeParameter, siteOrVersionParameter, fK_CountryParameter, fK_PlatformOrProductParameter, fK_TurbineParameter, projectCommentParameter, fK_RequestOrgParameter, fK_RequesterParameter, fK_CustomerRefParameter);
         }
     
         public virtual int SP_RemoveProject(Nullable<int> removeId)
@@ -202,7 +214,7 @@ namespace TimeReg
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_RemoveProject", removeIdParameter);
         }
     
-        public virtual int SP_UpdateProject(Nullable<int> updateId, string projectName, Nullable<int> orderNumber, Nullable<int> timeEstimation, Nullable<int> fK_ProjectLeader, string scope, Nullable<int> timeType, string siteOrVersion, Nullable<int> fK_Country, Nullable<int> fK_PlatformOrProduct, Nullable<int> fK_Turbine, string projectComment)
+        public virtual int SP_UpdateProject(Nullable<int> updateId, string projectName, Nullable<int> orderNumber, Nullable<int> timeEstimation, Nullable<int> fK_ProjectLeader, string scope, Nullable<int> timeType, string siteOrVersion, Nullable<int> fK_Country, Nullable<int> fK_PlatformOrProduct, Nullable<int> fK_Turbine, string projectComment, Nullable<int> fK_RequestOrg, Nullable<int> fK_Requester, Nullable<int> fK_CustomerRef)
         {
             var updateIdParameter = updateId.HasValue ?
                 new ObjectParameter("UpdateId", updateId) :
@@ -252,7 +264,19 @@ namespace TimeReg
                 new ObjectParameter("ProjectComment", projectComment) :
                 new ObjectParameter("ProjectComment", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_UpdateProject", updateIdParameter, projectNameParameter, orderNumberParameter, timeEstimationParameter, fK_ProjectLeaderParameter, scopeParameter, timeTypeParameter, siteOrVersionParameter, fK_CountryParameter, fK_PlatformOrProductParameter, fK_TurbineParameter, projectCommentParameter);
+            var fK_RequestOrgParameter = fK_RequestOrg.HasValue ?
+                new ObjectParameter("FK_RequestOrg", fK_RequestOrg) :
+                new ObjectParameter("FK_RequestOrg", typeof(int));
+    
+            var fK_RequesterParameter = fK_Requester.HasValue ?
+                new ObjectParameter("FK_Requester", fK_Requester) :
+                new ObjectParameter("FK_Requester", typeof(int));
+    
+            var fK_CustomerRefParameter = fK_CustomerRef.HasValue ?
+                new ObjectParameter("FK_CustomerRef", fK_CustomerRef) :
+                new ObjectParameter("FK_CustomerRef", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_UpdateProject", updateIdParameter, projectNameParameter, orderNumberParameter, timeEstimationParameter, fK_ProjectLeaderParameter, scopeParameter, timeTypeParameter, siteOrVersionParameter, fK_CountryParameter, fK_PlatformOrProductParameter, fK_TurbineParameter, projectCommentParameter, fK_RequestOrgParameter, fK_RequesterParameter, fK_CustomerRefParameter);
         }
     
         public virtual int SP_AddTimeRegistration(Nullable<int> userId, Nullable<int> projectId, Nullable<int> orderId, Nullable<int> taskId, Nullable<int> timeRegistered, Nullable<System.DateTime> date, Nullable<System.DateTime> dateEntry, string comment)
@@ -407,29 +431,17 @@ namespace TimeReg
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_UpdateUserAssignment", updateIdParameter, userIdParameter, projectIdParameter);
         }
     
-        public virtual int SP_AddOrderNumber(string numberName, Nullable<int> fK_RequestOrg, Nullable<int> fK_Requester, Nullable<int> fK_CustomerRef, string title)
+        public virtual int SP_AddOrderNumber(string numberName, string title)
         {
             var numberNameParameter = numberName != null ?
                 new ObjectParameter("NumberName", numberName) :
                 new ObjectParameter("NumberName", typeof(string));
     
-            var fK_RequestOrgParameter = fK_RequestOrg.HasValue ?
-                new ObjectParameter("FK_RequestOrg", fK_RequestOrg) :
-                new ObjectParameter("FK_RequestOrg", typeof(int));
-    
-            var fK_RequesterParameter = fK_Requester.HasValue ?
-                new ObjectParameter("FK_Requester", fK_Requester) :
-                new ObjectParameter("FK_Requester", typeof(int));
-    
-            var fK_CustomerRefParameter = fK_CustomerRef.HasValue ?
-                new ObjectParameter("FK_CustomerRef", fK_CustomerRef) :
-                new ObjectParameter("FK_CustomerRef", typeof(int));
-    
             var titleParameter = title != null ?
                 new ObjectParameter("title", title) :
                 new ObjectParameter("title", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_AddOrderNumber", numberNameParameter, fK_RequestOrgParameter, fK_RequesterParameter, fK_CustomerRefParameter, titleParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_AddOrderNumber", numberNameParameter, titleParameter);
         }
     
         public virtual int SP_RemoveOrderNumber(Nullable<int> removeId)
@@ -441,7 +453,7 @@ namespace TimeReg
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_RemoveOrderNumber", removeIdParameter);
         }
     
-        public virtual int SP_UpdateOrderNumber(Nullable<int> updateId, string orderNumberName, Nullable<int> fK_RequestOrg, Nullable<int> fK_Requester, Nullable<int> fK_CustomerRef, string title)
+        public virtual int SP_UpdateOrderNumber(Nullable<int> updateId, string orderNumberName, string title)
         {
             var updateIdParameter = updateId.HasValue ?
                 new ObjectParameter("UpdateId", updateId) :
@@ -451,23 +463,11 @@ namespace TimeReg
                 new ObjectParameter("OrderNumberName", orderNumberName) :
                 new ObjectParameter("OrderNumberName", typeof(string));
     
-            var fK_RequestOrgParameter = fK_RequestOrg.HasValue ?
-                new ObjectParameter("FK_RequestOrg", fK_RequestOrg) :
-                new ObjectParameter("FK_RequestOrg", typeof(int));
-    
-            var fK_RequesterParameter = fK_Requester.HasValue ?
-                new ObjectParameter("FK_Requester", fK_Requester) :
-                new ObjectParameter("FK_Requester", typeof(int));
-    
-            var fK_CustomerRefParameter = fK_CustomerRef.HasValue ?
-                new ObjectParameter("FK_CustomerRef", fK_CustomerRef) :
-                new ObjectParameter("FK_CustomerRef", typeof(int));
-    
             var titleParameter = title != null ?
                 new ObjectParameter("title", title) :
                 new ObjectParameter("title", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_UpdateOrderNumber", updateIdParameter, orderNumberNameParameter, fK_RequestOrgParameter, fK_RequesterParameter, fK_CustomerRefParameter, titleParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_UpdateOrderNumber", updateIdParameter, orderNumberNameParameter, titleParameter);
         }
     
         public virtual int SP_AddTimeType(string timeTypeName)

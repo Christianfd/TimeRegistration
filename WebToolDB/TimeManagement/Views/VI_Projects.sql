@@ -16,7 +16,17 @@
 	  ,[PlatformOrProduct].[ProductName] as [PlatformOrProductName]
 	  ,[FK_Turbine]
 	  ,[Turbine].[TurbineName]
-	  ,[ProjectComment]
+	  ,[ProjectComment]	  
+	  
+
+	  ,[FK_RequestOrg]
+	  ,[Organization]
+	  ,[FK_Requester]
+	  ,[Requester].[Name] as [RequesterName]
+	  ,[FK_CustomerRef]
+	  ,[CustomerRef].[Name] as [CustomerRefName]
+
+
 	  ,COALESCE(SUM([TimeManagement].[TimeRegistration].[Time]),0) as [timeSum]
   FROM [Projects]
   JOIN [Users] ON [Projects].[FK_ProjectLeader] = [Users].[PK_Id]
@@ -26,6 +36,13 @@
   JOIN [Country] ON [Projects].[FK_Country] = [Country].[PK_Id]
   JOIN [PlatformOrProduct] ON [Projects].[FK_PlatformOrProduct] = [PlatformOrProduct].[PK_Id]
   JOIN [Turbine] ON [Projects].[FK_Turbine] = [Turbine].[PK_Id]
+
+
+  JOIN [RequestOrg] on [Projects].[FK_RequestOrg] = [RequestOrg].[PK_Id]
+  JOIN [Requester] on [Projects].[FK_Requester] = [Requester].[PK_Id]
+  JOIN [CustomerRef] on [Projects].[FK_CustomerRef] = [CustomerRef].[PK_Id]
+
+
   Group By
   [Projects].[PK_Id],[Projects].[Name]
 	  ,[FK_OrderNumber]
@@ -44,4 +61,10 @@
 	  ,[FK_Turbine]
 	  ,[Turbine].[TurbineName]
 	  ,[ProjectComment]
+	  ,[FK_RequestOrg]
+	  ,[Organization]
+	  ,[FK_Requester]
+	  ,[Requester].[Name] 
+	  ,[FK_CustomerRef]
+	  ,[CustomerRef].[Name]
 

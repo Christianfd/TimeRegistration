@@ -1,4 +1,4 @@
-﻿@model TimeReg.ViewModels.TimeRegistrationViewModel
+﻿@model List<TimeReg.ViewModels.TimeRegistrationViewModel>
 <table class="table">
     <tr>
         <th>
@@ -26,7 +26,7 @@
         <th></th>
     </tr>
 
-    @foreach (var item in Model.VI_TimeRegistration_List)
+    @foreach (var item in Model)
     {
         <tr>
             <td>

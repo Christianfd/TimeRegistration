@@ -37,9 +37,6 @@
           </Key>
           <Property Name="PK_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Number" Type="nvarchar" MaxLength="1000" Nullable="false" />
-          <Property Name="FK_RequestOrg" Type="int" Nullable="false" />
-          <Property Name="FK_Requester" Type="int" Nullable="false" />
-          <Property Name="FK_CustomerRef" Type="int" Nullable="false" />
           <Property Name="Title" Type="nvarchar" MaxLength="100" Nullable="false" />
         </EntityType>
         <EntityType Name="PlatformOrProduct">
@@ -66,6 +63,9 @@
           <Property Name="FK_Country" Type="int" Nullable="false" />
           <Property Name="FK_PlatformOrProduct" Type="int" Nullable="false" />
           <Property Name="FK_Turbine" Type="int" Nullable="false" />
+          <Property Name="FK_RequestOrg" Type="int" Nullable="false" />
+          <Property Name="FK_Requester" Type="int" Nullable="false" />
+          <Property Name="FK_CustomerRef" Type="int" Nullable="false" />
           <Property Name="ProjectComment" Type="nvarchar" MaxLength="1000" Nullable="false" />
         </EntityType>
         <EntityType Name="Requester">
@@ -184,22 +184,10 @@ warning 6002: The table/view 'WebTool.TimeManagement.VI_OrderNumber' does not ha
           <Key>
             <PropertyRef Name="PK_Id" />
             <PropertyRef Name="Number" />
-            <PropertyRef Name="FK_RequestOrg" />
-            <PropertyRef Name="Organization" />
-            <PropertyRef Name="FK_Requester" />
-            <PropertyRef Name="RequesterName" />
-            <PropertyRef Name="FK_CustomerRef" />
-            <PropertyRef Name="CustomerRefName" />
             <PropertyRef Name="Title" />
           </Key>
-          <Property Name="PK_Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="PK_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Number" Type="nvarchar" MaxLength="1000" Nullable="false" />
-          <Property Name="FK_RequestOrg" Type="int" Nullable="false" />
-          <Property Name="Organization" Type="nvarchar" MaxLength="100" Nullable="false" />
-          <Property Name="FK_Requester" Type="int" Nullable="false" />
-          <Property Name="RequesterName" Type="nvarchar" MaxLength="100" Nullable="false" />
-          <Property Name="FK_CustomerRef" Type="int" Nullable="false" />
-          <Property Name="CustomerRefName" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="Title" Type="nvarchar" MaxLength="100" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
@@ -265,6 +253,12 @@ warning 6002: The table/view 'WebTool.TimeManagement.VI_Projects' does not have 
             <PropertyRef Name="FK_Turbine" />
             <PropertyRef Name="TurbineName" />
             <PropertyRef Name="ProjectComment" />
+            <PropertyRef Name="FK_RequestOrg" />
+            <PropertyRef Name="Organization" />
+            <PropertyRef Name="FK_Requester" />
+            <PropertyRef Name="RequesterName" />
+            <PropertyRef Name="FK_CustomerRef" />
+            <PropertyRef Name="CustomerRefName" />
           </Key>
           <Property Name="PK_Id" Type="int" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="150" Nullable="false" />
@@ -284,6 +278,12 @@ warning 6002: The table/view 'WebTool.TimeManagement.VI_Projects' does not have 
           <Property Name="FK_Turbine" Type="int" Nullable="false" />
           <Property Name="TurbineName" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="ProjectComment" Type="nvarchar" MaxLength="1000" Nullable="false" />
+          <Property Name="FK_RequestOrg" Type="int" Nullable="false" />
+          <Property Name="Organization" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="FK_Requester" Type="int" Nullable="false" />
+          <Property Name="RequesterName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="FK_CustomerRef" Type="int" Nullable="false" />
+          <Property Name="CustomerRefName" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="timeSum" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
@@ -441,42 +441,6 @@ warning 6002: The table/view 'WebTool.TimeManagement.VI_UserTimePerProject' does
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_OrderNumber_CustomerRef">
-          <End Role="CustomerRef" Type="Self.CustomerRef" Multiplicity="1" />
-          <End Role="OrderNumber" Type="Self.OrderNumber" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CustomerRef">
-              <PropertyRef Name="PK_Id" />
-            </Principal>
-            <Dependent Role="OrderNumber">
-              <PropertyRef Name="FK_CustomerRef" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_OrderNumber_Requester">
-          <End Role="Requester" Type="Self.Requester" Multiplicity="1" />
-          <End Role="OrderNumber" Type="Self.OrderNumber" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Requester">
-              <PropertyRef Name="PK_Id" />
-            </Principal>
-            <Dependent Role="OrderNumber">
-              <PropertyRef Name="FK_Requester" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_OrderNumber_RequestOrg">
-          <End Role="RequestOrg" Type="Self.RequestOrg" Multiplicity="1" />
-          <End Role="OrderNumber" Type="Self.OrderNumber" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="RequestOrg">
-              <PropertyRef Name="PK_Id" />
-            </Principal>
-            <Dependent Role="OrderNumber">
-              <PropertyRef Name="FK_RequestOrg" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Projects_Country">
           <End Role="Country" Type="Self.Country" Multiplicity="1" />
           <End Role="Projects" Type="Self.Projects" Multiplicity="*" />
@@ -486,6 +450,18 @@ warning 6002: The table/view 'WebTool.TimeManagement.VI_UserTimePerProject' does
             </Principal>
             <Dependent Role="Projects">
               <PropertyRef Name="FK_Country" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Projects_CustomerRef">
+          <End Role="CustomerRef" Type="Self.CustomerRef" Multiplicity="1" />
+          <End Role="Projects" Type="Self.Projects" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CustomerRef">
+              <PropertyRef Name="PK_Id" />
+            </Principal>
+            <Dependent Role="Projects">
+              <PropertyRef Name="FK_CustomerRef" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -510,6 +486,30 @@ warning 6002: The table/view 'WebTool.TimeManagement.VI_UserTimePerProject' does
             </Principal>
             <Dependent Role="Projects">
               <PropertyRef Name="FK_PlatformOrProduct" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Projects_Requester">
+          <End Role="Requester" Type="Self.Requester" Multiplicity="1" />
+          <End Role="Projects" Type="Self.Projects" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Requester">
+              <PropertyRef Name="PK_Id" />
+            </Principal>
+            <Dependent Role="Projects">
+              <PropertyRef Name="FK_Requester" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Projects_RequestOrg">
+          <End Role="RequestOrg" Type="Self.RequestOrg" Multiplicity="1" />
+          <End Role="Projects" Type="Self.Projects" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RequestOrg">
+              <PropertyRef Name="PK_Id" />
+            </Principal>
+            <Dependent Role="Projects">
+              <PropertyRef Name="FK_RequestOrg" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -628,9 +628,6 @@ warning 6002: The table/view 'WebTool.TimeManagement.VI_UserTimePerProject' does
         </Function>
         <Function Name="SP_AddOrderNumber" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="TimeManagement">
           <Parameter Name="NumberName" Type="nvarchar" Mode="In" />
-          <Parameter Name="FK_RequestOrg" Type="int" Mode="In" />
-          <Parameter Name="FK_Requester" Type="int" Mode="In" />
-          <Parameter Name="FK_CustomerRef" Type="int" Mode="In" />
           <Parameter Name="title" Type="nvarchar" Mode="In" />
         </Function>
         <Function Name="SP_AddPlatformOrProduct" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="TimeManagement">
@@ -648,6 +645,9 @@ warning 6002: The table/view 'WebTool.TimeManagement.VI_UserTimePerProject' does
           <Parameter Name="FK_PlatformOrProduct" Type="int" Mode="In" />
           <Parameter Name="FK_Turbine" Type="int" Mode="In" />
           <Parameter Name="ProjectComment" Type="nvarchar" Mode="In" />
+          <Parameter Name="FK_RequestOrg" Type="int" Mode="In" />
+          <Parameter Name="FK_Requester" Type="int" Mode="In" />
+          <Parameter Name="FK_CustomerRef" Type="int" Mode="In" />
         </Function>
         <Function Name="SP_AddRequester" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="TimeManagement">
           <Parameter Name="Name" Type="nvarchar" Mode="In" />
@@ -736,9 +736,6 @@ warning 6002: The table/view 'WebTool.TimeManagement.VI_UserTimePerProject' does
         <Function Name="SP_UpdateOrderNumber" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="TimeManagement">
           <Parameter Name="UpdateId" Type="int" Mode="In" />
           <Parameter Name="OrderNumberName" Type="nvarchar" Mode="In" />
-          <Parameter Name="FK_RequestOrg" Type="int" Mode="In" />
-          <Parameter Name="FK_Requester" Type="int" Mode="In" />
-          <Parameter Name="FK_CustomerRef" Type="int" Mode="In" />
           <Parameter Name="title" Type="nvarchar" Mode="In" />
         </Function>
         <Function Name="SP_UpdatePlatformOrProduct" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="TimeManagement">
@@ -758,6 +755,9 @@ warning 6002: The table/view 'WebTool.TimeManagement.VI_UserTimePerProject' does
           <Parameter Name="FK_PlatformOrProduct" Type="int" Mode="In" />
           <Parameter Name="FK_Turbine" Type="int" Mode="In" />
           <Parameter Name="ProjectComment" Type="nvarchar" Mode="In" />
+          <Parameter Name="FK_RequestOrg" Type="int" Mode="In" />
+          <Parameter Name="FK_Requester" Type="int" Mode="In" />
+          <Parameter Name="FK_CustomerRef" Type="int" Mode="In" />
         </Function>
         <Function Name="SP_UpdateRequester" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="TimeManagement">
           <Parameter Name="UpdateId" Type="int" Mode="In" />
@@ -844,12 +844,6 @@ warning 6002: The table/view 'WebTool.TimeManagement.VI_UserTimePerProject' does
             <DefiningQuery>SELECT 
     [VI_OrderNumber].[PK_Id] AS [PK_Id], 
     [VI_OrderNumber].[Number] AS [Number], 
-    [VI_OrderNumber].[FK_RequestOrg] AS [FK_RequestOrg], 
-    [VI_OrderNumber].[Organization] AS [Organization], 
-    [VI_OrderNumber].[FK_Requester] AS [FK_Requester], 
-    [VI_OrderNumber].[RequesterName] AS [RequesterName], 
-    [VI_OrderNumber].[FK_CustomerRef] AS [FK_CustomerRef], 
-    [VI_OrderNumber].[CustomerRefName] AS [CustomerRefName], 
     [VI_OrderNumber].[Title] AS [Title]
     FROM [TimeManagement].[VI_OrderNumber] AS [VI_OrderNumber]</DefiningQuery>
           </EntitySet>
@@ -897,6 +891,12 @@ warning 6002: The table/view 'WebTool.TimeManagement.VI_UserTimePerProject' does
     [VI_Projects].[FK_Turbine] AS [FK_Turbine], 
     [VI_Projects].[TurbineName] AS [TurbineName], 
     [VI_Projects].[ProjectComment] AS [ProjectComment], 
+    [VI_Projects].[FK_RequestOrg] AS [FK_RequestOrg], 
+    [VI_Projects].[Organization] AS [Organization], 
+    [VI_Projects].[FK_Requester] AS [FK_Requester], 
+    [VI_Projects].[RequesterName] AS [RequesterName], 
+    [VI_Projects].[FK_CustomerRef] AS [FK_CustomerRef], 
+    [VI_Projects].[CustomerRefName] AS [CustomerRefName], 
     [VI_Projects].[timeSum] AS [timeSum]
     FROM [TimeManagement].[VI_Projects] AS [VI_Projects]</DefiningQuery>
           </EntitySet>
@@ -983,20 +983,12 @@ warning 6002: The table/view 'WebTool.TimeManagement.VI_UserTimePerProject' does
             <End Role="Users" EntitySet="Users" />
             <End Role="Comments" EntitySet="Comments" />
           </AssociationSet>
-          <AssociationSet Name="FK_OrderNumber_CustomerRef" Association="Self.FK_OrderNumber_CustomerRef">
-            <End Role="CustomerRef" EntitySet="CustomerRef" />
-            <End Role="OrderNumber" EntitySet="OrderNumber" />
-          </AssociationSet>
-          <AssociationSet Name="FK_OrderNumber_Requester" Association="Self.FK_OrderNumber_Requester">
-            <End Role="Requester" EntitySet="Requester" />
-            <End Role="OrderNumber" EntitySet="OrderNumber" />
-          </AssociationSet>
-          <AssociationSet Name="FK_OrderNumber_RequestOrg" Association="Self.FK_OrderNumber_RequestOrg">
-            <End Role="RequestOrg" EntitySet="RequestOrg" />
-            <End Role="OrderNumber" EntitySet="OrderNumber" />
-          </AssociationSet>
           <AssociationSet Name="FK_Projects_Country" Association="Self.FK_Projects_Country">
             <End Role="Country" EntitySet="Country" />
+            <End Role="Projects" EntitySet="Projects" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Projects_CustomerRef" Association="Self.FK_Projects_CustomerRef">
+            <End Role="CustomerRef" EntitySet="CustomerRef" />
             <End Role="Projects" EntitySet="Projects" />
           </AssociationSet>
           <AssociationSet Name="FK_Projects_OrderNumber" Association="Self.FK_Projects_OrderNumber">
@@ -1005,6 +997,14 @@ warning 6002: The table/view 'WebTool.TimeManagement.VI_UserTimePerProject' does
           </AssociationSet>
           <AssociationSet Name="FK_Projects_PlatformOrProduct" Association="Self.FK_Projects_PlatformOrProduct">
             <End Role="PlatformOrProduct" EntitySet="PlatformOrProduct" />
+            <End Role="Projects" EntitySet="Projects" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Projects_Requester" Association="Self.FK_Projects_Requester">
+            <End Role="Requester" EntitySet="Requester" />
+            <End Role="Projects" EntitySet="Projects" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Projects_RequestOrg" Association="Self.FK_Projects_RequestOrg">
+            <End Role="RequestOrg" EntitySet="RequestOrg" />
             <End Role="Projects" EntitySet="Projects" />
           </AssociationSet>
           <AssociationSet Name="FK_Projects_TimeType" Association="Self.FK_Projects_TimeType">
@@ -1082,6 +1082,9 @@ warning 6002: The table/view 'WebTool.TimeManagement.VI_UserTimePerProject' does
             <Parameter Name="FK_PlatformOrProduct" Mode="In" Type="Int32" />
             <Parameter Name="FK_Turbine" Mode="In" Type="Int32" />
             <Parameter Name="ProjectComment" Mode="In" Type="String" />
+            <Parameter Name="FK_RequestOrg" Mode="In" Type="Int32" />
+            <Parameter Name="FK_Requester" Mode="In" Type="Int32" />
+            <Parameter Name="FK_CustomerRef" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="SP_RemoveProject">
           <Parameter Name="RemoveId" Mode="In" Type="Int32" />
@@ -1099,6 +1102,9 @@ warning 6002: The table/view 'WebTool.TimeManagement.VI_UserTimePerProject' does
             <Parameter Name="FK_PlatformOrProduct" Mode="In" Type="Int32" />
             <Parameter Name="FK_Turbine" Mode="In" Type="Int32" />
             <Parameter Name="ProjectComment" Mode="In" Type="String" />
+            <Parameter Name="FK_RequestOrg" Mode="In" Type="Int32" />
+            <Parameter Name="FK_Requester" Mode="In" Type="Int32" />
+            <Parameter Name="FK_CustomerRef" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="SP_AddTimeRegistration">
             <Parameter Name="UserId" Mode="In" Type="Int32" />
@@ -1146,9 +1152,6 @@ warning 6002: The table/view 'WebTool.TimeManagement.VI_UserTimePerProject' does
           </FunctionImport>
           <FunctionImport Name="SP_AddOrderNumber">
             <Parameter Name="NumberName" Mode="In" Type="String" />
-            <Parameter Name="FK_RequestOrg" Mode="In" Type="Int32" />
-            <Parameter Name="FK_Requester" Mode="In" Type="Int32" />
-            <Parameter Name="FK_CustomerRef" Mode="In" Type="Int32" />
             <Parameter Name="title" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="SP_RemoveOrderNumber">
@@ -1157,9 +1160,6 @@ warning 6002: The table/view 'WebTool.TimeManagement.VI_UserTimePerProject' does
           <FunctionImport Name="SP_UpdateOrderNumber">
             <Parameter Name="UpdateId" Mode="In" Type="Int32" />
             <Parameter Name="OrderNumberName" Mode="In" Type="String" />
-            <Parameter Name="FK_RequestOrg" Mode="In" Type="Int32" />
-            <Parameter Name="FK_Requester" Mode="In" Type="Int32" />
-            <Parameter Name="FK_CustomerRef" Mode="In" Type="Int32" />
             <Parameter Name="title" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="SP_AddTimeType">
@@ -1175,7 +1175,6 @@ warning 6002: The table/view 'WebTool.TimeManagement.VI_UserTimePerProject' does
           <EntitySet Name="Comments" EntityType="WebToolModel.Comments" />
           <EntitySet Name="Country" EntityType="WebToolModel.Country" />
           <EntitySet Name="CustomerRef" EntityType="WebToolModel.CustomerRef" />
-          <EntitySet Name="OrderNumber" EntityType="WebToolModel.OrderNumber" />
           <EntitySet Name="PlatformOrProduct" EntityType="WebToolModel.PlatformOrProduct" />
           <EntitySet Name="Projects" EntityType="WebToolModel.Projects" />
           <EntitySet Name="Requester" EntityType="WebToolModel.Requester" />
@@ -1188,7 +1187,6 @@ warning 6002: The table/view 'WebTool.TimeManagement.VI_UserTimePerProject' does
           <EntitySet Name="Users" EntityType="WebToolModel.Users" />
           <EntitySet Name="VI_Comments" EntityType="WebToolModel.VI_Comments" />
           <EntitySet Name="VI_CustomerRef" EntityType="WebToolModel.VI_CustomerRef" />
-          <EntitySet Name="VI_OrderNumber" EntityType="WebToolModel.VI_OrderNumber" />
           <EntitySet Name="VI_ProjectAndOrderTools" EntityType="WebToolModel.VI_ProjectAndOrderTools" />
           <EntitySet Name="VI_Projects" EntityType="WebToolModel.VI_Projects" />
           <EntitySet Name="VI_Requester" EntityType="WebToolModel.VI_Requester" />
@@ -1206,10 +1204,6 @@ warning 6002: The table/view 'WebTool.TimeManagement.VI_UserTimePerProject' does
           <AssociationSet Name="FK_Comments_Users" Association="WebToolModel.FK_Comments_Users">
             <End Role="Users" EntitySet="Users" />
             <End Role="Comments" EntitySet="Comments" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Projects_OrderNumber" Association="WebToolModel.FK_Projects_OrderNumber">
-            <End Role="OrderNumber" EntitySet="OrderNumber" />
-            <End Role="Projects" EntitySet="Projects" />
           </AssociationSet>
           <AssociationSet Name="FK_Projects_TimeType" Association="WebToolModel.FK_Projects_TimeType">
             <End Role="TimeType" EntitySet="TimeType" />
@@ -1246,18 +1240,6 @@ warning 6002: The table/view 'WebTool.TimeManagement.VI_UserTimePerProject' does
           <AssociationSet Name="FK_Projects_Country" Association="WebToolModel.FK_Projects_Country">
             <End Role="Country" EntitySet="Country" />
             <End Role="Projects" EntitySet="Projects" />
-          </AssociationSet>
-          <AssociationSet Name="FK_OrderNumber_CustomerRef" Association="WebToolModel.FK_OrderNumber_CustomerRef">
-            <End Role="CustomerRef" EntitySet="CustomerRef" />
-            <End Role="OrderNumber" EntitySet="OrderNumber" />
-          </AssociationSet>
-          <AssociationSet Name="FK_OrderNumber_Requester" Association="WebToolModel.FK_OrderNumber_Requester">
-            <End Role="Requester" EntitySet="Requester" />
-            <End Role="OrderNumber" EntitySet="OrderNumber" />
-          </AssociationSet>
-          <AssociationSet Name="FK_OrderNumber_RequestOrg" Association="WebToolModel.FK_OrderNumber_RequestOrg">
-            <End Role="RequestOrg" EntitySet="RequestOrg" />
-            <End Role="OrderNumber" EntitySet="OrderNumber" />
           </AssociationSet>
           <AssociationSet Name="FK_Projects_PlatformOrProduct" Association="WebToolModel.FK_Projects_PlatformOrProduct">
             <End Role="PlatformOrProduct" EntitySet="PlatformOrProduct" />
@@ -1332,6 +1314,24 @@ warning 6002: The table/view 'WebTool.TimeManagement.VI_UserTimePerProject' does
             <Parameter Name="Name" Mode="In" Type="String" />
             <Parameter Name="Auth" Mode="In" Type="String" />
           </FunctionImport>
+          <AssociationSet Name="FK_Projects_CustomerRef" Association="WebToolModel.FK_Projects_CustomerRef">
+            <End Role="CustomerRef" EntitySet="CustomerRef" />
+            <End Role="Projects" EntitySet="Projects" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Projects_Requester" Association="WebToolModel.FK_Projects_Requester">
+            <End Role="Requester" EntitySet="Requester" />
+            <End Role="Projects" EntitySet="Projects" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Projects_RequestOrg" Association="WebToolModel.FK_Projects_RequestOrg">
+            <End Role="RequestOrg" EntitySet="RequestOrg" />
+            <End Role="Projects" EntitySet="Projects" />
+          </AssociationSet>
+          <EntitySet Name="OrderNumber" EntityType="WebToolModel.OrderNumber" />
+          <AssociationSet Name="FK_Projects_OrderNumber" Association="WebToolModel.FK_Projects_OrderNumber">
+            <End Role="OrderNumber" EntitySet="OrderNumber" />
+            <End Role="Projects" EntitySet="Projects" />
+          </AssociationSet>
+          <EntitySet Name="VI_OrderNumber" EntityType="WebToolModel.VI_OrderNumber" />
           </EntityContainer>
         <EntityType Name="Comments">
           <Key>
@@ -1361,22 +1361,7 @@ warning 6002: The table/view 'WebTool.TimeManagement.VI_UserTimePerProject' does
           </Key>
           <Property Name="PK_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="OrderNumber" Relationship="WebToolModel.FK_OrderNumber_CustomerRef" FromRole="CustomerRef" ToRole="OrderNumber" />
-        </EntityType>
-        <EntityType Name="OrderNumber">
-          <Key>
-            <PropertyRef Name="PK_Id" />
-          </Key>
-          <Property Name="PK_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Number" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Name="FK_RequestOrg" Type="Int32" Nullable="false" />
-          <Property Name="FK_Requester" Type="Int32" Nullable="false" />
-          <Property Name="FK_CustomerRef" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Projects" Relationship="WebToolModel.FK_Projects_OrderNumber" FromRole="OrderNumber" ToRole="Projects" />
-          <NavigationProperty Name="CustomerRef" Relationship="WebToolModel.FK_OrderNumber_CustomerRef" FromRole="OrderNumber" ToRole="CustomerRef" />
-          <NavigationProperty Name="Requester" Relationship="WebToolModel.FK_OrderNumber_Requester" FromRole="OrderNumber" ToRole="Requester" />
-          <NavigationProperty Name="RequestOrg" Relationship="WebToolModel.FK_OrderNumber_RequestOrg" FromRole="OrderNumber" ToRole="RequestOrg" />
-          <Property Name="Title" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Projects" Relationship="WebToolModel.FK_Projects_CustomerRef" FromRole="CustomerRef" ToRole="Projects" />
         </EntityType>
         <EntityType Name="PlatformOrProduct">
           <Key>
@@ -1404,7 +1389,6 @@ warning 6002: The table/view 'WebTool.TimeManagement.VI_UserTimePerProject' does
           <Property Name="FK_PlatformOrProduct" Type="Int32" Nullable="false" />
           <Property Name="FK_Turbine" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Comments" Relationship="WebToolModel.FK_Comments_Projects" FromRole="Projects" ToRole="Comments" />
-          <NavigationProperty Name="OrderNumber" Relationship="WebToolModel.FK_Projects_OrderNumber" FromRole="Projects" ToRole="OrderNumber" />
           <NavigationProperty Name="TimeType" Relationship="WebToolModel.FK_Projects_TimeType" FromRole="Projects" ToRole="TimeType" />
           <NavigationProperty Name="Users" Relationship="WebToolModel.FK_Projects_Users" FromRole="Projects" ToRole="Users" />
           <NavigationProperty Name="TimeRegistration" Relationship="WebToolModel.FK_TimeRegistration_Projects" FromRole="Projects" ToRole="TimeRegistration" />
@@ -1413,6 +1397,13 @@ warning 6002: The table/view 'WebTool.TimeManagement.VI_UserTimePerProject' does
           <NavigationProperty Name="PlatformOrProduct" Relationship="WebToolModel.FK_Projects_PlatformOrProduct" FromRole="Projects" ToRole="PlatformOrProduct" />
           <NavigationProperty Name="Turbine" Relationship="WebToolModel.FK_Projects_Turbine" FromRole="Projects" ToRole="Turbine" />
           <Property Name="ProjectComment" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="FK_RequestOrg" Type="Int32" Nullable="false" />
+          <Property Name="FK_Requester" Type="Int32" Nullable="false" />
+          <Property Name="FK_CustomerRef" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="CustomerRef" Relationship="WebToolModel.FK_Projects_CustomerRef" FromRole="Projects" ToRole="CustomerRef" />
+          <NavigationProperty Name="Requester" Relationship="WebToolModel.FK_Projects_Requester" FromRole="Projects" ToRole="Requester" />
+          <NavigationProperty Name="RequestOrg" Relationship="WebToolModel.FK_Projects_RequestOrg" FromRole="Projects" ToRole="RequestOrg" />
+          <NavigationProperty Name="OrderNumber" Relationship="WebToolModel.FK_Projects_OrderNumber" FromRole="Projects" ToRole="OrderNumber" />
         </EntityType>
         <EntityType Name="Requester">
           <Key>
@@ -1420,7 +1411,7 @@ warning 6002: The table/view 'WebTool.TimeManagement.VI_UserTimePerProject' does
           </Key>
           <Property Name="PK_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="OrderNumber" Relationship="WebToolModel.FK_OrderNumber_Requester" FromRole="Requester" ToRole="OrderNumber" />
+          <NavigationProperty Name="Projects" Relationship="WebToolModel.FK_Projects_Requester" FromRole="Requester" ToRole="Projects" />
         </EntityType>
         <EntityType Name="RequestOrg">
           <Key>
@@ -1428,7 +1419,7 @@ warning 6002: The table/view 'WebTool.TimeManagement.VI_UserTimePerProject' does
           </Key>
           <Property Name="PK_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Organization" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="OrderNumber" Relationship="WebToolModel.FK_OrderNumber_RequestOrg" FromRole="RequestOrg" ToRole="OrderNumber" />
+          <NavigationProperty Name="Projects" Relationship="WebToolModel.FK_Projects_RequestOrg" FromRole="RequestOrg" ToRole="Projects" />
         </EntityType>
         <EntityType Name="TaskType">
           <Key>
@@ -1524,28 +1515,6 @@ warning 6002: The table/view 'WebTool.TimeManagement.VI_UserTimePerProject' does
           <Property Name="PK_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
         </EntityType>
-        <EntityType Name="VI_OrderNumber">
-          <Key>
-            <PropertyRef Name="PK_Id" />
-            <PropertyRef Name="Number" />
-            <PropertyRef Name="FK_RequestOrg" />
-            <PropertyRef Name="Organization" />
-            <PropertyRef Name="FK_Requester" />
-            <PropertyRef Name="RequesterName" />
-            <PropertyRef Name="FK_CustomerRef" />
-            <PropertyRef Name="CustomerRefName" />
-            <PropertyRef Name="Title" />
-          </Key>
-          <Property Name="PK_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Number" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Name="FK_RequestOrg" Type="Int32" Nullable="false" />
-          <Property Name="Organization" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="FK_Requester" Type="Int32" Nullable="false" />
-          <Property Name="RequesterName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="FK_CustomerRef" Type="Int32" Nullable="false" />
-          <Property Name="CustomerRefName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="Title" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
-        </EntityType>
         <EntityType Name="VI_ProjectAndOrderTools">
           <Key>
             <PropertyRef Name="Organization" />
@@ -1577,6 +1546,12 @@ warning 6002: The table/view 'WebTool.TimeManagement.VI_UserTimePerProject' does
             <PropertyRef Name="FK_Turbine" />
             <PropertyRef Name="TurbineName" />
             <PropertyRef Name="ProjectComment" />
+            <PropertyRef Name="FK_RequestOrg" />
+            <PropertyRef Name="Organization" />
+            <PropertyRef Name="FK_Requester" />
+            <PropertyRef Name="RequesterName" />
+            <PropertyRef Name="FK_CustomerRef" />
+            <PropertyRef Name="CustomerRefName" />
           </Key>
           <Property Name="PK_Id" Type="Int32" Nullable="false" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
@@ -1597,6 +1572,12 @@ warning 6002: The table/view 'WebTool.TimeManagement.VI_UserTimePerProject' does
           <Property Name="FK_Turbine" Type="Int32" Nullable="false" />
           <Property Name="TurbineName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ProjectComment" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="FK_RequestOrg" Type="Int32" Nullable="false" />
+          <Property Name="Organization" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="FK_Requester" Type="Int32" Nullable="false" />
+          <Property Name="RequesterName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="FK_CustomerRef" Type="Int32" Nullable="false" />
+          <Property Name="CustomerRefName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="VI_Requester">
           <Key>
@@ -1726,18 +1707,6 @@ warning 6002: The table/view 'WebTool.TimeManagement.VI_UserTimePerProject' does
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Projects_OrderNumber">
-          <End Type="WebToolModel.OrderNumber" Role="OrderNumber" Multiplicity="1" />
-          <End Type="WebToolModel.Projects" Role="Projects" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="OrderNumber">
-              <PropertyRef Name="PK_Id" />
-            </Principal>
-            <Dependent Role="Projects">
-              <PropertyRef Name="FK_OrderNumber" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Projects_TimeType">
           <End Type="WebToolModel.TimeType" Role="TimeType" Multiplicity="1" />
           <End Type="WebToolModel.Projects" Role="Projects" Multiplicity="*" />
@@ -1846,42 +1815,6 @@ warning 6002: The table/view 'WebTool.TimeManagement.VI_UserTimePerProject' does
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_OrderNumber_CustomerRef">
-          <End Type="WebToolModel.CustomerRef" Role="CustomerRef" Multiplicity="1" />
-          <End Type="WebToolModel.OrderNumber" Role="OrderNumber" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CustomerRef">
-              <PropertyRef Name="PK_Id" />
-            </Principal>
-            <Dependent Role="OrderNumber">
-              <PropertyRef Name="FK_CustomerRef" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_OrderNumber_Requester">
-          <End Type="WebToolModel.Requester" Role="Requester" Multiplicity="1" />
-          <End Type="WebToolModel.OrderNumber" Role="OrderNumber" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Requester">
-              <PropertyRef Name="PK_Id" />
-            </Principal>
-            <Dependent Role="OrderNumber">
-              <PropertyRef Name="FK_Requester" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_OrderNumber_RequestOrg">
-          <End Type="WebToolModel.RequestOrg" Role="RequestOrg" Multiplicity="1" />
-          <End Type="WebToolModel.OrderNumber" Role="OrderNumber" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="RequestOrg">
-              <PropertyRef Name="PK_Id" />
-            </Principal>
-            <Dependent Role="OrderNumber">
-              <PropertyRef Name="FK_RequestOrg" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Projects_PlatformOrProduct">
           <End Type="WebToolModel.PlatformOrProduct" Role="PlatformOrProduct" Multiplicity="1" />
           <End Type="WebToolModel.Projects" Role="Projects" Multiplicity="*" />
@@ -1942,6 +1875,73 @@ warning 6002: The table/view 'WebTool.TimeManagement.VI_UserTimePerProject' does
           <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="PK_Id" Type="Int32" Nullable="false" />
         </EntityType>
+        <Association Name="FK_Projects_CustomerRef">
+          <End Type="WebToolModel.CustomerRef" Role="CustomerRef" Multiplicity="1" />
+          <End Type="WebToolModel.Projects" Role="Projects" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CustomerRef">
+              <PropertyRef Name="PK_Id" />
+            </Principal>
+            <Dependent Role="Projects">
+              <PropertyRef Name="FK_CustomerRef" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Projects_Requester">
+          <End Type="WebToolModel.Requester" Role="Requester" Multiplicity="1" />
+          <End Type="WebToolModel.Projects" Role="Projects" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Requester">
+              <PropertyRef Name="PK_Id" />
+            </Principal>
+            <Dependent Role="Projects">
+              <PropertyRef Name="FK_Requester" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Projects_RequestOrg">
+          <End Type="WebToolModel.RequestOrg" Role="RequestOrg" Multiplicity="1" />
+          <End Type="WebToolModel.Projects" Role="Projects" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RequestOrg">
+              <PropertyRef Name="PK_Id" />
+            </Principal>
+            <Dependent Role="Projects">
+              <PropertyRef Name="FK_RequestOrg" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="OrderNumber">
+          <Key>
+            <PropertyRef Name="PK_Id" />
+          </Key>
+          <Property Name="PK_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Number" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Projects" Relationship="WebToolModel.FK_Projects_OrderNumber" FromRole="OrderNumber" ToRole="Projects" />
+        </EntityType>
+        <Association Name="FK_Projects_OrderNumber">
+          <End Type="WebToolModel.OrderNumber" Role="OrderNumber" Multiplicity="1" />
+          <End Type="WebToolModel.Projects" Role="Projects" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OrderNumber">
+              <PropertyRef Name="PK_Id" />
+            </Principal>
+            <Dependent Role="Projects">
+              <PropertyRef Name="FK_OrderNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="VI_OrderNumber">
+          <Key>
+            <PropertyRef Name="PK_Id" />
+            <PropertyRef Name="Number" />
+            <PropertyRef Name="Title" />
+          </Key>
+          <Property Name="PK_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Number" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1999,18 +1999,6 @@ warning 6002: The table/view 'WebTool.TimeManagement.VI_UserTimePerProject' does
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="OrderNumber">
-            <EntityTypeMapping TypeName="WebToolModel.OrderNumber">
-              <MappingFragment StoreEntitySet="OrderNumber">
-                <ScalarProperty Name="Title" ColumnName="Title" />
-                <ScalarProperty Name="FK_CustomerRef" ColumnName="FK_CustomerRef" />
-                <ScalarProperty Name="FK_Requester" ColumnName="FK_Requester" />
-                <ScalarProperty Name="FK_RequestOrg" ColumnName="FK_RequestOrg" />
-                <ScalarProperty Name="Number" ColumnName="Number" />
-                <ScalarProperty Name="PK_Id" ColumnName="PK_Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="PlatformOrProduct">
             <EntityTypeMapping TypeName="WebToolModel.PlatformOrProduct">
               <MappingFragment StoreEntitySet="PlatformOrProduct">
@@ -2022,6 +2010,9 @@ warning 6002: The table/view 'WebTool.TimeManagement.VI_UserTimePerProject' does
           <EntitySetMapping Name="Projects">
             <EntityTypeMapping TypeName="WebToolModel.Projects">
               <MappingFragment StoreEntitySet="Projects">
+                <ScalarProperty Name="FK_CustomerRef" ColumnName="FK_CustomerRef" />
+                <ScalarProperty Name="FK_Requester" ColumnName="FK_Requester" />
+                <ScalarProperty Name="FK_RequestOrg" ColumnName="FK_RequestOrg" />
                 <ScalarProperty Name="ProjectComment" ColumnName="ProjectComment" />
                 <ScalarProperty Name="FK_Turbine" ColumnName="FK_Turbine" />
                 <ScalarProperty Name="FK_PlatformOrProduct" ColumnName="FK_PlatformOrProduct" />
@@ -2135,21 +2126,6 @@ warning 6002: The table/view 'WebTool.TimeManagement.VI_UserTimePerProject' does
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="VI_OrderNumber">
-            <EntityTypeMapping TypeName="WebToolModel.VI_OrderNumber">
-              <MappingFragment StoreEntitySet="VI_OrderNumber">
-                <ScalarProperty Name="Title" ColumnName="Title" />
-                <ScalarProperty Name="CustomerRefName" ColumnName="CustomerRefName" />
-                <ScalarProperty Name="FK_CustomerRef" ColumnName="FK_CustomerRef" />
-                <ScalarProperty Name="RequesterName" ColumnName="RequesterName" />
-                <ScalarProperty Name="FK_Requester" ColumnName="FK_Requester" />
-                <ScalarProperty Name="Organization" ColumnName="Organization" />
-                <ScalarProperty Name="FK_RequestOrg" ColumnName="FK_RequestOrg" />
-                <ScalarProperty Name="Number" ColumnName="Number" />
-                <ScalarProperty Name="PK_Id" ColumnName="PK_Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="VI_ProjectAndOrderTools">
             <EntityTypeMapping TypeName="WebToolModel.VI_ProjectAndOrderTools">
               <MappingFragment StoreEntitySet="VI_ProjectAndOrderTools">
@@ -2166,6 +2142,12 @@ warning 6002: The table/view 'WebTool.TimeManagement.VI_UserTimePerProject' does
           <EntitySetMapping Name="VI_Projects">
             <EntityTypeMapping TypeName="WebToolModel.VI_Projects">
               <MappingFragment StoreEntitySet="VI_Projects">
+                <ScalarProperty Name="CustomerRefName" ColumnName="CustomerRefName" />
+                <ScalarProperty Name="FK_CustomerRef" ColumnName="FK_CustomerRef" />
+                <ScalarProperty Name="RequesterName" ColumnName="RequesterName" />
+                <ScalarProperty Name="FK_Requester" ColumnName="FK_Requester" />
+                <ScalarProperty Name="Organization" ColumnName="Organization" />
+                <ScalarProperty Name="FK_RequestOrg" ColumnName="FK_RequestOrg" />
                 <ScalarProperty Name="ProjectComment" ColumnName="ProjectComment" />
                 <ScalarProperty Name="TurbineName" ColumnName="TurbineName" />
                 <ScalarProperty Name="FK_Turbine" ColumnName="FK_Turbine" />
@@ -2325,6 +2307,24 @@ warning 6002: The table/view 'WebTool.TimeManagement.VI_UserTimePerProject' does
           <FunctionImportMapping FunctionImportName="SP_AddNewUser" FunctionName="WebToolModel.Store.SP_AddNewUser" />
           <FunctionImportMapping FunctionImportName="SP_AddTaskType" FunctionName="WebToolModel.Store.SP_AddTaskType" />
           <FunctionImportMapping FunctionImportName="SP_AddUser" FunctionName="WebToolModel.Store.SP_AddUser" />
+          <EntitySetMapping Name="OrderNumber">
+            <EntityTypeMapping TypeName="WebToolModel.OrderNumber">
+              <MappingFragment StoreEntitySet="OrderNumber">
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Number" ColumnName="Number" />
+                <ScalarProperty Name="PK_Id" ColumnName="PK_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VI_OrderNumber">
+            <EntityTypeMapping TypeName="WebToolModel.VI_OrderNumber">
+              <MappingFragment StoreEntitySet="VI_OrderNumber">
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Number" ColumnName="Number" />
+                <ScalarProperty Name="PK_Id" ColumnName="PK_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

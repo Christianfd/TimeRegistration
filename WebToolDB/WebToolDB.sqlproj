@@ -71,7 +71,6 @@
     <Folder Include="TimeManagement\Stored Procedures\UserAssignment" />
     <Folder Include="TimeManagement\Stored Procedures\OrderNumber" />
     <Folder Include="TimeManagement\Tables\OrderNumberTables" />
-    <Folder Include="TimeManagement\Views\OrderNumberTools" />
     <Folder Include="TimeManagement\Views\ProjectViewTools" />
     <Folder Include="TimeManagement\Tables\ProjectTables" />
     <Folder Include="TimeManagement\Functions\" />
@@ -132,9 +131,6 @@
     <Build Include="TimeManagement\Tables\ProjectTables\UserAssignment.sql" />
     <Build Include="TimeManagement\Views\ProjectViewTools\VI_TaskType.sql" />
     <Build Include="TimeManagement\Views\ProjectViewTools\VI_TimeType.sql" />
-    <Build Include="TimeManagement\Views\OrderNumberTools\VI_CustomerRef.sql" />
-    <Build Include="TimeManagement\Views\OrderNumberTools\VI_Requester.sql" />
-    <Build Include="TimeManagement\Views\OrderNumberTools\VI_RequestOrg.sql" />
     <Build Include="TimeManagement\Views\VI_ProjectAndOrderTools.sql" />
     <Build Include="TimeManagement\Functions\SF_TimeUsedProject.sql" />
     <Build Include="TimeManagement\Stored Procedures\Project Tables\PlatformOrProduct\SP_AddPlatformOrProduct.sql" />
@@ -176,6 +172,9 @@
     <None Include="TimeManagement\PostDeployment\PDScripts\PDTypes.sql" />
     <None Include="TimeManagement\PostDeployment\PDScripts\PDUnionPage.sql" />
     <None Include="TimeManagement\PostDeployment\PDScripts\PDProjects.sql" />
+    <Build Include="TimeManagement\Views\ProjectViewTools\VI_RequestOrg.sql" />
+    <Build Include="TimeManagement\Views\ProjectViewTools\VI_CustomerRef.sql" />
+    <Build Include="TimeManagement\Views\ProjectViewTools\VI_Requester.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="WebToolDB.refactorlog" />

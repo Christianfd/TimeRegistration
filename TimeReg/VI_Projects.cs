@@ -33,5 +33,11 @@ namespace TimeReg
         public int FK_Turbine { get; set; }
         public string TurbineName { get; set; }
         public string ProjectComment { get; set; }
+        public int FK_RequestOrg { get; set; }
+        public string Organization { get; set; }
+        public int FK_Requester { get; set; }
+        public string RequesterName { get; set; }
+        public int FK_CustomerRef { get; set; }
+        public string CustomerRefName { get; set; }
     }
 }

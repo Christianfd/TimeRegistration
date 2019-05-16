@@ -70,6 +70,15 @@ namespace TimeReg.Controllers
             ViewBag.FK_Country = new SelectList(db.Country.OrderBy(x => x.PK_Id), "PK_Id", "CountryName");
             ViewBag.FK_PlatformOrProduct = new SelectList(db.PlatformOrProduct.OrderBy(x => x.PK_Id), "PK_Id", "ProductName");
             ViewBag.FK_Turbine = new SelectList(db.Turbine.OrderBy(x => x.PK_Id), "PK_Id", "TurbineName");
+
+
+
+            ViewBag.FK_RequestOrg = new SelectList(db.VI_RequestOrg.OrderBy(x => x.PK_Id), "PK_Id", "Organization");
+            ViewBag.FK_Requester = new SelectList(db.VI_Requester.OrderBy(x => x.PK_Id), "PK_Id", "Name");
+            ViewBag.FK_CustomerRef = new SelectList(db.VI_CustomerRef.OrderBy(x => x.PK_Id), "PK_Id", "Name");
+
+
+
             return PartialView("_DynamicCreate");
         }
 
@@ -78,7 +87,7 @@ namespace TimeReg.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult DynamicCreate([Bind(Include = "PK_Id,Name,FK_Ordernumber,TimeEstimation,FK_ProjectLeader,Scope,FK_TimeType,SiteOrVersion,FK_Country,FK_PlatformOrProduct,FK_Turbine,ProjectComment")] ProjectsViewModel projects)
+        public ActionResult DynamicCreate([Bind(Include = "PK_Id,Name,FK_Ordernumber,TimeEstimation,FK_ProjectLeader,Scope,FK_TimeType,SiteOrVersion,FK_Country,FK_PlatformOrProduct,FK_Turbine,ProjectComment, FK_RequestOrg,FK_Requester,FK_CustomerRef")] ProjectsViewModel projects)
         {
             if (ModelState.IsValid)
             {
@@ -94,7 +103,10 @@ namespace TimeReg.Controllers
                     projects.FK_Country,
                     projects.FK_PlatformOrProduct,
                     projects.FK_Turbine,
-                    projects.ProjectComment);
+                    projects.ProjectComment,
+                    projects.FK_RequestOrg,
+                    projects.FK_Requester,
+                    projects.FK_CustomerRef);
 
                 db.SaveChanges();
 
@@ -114,6 +126,13 @@ namespace TimeReg.Controllers
             ViewBag.FK_Country = new SelectList(db.Country, "PK_Id", "CountryName", projects.FK_Country);
             ViewBag.FK_PlatformOrProduct = new SelectList(db.PlatformOrProduct, "PK_Id", "ProductName", projects.FK_PlatformOrProduct);
             ViewBag.FK_Turbine = new SelectList(db.Turbine, "PK_Id", "TurbineName", projects.FK_Turbine);
+
+
+            ViewBag.FK_RequestOrg = new SelectList(db.VI_RequestOrg.OrderBy(x => x.PK_Id), "PK_Id", "Organization", projects.FK_RequestOrg);
+            ViewBag.FK_Requester = new SelectList(db.VI_Requester.OrderBy(x => x.PK_Id), "PK_Id", "Name", projects.FK_Requester);
+            ViewBag.FK_CustomerRef = new SelectList(db.VI_CustomerRef.OrderBy(x => x.PK_Id), "PK_Id", "Name", projects.FK_CustomerRef);
+
+
 
             return PartialView("_DynamicCreate", projects);
         }
@@ -168,6 +187,18 @@ namespace TimeReg.Controllers
             ViewBag.FK_PlatformOrProduct = new SelectList(db.PlatformOrProduct, "PK_Id", "ProductName", projectsViewModel.FK_PlatformOrProduct);
             ViewBag.FK_Turbine = new SelectList(db.Turbine, "PK_Id", "TurbineName", projectsViewModel.FK_Turbine);
 
+
+
+
+            //Ordernumber Merge
+            ViewBag.FK_RequestOrg = new SelectList(db.VI_RequestOrg.OrderBy(x => x.PK_Id), "PK_Id", "Organization", projectsViewModel.FK_RequestOrg);
+            ViewBag.FK_Requester = new SelectList(db.VI_Requester.OrderBy(x => x.PK_Id), "PK_Id", "Name", projectsViewModel.FK_Requester);
+            ViewBag.FK_CustomerRef = new SelectList(db.VI_CustomerRef.OrderBy(x => x.PK_Id), "PK_Id", "Name", projectsViewModel.FK_CustomerRef);
+
+
+
+
+
             return PartialView("_DynamicEdit", projectsViewModel);
         }
 
@@ -176,7 +207,7 @@ namespace TimeReg.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult DynamicEdit([Bind(Include = "PK_Id,Name,FK_Ordernumber,TimeEstimation,FK_ProjectLeader,Scope,FK_TimeType,SiteOrVersion,FK_Country,FK_PlatformOrProduct,FK_Turbine,ProjectComment")] ProjectsViewModel projects)
+        public ActionResult DynamicEdit([Bind(Include = "PK_Id,Name,FK_Ordernumber,TimeEstimation,FK_ProjectLeader,Scope,FK_TimeType,SiteOrVersion,FK_Country,FK_PlatformOrProduct,FK_Turbine,ProjectComment,FK_RequestOrg,FK_Requester,FK_CustomerRef")] ProjectsViewModel projects)
         {
             if (ModelState.IsValid && projects.PK_Id > 17)
             {
@@ -192,7 +223,10 @@ namespace TimeReg.Controllers
                     projects.FK_Country,
                     projects.FK_PlatformOrProduct,
                     projects.FK_Turbine,
-                    projects.ProjectComment);
+                    projects.ProjectComment,
+                    projects.FK_RequestOrg,
+                    projects.FK_Requester,
+                    projects.FK_CustomerRef);
 
                 db.SaveChanges();
 
@@ -212,6 +246,20 @@ namespace TimeReg.Controllers
             ViewBag.FK_Country = new SelectList(db.Country, "PK_Id", "CountryName", projects.FK_Country);
             ViewBag.FK_PlatformOrProduct = new SelectList(db.PlatformOrProduct, "PK_Id", "ProductName", projects.FK_PlatformOrProduct);
             ViewBag.FK_Turbine = new SelectList(db.Turbine, "PK_Id", "TurbineName", projects.FK_Turbine);
+
+
+
+
+
+            //Order Number Merge
+            ViewBag.FK_RequestOrg = new SelectList(db.VI_RequestOrg.OrderBy(x => x.PK_Id), "PK_Id", "Organization", projects.FK_RequestOrg);
+            ViewBag.FK_Requester = new SelectList(db.VI_Requester.OrderBy(x => x.PK_Id), "PK_Id", "Name", projects.FK_Requester);
+            ViewBag.FK_CustomerRef = new SelectList(db.VI_CustomerRef.OrderBy(x => x.PK_Id), "PK_Id", "Name", projects.FK_CustomerRef);
+
+
+
+
+
 
             return PartialView("_DynamicEdit", projects);
         }
@@ -378,7 +426,10 @@ namespace TimeReg.Controllers
                     projects.FK_Country,
                     projects.FK_PlatformOrProduct,
                     projects.FK_Turbine,
-                    projects.ProjectComment);
+                    projects.ProjectComment,
+                    projects.FK_RequestOrg,
+                    projects.FK_Requester,
+                    projects.FK_CustomerRef);
 
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -469,7 +520,10 @@ namespace TimeReg.Controllers
                     projects.FK_Country,
                     projects.FK_PlatformOrProduct,
                     projects.FK_Turbine,
-                    projects.ProjectComment);
+                    projects.ProjectComment,
+                    projects.FK_RequestOrg,
+                    projects.FK_Requester,
+                    projects.FK_CustomerRef);
 
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -487,6 +541,10 @@ namespace TimeReg.Controllers
             ViewBag.FK_Country = new SelectList(db.Country, "PK_Id", "CountryName", projects.FK_Country);
             ViewBag.FK_PlatformOrProduct = new SelectList(db.VI_PlatformOrProduct, "PK_Id", "ProductName", projects.FK_PlatformOrProduct);
             ViewBag.FK_Turbine = new SelectList(db.Turbine, "PK_Id", "TurbineName", projects.FK_Turbine);
+
+
+
+
 
             return View(projects);
         }

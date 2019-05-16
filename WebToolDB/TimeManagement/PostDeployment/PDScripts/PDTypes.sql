@@ -10,7 +10,7 @@ Task Type:
 
 IF NOT EXISTS(SELECT TOP(1) [Name] FROM TimeManagement.TaskType)
 BEGIN
-DBCC CHECKIDENT ('[TimeManagement].[TaskType]', RESEED, 0) 
+DBCC CHECKIDENT ('[TimeManagement].[TaskType]', RESEED, 1) 
 INSERT INTO[TimeManagement].TaskType VALUES ( 'Not Assigned');
 INSERT INTO[TimeManagement].TaskType VALUES ( 'Development');
 INSERT INTO[TimeManagement].TaskType VALUES ( 'Eldesign');
@@ -26,7 +26,7 @@ Time Type:
 
 IF NOT EXISTS(SELECT TOP(1) [Name] FROM TimeManagement.TimeType)
 BEGIN
-DBCC CHECKIDENT ('[TimeManagement].[TimeType]', RESEED, 0) 
+DBCC CHECKIDENT ('[TimeManagement].[TimeType]', RESEED, 1) 
 INSERT INTO[TimeManagement].TimeType VALUES ( 'Not Assigned');
 INSERT INTO[TimeManagement].TimeType VALUES ( 'Intern');
 INSERT INTO[TimeManagement].TimeType VALUES ( 'Extern');

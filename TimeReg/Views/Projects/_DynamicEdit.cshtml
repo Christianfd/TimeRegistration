@@ -10,7 +10,7 @@
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>Projects</h4>
         <hr />
@@ -26,9 +26,9 @@
                 @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
             </div>
         </div>
-   
 
-      @*Product Or Platform*@
+
+        @*Product Or Platform*@
         <div class="form-group">
             @Html.LabelFor(model => model.FK_PlatformOrProduct, "Platform or Product", htmlAttributes: new { @class = "col-form-label col-md-2" })
             <div class="col-md-10">
@@ -73,6 +73,14 @@
             </div>
         </div>
 
+        @*Project Comment*@
+        <div class="form-group">
+            @Html.LabelFor(model => model.ProjectComment, "Project Comment", htmlAttributes: new { @class = "col-form-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.ProjectComment, htmlAttributes: new { @class = "form-control", style = "height:150px" })
+                @Html.ValidationMessageFor(model => model.ProjectComment, "", new { @class = "text-danger" })
+            </div>
+        </div>
 
         @*Order Number*@
         <div class="form-group">
@@ -102,7 +110,38 @@
                 @Html.ValidationMessageFor(model => model.FK_ProjectLeader, "", new { @class = "text-danger" })
             </div>
         </div>
-        
+
+   
+
+        @*Requesting Organization*@
+        <div class="form-group">
+            @Html.LabelFor(model => model.FK_RequestOrg, "Requesting Organization", htmlAttributes: new { @class = "col-form-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("FK_RequestOrg", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.FK_RequestOrg, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        @*Requester*@
+        <div class="form-group">
+            @Html.LabelFor(model => model.FK_Requester, "Requester", htmlAttributes: new { @class = "col-form-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("FK_Requester", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.FK_Requester, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        @*Customer Reference*@
+        <div class="form-group">
+            @Html.LabelFor(model => model.FK_CustomerRef, "Customer Reference", htmlAttributes: new { @class = "col-form-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("FK_CustomerRef", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.FK_CustomerRef, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+    
+
         @*Time Type*@
         <div class="form-group">
             @Html.LabelFor(model => model.FK_TimeType, "Time Type", htmlAttributes: new { @class = "col-form-label col-md-2" })
@@ -112,14 +151,7 @@
             </div>
         </div>
 
-        @*Project Comment*@
-        <div class="form-group">
-            @Html.LabelFor(model => model.ProjectComment, "Project Comment", htmlAttributes: new { @class = "col-form-label col-md-2" })
-            <div class="col-md-10">
-                @Html.TextAreaFor(model => model.ProjectComment, htmlAttributes: new { @class = "form-control", style = "height:150px" })
-                @Html.ValidationMessageFor(model => model.ProjectComment, "", new { @class = "text-danger" })
-            </div>
-        </div>
+
     </div>
 }
 

@@ -47,9 +47,7 @@ namespace TimeReg.Controllers
         public ActionResult DynamicCreate()
         {
 
-            ViewBag.FK_RequestOrg = new SelectList(db.VI_RequestOrg.OrderBy(x => x.PK_Id), "PK_Id", "Organization");
-            ViewBag.FK_Requester = new SelectList(db.VI_Requester.OrderBy(x => x.PK_Id), "PK_Id", "Name");
-            ViewBag.FK_CustomerRef = new SelectList(db.VI_CustomerRef.OrderBy(x => x.PK_Id), "PK_Id", "Name");
+           
             return PartialView("_DynamicCreate");
         }
 
@@ -62,17 +60,14 @@ namespace TimeReg.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.SP_AddOrderNumber(orderNumberViewModel.Number, orderNumberViewModel.FK_RequestOrg, orderNumberViewModel.FK_Requester, orderNumberViewModel.FK_CustomerRef, orderNumberViewModel.Title);
+                db.SP_AddOrderNumber(orderNumberViewModel.Number, orderNumberViewModel.Title);
                 db.SaveChanges();
 
                 string removed = "Add Confirmed";
                 return Json(removed, JsonRequestBehavior.AllowGet);
             }
 
-            ViewBag.FK_RequestOrg = new SelectList(db.VI_RequestOrg.OrderBy(x => x.PK_Id), "PK_Id", "Organization", orderNumberViewModel.FK_RequestOrg);
-            ViewBag.FK_Requester = new SelectList(db.VI_Requester.OrderBy(x => x.PK_Id), "PK_Id", "Name", orderNumberViewModel.FK_Requester);
-            ViewBag.FK_CustomerRef = new SelectList(db.VI_CustomerRef.OrderBy(x => x.PK_Id), "PK_Id", "Name", orderNumberViewModel.FK_CustomerRef);
-            return PartialView("_DynamicCreate", orderNumberViewModel);
+              return PartialView("_DynamicCreate", orderNumberViewModel);
         }
 
         // GET: OrderNumber/Edit/5
@@ -94,10 +89,7 @@ namespace TimeReg.Controllers
                 return HttpNotFound();
             }
 
-            ViewBag.FK_RequestOrg = new SelectList(db.VI_RequestOrg.OrderBy(x => x.PK_Id), "PK_Id", "Organization", orderNumberViewModel.FK_RequestOrg);
-            ViewBag.FK_Requester = new SelectList(db.VI_Requester.OrderBy(x => x.PK_Id), "PK_Id", "Name", orderNumberViewModel.FK_Requester);
-            ViewBag.FK_CustomerRef = new SelectList(db.VI_CustomerRef.OrderBy(x => x.PK_Id), "PK_Id", "Name", orderNumberViewModel.FK_CustomerRef);
-
+          
             return PartialView("_DynamicEdit",orderNumberViewModel);
         }
 
@@ -106,21 +98,18 @@ namespace TimeReg.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult DynamicEdit([Bind(Include = "PK_Id,Number,FK_RequestOrg,FK_Requester,FK_CustomerRef,Title")] OrderNumberViewModel orderNumberViewModel)
+        public ActionResult DynamicEdit([Bind(Include = "PK_Id,Number,Title")] OrderNumberViewModel orderNumberViewModel)
         {
             if (ModelState.IsValid && orderNumberViewModel.PK_Id > 17)
             {
-                db.SP_UpdateOrderNumber(orderNumberViewModel.PK_Id, orderNumberViewModel.Number, orderNumberViewModel.FK_RequestOrg, orderNumberViewModel.FK_Requester, orderNumberViewModel.FK_CustomerRef, orderNumberViewModel.Title);
+                db.SP_UpdateOrderNumber(orderNumberViewModel.PK_Id, orderNumberViewModel.Number, orderNumberViewModel.Title);
                 db.SaveChanges();
 
                 string removed = "Edit Confirmed";
                 return Json(removed, JsonRequestBehavior.AllowGet);
             }
 
-            ViewBag.FK_RequestOrg = new SelectList(db.VI_RequestOrg.OrderBy(x => x.PK_Id), "PK_Id", "Organization", orderNumberViewModel.FK_RequestOrg);
-            ViewBag.FK_Requester = new SelectList(db.VI_Requester.OrderBy(x => x.PK_Id), "PK_Id", "Name", orderNumberViewModel.FK_Requester);
-            ViewBag.FK_CustomerRef = new SelectList(db.VI_CustomerRef.OrderBy(x => x.PK_Id), "PK_Id", "Name", orderNumberViewModel.FK_CustomerRef);
-
+          
             return PartialView("_DynamicEdit", orderNumberViewModel);
         }
 
@@ -253,14 +242,14 @@ namespace TimeReg.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.SP_AddOrderNumber(orderNumberViewModel.Number, orderNumberViewModel.FK_RequestOrg, orderNumberViewModel.FK_Requester, orderNumberViewModel.FK_CustomerRef, orderNumberViewModel.Title);
+                db.SP_AddOrderNumber(orderNumberViewModel.Number, orderNumberViewModel.Title);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.FK_RequestOrg = new SelectList(db.VI_RequestOrg.OrderBy(x => x.PK_Id), "PK_Id", "Organization", orderNumberViewModel.FK_RequestOrg);
-            ViewBag.FK_Requester = new SelectList(db.VI_Requester.OrderBy(x => x.PK_Id), "PK_Id", "Name", orderNumberViewModel.FK_Requester);
-            ViewBag.FK_CustomerRef = new SelectList(db.VI_CustomerRef.OrderBy(x => x.PK_Id), "PK_Id", "Name", orderNumberViewModel.FK_CustomerRef);
+            //ViewBag.FK_RequestOrg = new SelectList(db.VI_RequestOrg.OrderBy(x => x.PK_Id), "PK_Id", "Organization", orderNumberViewModel.FK_RequestOrg);
+            //ViewBag.FK_Requester = new SelectList(db.VI_Requester.OrderBy(x => x.PK_Id), "PK_Id", "Name", orderNumberViewModel.FK_Requester);
+            //ViewBag.FK_CustomerRef = new SelectList(db.VI_CustomerRef.OrderBy(x => x.PK_Id), "PK_Id", "Name", orderNumberViewModel.FK_CustomerRef);
             return View(orderNumberViewModel);
         }
 
@@ -278,9 +267,9 @@ namespace TimeReg.Controllers
                 return HttpNotFound();
             }
 
-            ViewBag.FK_RequestOrg = new SelectList(db.VI_RequestOrg.OrderBy(x => x.PK_Id), "PK_Id", "Organization", orderNumberViewModel.FK_RequestOrg);
-            ViewBag.FK_Requester = new SelectList(db.VI_Requester.OrderBy(x => x.PK_Id), "PK_Id", "Name", orderNumberViewModel.FK_Requester);
-            ViewBag.FK_CustomerRef = new SelectList(db.VI_CustomerRef.OrderBy(x => x.PK_Id), "PK_Id", "Name", orderNumberViewModel.FK_CustomerRef);
+            //ViewBag.FK_RequestOrg = new SelectList(db.VI_RequestOrg.OrderBy(x => x.PK_Id), "PK_Id", "Organization", orderNumberViewModel.FK_RequestOrg);
+            //ViewBag.FK_Requester = new SelectList(db.VI_Requester.OrderBy(x => x.PK_Id), "PK_Id", "Name", orderNumberViewModel.FK_Requester);
+            //ViewBag.FK_CustomerRef = new SelectList(db.VI_CustomerRef.OrderBy(x => x.PK_Id), "PK_Id", "Name", orderNumberViewModel.FK_CustomerRef);
 
             return View(orderNumberViewModel);
         }
@@ -294,14 +283,14 @@ namespace TimeReg.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.SP_UpdateOrderNumber(orderNumberViewModel.PK_Id, orderNumberViewModel.Number, orderNumberViewModel.FK_RequestOrg, orderNumberViewModel.FK_Requester, orderNumberViewModel.FK_CustomerRef, orderNumberViewModel.Title);
+                db.SP_UpdateOrderNumber(orderNumberViewModel.PK_Id, orderNumberViewModel.Number, orderNumberViewModel.Title);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.FK_RequestOrg = new SelectList(db.VI_RequestOrg.OrderBy(x => x.PK_Id), "PK_Id", "Organization", orderNumberViewModel.FK_RequestOrg);
-            ViewBag.FK_Requester = new SelectList(db.VI_Requester.OrderBy(x => x.PK_Id), "PK_Id", "Name", orderNumberViewModel.FK_Requester);
-            ViewBag.FK_CustomerRef = new SelectList(db.VI_CustomerRef.OrderBy(x => x.PK_Id), "PK_Id", "Name", orderNumberViewModel.FK_CustomerRef);
+            //ViewBag.FK_RequestOrg = new SelectList(db.VI_RequestOrg.OrderBy(x => x.PK_Id), "PK_Id", "Organization", orderNumberViewModel.FK_RequestOrg);
+            //ViewBag.FK_Requester = new SelectList(db.VI_Requester.OrderBy(x => x.PK_Id), "PK_Id", "Name", orderNumberViewModel.FK_Requester);
+            //ViewBag.FK_CustomerRef = new SelectList(db.VI_CustomerRef.OrderBy(x => x.PK_Id), "PK_Id", "Name", orderNumberViewModel.FK_CustomerRef);
 
             return View(orderNumberViewModel);
         }

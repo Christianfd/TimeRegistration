@@ -39,7 +39,17 @@ namespace TimeReg.ViewModels
         public string ProjectComment { get; set; }
 
 
-     
+        [Required]
+        public int FK_RequestOrg { get; set; }
+        public string Organization { get; set; }
+        [Required]
+        public int FK_Requester { get; set; }
+        public string RequesterName { get; set; }
+        [Required]
+        public int FK_CustomerRef { get; set; }
+        public string CustomerRefName { get; set; }
+
+
 
     }
 }

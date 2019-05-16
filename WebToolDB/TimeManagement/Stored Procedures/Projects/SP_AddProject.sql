@@ -10,8 +10,12 @@
 	@FK_Country int = 1,
 	@FK_PlatformOrProduct int = 1,
 	@FK_Turbine int = 1,
-	@ProjectComment nvarchar(1000) = 'No Comment'
+	@ProjectComment nvarchar(1000) = 'No Comment',
 
+
+	@FK_RequestOrg int,
+	@FK_Requester int,
+	@FK_CustomerRef int
 
 	
 AS
@@ -28,7 +32,12 @@ INSERT INTO [TimeManagement].[Projects]
 	[FK_Country],
 	[FK_PlatformOrProduct],
 	[FK_Turbine],
-	[ProjectComment]
+	[ProjectComment],
+
+
+	[FK_RequestOrg],
+	FK_Requester,
+	FK_CustomerRef
 )
 
 VALUES (
@@ -42,6 +51,12 @@ VALUES (
 	@FK_Country,
 	@FK_PlatformOrProduct,
 	@FK_Turbine,
-	@ProjectComment
+	@ProjectComment,
+
+
+	
+	@FK_RequestOrg,
+	@FK_Requester,
+	@FK_CustomerRef
 		) 
 GO
