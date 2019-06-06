@@ -1,4 +1,6 @@
 ﻿@model IEnumerable<TimeReg.VI_ProjectAndOrderToolsUnion>
+<br>
+<input class="form-control float-right" id="SearchInput" type="text" placeholder="Search entire table">
 <table class="table">
     <tr>
         <th>Requester</th>
@@ -105,3 +107,17 @@
         </tr>
        }
 </table>
+
+
+
+
+<script>
+$(document).ready(function(){
+  $("#SearchInput").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $(".table tr").filter(function () {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+});
+</script>

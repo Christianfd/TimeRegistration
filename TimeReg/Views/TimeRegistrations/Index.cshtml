@@ -54,7 +54,7 @@
     @*On dropdownlist change to check if the other dropdowns need to be changed*@
     <script>
 
-        $(document).on('change', '.selectpicker', function () {
+        $(document).on('change', '.selectpicker.dynamicUpdate', function () {
             DropDown_IndexChange(this.id);
 
         });

@@ -481,15 +481,23 @@ namespace TimeReg.Controllers
 
             try
             {
-                var windowsAuth = User.Identity.GetUserName();
-                var windowsAuthId = db.VI_Users.Where(m => m.NK_ZId == windowsAuth).SingleOrDefault().PK_Id;
-                ViewBag.FK_UserId = new SelectList(db.VI_Users, "PK_Id", "NK_Name", windowsAuthId);
-                var OrderNumberList = new SelectList((from c in db.VI_UserAssignment.Where(m => m.FK_UserId == windowsAuthId)
-                                                      select new
-                                                      {
-                                                          ID_Value = c.FK_OrderNumber,
-                                                          NumberAndTitle = c.Number + " :: " + c.Title
-                                                      }), "ID_Value", "NumberAndTitle", timeRegistration.FK_OrderId);
+                //Until the bug is fixed, then the edit pane will have access to all order numbers
+               var OrderNumberList = new SelectList((from c in db.VI_OrderNumber
+                                                     select new
+                                                     {
+                                                         ID_Value = c.PK_Id,
+                                                         NumberAndTitle = c.Number + " :: " + c.Title
+                                                     }), "ID_Value", "NumberAndTitle", timeRegistration.FK_OrderId);
+
+                //var windowsAuth = User.Identity.GetUserName();
+                //var windowsAuthId = db.VI_Users.Where(m => m.NK_ZId == windowsAuth).SingleOrDefault().PK_Id;
+                //ViewBag.FK_UserId = new SelectList(db.VI_Users, "PK_Id", "NK_Name", windowsAuthId);
+                //var OrderNumberList = new SelectList((from c in db.VI_UserAssignment.Where(m => m.FK_UserId == windowsAuthId)
+                //                                      select new
+                //                                      {
+                //                                          ID_Value = c.FK_OrderNumber,
+                //                                          NumberAndTitle = c.Number + " :: " + c.Title
+                //                                      }), "ID_Value", "NumberAndTitle", timeRegistration.FK_OrderId);
 
                 //Check to see if this user as any assigned projects/ordernumbers. If not they get access to all order numbers
                 if (OrderNumberList.Count() >= 1)
