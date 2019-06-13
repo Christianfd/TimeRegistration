@@ -1,7 +1,7 @@
 ﻿@model List<TimeReg.ViewModels.TimeRegistrationViewModel>
 
 <br>
-<input class="form-control float-right" id="myInput" type="text" placeholder="Search entire table">
+
 
 <table class="table">
     <tr>
@@ -66,15 +66,10 @@
     }
 
 </table>
+@*
+    This script handles everything around the tables, from sorting to generic search.
+    It adds an input filtering and id value id="table" to an element with class="table"
 
-
-<script>
-$(document).ready(function(){
-  $("#myInput").on("keyup", function() {
-    var value = $(this).val().toLowerCase();
-    $(".table tr").filter(function () {
-      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-    });
-  });
-});
-</script>
+    INTENDED FOR PAGES WITH 1 TABLE
+*@
+<script src="~/Scripts/tools/tableFilterAndSorting.js"></script>

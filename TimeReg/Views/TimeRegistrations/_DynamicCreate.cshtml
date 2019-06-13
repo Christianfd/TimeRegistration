@@ -30,7 +30,9 @@
                 @Html.ValidationMessageFor(model => model.FK_UserId, "", new { @class = "text-danger" })
             </div>
         </div>
-        @*Order Number*@
+                @*Order Number
+        uses .dynamicUpdate to determine if it should use te dynamic update function
+                *@
         <div class="form-group">
             @Html.LabelFor(model => model.FK_OrderId, "Order Number", htmlAttributes: new { @class = "col-form-label col-md-2" })
             <div class="col-md-8 ui-widget">
@@ -46,7 +48,9 @@
             </div>
         </div>
 
-        @*Projects drop down list*@
+        @*Projects drop down list
+            uses .dynamicUpdate to determine if it should use te dynamic update function
+        *@
         <div class="form-group">
             @Html.LabelFor(model => model.FK_ProjectId, "Project", htmlAttributes: new { @class = "col-form-label col-md-2" })
             <div class="col-md-10 ui-widget">
@@ -111,12 +115,12 @@
 }
 @*OrderNumber trim to "Number Handling"*@
 <script>
-        function OrderNumberSplit(text) {
-            var splitText = text.split(" :: ", 1)[0];
-            var trimText = $.trim(splitText);
-            return trimText;
+    function OrderNumberSplit(text) {
+        var splitText = text.split(" :: ", 1)[0];
+        var trimText = $.trim(splitText);
+        return trimText;
 
-        }
+    }
 </script>
 
 <script>

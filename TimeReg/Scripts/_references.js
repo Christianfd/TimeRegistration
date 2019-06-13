@@ -21,5 +21,6 @@
 /// <reference path="respond.min.js" />
 /// <reference path="tools/dynamiccrudpages.js" />
 /// <reference path="tools/searchabledropdown.js" />
+/// <reference path="tools/tablefilterandsorting.js" />
 /// <reference path="umd/popper.min.js" />
 /// <reference path="umd/popper-utils.min.js" />

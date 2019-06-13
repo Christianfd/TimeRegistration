@@ -214,6 +214,9 @@ namespace TimeReg.Controllers
             return PartialView("_DynamicCreate");
         }
 
+
+
+        //DynamicEdit has been reworked to not work properly with user assignment.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult DynamicCreate([Bind(Include = "PK_Id,FK_UserId,FK_ProjectId,FK_OrderId,FK_TaskId,time,Date, Comment")] TimeRegistrationViewModel timeRegistration)
@@ -385,6 +388,9 @@ namespace TimeReg.Controllers
         }
 
 
+
+
+        //DynamicEdit has been reworked to not work properly with user assignment.
         [HttpGet]
         public ActionResult DynamicEdit(string CRUD, int PK_Id)
         {
@@ -414,32 +420,51 @@ namespace TimeReg.Controllers
                                                           ID_Value = c.FK_OrderNumber,
                                                           NumberAndTitle = c.Number + " :: " + c.Title
                                                       }), "ID_Value", "NumberAndTitle", timeRegistrationViewModel.FK_OrderId);
-
-                //Check to see if this user as any assigned projects/ordernumbers. If not they get access to all order numbers
-                if (OrderNumberList.Count() >= 1)
-                {
-                    ViewBag.FK_OrderId = OrderNumberList;
-                }
-                else
-                {
-                    ViewBag.FK_OrderId = new SelectList((from c in db.VI_OrderNumber
-                                                         select new
-                                                         {
-                                                             ID_Value = c.PK_Id,
-                                                             NumberAndTitle = c.Number + " :: " + c.Title
-                                                         }), "ID_Value", "NumberAndTitle", timeRegistrationViewModel.FK_OrderId);
-                }
+                //Below is the temp fix for edit.
+                ViewBag.FK_OrderId = new SelectList((from c in db.VI_OrderNumber
+                                                     select new
+                                                     {
+                                                         ID_Value = c.PK_Id,
+                                                         NumberAndTitle = c.Number + " :: " + c.Title
+                                                     }), "ID_Value", "NumberAndTitle", timeRegistrationViewModel.FK_OrderId);
                 ViewBag.FK_ProjectId = new SelectList(db.VI_Projects.Where(m => m.FK_OrderNumber == timeRegistrationViewModel.FK_OrderId), "PK_Id", "Name", timeRegistrationViewModel.FK_ProjectId);
-            }
 
+        }
             catch
             {
                 ViewBag.FK_UserId = new SelectList(db.VI_Users, "PK_Id", "NK_Name", timeRegistrationViewModel.PK_Id);
                 ViewBag.FK_OrderId = new SelectList(db.VI_OrderNumber, "PK_Id", "Number", timeRegistrationViewModel.FK_OrderId);
                 ViewBag.FK_ProjectId = new SelectList(db.VI_Projects, "PK_Id", "Name", timeRegistrationViewModel.FK_ProjectId);
-
-
             }
+
+                //Check to see if this user as any assigned projects/ordernumbers. If not they get access to all order numbers
+                //Commented out for now, because of bug with user assignment.
+            //    if (OrderNumberList.Count() >= 1)
+            //    {
+            //        ViewBag.FK_OrderId = OrderNumberList;
+            //    }
+            //    else
+            //    {
+            //        ViewBag.FK_OrderId = new SelectList((from c in db.VI_OrderNumber
+            //                                             select new
+            //                                             {
+            //                                                 ID_Value = c.PK_Id,
+            //                                                 NumberAndTitle = c.Number + " :: " + c.Title
+            //                                             }), "ID_Value", "NumberAndTitle", timeRegistrationViewModel.FK_OrderId);
+            //    }
+            //    ViewBag.FK_ProjectId = new SelectList(db.VI_Projects.Where(m => m.FK_OrderNumber == timeRegistrationViewModel.FK_OrderId), "PK_Id", "Name", timeRegistrationViewModel.FK_ProjectId);
+            //}
+
+            //catch
+            //{
+            //    ViewBag.FK_UserId = new SelectList(db.VI_Users, "PK_Id", "NK_Name", timeRegistrationViewModel.PK_Id);
+            //    ViewBag.FK_OrderId = new SelectList(db.VI_OrderNumber, "PK_Id", "Number", timeRegistrationViewModel.FK_OrderId);
+            //    ViewBag.FK_ProjectId = new SelectList(db.VI_Projects, "PK_Id", "Name", timeRegistrationViewModel.FK_ProjectId);
+
+
+            //}
+
+         
             return PartialView("_DynamicEdit", timeRegistrationViewModel);
         }
 

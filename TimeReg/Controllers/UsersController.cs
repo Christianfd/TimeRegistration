@@ -41,7 +41,7 @@ namespace TimeReg.Controllers
             var weekNo = CalendarHelper.GetWeekNr();
 
 
-			var result = db.Database.SqlQuery<WeeklyTimeViewModel>("SELECT	cast(datepart(wk, date) as int) Week, year(date) as Year, sum(Time) as [TotalTime] FROM	[TimeManagement].[TimeRegistration] WHERE FK_UserId = @p0 AND datepart(wk, date) = @p1 AND year(date) = @p2	group by datepart(wk, date), year(date)", id, weekNo, DateTime.Now.Year).ToList();
+			var result = db.Database.SqlQuery<WeeklyTimeViewModel>("SELECT	cast(datepart(wk, date) as int) Week, year(date) as Year, sum(Time) as [TotalTime] FROM	[TimeManagement].[VI_TimeRegistration] WHERE FK_UserId = @p0 AND datepart(wk, date) = @p1 AND year(date) = @p2	group by datepart(wk, date), year(date)", id, weekNo, DateTime.Now.Year).ToList();
 			var firstResult = result.FirstOrDefault();
 			if (firstResult != null) {
 				ViewBag.WeeklyTime = firstResult;

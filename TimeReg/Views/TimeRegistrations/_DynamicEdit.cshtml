@@ -14,26 +14,42 @@
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.PK_Id)
 
+        @*User
+        uses .dynamicUpdate to determine if it should use te dynamic update function
+        *@
         <div class="form-group">
             @Html.LabelFor(model => model.FK_UserId, "FK_UserId", htmlAttributes: new { @class = "col-form-label col-md-2 " })
             <div class="col-md-10 ui-widget">
-                @Html.DropDownList("FK_UserId", null, htmlAttributes: new { @class = "form-control selectpicker" })
+                @Html.DropDownList("FK_UserId", null, htmlAttributes: new { @class = "form-control selectpicker dynamicUpdate" })
                 @Html.ValidationMessageFor(model => model.FK_UserId, "", new { @class = "text-danger" })
             </div>
         </div>
 
+        @*Order Number
+        uses .dynamicUpdate to determine if it should use te dynamic update function
+        *@
         <div class="form-group">
             @Html.LabelFor(model => model.FK_OrderId, "Order Number", htmlAttributes: new { @class = "col-form-label col-md-2" })
             <div class="col-md-10 ui-widget">
-                @Html.DropDownList("FK_OrderId", null, htmlAttributes: new { @class = "form-control selectpicker" })
+                @Html.DropDownList("FK_OrderId", null, htmlAttributes: new { @class = "form-control selectpicker dynamicUpdate" })
                 @Html.ValidationMessageFor(model => model.FK_OrderId, "", new { @class = "text-danger" })
+                @*Button for copying DSA Number*@
+                <div>
+                    <button type="button" id="btnScore" class="orderNumberBtn" title="Copy Order Number">
+                        &#x1f4cb
+                    </button>
+                </div>
+            
             </div>
         </div>
 
+        @*Project
+        uses .dynamicUpdate to determine if it should use te dynamic update function
+        *@
         <div class="form-group">
             @Html.LabelFor(model => model.FK_ProjectId, "FK_ProjectId", htmlAttributes: new { @class = "col-form-label col-md-2" })
             <div class="col-md-10 ui-widget">
-                @Html.DropDownList("FK_ProjectId", null, htmlAttributes: new { @class = "form-control selectpicker" })
+                @Html.DropDownList("FK_ProjectId", null, htmlAttributes: new { @class = "form-control selectpicker dynamicUpdate" })
                 @Html.ValidationMessageFor(model => model.FK_ProjectId, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -81,12 +97,12 @@
 
 @*OrderNumber trim to "Number Handling"*@
 <script>
-        function OrderNumberSplit(text) {
-            var splitText = text.split(" :: ", 1)[0];
-            var trimText = $.trim(splitText);
-            return trimText;
+    function OrderNumberSplit(text) {
+        var splitText = text.split(" :: ", 1)[0];
+        var trimText = $.trim(splitText);
+        return trimText;
 
-        }
+    }
 </script>
 
 
