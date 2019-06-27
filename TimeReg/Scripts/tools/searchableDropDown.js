@@ -1,4 +1,6 @@
-﻿$(function () {
+﻿//not in use anymore
+
+$(function () {
     $.widget("custom.combobox", {
 
         _create: function () {

@@ -60,10 +60,10 @@ namespace TimeReg.Controllers
         // GET: Comments/Create
         public ActionResult DynamicCreate()
         {
-
+            
             var year = DateTime.Now.Year;
             var weekNo = CalendarHelper.GetWeekNr();
-
+            var comments = new CommentsViewModel { Year = year, WeekNr = weekNo };
             //Created so the user can default to him
             try
             {
@@ -71,6 +71,7 @@ namespace TimeReg.Controllers
                 var windowsAuthId = db.VI_Users.Where(m => m.NK_ZId == windowsAuth).SingleOrDefault().PK_Id;
                 ViewBag.FK_User = new SelectList(db.VI_Users, "PK_Id", "NK_Name", windowsAuthId);
                 ViewBag.Year = year;
+                ViewBag.WeekNr = weekNo;
             }
             catch
             {
@@ -80,7 +81,7 @@ namespace TimeReg.Controllers
 
 
             ViewBag.FK_ProjectId = new SelectList(db.VI_Projects, "PK_Id", "Name", "Please Select Project");
-            return PartialView("_DynamicCreate");
+            return PartialView("_DynamicCreate", comments);
         }
 
         // POST: Comments/Create

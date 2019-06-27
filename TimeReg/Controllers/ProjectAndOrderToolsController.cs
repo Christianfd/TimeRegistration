@@ -81,43 +81,84 @@ namespace TimeReg.Controllers
         {
             if (ModelState.IsValid)
             {
-                //Check with Mik if this approach is "safe"
-                if (vI_ProjectAndOrderTools.Organization != null)
+                //Loads of try/catch blocks and if (!=null) in attempt to make it possible to add a new value even if a previous already exists.
+                try
                 {
-                    var org = new RequestOrg { Organization = vI_ProjectAndOrderTools.Organization };
-                    db.SP_AddRequestOrg(org.Organization);
+                    if (vI_ProjectAndOrderTools.Organization != null)
+                    {
+                        var org = new RequestOrg { Organization = vI_ProjectAndOrderTools.Organization };
+                        db.SP_AddRequestOrg(org.Organization);
+                    }
+                } catch (DbEntityValidationException e) { }
+
+                try {
+                    if (vI_ProjectAndOrderTools.TimeTypeName != null)
+                    {
+                        var timeType = new TimeType { Name = vI_ProjectAndOrderTools.TimeTypeName };
+                        db.SP_AddTimeType(timeType.Name);
+                    }
                 }
-                if (vI_ProjectAndOrderTools.TimeTypeName != null)
-                {
-                    var timeType = new TimeType { Name = vI_ProjectAndOrderTools.TimeTypeName };
-                    db.SP_AddTimeType(timeType.Name);
-                }
+                
+            
+                catch (DbEntityValidationException e) { }
+
+                try { 
                 if (vI_ProjectAndOrderTools.TaskTypeName != null)
                 {
                     var taskType = new TaskType { Name = vI_ProjectAndOrderTools.TaskTypeName };
                     db.SP_AddTaskType(taskType.Name);
 
+                    }
                 }
+
+
+                catch (DbEntityValidationException e) { }
+
+                try { 
                 if (vI_ProjectAndOrderTools.CustomerRefName != null)
                 {
                     var customerReference = new CustomerRef { Name = vI_ProjectAndOrderTools.CustomerRefName };
                     db.SP_AddCustomerRef(customerReference.Name);
+                    }
                 }
+
+
+                catch (DbEntityValidationException e) { }
+
+                try { 
                 if (vI_ProjectAndOrderTools.RequesterName != null)
                 {
                     var requester = new Requester { Name = vI_ProjectAndOrderTools.RequesterName };
                     db.SP_AddRequester(requester.Name);
+                    }
                 }
+
+
+                catch (DbEntityValidationException e) { }
+
+                try { 
                 if (vI_ProjectAndOrderTools.TurbineName != null)
                 {
                     var turbineEntity = new Turbine { TurbineName = vI_ProjectAndOrderTools.TurbineName };
                     db.SP_AddTurbine(turbineEntity.TurbineName);
+                    }
                 }
+
+
+                catch (DbEntityValidationException e) { }
+
+                try { 
                 if (vI_ProjectAndOrderTools.ProductName != null)
                 {
                     var platformOrProduct = new PlatformOrProduct { ProductName = vI_ProjectAndOrderTools.ProductName };
                     db.SP_AddPlatformOrProduct(platformOrProduct.ProductName);
+                    }
                 }
+
+
+                catch (DbEntityValidationException e) { }
+
+
 
                 try
                 {

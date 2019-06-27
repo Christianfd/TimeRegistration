@@ -1,13 +1,13 @@
-﻿@model TimeReg.VI_Users
+﻿@model List<TimeReg.ViewModels.UserTimePerProjectViewModel>
 
 @{
-    ViewBag.Title = "Details | " + @Html.DisplayFor(model => model.NK_Name);
+    ViewBag.Title = "Details | " + @Html.DisplayFor(model => model.First().UserName);
 }
 
 <h2>Details</h2>
 
 <div>
-    <h4>User @Html.DisplayFor(model => model.NK_Name)</h4>
+    <h4>User @Html.DisplayFor(model => model.First().UserName)</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -15,7 +15,7 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.NK_Name)
+            @Html.DisplayFor(model => model.First().UserName)
         </dd>
 
         <dt>
@@ -23,27 +23,112 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.NK_ZId)
+            @Html.DisplayFor(model => model.First().NK_ZId)
         </dd>
         <hr />
         <br/>
       
         <dt>
             Time Registered
-            
         </dt>
         <dd>
               @ViewBag.WeeklyTime.TotalTime <i> Hours in Week @ViewBag.WeeklyTime.Week </i>
         </dd>
 
     </dl>
+
+
 </div>
+
+@*
+table containing all time registrations.
+
+*@
+<p>All time registrations</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Project
+            </th>
+            <th>
+                Total Time
+            </th>
+
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+               
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.timeSum)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+
+@*
+Table containing all time registrations for the current week    
+*@
+
+
+@*@{ 
+   var WeeklyTimePerProject = ViewBag.WeeklyTimePerProject;
+}
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Project
+                </th>
+                <th>
+                    Total Time
+                </th>
+               
+            </tr>
+        </thead>
+        <tbody>
+            @{
+
+            }
+
+            @foreach (var item in WeeklyTimePerProject)
+            {
+
+                <tr>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TotalTime)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>*@
+
+<br />
+<hr />
 <p>
     <a class="btn btn-outline-secondary" href="@Url.Content("~/TimeRegistrations")">Time Registration &raquo;</a>
     <a class="btn btn-outline-secondary" href="@Url.Content("~/Comments")">Weekly Comment &raquo;</a>
 </p>
+
+
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.PK_Id }) |
+    @Html.ActionLink("Edit", "Edit", new { id = Model.First().PK_Id }) |
     @Html.ActionLink("Back to List", "Index")
 </p>
 

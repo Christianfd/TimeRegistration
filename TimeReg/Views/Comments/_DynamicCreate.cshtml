@@ -44,7 +44,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.FK_User, "User", htmlAttributes: new { @class = "col-form-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("FK_User", null, htmlAttributes: new { @class = "form-control" })
+                @Html.DropDownList("FK_User", null, htmlAttributes: new { @class = "form-control", @ReadOnly = "true" })
                 @Html.ValidationMessageFor(model => model.FK_User, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -63,12 +63,6 @@
     @Html.ActionLink("Back to List", "Index")
 </div>
 
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-    @Scripts.Render("~/bundles/jquery")
-
-
-@*Auto Completion Script -- Use Class "selectpicker" on dropdowns*@
-<script src="~/Scripts/tools/searchableDropDown.js"
-        type="text/javascript"></script>
-}
+<script>
+    $(".selectpicker").chosen();
+</script>

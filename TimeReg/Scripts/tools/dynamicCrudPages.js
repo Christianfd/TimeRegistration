@@ -143,6 +143,10 @@ $("#PartialViewModalSaveButton").click(function () {
                 success: function (partialResult) {
                     console.log("Success");
                     if (partialResult == "Add Confirmed") {
+
+                        try {
+                            inputCleanUp()
+                        } catch (e) {
                         form.find(':input').each(function () {
                             switch (this.type) {
                                 case 'password':
@@ -158,6 +162,7 @@ $("#PartialViewModalSaveButton").click(function () {
                                     this.checked = false;
                             }
                         });
+                        }
                     } else {
                         $("#PartialViewModalBody").html(partialResult);
                     }

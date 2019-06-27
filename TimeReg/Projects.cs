@@ -35,25 +35,25 @@ namespace TimeReg
         public int FK_Country { get; set; }
         public int FK_PlatformOrProduct { get; set; }
         public int FK_Turbine { get; set; }
-        public string ProjectComment { get; set; }
         public int FK_RequestOrg { get; set; }
         public int FK_Requester { get; set; }
         public int FK_CustomerRef { get; set; }
+        public string ProjectComment { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Comments> Comments { get; set; }
+        public virtual Country Country { get; set; }
+        public virtual CustomerRef CustomerRef { get; set; }
+        public virtual OrderNumber OrderNumber { get; set; }
+        public virtual PlatformOrProduct PlatformOrProduct { get; set; }
+        public virtual Requester Requester { get; set; }
+        public virtual RequestOrg RequestOrg { get; set; }
         public virtual TimeType TimeType { get; set; }
+        public virtual Turbine Turbine { get; set; }
         public virtual Users Users { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TimeRegistration> TimeRegistration { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<UserAssignment> UserAssignment { get; set; }
-        public virtual Country Country { get; set; }
-        public virtual PlatformOrProduct PlatformOrProduct { get; set; }
-        public virtual Turbine Turbine { get; set; }
-        public virtual CustomerRef CustomerRef { get; set; }
-        public virtual Requester Requester { get; set; }
-        public virtual RequestOrg RequestOrg { get; set; }
-        public virtual OrderNumber OrderNumber { get; set; }
     }
 }

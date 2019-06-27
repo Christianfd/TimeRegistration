@@ -26,8 +26,6 @@ namespace TimeReg
     
         public virtual Projects Projects { get; set; }
         public virtual TaskType TaskType { get; set; }
-        public virtual TimeRegistration TimeRegistration1 { get; set; }
-        public virtual TimeRegistration TimeRegistration2 { get; set; }
         public virtual Users Users { get; set; }
     }
 }

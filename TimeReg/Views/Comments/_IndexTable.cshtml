@@ -1,6 +1,6 @@
 ﻿@model List<TimeReg.VI_Comments>
 
-<table class="table">
+<table class="table comment-table">
     <tr>
         <th>
             Week #
@@ -20,8 +20,9 @@
     </tr>
 
 @foreach (var item in Model) {
-    <tr class="table-content">
-   
+    <tr class="table-content" data-row-value="@item.WeekNr @item.ProjectName  @item.UserName @item.Year" >
+
+    
         <td>
             @Html.DisplayFor(modelItem => item.WeekNr)
         </td>
@@ -36,24 +37,24 @@
             @Html.DisplayFor(modelItem => item.Year)
         </td>
        
+    
         <td>
             <a href="javascript:void()" class="Edit" data-DynamicId="@item.PK_Id">Edit</a> <span> | </span>
             <a href="javascript:void()" class="Details" data-DynamicId="@item.PK_Id">Details</a> <span> | </span>
             <a href="javascript:void()" class="Delete" data-DynamicId="@item.PK_Id">Delete</a>
         </td>
-       
-     
-       
+   
+      
+  
     </tr>
-
-    <tr>
-        <td class="table-comments-text" colspan="5"  >
+    <tr class="table-comments-text" data-row-value="@item.WeekNr @item.ProjectName  @item.UserName @item.Year">
+        <td  colspan="5">
             @Html.DisplayFor(modelItem => item.Text)
         </td>
-       
     </tr>
 
-                  
+
+
 }
 
 </table>
@@ -65,4 +66,115 @@
 
     INTENDED FOR PAGES WITH 1 TABLE
 *@
-<script src="~/Scripts/tools/tableFilterAndSorting.js"></script>
+@*<script src="~/Scripts/tools/tableFilterAndSorting.js"></script>*@
+
+
+
+<script>
+
+    /*
+This script handles everything around the tables, from sorting to generic search. 
+It adds an input filtering and id value id="table" to an element with class="table"
+
+INTENDED FOR PAGES WITH 1 TABLE    
+*/
+
+
+    //Curently sorting doesn't work on comment table (probably due to the nature of the extra rows)
+    //Below is a modified version of filtering, fixing 
+
+    $(document).ready(function () {
+
+        //Enables search input
+        $("#SearchInput").on("keyup", function () {
+            var value = $(this).val().toLowerCase();
+            $(".table tr.table-content").filter(function () {
+            
+               
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1 || $(this).next().text().toLowerCase().indexOf(value) > -1);
+            });
+
+            $(".table tr.table-comments-text").filter(function () {
+
+
+                $(this).toggle($(this).prev().text().toLowerCase().indexOf(value) > -1 || $(this).text().toLowerCase().indexOf(value) > -1);
+            });
+
+           // $('.table tr').hide().filter('[data-row-value="' + value + '"]').show();
+
+        });
+    });
+
+    //adds input and then sets the id of table to id="table"
+
+    $('<input class="form-control float-right" id="SearchInput" type="text" placeholder="Search entire table">').insertBefore(".table");
+    $(".table").attr("id", "table");
+
+    //Curently sorting doesn't work on comment table (probably due to the nature of the extra rows)
+    //updates the columns TH on load to have sorting.
+    /*
+    id = "table"
+    */
+    $("#table tr").children("th").each(function (index, element) {
+        $(this).attr("onclick", "sortTable(" + index + ")");
+    });
+
+
+
+    function sortTable(n) {
+        var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+        table = document.getElementById("table");
+        switching = true;
+        // Set the sorting direction to ascending:
+        dir = "asc";
+        /* Make a loop that will continue until
+        no switching has been done: */
+        while (switching) {
+            // Start by saying: no switching is done:
+            switching = false;
+            rows = table.rows;
+            /* Loop through all table rows (except the
+            first, which contains table headers): */
+            for (i = 1; i < (rows.length - 1) ; i++) {
+                // Start by saying there should be no switching:
+                shouldSwitch = false;
+                /* Get the two elements you want to compare,
+                one from current row and one from the next: */
+                x = rows[i].getElementsByTagName("TD")[n];
+                y = rows[i + 1].getElementsByTagName("TD")[n];
+                /* Check if the two rows should switch place,
+                based on the direction, asc or desc: */
+                if (dir == "asc") {
+                    if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                        // If so, mark as a switch and break the loop:
+                        shouldSwitch = true;
+                        break;
+                    }
+                } else if (dir == "desc") {
+                    if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                        // If so, mark as a switch and break the loop:
+                        shouldSwitch = true;
+                        break;
+                    }
+                }
+            }
+            if (shouldSwitch) {
+                /* If a switch has been marked, make the switch
+                and mark that a switch has been done: */
+                rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                switching = true;
+                // Each time a switch is done, increase this count by 1:
+                switchcount++;
+            } else {
+                /* If no switching has been done AND the direction is "asc",
+                set the direction to "desc" and run the while loop again. */
+                if (switchcount == 0 && dir == "asc") {
+                    dir = "desc";
+                    switching = true;
+                }
+            }
+        }
+    }
+
+
+</script>

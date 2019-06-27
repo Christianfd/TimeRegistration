@@ -66,10 +66,10 @@ namespace TimeReg.Controllers
                                                      NumberAndTitle = c.Number + " :: " + c.Title
                                                  }), "ID_Value", "NumberAndTitle");
 
-            ViewBag.FK_TimeType = new SelectList(db.TimeType.OrderBy(x => x.PK_Id), "PK_Id", "Name");
-            ViewBag.FK_Country = new SelectList(db.Country.OrderBy(x => x.PK_Id), "PK_Id", "CountryName");
-            ViewBag.FK_PlatformOrProduct = new SelectList(db.PlatformOrProduct.OrderBy(x => x.PK_Id), "PK_Id", "ProductName");
-            ViewBag.FK_Turbine = new SelectList(db.Turbine.OrderBy(x => x.PK_Id), "PK_Id", "TurbineName");
+            ViewBag.FK_TimeType = new SelectList(db.VI_TimeType.OrderBy(x => x.PK_Id), "PK_Id", "Name");
+            ViewBag.FK_Country = new SelectList(db.VI_Country.OrderBy(x => x.PK_Id), "PK_Id", "CountryName");
+            ViewBag.FK_PlatformOrProduct = new SelectList(db.VI_PlatformOrProduct.OrderBy(x => x.PK_Id), "PK_Id", "ProductName");
+            ViewBag.FK_Turbine = new SelectList(db.VI_Turbine.OrderBy(x => x.PK_Id), "PK_Id", "TurbineName");
 
 
 
@@ -122,10 +122,10 @@ namespace TimeReg.Controllers
                                                          ID_Value = c.PK_Id,
                                                          NumberAndTitle = c.Number + " :: " + c.Title
                                                      }), "ID_Value", "NumberAndTitle", projects.FK_OrderNumber);
-            ViewBag.FK_TimeType = new SelectList(db.TimeType, "PK_Id", "Name", projects.FK_TimeType);
-            ViewBag.FK_Country = new SelectList(db.Country, "PK_Id", "CountryName", projects.FK_Country);
+            ViewBag.FK_TimeType = new SelectList(db.VI_TimeType, "PK_Id", "Name", projects.FK_TimeType);
+            ViewBag.FK_Country = new SelectList(db.VI_Country, "PK_Id", "CountryName", projects.FK_Country);
             ViewBag.FK_PlatformOrProduct = new SelectList(db.PlatformOrProduct, "PK_Id", "ProductName", projects.FK_PlatformOrProduct);
-            ViewBag.FK_Turbine = new SelectList(db.Turbine, "PK_Id", "TurbineName", projects.FK_Turbine);
+            ViewBag.FK_Turbine = new SelectList(db.VI_Turbine, "PK_Id", "TurbineName", projects.FK_Turbine);
 
 
             ViewBag.FK_RequestOrg = new SelectList(db.VI_RequestOrg.OrderBy(x => x.PK_Id), "PK_Id", "Organization", projects.FK_RequestOrg);
@@ -182,10 +182,10 @@ namespace TimeReg.Controllers
                                                          ID_Value = c.PK_Id,
                                                          NumberAndTitle = c.Number + " :: " + c.Title
                                                      }), "ID_Value", "NumberAndTitle", projects.FK_OrderNumber);
-            ViewBag.FK_TimeType = new SelectList(db.TimeType, "PK_Id", "Name", projectsViewModel.FK_TimeType);
-            ViewBag.FK_Country = new SelectList(db.Country, "PK_Id", "CountryName", projectsViewModel.FK_Country);
-            ViewBag.FK_PlatformOrProduct = new SelectList(db.PlatformOrProduct, "PK_Id", "ProductName", projectsViewModel.FK_PlatformOrProduct);
-            ViewBag.FK_Turbine = new SelectList(db.Turbine, "PK_Id", "TurbineName", projectsViewModel.FK_Turbine);
+            ViewBag.FK_TimeType = new SelectList(db.VI_TimeType, "PK_Id", "Name", projectsViewModel.FK_TimeType);
+            ViewBag.FK_Country = new SelectList(db.VI_Country, "PK_Id", "CountryName", projectsViewModel.FK_Country);
+            ViewBag.FK_PlatformOrProduct = new SelectList(db.VI_PlatformOrProduct, "PK_Id", "ProductName", projectsViewModel.FK_PlatformOrProduct);
+            ViewBag.FK_Turbine = new SelectList(db.VI_Turbine, "PK_Id", "TurbineName", projectsViewModel.FK_Turbine);
 
 
 
@@ -242,10 +242,10 @@ namespace TimeReg.Controllers
                                                          ID_Value = c.PK_Id,
                                                          NumberAndTitle = c.Number + " :: " + c.Title
                                                      }), "ID_Value", "NumberAndTitle", projects.FK_OrderNumber);
-            ViewBag.FK_TimeType = new SelectList(db.TimeType, "PK_Id", "Name", projects.FK_TimeType);
-            ViewBag.FK_Country = new SelectList(db.Country, "PK_Id", "CountryName", projects.FK_Country);
+            ViewBag.FK_TimeType = new SelectList(db.VI_TimeType, "PK_Id", "Name", projects.FK_TimeType);
+            ViewBag.FK_Country = new SelectList(db.VI_Country, "PK_Id", "CountryName", projects.FK_Country);
             ViewBag.FK_PlatformOrProduct = new SelectList(db.PlatformOrProduct, "PK_Id", "ProductName", projects.FK_PlatformOrProduct);
-            ViewBag.FK_Turbine = new SelectList(db.Turbine, "PK_Id", "TurbineName", projects.FK_Turbine);
+            ViewBag.FK_Turbine = new SelectList(db.VI_Turbine, "PK_Id", "TurbineName", projects.FK_Turbine);
 
 
 

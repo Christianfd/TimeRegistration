@@ -279,6 +279,7 @@
     <Compile Include="ViewModels\TaskTypeViewModel.cs" />
     <Compile Include="ViewModels\TimeTypeViewModel.cs" />
     <Compile Include="ViewModels\UsersViewModel.cs" />
+    <Compile Include="ViewModels\UserTimePerProjectViewModel.cs" />
     <Compile Include="ViewModels\ViewModelTools\WeeklyTimeViewModel.cs" />
     <Compile Include="ViewModels\VITimeRegistrationViewModel.cs" />
     <Compile Include="ViewModels\TimeRegistrationViewModel.cs" />
@@ -440,6 +441,16 @@
     <Content Include="Content\bootstrap-grid.css.map" />
     <Content Include="Scripts\Chosen\composer.json" />
     <Content Include="Scripts\Chosen\LICENSE.md" />
+    <Content Include="WebTool.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>WebTool.edmx</DependentUpon>
+      <LastGenOutput>WebTool.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="WebTool.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>WebTool.edmx</DependentUpon>
+      <LastGenOutput>WebTool.cs</LastGenOutput>
+    </Content>
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -470,11 +481,6 @@
     <Content Include="Scripts\umd\popper-utils.min.js" />
     <Content Include="Scripts\umd\popper.js" />
     <Content Include="Scripts\umd\popper.min.js" />
-    <Content Include="WebTool.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>WebTool.cs</LastGenOutput>
-      <DependentUpon>WebTool.edmx</DependentUpon>
-    </Content>
     <None Include="Properties\PublishProfiles\RepIt-RemoveServer.pubxml" />
     <Content Include="Scripts\jquery-ui-1.12.1.js" />
     <Content Include="Scripts\jquery-ui-1.12.1.min.js" />
@@ -539,18 +545,6 @@
     <Content Include="Views\Comments\_DynamicEdit.cshtml" />
     <Content Include="Views\Comments\Index.cshtml" />
     <Content Include="Views\TaskType\Index.cshtml" />
-    <EntityDeploy Include="WebTool.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>WebTool.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="WebTool.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>WebTool.Context.cs</LastGenOutput>
-      <DependentUpon>WebTool.edmx</DependentUpon>
-    </Content>
-    <Content Include="WebTool.edmx.diagram">
-      <DependentUpon>WebTool.edmx</DependentUpon>
-    </Content>
     <Content Include="Views\OrderNumber\_DynamicCreate.cshtml" />
     <Content Include="Views\OrderNumber\_DynamicDelete.cshtml" />
     <Content Include="Views\OrderNumber\_DynamicDetails.cshtml" />
@@ -619,6 +613,13 @@
     <Content Include="Views\Comments\Back-Up\Details.cshtml" />
     <Content Include="Views\Comments\Back-Up\Edit.cshtml" />
     <Content Include="Views\Comments\_IndexTable.cshtml" />
+    <EntityDeploy Include="WebTool.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>WebTool.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="WebTool.edmx.diagram">
+      <DependentUpon>WebTool.edmx</DependentUpon>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

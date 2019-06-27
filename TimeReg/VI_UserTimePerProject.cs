@@ -14,7 +14,10 @@ namespace TimeReg
     
     public partial class VI_UserTimePerProject
     {
+        public int PK_Id { get; set; }
         public string UserName { get; set; }
+        public string NK_ZId { get; set; }
+        public string Name { get; set; }
         public Nullable<int> timeSum { get; set; }
         public int FK_ProjectId { get; set; }
     }

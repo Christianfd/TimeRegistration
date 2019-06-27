@@ -30,30 +30,65 @@ namespace TimeReg.Controllers
 			{
 				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 			}
-			VI_Users users = db.VI_Users.SingleOrDefault(m => m.PK_Id == id);
-			UsersViewModel usersViewModel = new UsersViewModel(users);
+
+            //Gets the current week number
+            var weekNo = CalendarHelper.GetWeekNr();
+
+
+            //Below Query is an extended version of a below query, this one divides it per week and then per project and then it chooses all projects within the current week.
+            var resultWeekly = db.Database.SqlQuery<WeeklyTimeViewModel>("SELECT cast(datepart(wk, date) as int) Week, year(date) as Year, sum(Time) as [TotalTime],FK_ProjectId,Name FROM	[TimeManagement].[VI_TimeRegistration] Join TimeManagement.VI_Projects on TimeManagement.VI_TimeRegistration.FK_ProjectId = TimeManagement.VI_Projects.PK_Id WHERE FK_UserId = @p0 AND datepart(wk, date) = @p1 AND year(date) = @p2	group by datepart(wk, date), year(date), FK_ProjectId, Name", id, weekNo, DateTime.Now.Year);
+            var ResultWeekly = resultWeekly.ToList();
+
+            if (ResultWeekly != null)
+            {
+                ViewBag.WeeklyTimePerProject = ResultWeekly;
+            }
+            else
+            {
+                ViewBag.WeeklyTimePerProject = new WeeklyTimeViewModel { Week = weekNo, Year = DateTime.Now.Year, TotalTime = 0 };
+            }
+
+            //Below is a conversion from VI_UserTimePerProject to UserTimePerProjectViewModel to avoid using ViewBags on dynamic expressions
+            var users = (from viUserTimePerProject in db.VI_UserTimePerProject.Where(m => m.PK_Id == id)
+                                    select new UserTimePerProjectViewModel()
+                                    {
+                                        PK_Id = viUserTimePerProject.PK_Id,
+                                        UserName = viUserTimePerProject.UserName,
+                                        NK_ZId = viUserTimePerProject.NK_ZId,
+                                        Name = viUserTimePerProject.Name,
+                                        timeSum = viUserTimePerProject.timeSum,
+                                        FK_ProjectId = viUserTimePerProject.FK_ProjectId
+                                        
+                                      
+        }).ToList();
+
+          
+
+
+            //var users =  db.VI_UserTimePerProject.Where(m => m.PK_Id == id).ToList() ;
+			// VI_Users users = db.VI_Users.SingleOrDefault(m => m.PK_Id == id);
+			//UsersViewModel usersViewModel = new UsersViewModel(users);
 			if (users == null)
 			{
 				return HttpNotFound();
 			}
 
-            //Gets the current week
-            var weekNo = CalendarHelper.GetWeekNr();
-
-
+		
+            //Below Query divides all time spent in different weeks and then selects the current week. Second line is bc a queri is not properly run before being used elsewhere, so otherwise this would return null
 			var result = db.Database.SqlQuery<WeeklyTimeViewModel>("SELECT	cast(datepart(wk, date) as int) Week, year(date) as Year, sum(Time) as [TotalTime] FROM	[TimeManagement].[VI_TimeRegistration] WHERE FK_UserId = @p0 AND datepart(wk, date) = @p1 AND year(date) = @p2	group by datepart(wk, date), year(date)", id, weekNo, DateTime.Now.Year).ToList();
 			var firstResult = result.FirstOrDefault();
 			if (firstResult != null) {
+                //Sets the viewbag to the first result.
 				ViewBag.WeeklyTime = firstResult;
 			} else
 			{
 				ViewBag.WeeklyTime = new WeeklyTimeViewModel { Week = weekNo, Year = DateTime.Now.Year, TotalTime = 0 };
 			}
-		  
-			  
-				
-			
-			return View(users);
+
+
+       
+
+            return View(users);
 		}
 
 		// GET: Users/Create

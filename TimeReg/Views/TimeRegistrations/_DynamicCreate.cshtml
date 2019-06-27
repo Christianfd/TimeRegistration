@@ -25,13 +25,13 @@
             @Html.LabelFor(model => model.FK_UserId, "User", htmlAttributes: new { @class = "col-form-label col-md-2" })
             <div class="col-md-10 ui-widget">
                 @*Auto Selection Should proably happen here*@
-                @Html.DropDownList("FK_UserId", null, htmlAttributes: new { @class = "form-control selectpicker dynamicUpdate", @AutoPostBack = "true" })
+                @Html.DropDownList("FK_UserId", null, htmlAttributes: new { @class = "form-control selectpicker dynamicUpdate", @AutoPostBack = "true", @ReadOnly = "true" })
                 <br />
                 @Html.ValidationMessageFor(model => model.FK_UserId, "", new { @class = "text-danger" })
             </div>
         </div>
                 @*Order Number
-        uses .dynamicUpdate to determine if it should use te dynamic update function
+        uses .dynamicUpdate to determine if it should use the dynamic update function
                 *@
         <div class="form-group">
             @Html.LabelFor(model => model.FK_OrderId, "Order Number", htmlAttributes: new { @class = "col-form-label col-md-2" })
