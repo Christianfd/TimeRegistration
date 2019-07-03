@@ -4,7 +4,7 @@
 	[FK_OrderId]   INT  NOT NULL DEFAULT 1,
     [FK_ProjectId] INT  NOT NULL,
     [FK_TaskId]    INT  NOT NULL,
-    [Time]         INT  NOT NULL,
+    [Time]         FLOAT  NOT NULL,
     [Date]         DATE NOT NULL,
     [DateEntry]    DATE NOT NULL,
     [Comment] NVARCHAR(300) NOT NULL DEFAULT 'No Comment', 

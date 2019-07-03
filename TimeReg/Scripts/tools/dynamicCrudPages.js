@@ -143,10 +143,13 @@ $("#PartialViewModalSaveButton").click(function () {
                 success: function (partialResult) {
                     console.log("Success");
                     if (partialResult == "Add Confirmed") {
+                        console.log("dynamicCurdPages.js Add Confirmed triggered");
 
+                        try {$("#confirmationMessage").show();}catch(e){}
                         try {
-                            inputCleanUp()
+                            inputCleanUp('partial');
                         } catch (e) {
+                            console.log(e);
                         form.find(':input').each(function () {
                             switch (this.type) {
                                 case 'password':
@@ -164,6 +167,7 @@ $("#PartialViewModalSaveButton").click(function () {
                         });
                         }
                     } else {
+                        console.log("dynamicCurdPages.js else part triggered");
                         $("#PartialViewModalBody").html(partialResult);
                     }
                     UpdateDynamicTable();

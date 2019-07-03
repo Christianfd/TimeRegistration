@@ -44,8 +44,8 @@
     @Scripts.Render("~/bundles/bootstrap")
 
     <script>
-        function inputCleanUp() {
-
+        function inputCleanUp(state) {
+           //No use of state since this only need one type of clean up
             var form = $("#PartialViewModalBody").children('form');
          form.find(':input').each(function () {
 
@@ -72,6 +72,5 @@
     
 </script>
 
-
-    <script src="~/Scripts/tools/dynamicCrudPages.js"></script>
+@Scripts.Render("~/bundles/dynamiccrud")
 }

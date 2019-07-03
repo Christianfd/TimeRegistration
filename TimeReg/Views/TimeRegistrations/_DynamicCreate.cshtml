@@ -4,8 +4,11 @@
 {
     @Html.AntiForgeryToken()
 
+
     <div class="form-horizontal">
         <h4>TimeRegistration</h4>
+        <button type="button" class="btn btn-dark" onclick="inputCleanUp('Full')">Clear Form</button>
+
         @*Needs the correkt link*@
         @*<h6> <a href="https://www.w3schools.com" title="Direct Links to Active CTO Projects">CTO Active Projects</a></h6>*@
         <hr />
@@ -36,7 +39,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.FK_OrderId, "Order Number", htmlAttributes: new { @class = "col-form-label col-md-2" })
             <div class="col-md-8 ui-widget">
-                @Html.DropDownList("FK_OrderId", (SelectList)ViewBag.FK_OrderId, "Please Select Order Number", htmlAttributes: new { @class = "form-control selectpicker dynamicUpdate" })
+                @Html.DropDownList("FK_OrderId", (SelectList)ViewBag.FK_OrderId, "Please Select Order Number", htmlAttributes: new { @class = "form-control selectpicker dynamicUpdate cleanDropDown" })
                 <br />
                 @Html.ValidationMessageFor(model => model.FK_OrderId, "", new { @class = "text-danger" })
                 @*Button for copying DSA Number*@
@@ -55,7 +58,7 @@
             @Html.LabelFor(model => model.FK_ProjectId, "Project", htmlAttributes: new { @class = "col-form-label col-md-2" })
             <div class="col-md-10 ui-widget">
 
-                @Html.DropDownList("FK_ProjectId", (SelectList)ViewBag.FK_ProjectId, "Please Select a Project", htmlAttributes: new { @class = "form-control selectpicker dynamicUpdate" })
+                @Html.DropDownList("FK_ProjectId", (SelectList)ViewBag.FK_ProjectId, "Please Select a Project", htmlAttributes: new { @class = "form-control selectpicker dynamicUpdate cleanDropDown" })
                 <br />
                 @Html.ValidationMessageFor(model => model.FK_ProjectId, "", new { @class = "text-danger" })
             </div>
@@ -65,7 +68,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.FK_TaskId, "Task Type", htmlAttributes: new { @class = "col-form-label col-md-2" })
             <div class="col-md-10 ui-widget">
-                @Html.DropDownList("FK_TaskId", (SelectList)ViewBag.FK_TaskId, "Please select the Correct Task Type", htmlAttributes: new { @class = "form-control selectpicker", @value = "&nbsp;" })
+                @Html.DropDownList("FK_TaskId", (SelectList)ViewBag.FK_TaskId, "Please select the Correct Task Type", htmlAttributes: new { @class = "form-control selectpicker cleanDropDown", @value = "&nbsp;" })
                 <br />
                 @Html.ValidationMessageFor(model => model.FK_TaskId, "", new { @class = "text-danger" })
             </div>
@@ -111,6 +114,7 @@
                 </div>
 
             </div>*@
+            <p id="confirmationMessage" style="display:none; color:forestgreen; ">New entry added!</p>
     </div>
 }
 @*OrderNumber trim to "Number Handling"*@
@@ -125,7 +129,11 @@
 
 <script>
     $(".datepicker").datepicker({ dateFormat: 'dd/M/yy' }).val();
-    $(".selectpicker").chosen();
+    $(".selectpicker").chosen({
+        no_results_text: "Oops, nothing found!"
+        ,search_contains: true
+    });
+
     //Clipboard functionality
     function fallbackCopyTextToClipboard(text) {
         var textArea = document.createElement("textarea");

@@ -19,7 +19,7 @@ namespace TimeReg.ViewModels
         [Required]
         public int FK_TaskId { get; set; }
         [Required]
-        public int Time { get; set; }
+        public double Time { get; set; }
         [Required]
         //[DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:dd/MMM/yyyy}", ApplyFormatInEditMode = true)]

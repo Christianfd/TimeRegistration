@@ -42,6 +42,62 @@
     @Scripts.Render("~/bundles/bootstrap")
 
 
+    
+    <script>
+        //Temp Solution on the Create New not cleaning up all entries
+        function inputCleanUp(state) {
+            var form = $("#PartialViewModalBody").children('form');
+
+            if (state = 'full') {
+                form.find(':input').each(function () {
+                    switch (this.type) {
+                        case 'password':
+                        case 'select-multiple':
+                        case 'text':
+                        case 'number':
+                        case 'textarea':
+                            $(this).val('');
+                            break;
+                        case 'checkbox':
+                        case 'radio':
+                            this.checked = false;
+                    }
+                    form.find(".cleanDropDown").each(function () {
+                        console.log($(this).val());
+                        $(this).val('');
+                        $(".selectpicker").trigger("chosen:updated");
+                    });
+
+                });
+            } else if (state = 'partial') {
+
+                form.find(':input').each(function () {
+                    switch (this.type) {
+                        case 'password':
+                        case 'select-multiple':
+                        case 'text':
+                        case 'number':
+                        case 'textarea':
+                            $(this).val('');
+                            break;
+                        case 'checkbox':
+                        case 'radio':
+                            this.checked = false;
+                    }
+                    form.find(".cleanDropDown").each(function () {
+                        console.log($(this).val());
+                        $(this).val('');
+                        $(".selectpicker").trigger("chosen:updated");
+                    });
+                });
+
+                $(".selectpicker").trigger("chosen:updated");
+            }
+            console.log("inputCleanUp triggered");
+            $(".selectpicker").trigger("chosen:updated");
+        }
+
+    </script>
 
 
     @*Ajax table handling
@@ -192,8 +248,38 @@
                         method: "POST",  // post
                         data: form.serialize(),
                         success: function (partialResult) {
-                            $("#PartialViewModalBody").html(partialResult);
+                            console.log("Success");
+                            if (partialResult == "Add Confirmed") {
+                                console.log("dynamicCurdPages.js Add Confirmed triggered");
+
+                                try { $("#confirmationMessage").show(); } catch (e) { }
+                                try {
+                                    inputCleanUp('partial');
+                                } catch (e) {
+                                    console.log(e);
+                                    form.find(':input').each(function () {
+                                        switch (this.type) {
+                                            case 'password':
+                                            case 'select-multiple':
+                                            case 'select-one':
+                                            case 'text':
+                                            case 'number':
+                                            case 'textarea':
+                                                $(this).val('');
+                                                break;
+                                            case 'checkbox':
+                                            case 'radio':
+                                                this.checked = false;
+                                        }
+                                    });
+                                }
+                            } else {
+                                console.log("dynamicCurdPages.js else part triggered");
+                                $("#PartialViewModalBody").html(partialResult);
+                            }
                             UpdateUnionTable();
+                            // $("#PartialViewModalBody").html(partialResult);
+                            //console.log(partialResult);
                         },
                         error: function (xhr, ajaxOptions, thrownError) {
                             UpdateUnionTable();

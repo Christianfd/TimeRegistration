@@ -4,7 +4,7 @@
 	@ProjectId int,
 	@OrderId int = 1,
 	@TaskId int,
-	@TimeRegistered int,
+	@TimeRegistered float,
 	@Date date,
 	@DateEntry date,
 	@Comment nvarchar(300) = "No Comment"

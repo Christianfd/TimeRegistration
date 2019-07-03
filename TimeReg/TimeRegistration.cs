@@ -19,7 +19,7 @@ namespace TimeReg
         public int FK_OrderId { get; set; }
         public int FK_ProjectId { get; set; }
         public int FK_TaskId { get; set; }
-        public int Time { get; set; }
+        public double Time { get; set; }
         public System.DateTime Date { get; set; }
         public System.DateTime DateEntry { get; set; }
         public string Comment { get; set; }

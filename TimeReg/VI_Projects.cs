@@ -38,6 +38,6 @@ namespace TimeReg
         public string RequesterName { get; set; }
         public int FK_CustomerRef { get; set; }
         public string CustomerRefName { get; set; }
-        public Nullable<int> timeSum { get; set; }
+        public Nullable<double> timeSum { get; set; }
     }
 }

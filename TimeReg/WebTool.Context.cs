@@ -48,14 +48,14 @@ namespace TimeReg
         public virtual DbSet<VI_PlatformOrProduct> VI_PlatformOrProduct { get; set; }
         public virtual DbSet<VI_ProjectAndOrderTools> VI_ProjectAndOrderTools { get; set; }
         public virtual DbSet<VI_ProjectAndOrderToolsUnion> VI_ProjectAndOrderToolsUnion { get; set; }
-        public virtual DbSet<VI_Projects> VI_Projects { get; set; }
         public virtual DbSet<VI_Requester> VI_Requester { get; set; }
         public virtual DbSet<VI_RequestOrg> VI_RequestOrg { get; set; }
         public virtual DbSet<VI_TaskType> VI_TaskType { get; set; }
-        public virtual DbSet<VI_TimeRegistration> VI_TimeRegistration { get; set; }
         public virtual DbSet<VI_TimeType> VI_TimeType { get; set; }
         public virtual DbSet<VI_Turbine> VI_Turbine { get; set; }
         public virtual DbSet<VI_UserAssignment> VI_UserAssignment { get; set; }
+        public virtual DbSet<VI_Projects> VI_Projects { get; set; }
+        public virtual DbSet<VI_TimeRegistration> VI_TimeRegistration { get; set; }
         public virtual DbSet<VI_Users> VI_Users { get; set; }
         public virtual DbSet<VI_UserTimePerProject> VI_UserTimePerProject { get; set; }
     
@@ -216,7 +216,7 @@ namespace TimeReg
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_AddTaskType", taskTypeNameParameter);
         }
     
-        public virtual int SP_AddTimeRegistration(Nullable<int> userId, Nullable<int> projectId, Nullable<int> orderId, Nullable<int> taskId, Nullable<int> timeRegistered, Nullable<System.DateTime> date, Nullable<System.DateTime> dateEntry, string comment)
+        public virtual int SP_AddTimeRegistration(Nullable<int> userId, Nullable<int> projectId, Nullable<int> orderId, Nullable<int> taskId, Nullable<double> timeRegistered, Nullable<System.DateTime> date, Nullable<System.DateTime> dateEntry, string comment)
         {
             var userIdParameter = userId.HasValue ?
                 new ObjectParameter("UserId", userId) :
@@ -236,7 +236,7 @@ namespace TimeReg
     
             var timeRegisteredParameter = timeRegistered.HasValue ?
                 new ObjectParameter("TimeRegistered", timeRegistered) :
-                new ObjectParameter("TimeRegistered", typeof(int));
+                new ObjectParameter("TimeRegistered", typeof(double));
     
             var dateParameter = date.HasValue ?
                 new ObjectParameter("Date", date) :
@@ -590,7 +590,7 @@ namespace TimeReg
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_UpdateTaskType", updateIdParameter, taskTypeNameParameter);
         }
     
-        public virtual int SP_UpdateTimeRegistration(Nullable<int> updateId, Nullable<int> userId, Nullable<int> projectId, Nullable<int> orderId, Nullable<int> taskId, Nullable<int> timeRegistered, Nullable<System.DateTime> date, Nullable<System.DateTime> dateEntry, string comment)
+        public virtual int SP_UpdateTimeRegistration(Nullable<int> updateId, Nullable<int> userId, Nullable<int> projectId, Nullable<int> orderId, Nullable<int> taskId, Nullable<double> timeRegistered, Nullable<System.DateTime> date, Nullable<System.DateTime> dateEntry, string comment)
         {
             var updateIdParameter = updateId.HasValue ?
                 new ObjectParameter("UpdateId", updateId) :
@@ -614,7 +614,7 @@ namespace TimeReg
     
             var timeRegisteredParameter = timeRegistered.HasValue ?
                 new ObjectParameter("TimeRegistered", timeRegistered) :
-                new ObjectParameter("TimeRegistered", typeof(int));
+                new ObjectParameter("TimeRegistered", typeof(double));
     
             var dateParameter = date.HasValue ?
                 new ObjectParameter("Date", date) :

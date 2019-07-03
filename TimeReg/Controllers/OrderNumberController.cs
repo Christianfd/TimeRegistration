@@ -60,6 +60,7 @@ namespace TimeReg.Controllers
         {
             if (ModelState.IsValid)
             {
+                orderNumberViewModel.Number = orderNumberViewModel.Number.Replace("/DSA_", "/DSA-");
                 db.SP_AddOrderNumber(orderNumberViewModel.Number, orderNumberViewModel.Title);
                 db.SaveChanges();
 
@@ -102,6 +103,8 @@ namespace TimeReg.Controllers
         {
             if (ModelState.IsValid && orderNumberViewModel.PK_Id > 17)
             {
+                orderNumberViewModel.Number = orderNumberViewModel.Number.Replace("/DSA_", "/DSA-");
+
                 db.SP_UpdateOrderNumber(orderNumberViewModel.PK_Id, orderNumberViewModel.Number, orderNumberViewModel.Title);
                 db.SaveChanges();
 

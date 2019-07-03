@@ -45,7 +45,60 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
     @Scripts.Render("~/bundles/bootstrap")
     
-    <script src="~/Scripts/tools/dynamicCrudPages.js"></script>
+
+<script>
+    function inputCleanUp(state) {
+        console.log(state);
+        
+        var form = $("#PartialViewModalBody").children('form');
+        if (state == 'full') {
+            form.find(':input').each(function () {
+                switch (this.type) {
+                    case 'password':
+                    case 'select-multiple':
+                    case 'text':
+                    case 'number':
+                    case 'textarea':
+                        $(this).val('');
+                        break;
+                    case 'checkbox':
+                    case 'radio':
+                        this.checked = false;
+                }
+                form.find(".cleanDropDown").each(function () {
+                    console.log($(this).val());
+                    $(this).val('');
+                    $(".selectpicker").trigger("chosen:updated");
+                });
+
+            });
+        } else if (state == 'partial') {
+            form.find(':input').each(function () {
+                switch (this.type) {
+                    case 'select-multiple':
+                    case 'number':
+                    case 'text':
+                    case 'textarea':
+                        $(this).val('');
+                        break;
+                    case 'checkbox':
+                    case 'radio':
+                        this.checked = false;
+                }
+                $(".selectpicker").trigger("chosen:updated");
+            });
+
+            $(".selectpicker").trigger("chosen:updated");
+        }
+        console.log("inputCleanUp triggered");
+        $(".selectpicker").trigger("chosen:updated");
+        }
+
+    //Below bundle is loaded after inputCleanUp as it's dependant on it in this case.
+</script>
+
+@Scripts.Render("~/bundles/dynamiccrud")
+
 
 
 

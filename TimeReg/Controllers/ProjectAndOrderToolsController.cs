@@ -163,6 +163,8 @@ namespace TimeReg.Controllers
                 try
                 {
                     db.SaveChanges();
+                    string removed = "Add Confirmed";
+                    return Json(removed, JsonRequestBehavior.AllowGet);
                 }
                 catch (DbEntityValidationException e)
                 {
