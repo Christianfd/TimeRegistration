@@ -690,5 +690,14 @@ namespace TimeReg
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_UpdateUserAssignment", updateIdParameter, userIdParameter, projectIdParameter);
         }
+    
+        public virtual int SP_AddPlatformOrProduct1(string platformOrProject)
+        {
+            var platformOrProjectParameter = platformOrProject != null ?
+                new ObjectParameter("platformOrProject", platformOrProject) :
+                new ObjectParameter("platformOrProject", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_AddPlatformOrProduct1", platformOrProjectParameter);
+        }
     }
 }

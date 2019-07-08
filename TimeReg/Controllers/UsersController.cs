@@ -60,9 +60,40 @@ namespace TimeReg.Controllers
                                         FK_ProjectId = viUserTimePerProject.FK_ProjectId
                                         
                                       
-        }).ToList();
+        }).OrderByDescending(m => m.timeSum).ToList();
 
-          
+
+            //Bit of a whacky approach for flow control but it should work fine.
+            //Below does a check to see if the above List is empty, as it will be if there is no Time Registration entries by the user.
+            try
+            {
+                if (users.SingleOrDefault().UserName == null)
+                {
+                    users = (from viUsers in db.VI_Users.Where(m => m.PK_Id == id)
+                             select new UserTimePerProjectViewModel()
+                             {
+                                 PK_Id = viUsers.PK_Id,
+                                 UserName = viUsers.NK_Name,
+                                 NK_ZId = viUsers.NK_ZId,
+                                 Name = "No time records",
+                                 timeSum = 0,
+                                 FK_ProjectId = 0
+                             }).ToList();
+                };
+            } catch
+            {
+                    users = (from viUsers in db.VI_Users.Where(m => m.PK_Id == id)
+                             select new UserTimePerProjectViewModel()
+                             {
+                                 PK_Id = viUsers.PK_Id,
+                                 UserName = viUsers.NK_Name,
+                                 NK_ZId = viUsers.NK_ZId,
+                                 Name = "No time records",
+                                 timeSum = 0,
+                                 FK_ProjectId = 0
+                             }).ToList();
+            }
+       
 
 
             //var users =  db.VI_UserTimePerProject.Where(m => m.PK_Id == id).ToList() ;

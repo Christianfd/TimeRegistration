@@ -1334,6 +1334,9 @@ warning 6002: The table/view 'WebTool.TimeManagement.VI_UserTimePerProject' does
           <EntitySet Name="VI_TimeRegistration" EntityType="WebTool.VI_TimeRegistration" />
           <EntitySet Name="VI_Users" EntityType="WebTool.VI_Users" />
           <EntitySet Name="VI_UserTimePerProject" EntityType="WebTool.VI_UserTimePerProject" />
+          <FunctionImport Name="SP_AddPlatformOrProduct1">
+            <Parameter Name="platformOrProject" Mode="In" Type="String" />
+          </FunctionImport>
         </EntityContainer>
         <EntityType Name="Comments">
           <Key>
@@ -1953,7 +1956,6 @@ warning 6002: The table/view 'WebTool.TimeManagement.VI_UserTimePerProject' does
           <FunctionImportMapping FunctionImportName="SP_AddCustomerRef" FunctionName="WebTool.Store.SP_AddCustomerRef" />
           <FunctionImportMapping FunctionImportName="SP_AddNewUser" FunctionName="WebTool.Store.SP_AddNewUser" />
           <FunctionImportMapping FunctionImportName="SP_AddOrderNumber" FunctionName="WebTool.Store.SP_AddOrderNumber" />
-          <FunctionImportMapping FunctionImportName="SP_AddPlatformOrProduct" FunctionName="WebTool.Store.SP_AddPlatformOrProduct" />
           <FunctionImportMapping FunctionImportName="SP_AddProject" FunctionName="WebTool.Store.SP_AddProject" />
           <FunctionImportMapping FunctionImportName="SP_AddRequester" FunctionName="WebTool.Store.SP_AddRequester" />
           <FunctionImportMapping FunctionImportName="SP_AddRequestOrg" FunctionName="WebTool.Store.SP_AddRequestOrg" />
@@ -2329,6 +2331,7 @@ warning 6002: The table/view 'WebTool.TimeManagement.VI_UserTimePerProject' does
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="SP_AddPlatformOrProduct1" FunctionName="WebTool.Store.SP_AddPlatformOrProduct" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
