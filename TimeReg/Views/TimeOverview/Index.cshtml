@@ -1,0 +1,40 @@
+﻿@model List<TimeReg.VI_Users>
+
+
+@{
+    ViewBag.Title = "Time Overview - Index";
+}
+
+<h2>Overview of time entries</h2>
+
+
+<div class="d-flex flex-row justify-content-around flex-container flex-wrap">
+    @foreach (var item in Model)
+    {
+        if (@item.NK_Name != "To Be Decided")
+        {
+
+        <div class="p-3">
+            <h5>
+                @Html.DisplayFor(modelItem => item.NK_Name)
+            </h5>
+            <form class="form-group" id="formId @item.PK_Id">
+                <input type="date" placeholder="From ...." />
+                <input type="date" placeholder="To ...." />
+            </form>
+            <button class="btn btn-info float-right" value="@item.PK_Id">Get Entries</button>
+        </div>
+        }
+
+    }
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jquery")
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+    @Scripts.Render("~/bundles/bootstrap")
+
+
+}

@@ -40,90 +40,32 @@
 
 </div>
 
-@*
-table containing all time registrations.
-
-*@
-<p>All time registrations</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                Project
-            </th>
-            <th>
-                Total Time
-            </th>
-
-
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-               
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.timeSum)
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
-
-
+@*div containing the input needed for the date range picker.*@
+<div>
+    Pick time period to look at: <br />
+    <input class="col-4" type="text" name="datefilter" value="" id="dateRangePicker" />
+</div>
 
 @*
-Table containing all time registrations for the current week    
+    table containing all time registrations.
+
 *@
 
-
-@*@{ 
-   var WeeklyTimePerProject = ViewBag.WeeklyTimePerProject;
-}
-
-    <table class="table">
-        <thead>
-            <tr>
-                <th>
-                    Project
-                </th>
-                <th>
-                    Total Time
-                </th>
-               
-            </tr>
-        </thead>
-        <tbody>
-            @{
-
-            }
-
-            @foreach (var item in WeeklyTimePerProject)
-            {
-
-                <tr>
-
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Name)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.TotalTime)
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>*@
+<div id="TableWrapperTimeTable">
+    Loading TimeRegistrations..
+</div>
 
 <br />
 <hr />
 <p>
     <a class="btn btn-outline-secondary" href="@Url.Content("~/TimeRegistrations")">Time Registration &raquo;</a>
     <a class="btn btn-outline-secondary" href="@Url.Content("~/Comments")">Weekly Comment &raquo;</a>
+</p>
+<p>
+    @ViewBag.startDateController
+</p>
+<p>
+    @ViewBag.endDateController
 </p>
 
 
@@ -132,3 +74,101 @@ Table containing all time registrations for the current week
     @Html.ActionLink("Back to List", "Index")
 </p>
 
+@section Scripts {
+  @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jquery")
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/daterangepicker")
+    <link rel="stylesheet" type="text/css" href="~/Scripts/DateRangePicker/daterangepicker.css" />
+    
+
+<script>
+    function UpdateDynamicTable() {
+        $.ajax({
+            url: '@Url.Content("~/Users/TimeTable")',
+            type: "GET",
+            data: { Id: @Model.First().PK_Id }
+        }).done(function (partialViewResult) {
+            $("#TableWrapperTimeTable").html(partialViewResult);
+        })
+    }
+
+    $(document).ready(function () {
+        UpdateDynamicTable();
+    });
+
+    function UpdateTimeTable(startDateJS, endDateJS) {
+        console.log("UpdateTimeTable triggered.");
+        console.log("Start Date: " + startDateJS);
+        console.log("End Date: " + endDateJS );
+        $.ajax({
+            url: '@Url.Content("~/Users/TimeTable")',
+            type: "GET",
+            data: { Id: @Model.First().PK_Id, startDate: startDateJS, endDate:endDateJS },
+        }).done(function (partialViewResult) {
+            $("#TableWrapperTimeTable").html(partialViewResult);
+            console.log("Succesfully got time entries");
+        });
+    }
+
+</script>
+
+
+    <script>
+        //Applys the intended behaviour to id="dateRangePicker" and converts this to an input which can get a date range. using  http://www.daterangepicker.com/
+        $('#dateRangePicker').daterangepicker({
+            "showWeekNumbers": true,
+            "locale": {
+                "format": "DD/MM/YYYY",
+                "separator": " - ",
+                "applyLabel": "Apply",
+                "cancelLabel": "Cancel",
+                "fromLabel": "From",
+                "toLabel": "To",
+                "customRangeLabel": "Custom",
+                "weekLabel": "W",
+                "daysOfWeek": [
+                    "Su",
+                    "Mo",
+                    "Tu",
+                    "We",
+                    "Th",
+                    "Fr",
+                    "Sa"
+                ],
+                "monthNames": [
+                    "January",
+                    "February",
+                    "March",
+                    "April",
+                    "May",
+                    "June",
+                    "July",
+                    "August",
+                    "September",
+                    "October",
+                    "November",
+                    "December"
+                ],
+             
+            },
+            "opens": "center",
+            "drops": "up"
+        }, function(start, end, label) {
+            console.log('New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')');
+        });
+
+        //Below uses the UsersController to set the default range to the current weeks ranges, from start to finish.
+        $('#dateRangePicker').data('daterangepicker').setStartDate('@ViewBag.startDateController');
+        $('#dateRangePicker').data('daterangepicker').setEndDate('@ViewBag.endDateController');
+
+        //Below event listener updates the table on apply.
+        $('#dateRangePicker').on('apply.daterangepicker', function(ev, picker) {
+            var startDate = picker.startDate.format('MM/DD/YYYY');
+            var endDate = picker.endDate.format('MM/DD/YYYY');
+            UpdateTimeTable(startDate, endDate);
+        });
+    </script>
+    }

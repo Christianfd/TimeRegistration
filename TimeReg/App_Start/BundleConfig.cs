@@ -22,6 +22,11 @@ namespace TimeReg
                         "~/Scripts/unobtrusive-ajax.js",
                         "~/Scripts/jquery.validate*"));
 
+            //Bundle for using DateRangerPicker:
+            bundles.Add(new ScriptBundle("~/bundles/daterangepicker").Include(
+                       "~/Scripts/DateRangePicker/moment.min.js",
+                       "~/Scripts/DateRangePicker/daterangepicker.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/jqueryui").Include(
             "~/Scripts/jquery-ui-{version}.js"));
 

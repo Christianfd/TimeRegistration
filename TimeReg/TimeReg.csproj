@@ -210,6 +210,7 @@
     <Compile Include="Controllers\ProjectControllers\TaskTypeController.cs" />
     <Compile Include="Controllers\TimeRegistrationsController.cs" />
     <Compile Include="Controllers\UserAssignmentsController.cs" />
+    <Compile Include="Controllers\TimeOverviewController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Country.cs">
       <DependentUpon>WebTool.tt</DependentUpon>
@@ -420,6 +421,13 @@
     <Content Include="Scripts\Chosen\index.html" />
     <Content Include="Scripts\Chosen\index.proto.html" />
     <Content Include="Scripts\Chosen\options.html" />
+    <Content Include="Scripts\DateRangePicker\.gitignore" />
+    <Content Include="Scripts\DateRangePicker\daterangepicker.css" />
+    <Content Include="Scripts\DateRangePicker\daterangepicker.js" />
+    <Content Include="Scripts\DateRangePicker\demo.html" />
+    <Content Include="Scripts\DateRangePicker\drp.png" />
+    <Content Include="Scripts\DateRangePicker\moment.min.js" />
+    <Content Include="Scripts\DateRangePicker\package.js" />
     <Content Include="Scripts\Editable-Select\jquery-editable-select.js" />
     <Content Include="Scripts\esm\popper-utils.js" />
     <Content Include="Scripts\esm\popper-utils.min.js" />
@@ -451,6 +459,9 @@
       <DependentUpon>WebTool.edmx</DependentUpon>
       <LastGenOutput>WebTool.cs</LastGenOutput>
     </Content>
+    <Content Include="Scripts\DateRangePicker\bower.json" />
+    <Content Include="Scripts\DateRangePicker\package.json" />
+    <Content Include="Scripts\DateRangePicker\README.md" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -620,12 +631,18 @@
     <Content Include="WebTool.edmx.diagram">
       <DependentUpon>WebTool.edmx</DependentUpon>
     </Content>
+    <Content Include="Views\ProjectAndOrderTools\_UnionIndexTable - Copy.cshtml" />
+    <Content Include="Views\TimeOverview\Account.cshtml" />
+    <Content Include="Views\TimeOverview\Index.cshtml" />
+    <Content Include="Views\Users\_TimeTable.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Controllers\OrderNumberTool\" />
     <Folder Include="Resources\" />
     <Folder Include="Scripts\Chosen\docsupport\" />
+    <Folder Include="Scripts\DateRangePicker\example\" />
+    <Folder Include="Scripts\DateRangePicker\website\" />
     <Folder Include="Views\Windows\" />
   </ItemGroup>
   <ItemGroup>

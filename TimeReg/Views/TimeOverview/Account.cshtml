@@ -1,0 +1,19 @@
+﻿
+@{
+    ViewBag.Title = "Users - Account";
+}
+
+<h2>Your Account is:</h2>
+
+@using Microsoft.AspNet.Identity
+@if (Request.IsAuthenticated)
+{
+    <h1>@User.Identity.GetUserName()</h1>
+    <h4>Please send above to: Christian.Davis@siemensgamesa.com </h4>
+}
+else
+{
+    <h3>Something went wrong, please contact me at: Christian.Davis@siemensgamesa.com</h3>
+}
+
+

@@ -27,6 +27,10 @@
         <th>
             Time Type
         </th>
+
+        <th>
+            !Temp! - Requester
+        </th>
         <th></th>
     </tr>
 
@@ -51,6 +55,9 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.TimeTypeName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RequesterName)
         </td>
         <td>
             @if (@item.PK_Id > 17)

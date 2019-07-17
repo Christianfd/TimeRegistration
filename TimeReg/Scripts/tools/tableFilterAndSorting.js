@@ -13,7 +13,7 @@ $(document).ready(function () {
         //Enables search input
         $("#SearchInput").on("keyup", function() {
             var value = $(this).val().toLowerCase();
-            $(".table tr").filter(function () {
+            $(".table td").filter(function () {
                 $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
             });
         });

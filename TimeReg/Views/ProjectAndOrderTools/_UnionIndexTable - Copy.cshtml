@@ -1,0 +1,118 @@
+﻿@model IEnumerable<TimeReg.VI_ProjectAndOrderToolsUnion>
+<br>
+<table class="table">
+    <tr>
+        <th>Requester</th>
+        <th>Requesting Organisation</th>
+        <th>Customer Reference</th>
+        <th>PlatformOrProduct</th>
+        <th>Turbine</th>
+        <th>TimeType</th>
+        <th>TaskType</th>
+    </tr>
+    
+
+
+    @for (int i = 0; i < ViewBag.MaxInt; i++)
+    {
+        dynamic item;
+        <tr>
+            <td>
+                @if (((IEnumerable<dynamic>)ViewBag.Requester).Count() > i)
+                {
+                    item = ViewBag.Requester;
+
+                    @item[i].Name;
+                    <br />
+                    <a href="javascript:void()" class="Edit" data-UnionType="@item[i].Type" data-UnionId="@item[i].PK_Id">Edit</a> <span> | </span>
+                    <a href="javascript:void()" class="Details" data-UnionType="@item[i].Type" data-UnionId="@item[i].PK_Id">Details</a> <span> | </span>
+                    <a href="javascript:void()" class="Delete" data-UnionType="@item[i].Type" data-UnionId="@item[i].PK_Id">Delete</a> 
+
+                }
+            </td>
+
+            <td>
+                @if (((IEnumerable<dynamic>)ViewBag.RequestOrg).Count() > i)
+                {
+                    item = ViewBag.RequestOrg;
+
+                    @item[i].Name;
+                    <br />
+                    <a href="javascript:void()" class="Edit" data-UnionType="@item[i].Type" data-UnionId="@item[i].PK_Id">Edit</a> <span> | </span>
+                    <a href="javascript:void()" class="Details" data-UnionType="@item[i].Type" data-UnionId="@item[i].PK_Id">Details</a> <span> | </span>
+                    <a href="javascript:void()" class="Delete" data-UnionType="@item[i].Type" data-UnionId="@item[i].PK_Id">Delete</a> 
+                }
+            </td>
+
+            <td>
+                @if (((IEnumerable<dynamic>)ViewBag.CustomerRef).Count() > i)
+                {
+                    item = ViewBag.CustomerRef;
+
+                    @item[i].Name;
+                    <br />
+                    <a href="javascript:void()" class="Edit" data-UnionType="@item[i].Type" data-UnionId="@item[i].PK_Id">Edit</a> <span> | </span>
+                    <a href="javascript:void()" class="Details" data-UnionType="@item[i].Type" data-UnionId="@item[i].PK_Id">Details</a> <span> | </span>
+                    <a href="javascript:void()" class="Delete" data-UnionType="@item[i].Type" data-UnionId="@item[i].PK_Id">Delete</a> 
+                }
+            </td>
+            <td>
+                @if (((IEnumerable<dynamic>)ViewBag.PlatformOrProduct).Count() > i)
+                {
+                    item = ViewBag.PlatformOrProduct;
+
+                    @item[i].Name;
+                    <br />
+                    <a href="javascript:void()" class="Edit" data-UnionType="@item[i].Type" data-UnionId="@item[i].PK_Id">Edit</a> <span> | </span>
+                    <a href="javascript:void()" class="Details" data-UnionType="@item[i].Type" data-UnionId="@item[i].PK_Id">Details</a> <span> | </span>
+                    <a href="javascript:void()" class="Delete" data-UnionType="@item[i].Type" data-UnionId="@item[i].PK_Id">Delete</a> 
+                }
+            </td>
+            <td>
+                @if (((IEnumerable<dynamic>)ViewBag.Turbine).Count() > i)
+                {
+                    item = ViewBag.Turbine;
+
+                    @item[i].Name;
+                    <br />
+                    <a href="javascript:void()" class="Edit" data-UnionType="@item[i].Type" data-UnionId="@item[i].PK_Id">Edit</a> <span> | </span>
+                    <a href="javascript:void()" class="Details" data-UnionType="@item[i].Type" data-UnionId="@item[i].PK_Id">Details</a> <span> | </span>
+                    <a href="javascript:void()" class="Delete" data-UnionType="@item[i].Type" data-UnionId="@item[i].PK_Id">Delete</a> 
+                }
+            </td>
+            <td>
+                @if (((IEnumerable<dynamic>)ViewBag.TimeType).Count() > i)
+                {
+                    item = ViewBag.TimeType;
+                    @item[i].Name;
+                    <br />
+                    <a href="javascript:void()" class="Edit" data-UnionType="@item[i].Type" data-UnionId="@item[i].PK_Id">Edit</a> <span> | </span>
+                    <a href="javascript:void()" class="Details" data-UnionType="@item[i].Type" data-UnionId="@item[i].PK_Id">Details</a> <span> | </span>
+                    <a href="javascript:void()" class="Delete" data-UnionType="@item[i].Type" data-UnionId="@item[i].PK_Id">Delete</a> 
+                }
+            </td>
+            <td>
+                @if (((IEnumerable<dynamic>)ViewBag.TaskType).Count() > i)
+                {
+                    item = ViewBag.TaskType;
+
+                    @item[i].Name;
+                    <br />
+                    <a href="javascript:void()" class="Edit" data-UnionType="@item[i].Type" data-UnionId="@item[i].PK_Id">Edit</a> <span> | </span>
+                    <a href="javascript:void()" class="Details" data-UnionType="@item[i].Type" data-UnionId="@item[i].PK_Id">Details</a> <span> | </span>
+                    <a href="javascript:void()" class="Delete" data-UnionType="@item[i].Type" data-UnionId="@item[i].PK_Id">Delete</a> 
+                }
+            </td>
+        </tr>
+       }
+</table>
+
+
+
+@*
+    This script handles everything around the tables, from sorting to generic search.
+    It adds an input filtering and id value id="table" to an element with class="table"
+
+    INTENDED FOR PAGES WITH 1 TABLE
+*@
+<script src="~/Scripts/tools/tableFilterAndSorting.js"></script>

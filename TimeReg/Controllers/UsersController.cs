@@ -55,31 +55,32 @@ namespace TimeReg.Controllers
                                         PK_Id = viUserTimePerProject.PK_Id,
                                         UserName = viUserTimePerProject.UserName,
                                         NK_ZId = viUserTimePerProject.NK_ZId,
-                                        Name = viUserTimePerProject.Name,
                                         timeSum = viUserTimePerProject.timeSum,
-                                        FK_ProjectId = viUserTimePerProject.FK_ProjectId
-                                        
-                                      
-        }).OrderByDescending(m => m.timeSum).ToList();
+                                        FK_ProjectId = viUserTimePerProject.FK_ProjectId,
+                                        OrderNumber = viUserTimePerProject.Number,
+                                        Name = viUserTimePerProject.Name
+
+
+                                    }).OrderByDescending(m => m.timeSum).ToList();
 
 
             //Bit of a whacky approach for flow control but it should work fine.
             //Below does a check to see if the above List is empty, as it will be if there is no Time Registration entries by the user.
             try
             {
-                if (users.SingleOrDefault().UserName == null)
-                {
-                    users = (from viUsers in db.VI_Users.Where(m => m.PK_Id == id)
-                             select new UserTimePerProjectViewModel()
-                             {
-                                 PK_Id = viUsers.PK_Id,
-                                 UserName = viUsers.NK_Name,
-                                 NK_ZId = viUsers.NK_ZId,
-                                 Name = "No time records",
-                                 timeSum = 0,
-                                 FK_ProjectId = 0
-                             }).ToList();
-                };
+                //if (users.SingleOrDefault().UserName == null)
+                //{
+                //    users = (from viUsers in db.VI_Users.Where(m => m.PK_Id == id)
+                //             select new UserTimePerProjectViewModel()
+                //             {
+                //                 PK_Id = viUsers.PK_Id,
+                //                 UserName = viUsers.NK_Name,
+                //                 NK_ZId = viUsers.NK_ZId,
+                //                 Name = "No time records",
+                //                 timeSum = 0,
+                //                 FK_ProjectId = 0
+                //             }).ToList();
+                //};
             } catch
             {
                     users = (from viUsers in db.VI_Users.Where(m => m.PK_Id == id)
@@ -88,9 +89,10 @@ namespace TimeReg.Controllers
                                  PK_Id = viUsers.PK_Id,
                                  UserName = viUsers.NK_Name,
                                  NK_ZId = viUsers.NK_ZId,
-                                 Name = "No time records",
+                                 OrderNumber = "No time records",
                                  timeSum = 0,
-                                 FK_ProjectId = 0
+                                 FK_ProjectId = 0,
+                                 Name = "No time records"
                              }).ToList();
             }
        
@@ -117,7 +119,17 @@ namespace TimeReg.Controllers
 			}
 
 
-       
+            // Used to set ViewBags used by the date range picker to set a proper starting range.
+            var input = DateTime.Now.Date;
+            int delta = DayOfWeek.Monday - input.DayOfWeek;
+            if (delta > 0)
+                delta -= 7;
+            var startDateController = input.AddDays(delta).Date.ToString("dd/MM/yyyy");
+            var endDateController = input.AddDays(6).Date.ToString("dd/MM/yyyy");
+            ViewBag.startDateController = startDateController;
+            ViewBag.endDateController = endDateController;
+
+
 
             return View(users);
 		}
@@ -211,7 +223,93 @@ namespace TimeReg.Controllers
 			return RedirectToAction("Index");
 		}
 
-		public ActionResult Account()
+        [HttpGet]
+        public ActionResult TimeTable(int id, DateTime? startDate, DateTime? endDate)
+        {
+            DateTime startDateController;
+            DateTime endDateController;
+            if (startDate == null || endDate == null)
+            {
+                DateTime input = DateTime.Now.Date;
+                int delta = DayOfWeek.Monday - input.DayOfWeek;
+                if (delta > 0)
+                    delta -= 7;
+                startDateController = input.AddDays(delta);
+                endDateController = startDateController.AddDays(6);
+                ViewBag.startDateController = startDateController;
+                ViewBag.endDateController = endDateController;
+            } else
+            {
+                startDateController = (DateTime)startDate;
+                endDateController = (DateTime)endDate;
+            }
+            //Below is a conversion from VI_UserTimePerProject to UserTimePerProjectViewModel to avoid using ViewBags on dynamic expressions
+            var users = (from viUserTimePerProject in db.VI_UserTimePerProject.Where(m => m.PK_Id == id && m.Date >= startDateController && m.Date <= endDateController)
+                         select new UserTimePerProjectViewModel()
+                         {
+                             PK_Id = viUserTimePerProject.PK_Id,
+                             UserName = viUserTimePerProject.UserName,
+                             NK_ZId = viUserTimePerProject.NK_ZId,
+                             OrderNumber = viUserTimePerProject.Number,
+                             timeSum = viUserTimePerProject.timeSum,
+                             FK_ProjectId = viUserTimePerProject.FK_ProjectId,
+                             Date = viUserTimePerProject.Date,
+                             Name = viUserTimePerProject.Name
+
+                         }).OrderByDescending(m => m.timeSum).ToList();
+
+            //Bit of a whacky approach for flow control but it should work fine.
+            //Below does a check to see if the above List is empty, as it will be if there is no Time Registration entries by the user.
+            try
+            {
+                //if (users.SingleOrDefault().UserName == null)
+                //{
+                //    users = (from viUsers in db.VI_Users.Where(m => m.PK_Id == id)
+                //             select new UserTimePerProjectViewModel()
+                //             {
+                //                 PK_Id = viUsers.PK_Id,
+                //                 UserName = viUsers.NK_Name,
+                //                 NK_ZId = viUsers.NK_ZId,
+                //                 Name = "No time records",
+                //                 timeSum = 0,
+                //                 FK_ProjectId = 0
+                //             }).ToList();
+                //};
+            }
+            catch
+            {
+                users = (from viUsers in db.VI_Users.Where(m => m.PK_Id == id)
+                         select new UserTimePerProjectViewModel()
+                         {
+                             PK_Id = viUsers.PK_Id,
+                             UserName = viUsers.NK_Name,
+                             NK_ZId = viUsers.NK_ZId,
+                             OrderNumber = "No time records",
+                             timeSum = 0,
+                             FK_ProjectId = 0,
+                             Name = "No time records"
+                         }).ToList();
+            }
+
+
+
+            //var users =  db.VI_UserTimePerProject.Where(m => m.PK_Id == id).ToList() ;
+            // VI_Users users = db.VI_Users.SingleOrDefault(m => m.PK_Id == id);
+            //UsersViewModel usersViewModel = new UsersViewModel(users);
+            if (users == null)
+            {
+                return HttpNotFound();
+            }
+         
+
+            return PartialView("_TimeTable", users);
+
+        }
+
+
+
+
+        public ActionResult Account()
 		{
 
 			return View();

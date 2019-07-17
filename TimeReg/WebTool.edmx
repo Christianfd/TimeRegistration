@@ -413,15 +413,19 @@ warning 6002: The table/view 'WebTool.TimeManagement.VI_UserTimePerProject' does
             <PropertyRef Name="PK_Id" />
             <PropertyRef Name="UserName" />
             <PropertyRef Name="NK_ZId" />
-            <PropertyRef Name="Name" />
             <PropertyRef Name="FK_ProjectId" />
+            <PropertyRef Name="Date" />
+            <PropertyRef Name="Number" />
+            <PropertyRef Name="Name" />
           </Key>
           <Property Name="PK_Id" Type="int" Nullable="false" />
           <Property Name="UserName" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="NK_ZId" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="Name" Type="nvarchar" MaxLength="150" Nullable="false" />
           <Property Name="timeSum" Type="float" />
           <Property Name="FK_ProjectId" Type="int" Nullable="false" />
+          <Property Name="Date" Type="date" Nullable="false" />
+          <Property Name="Number" Type="nvarchar" MaxLength="1000" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="150" Nullable="false" />
         </EntityType>
         <Association Name="FK_Comments_Projects">
           <End Role="Projects" Type="Self.Projects" Multiplicity="1" />
@@ -976,9 +980,11 @@ warning 6002: The table/view 'WebTool.TimeManagement.VI_UserTimePerProject' does
     [VI_UserTimePerProject].[PK_Id] AS [PK_Id], 
     [VI_UserTimePerProject].[UserName] AS [UserName], 
     [VI_UserTimePerProject].[NK_ZId] AS [NK_ZId], 
-    [VI_UserTimePerProject].[Name] AS [Name], 
     [VI_UserTimePerProject].[timeSum] AS [timeSum], 
-    [VI_UserTimePerProject].[FK_ProjectId] AS [FK_ProjectId]
+    [VI_UserTimePerProject].[FK_ProjectId] AS [FK_ProjectId], 
+    [VI_UserTimePerProject].[Date] AS [Date], 
+    [VI_UserTimePerProject].[Number] AS [Number], 
+    [VI_UserTimePerProject].[Name] AS [Name]
     FROM [TimeManagement].[VI_UserTimePerProject] AS [VI_UserTimePerProject]</DefiningQuery>
           </EntitySet>
           <AssociationSet Name="FK_Comments_Projects" Association="Self.FK_Comments_Projects">
@@ -1335,7 +1341,7 @@ warning 6002: The table/view 'WebTool.TimeManagement.VI_UserTimePerProject' does
           <EntitySet Name="VI_Users" EntityType="WebTool.VI_Users" />
           <EntitySet Name="VI_UserTimePerProject" EntityType="WebTool.VI_UserTimePerProject" />
           <FunctionImport Name="SP_AddPlatformOrProduct1">
-            <Parameter Name="platformOrProject" Mode="In" Type="String" />
+          <Parameter Name="platformOrProject" Mode="In" Type="String" />
           </FunctionImport>
         </EntityContainer>
         <EntityType Name="Comments">
@@ -1936,15 +1942,19 @@ warning 6002: The table/view 'WebTool.TimeManagement.VI_UserTimePerProject' does
             <PropertyRef Name="PK_Id" />
             <PropertyRef Name="UserName" />
             <PropertyRef Name="NK_ZId" />
-            <PropertyRef Name="Name" />
             <PropertyRef Name="FK_ProjectId" />
+            <PropertyRef Name="Date" />
+            <PropertyRef Name="Number" />
+            <PropertyRef Name="Name" />
           </Key>
           <Property Name="PK_Id" Type="Int32" Nullable="false" />
           <Property Name="UserName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="NK_ZId" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="timeSum" Type="Double" />
           <Property Name="FK_ProjectId" Type="Int32" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Number" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -2322,9 +2332,11 @@ warning 6002: The table/view 'WebTool.TimeManagement.VI_UserTimePerProject' does
           <EntitySetMapping Name="VI_UserTimePerProject">
             <EntityTypeMapping TypeName="WebTool.VI_UserTimePerProject">
               <MappingFragment StoreEntitySet="VI_UserTimePerProject">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Number" ColumnName="Number" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
                 <ScalarProperty Name="FK_ProjectId" ColumnName="FK_ProjectId" />
                 <ScalarProperty Name="timeSum" ColumnName="timeSum" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="NK_ZId" ColumnName="NK_ZId" />
                 <ScalarProperty Name="UserName" ColumnName="UserName" />
                 <ScalarProperty Name="PK_Id" ColumnName="PK_Id" />
