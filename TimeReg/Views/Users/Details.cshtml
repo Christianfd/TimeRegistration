@@ -48,7 +48,6 @@
 
 @*
     table containing all time registrations.
-
 *@
 
 <div id="TableWrapperTimeTable">
@@ -61,13 +60,6 @@
     <a class="btn btn-outline-secondary" href="@Url.Content("~/TimeRegistrations")">Time Registration &raquo;</a>
     <a class="btn btn-outline-secondary" href="@Url.Content("~/Comments")">Weekly Comment &raquo;</a>
 </p>
-<p>
-    @ViewBag.startDateController
-</p>
-<p>
-    @ViewBag.endDateController
-</p>
-
 
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.First().PK_Id }) |
@@ -152,6 +144,7 @@
                     "November",
                     "December"
                 ],
+                "firstDay":1
              
             },
             "opens": "center",

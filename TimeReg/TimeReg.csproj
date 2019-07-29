@@ -635,6 +635,7 @@
     <Content Include="Views\TimeOverview\Account.cshtml" />
     <Content Include="Views\TimeOverview\Index.cshtml" />
     <Content Include="Views\Users\_TimeTable.cshtml" />
+    <Content Include="Views\TimeOverview\_TimeTable.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

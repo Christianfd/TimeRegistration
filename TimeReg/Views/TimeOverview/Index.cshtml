@@ -6,7 +6,10 @@
 }
 
 <h2>Overview of time entries</h2>
-
+<div>
+    Pick time period to look at for all: <br />
+    <input class="col-12" type="text" name="datefilter" data-Range-PK_Id="master" id="dateRangePicker" value="" />
+</div>
 
 <div class="d-flex flex-row justify-content-around flex-container flex-wrap">
     @foreach (var item in Model)
@@ -18,11 +21,18 @@
             <h5>
                 @Html.DisplayFor(modelItem => item.NK_Name)
             </h5>
-            <form class="form-group" id="formId @item.PK_Id">
-                <input type="date" placeholder="From ...." />
-                <input type="date" placeholder="To ...." />
-            </form>
-            <button class="btn btn-info float-right" value="@item.PK_Id">Get Entries</button>
+            @*div containing the input needed for the date range picker.*@
+            <div>
+                Pick time period to look at: <br />
+                <input class="col-12 dateRangePicker" type="text" name="datefilter"  data-Range-PK_Id="@item.PK_Id" value=""/>
+            </div>
+            @*
+        table containing all time registrations.
+            *@
+
+            <div id="TableWrapperTimeTable" class="TableWrapperTimeTable" data-PK_Id="@item.PK_Id">
+                    Loading TimeRegistrations..
+            </div>
         </div>
         }
 
@@ -35,6 +45,185 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
     @Scripts.Render("~/bundles/bootstrap")
+@Scripts.Render("~/bundles/daterangepicker")
+<link rel="stylesheet" type="text/css" href="~/Scripts/DateRangePicker/daterangepicker.css" />
 
 
+<script>
+        //Applies the intended behaviour to id="dateRangePicker" and converts this to an input which can get a date range. using  http://www.daterangepicker.com/
+        $('.dateRangePicker').daterangepicker({
+            "showWeekNumbers": true,
+            "locale": {
+                "format": "DD/MM/YYYY",
+                "separator": " - ",
+                "applyLabel": "Apply",
+                "cancelLabel": "Cancel",
+                "fromLabel": "From",
+                "toLabel": "To",
+                "customRangeLabel": "Custom",
+                "weekLabel": "W",
+                "daysOfWeek": [
+                    "Su",
+                    "Mo",
+                    "Tu",
+                    "We",
+                    "Th",
+                    "Fr",
+                    "Sa"
+                ],
+                "monthNames": [
+                    "January",
+                    "February",
+                    "March",
+                    "April",
+                    "May",
+                    "June",
+                    "July",
+                    "August",
+                    "September",
+                    "October",
+                    "November",
+                    "December"
+                ],
+                "firstDay":1
+
+            },
+            "opens": "center",
+            "drops": "down"
+        }, function(start, end, label) {
+            console.log('New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')');
+        });
+
+    //Same as above, but on Id="dateRangePicker"
+        $('#dateRangePicker').daterangepicker({
+            "showWeekNumbers": true,
+            "locale": {
+                "format": "DD/MM/YYYY",
+                "separator": " - ",
+                "applyLabel": "Apply",
+                "cancelLabel": "Cancel",
+                "fromLabel": "From",
+                "toLabel": "To",
+                "customRangeLabel": "Custom",
+                "weekLabel": "W",
+                "daysOfWeek": [
+                    "Su",
+                    "Mo",
+                    "Tu",
+                    "We",
+                    "Th",
+                    "Fr",
+                    "Sa"
+                ],
+                "monthNames": [
+                    "January",
+                    "February",
+                    "March",
+                    "April",
+                    "May",
+                    "June",
+                    "July",
+                    "August",
+                    "September",
+                    "October",
+                    "November",
+                    "December"
+                ],
+                "firstDay": 1
+
+            },
+            "opens": "center",
+            "drops": "down"
+        }, function (start, end, label) {
+            console.log('New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')');
+        });
+
+    //Same as below, but for Id="dateRangePicker"
+        $('#dateRangePicker').data('daterangepicker').setStartDate('@ViewBag.startDateController');
+        $('#dateRangePicker').data('daterangepicker').setEndDate('@ViewBag.endDateController');
+
+        //Below uses the UsersController to set the default range to the current weeks ranges, from start to finish.
+        $('.dateRangePicker').each(function(index){
+            $(this).data('daterangepicker').setStartDate('@ViewBag.startDateController');
+            $(this).data('daterangepicker').setEndDate('@ViewBag.endDateController');
+        });
+     
+
+        //Below event listener updates the table on apply.
+    $('.dateRangePicker').on('apply.daterangepicker', function(ev, picker) {
+            var id = $(this).attr("data-Range-PK_Id");
+            var startDate = picker.startDate.format('MM/DD/YYYY');
+            var endDate = picker.endDate.format('MM/DD/YYYY');
+            var self = $(this).closest().find("div");
+                UpdateTimeTable(startDate, endDate, id);
+    });
+
+    /*
+    Below is and event listener on the date range picker for everyone.
+    it first gets the date picked. Then changes all the rest of the date pickers to that date
+    This is purely aesthetic. Then it triggers the UpdateTime per user, using the dateRangePicker classes
+    and their respective date-Range-PK_Id values to get the correct user id.
+    */
+    $('#dateRangePicker').on('apply.daterangepicker', function (ev, picker) {
+        var startDate = picker.startDate.format('MM/DD/YYYY');
+        var endDate = picker.endDate.format('MM/DD/YYYY');
+        $('.dateRangePicker').each(function (index) {
+            var id = $(this).attr("data-Range-PK_Id");
+            $(this).data('daterangepicker').setStartDate(picker.startDate);
+            $(this).data('daterangepicker').setEndDate(picker.endDate);
+            UpdateTimeTable(startDate, endDate, id);
+        });
+    });
+</script>
+
+
+
+<script>
+    /*Function redone so it uses 2 parameters, the table and the table's Data-PK_Id value, this makes the 
+      asyncronous calls able to function within a .each() loop. Otherwhise imposible and it would only pick
+      the values of the last iteration */
+    function UpdateDynamicTable(self, UserId) {
+            $.ajax({
+                url: '@Url.Content("~/Users/TimeTable")',
+                type: "GET",
+                data: { Id: UserId}
+            }).done(function (partialViewResult) {
+                self.html(partialViewResult);
+            });
+    }
+
+    //This calls above function per user found in VI_Users, again to ensure funtionality between .each and $.ajax/$.get
+    function UpdateAllDynamicTables() {
+        $(".TableWrapperTimeTable").each(function(index){
+            var self = $(this);
+            var Id = self.attr("data-PK_Id")
+            UpdateDynamicTable(self, Id);
+        });
+    }
+
+    //Calls above function when page is loaded
+    $(document).ready(function () {
+        UpdateAllDynamicTables()
+    });
+
+    //Needs to be redone so it can include the Id somehow.
+    function UpdateTimeTable(startDateJS, endDateJS, PK_Id) {
+        console.log("UpdateTimeTable triggered.");
+     
+        $.ajax({
+            url: '@Url.Content("~/Users/TimeTable")',
+            type: "GET",
+            data: { Id: PK_Id, startDate: startDateJS, endDate:endDateJS},
+        }).done(function (partialViewResult) {
+            // tableEntity.html(partialViewResult);
+            console.log("Start Date: " + startDateJS);
+            console.log("End Date: " + endDateJS);
+            console.log(PK_Id)
+
+            $(".TableWrapperTimeTable[data-pk_id='" + PK_Id +"']").html(partialViewResult);
+            console.log("Succesfully got time entries");
+        });
+    }
+
+</script>
 }

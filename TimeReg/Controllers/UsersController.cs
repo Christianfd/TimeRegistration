@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Globalization;
 using System.Linq;
 using System.Net;
+using System.Threading;
 using System.Web;
 using System.Web.Mvc;
 using TimeReg;
@@ -31,22 +33,7 @@ namespace TimeReg.Controllers
 				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 			}
 
-            //Gets the current week number
-            var weekNo = CalendarHelper.GetWeekNr();
-
-
-            //Below Query is an extended version of a below query, this one divides it per week and then per project and then it chooses all projects within the current week.
-            var resultWeekly = db.Database.SqlQuery<WeeklyTimeViewModel>("SELECT cast(datepart(wk, date) as int) Week, year(date) as Year, sum(Time) as [TotalTime],FK_ProjectId,Name FROM	[TimeManagement].[VI_TimeRegistration] Join TimeManagement.VI_Projects on TimeManagement.VI_TimeRegistration.FK_ProjectId = TimeManagement.VI_Projects.PK_Id WHERE FK_UserId = @p0 AND datepart(wk, date) = @p1 AND year(date) = @p2	group by datepart(wk, date), year(date), FK_ProjectId, Name", id, weekNo, DateTime.Now.Year);
-            var ResultWeekly = resultWeekly.ToList();
-
-            if (ResultWeekly != null)
-            {
-                ViewBag.WeeklyTimePerProject = ResultWeekly;
-            }
-            else
-            {
-                ViewBag.WeeklyTimePerProject = new WeeklyTimeViewModel { Week = weekNo, Year = DateTime.Now.Year, TotalTime = 0 };
-            }
+            
 
             //Below is a conversion from VI_UserTimePerProject to UserTimePerProjectViewModel to avoid using ViewBags on dynamic expressions
             var users = (from viUserTimePerProject in db.VI_UserTimePerProject.Where(m => m.PK_Id == id)
@@ -68,19 +55,20 @@ namespace TimeReg.Controllers
             //Below does a check to see if the above List is empty, as it will be if there is no Time Registration entries by the user.
             try
             {
-                //if (users.SingleOrDefault().UserName == null)
-                //{
-                //    users = (from viUsers in db.VI_Users.Where(m => m.PK_Id == id)
-                //             select new UserTimePerProjectViewModel()
-                //             {
-                //                 PK_Id = viUsers.PK_Id,
-                //                 UserName = viUsers.NK_Name,
-                //                 NK_ZId = viUsers.NK_ZId,
-                //                 Name = "No time records",
-                //                 timeSum = 0,
-                //                 FK_ProjectId = 0
-                //             }).ToList();
-                //};
+                if (users.SingleOrDefault().UserName == null)
+                {
+                    users = (from viUsers in db.VI_Users.Where(m => m.PK_Id == id)
+                             select new UserTimePerProjectViewModel()
+                             {
+                                 PK_Id = viUsers.PK_Id,
+                                 UserName = viUsers.NK_Name,
+                                 NK_ZId = viUsers.NK_ZId,
+                                 OrderNumber = "No time records",
+                                 Name = "No time records",
+                                 timeSum = 0,
+                                 FK_ProjectId = 0
+                             }).ToList();
+                };
             } catch
             {
                     users = (from viUsers in db.VI_Users.Where(m => m.PK_Id == id)
@@ -105,31 +93,53 @@ namespace TimeReg.Controllers
 			{
 				return HttpNotFound();
 			}
-
-		
-            //Below Query divides all time spent in different weeks and then selects the current week. Second line is bc a queri is not properly run before being used elsewhere, so otherwise this would return null
-			var result = db.Database.SqlQuery<WeeklyTimeViewModel>("SELECT	cast(datepart(wk, date) as int) Week, year(date) as Year, sum(Time) as [TotalTime] FROM	[TimeManagement].[VI_TimeRegistration] WHERE FK_UserId = @p0 AND datepart(wk, date) = @p1 AND year(date) = @p2	group by datepart(wk, date), year(date)", id, weekNo, DateTime.Now.Year).ToList();
-			var firstResult = result.FirstOrDefault();
-			if (firstResult != null) {
-                //Sets the viewbag to the first result.
-				ViewBag.WeeklyTime = firstResult;
-			} else
-			{
-				ViewBag.WeeklyTime = new WeeklyTimeViewModel { Week = weekNo, Year = DateTime.Now.Year, TotalTime = 0 };
-			}
+            //Below is the viewbags and such.
+            //Gets the current week number
+            var weekNo = CalendarHelper.GetWeekNr();
 
 
-            // Used to set ViewBags used by the date range picker to set a proper starting range.
+            /* 
+             * Used to set ViewBags used by the date range picker to set a proper starting range. 
+             * xxxDateController is used by the View
+             * while xxxDateSQL is used in the SQL query due to mismatching formats..
+             * startDateController and endDateController is also used to get the weekly time registere 
+             */
             var input = DateTime.Now.Date;
             int delta = DayOfWeek.Monday - input.DayOfWeek;
             if (delta > 0)
                 delta -= 7;
             var startDateController = input.AddDays(delta).Date.ToString("dd/MM/yyyy");
             var endDateController = input.AddDays(6).Date.ToString("dd/MM/yyyy");
+            var startDateSQL = input.AddDays(delta).Date.ToString("yyyy/MM/dd");
+            var endDateSQL = input.AddDays(6).Date.ToString("yyyy/MM/dd");
             ViewBag.startDateController = startDateController;
             ViewBag.endDateController = endDateController;
 
+            //Below Query summarizes and uses two dates to define the scope where the Total time value is wanted. In this case an week from Monday to Sunday.
+            //"firstResult" is because a query is not properly run before being used elsewhere, so w/o it, the result would return null
+            var result = db.Database.SqlQuery<WeeklyTimeViewModel>(@"SELECT	[UserName], sum(Time) as [TotalTime] 
+                                                                     FROM	[TimeManagement].[VI_TimeRegistration] 
+                                                                     WHERE FK_UserId = @p0 AND [Date] BETWEEN @p1 AND @p2
+                                                                     group by [UserName]", id, startDateSQL, endDateSQL).ToList();
+			var firstResult = result.FirstOrDefault();
+			if (firstResult != null) {
+                //Sets the viewbag to the first result.
+				ViewBag.WeeklyTime = firstResult;
+                ViewBag.WeeklyTime.Week = weekNo;
+			} else
+			{
+				ViewBag.WeeklyTime = new WeeklyTimeViewModel { Week = weekNo, UserName = users.First().UserName, TotalTime = 0 };
+			}
 
+
+        
+
+
+            //testing culture
+            CultureInfo culture1 = CultureInfo.CurrentCulture;
+            CultureInfo culture2 = Thread.CurrentThread.CurrentCulture;
+            ViewBag.culture1 = culture1;
+            ViewBag.culture2 = culture2;
 
             return View(users);
 		}
@@ -258,50 +268,11 @@ namespace TimeReg.Controllers
 
                          }).OrderByDescending(m => m.timeSum).ToList();
 
-            //Bit of a whacky approach for flow control but it should work fine.
-            //Below does a check to see if the above List is empty, as it will be if there is no Time Registration entries by the user.
-            try
-            {
-                //if (users.SingleOrDefault().UserName == null)
-                //{
-                //    users = (from viUsers in db.VI_Users.Where(m => m.PK_Id == id)
-                //             select new UserTimePerProjectViewModel()
-                //             {
-                //                 PK_Id = viUsers.PK_Id,
-                //                 UserName = viUsers.NK_Name,
-                //                 NK_ZId = viUsers.NK_ZId,
-                //                 Name = "No time records",
-                //                 timeSum = 0,
-                //                 FK_ProjectId = 0
-                //             }).ToList();
-                //};
-            }
-            catch
-            {
-                users = (from viUsers in db.VI_Users.Where(m => m.PK_Id == id)
-                         select new UserTimePerProjectViewModel()
-                         {
-                             PK_Id = viUsers.PK_Id,
-                             UserName = viUsers.NK_Name,
-                             NK_ZId = viUsers.NK_ZId,
-                             OrderNumber = "No time records",
-                             timeSum = 0,
-                             FK_ProjectId = 0,
-                             Name = "No time records"
-                         }).ToList();
-            }
-
-
-
-            //var users =  db.VI_UserTimePerProject.Where(m => m.PK_Id == id).ToList() ;
-            // VI_Users users = db.VI_Users.SingleOrDefault(m => m.PK_Id == id);
-            //UsersViewModel usersViewModel = new UsersViewModel(users);
             if (users == null)
             {
                 return HttpNotFound();
             }
          
-
             return PartialView("_TimeTable", users);
 
         }
