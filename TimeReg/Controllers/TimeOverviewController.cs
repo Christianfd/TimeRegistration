@@ -91,7 +91,24 @@ namespace TimeReg.Controllers
 
         }
 
+        [HttpGet]
+        public ActionResult OrdernumberTable(string start, string end)
+        {
+            var result = db.Database.SqlQuery<VI_TimePerOrdernumber>(@"
+                SELECT 
+		            SUM([Time]) as [timeSum],
+		            [Number]
+	
+	            FROM [TimeManagement].[VI_TimeRegistration]
+	            JOIN  [TimeManagement].[VI_Users] on [VI_TimeRegistration].[FK_UserId] = [VI_Users].[PK_Id]
+	            JOIN [TimeManagement].[VI_Projects] on [VI_TimeRegistration].[FK_ProjectId] = [VI_Projects].[PK_Id]
+	            Join TimeManagement.VI_OrderNumber on VI_TimeRegistration.FK_OrderId = VI_OrderNumber.PK_Id
 
+	            Where [Date] BETWEEN @p0 AND @p1
+	            GROUP BY [Number]
+                ", start, end).ToList();
+            return PartialView("_OrdernumberTable", result);
+        }
 
         protected override void Dispose(bool disposing)
 		{

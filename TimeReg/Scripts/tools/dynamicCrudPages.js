@@ -79,7 +79,6 @@ function AjaxDynamicHandler(CRUD, DynamicOriginId) {
                 $("#PartialViewModalSaveButton").data({ crud: CRUD });
                 $("#PartialViewModalSaveButton").text("Save Changes");
                 $("#PartialViewModalBody").html(partialViewResult);
-
             });
             break;
         case "Details":

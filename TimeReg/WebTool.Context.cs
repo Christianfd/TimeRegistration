@@ -58,6 +58,7 @@ namespace TimeReg
         public virtual DbSet<VI_TimeRegistration> VI_TimeRegistration { get; set; }
         public virtual DbSet<VI_Users> VI_Users { get; set; }
         public virtual DbSet<VI_UserTimePerProject> VI_UserTimePerProject { get; set; }
+        public virtual DbSet<VI_TimePerOrdernumber> VI_TimePerOrdernumber { get; set; }
     
         public virtual int SP_AddComment(Nullable<int> weekNumber, Nullable<int> year, string text, Nullable<int> projectKey, Nullable<int> userKey)
         {

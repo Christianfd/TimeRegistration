@@ -10,7 +10,10 @@
     Pick time period to look at for all: <br />
     <input class="col-12" type="text" name="datefilter" data-Range-PK_Id="master" id="dateRangePicker" value="" />
 </div>
-
+<div class="btn btn-link" id="ToggleFunction" onclick="ToggleTimeList()">View More</div>
+<div id="orderNumberTimeSpent" >
+    Loading Entries...
+</div>
 <div class="d-flex flex-row justify-content-around flex-container flex-wrap">
     @foreach (var item in Model)
     {
@@ -48,6 +51,46 @@
 @Scripts.Render("~/bundles/daterangepicker")
 <link rel="stylesheet" type="text/css" href="~/Scripts/DateRangePicker/daterangepicker.css" />
 
+    <script>
+        //Following script block is to get all time entries grouped by order numbers and to manage it.
+
+        //Hides/shows the div containing the result.
+        function ToggleTimeList() {
+            var el = $("#ToggleFunction");
+            el.text(el.text() == 'View More' ? 'View Less' : 'View More');
+            $('#orderNumberTimeSpent').toggle("slow");
+        }
+        
+        //The funtion making the .ajax call to get the data.
+        function OverAllTime() {
+
+            //Gets the date value 
+            var date_range = $('#dateRangePicker').val();
+
+            //Splits the date into two values. 
+            //Using the .split("/").reverse().join("/") method I turn dd/mm/yyyy into yyyy/mm/dd corresponding with sql
+            var dates = date_range.split(" - ");
+            startDate = dates[0].split("/").reverse().join("/");
+            endDate = dates[1].split("/").reverse().join("/");
+
+            console.log(startDate);
+            console.log(endDate);
+            //Below is the AJAX call which puts the result into the "wrapper"
+            $.ajax({
+                url: '@Url.Content("~/TimeOverview/OrdernumberTable")',
+                type: "GET",
+                data: { start: startDate, end: endDate }
+            }).done(function(partialViewResult){
+                $("#orderNumberTimeSpent").html(partialViewResult);
+            });
+        }
+
+        //Triggers the methods once to hide the current result and get the weekly results.
+        $(document).ready(function () {
+            $("#orderNumberTimeSpent").toggle("slow")
+            OverAllTime()
+        });
+    </script>
 
 <script>
         //Applies the intended behaviour to id="dateRangePicker" and converts this to an input which can get a date range. using  http://www.daterangepicker.com/
@@ -167,12 +210,18 @@
     $('#dateRangePicker').on('apply.daterangepicker', function (ev, picker) {
         var startDate = picker.startDate.format('MM/DD/YYYY');
         var endDate = picker.endDate.format('MM/DD/YYYY');
+
+        //goes through each .dateRangePicker and sets the corresponding start and end dates.
+        //UpdateTimeTable() is called to avoid async tasks from .ajax "messing up" and using the same date for all.
         $('.dateRangePicker').each(function (index) {
             var id = $(this).attr("data-Range-PK_Id");
             $(this).data('daterangepicker').setStartDate(picker.startDate);
             $(this).data('daterangepicker').setEndDate(picker.endDate);
             UpdateTimeTable(startDate, endDate, id);
         });
+
+        //triggers the function for the overall time table grouped by ordernumbers. The function gets the date itself.
+        OverAllTime();
     });
 </script>
 
@@ -211,7 +260,7 @@
         console.log("UpdateTimeTable triggered.");
      
         $.ajax({
-            url: '@Url.Content("~/Users/TimeTable")',
+            url: '@Url.Content("~/TimeOverview/TimeTable")',
             type: "GET",
             data: { Id: PK_Id, startDate: startDateJS, endDate:endDateJS},
         }).done(function (partialViewResult) {

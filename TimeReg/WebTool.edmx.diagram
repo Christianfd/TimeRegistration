@@ -52,6 +52,7 @@
         <EntityTypeShape EntityType="WebTool.VI_TimeRegistration" Width="1.5" PointX="0.75" PointY="14.75" />
         <EntityTypeShape EntityType="WebTool.VI_Users" Width="1.5" PointX="6.75" PointY="14.75" />
         <EntityTypeShape EntityType="WebTool.VI_UserTimePerProject" Width="1.5" PointX="8.75" PointY="14.75" />
+        <EntityTypeShape EntityType="WebTool.VI_TimePerOrdernumber" Width="1.5" PointX="14.375" PointY="11.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

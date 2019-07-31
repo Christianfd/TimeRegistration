@@ -317,6 +317,15 @@ warning 6002: The table/view 'WebTool.TimeManagement.VI_TaskType' does not have 
           <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
+warning 6002: The table/view 'WebTool.TimeManagement.VI_TimePerOrdernumber' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="VI_TimePerOrdernumber">
+          <Key>
+            <PropertyRef Name="Number" />
+          </Key>
+          <Property Name="timeSum" Type="float" />
+          <Property Name="Number" Type="nvarchar" MaxLength="1000" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
 warning 6002: The table/view 'WebTool.TimeManagement.VI_TimeRegistration' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="VI_TimeRegistration">
           <Key>
@@ -925,6 +934,12 @@ warning 6002: The table/view 'WebTool.TimeManagement.VI_UserTimePerProject' does
     [VI_TaskType].[Name] AS [Name]
     FROM [TimeManagement].[VI_TaskType] AS [VI_TaskType]</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="VI_TimePerOrdernumber" EntityType="Self.VI_TimePerOrdernumber" store:Type="Views" store:Schema="TimeManagement">
+            <DefiningQuery>SELECT 
+    [VI_TimePerOrdernumber].[timeSum] AS [timeSum], 
+    [VI_TimePerOrdernumber].[Number] AS [Number]
+    FROM [TimeManagement].[VI_TimePerOrdernumber] AS [VI_TimePerOrdernumber]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="VI_TimeRegistration" EntityType="Self.VI_TimeRegistration" store:Type="Views" store:Schema="TimeManagement">
             <DefiningQuery>SELECT 
     [VI_TimeRegistration].[PK_Id] AS [PK_Id], 
@@ -1343,6 +1358,7 @@ warning 6002: The table/view 'WebTool.TimeManagement.VI_UserTimePerProject' does
           <FunctionImport Name="SP_AddPlatformOrProduct1">
           <Parameter Name="platformOrProject" Mode="In" Type="String" />
           </FunctionImport>
+          <EntitySet Name="VI_TimePerOrdernumber" EntityType="WebTool.VI_TimePerOrdernumber" />
         </EntityContainer>
         <EntityType Name="Comments">
           <Key>
@@ -1956,6 +1972,13 @@ warning 6002: The table/view 'WebTool.TimeManagement.VI_UserTimePerProject' does
           <Property Name="Number" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="true" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
         </EntityType>
+        <EntityType Name="VI_TimePerOrdernumber">
+          <Key>
+            <PropertyRef Name="Number" />
+          </Key>
+          <Property Name="timeSum" Type="Double" />
+          <Property Name="Number" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="true" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2344,6 +2367,14 @@ warning 6002: The table/view 'WebTool.TimeManagement.VI_UserTimePerProject' does
             </EntityTypeMapping>
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="SP_AddPlatformOrProduct1" FunctionName="WebTool.Store.SP_AddPlatformOrProduct" />
+          <EntitySetMapping Name="VI_TimePerOrdernumber">
+            <EntityTypeMapping TypeName="WebTool.VI_TimePerOrdernumber">
+              <MappingFragment StoreEntitySet="VI_TimePerOrdernumber">
+                <ScalarProperty Name="Number" ColumnName="Number" />
+                <ScalarProperty Name="timeSum" ColumnName="timeSum" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
