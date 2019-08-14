@@ -41,12 +41,34 @@ namespace TimeReg.Controllers
             //This view model is created to pass the comments to the view along with the project details.
             //The Comments also needs an orderby function at some point and mabye a user list.
 
+
+            //Query of strongly typed ProjectUserTimeSumViewModel class is used to group the time registrations
+            //correctly for the projects, instead of having an entry 
+            //per time registration per person in the project details page
+            var timeSpentPerUser = db.Database.SqlQuery<ProjectUserTimeSumViewModel>(@"
+                            SELECT 
+		        [TimeManagement].[VI_Users].[NK_Name] as [UserName],
+		        SUM([Time]) as [timeSum],
+		        [FK_ProjectId]
+	
+	            FROM [TimeManagement].[VI_TimeRegistration]
+	            JOIN  [TimeManagement].[VI_Users] on [VI_TimeRegistration].[FK_UserId] = [VI_Users].[PK_Id]
+	            JOIN [TimeManagement].[VI_Projects] on [VI_TimeRegistration].[FK_ProjectId] = [VI_Projects].[PK_Id]
+
+	            where FK_ProjectId = @p0
+
+	            GROUP BY [NK_Name], [FK_ProjectId]
+                    ", PK_Id).OrderByDescending(m => m.timeSum);
+
             var projectsViewModel = new ProjectDetailsViewModel()
-                                                {
-                                                    VIProjects = projects,
-                                                    VIComments = db.VI_Comments.OrderByDescending(m => m.WeekNr),
-                                                    VITimeSpentPerUser = db.VI_UserTimePerProject.Where(m => m.FK_ProjectId == PK_Id)
-                                                };
+            {
+                VIProjects = projects,
+                VIComments = db.VI_Comments.OrderByDescending(m => m.WeekNr),
+                VITimeSpentPerUser = timeSpentPerUser.ToList()
+
+
+
+            };
 
             return PartialView("_DynamicDetails", projectsViewModel);
         }
@@ -376,8 +398,8 @@ namespace TimeReg.Controllers
             var projectsViewModel = new ProjectDetailsViewModel()
                                                 {
                                                     VIProjects = projects,
-                                                    VIComments = db.VI_Comments.OrderByDescending(m => m.WeekNr),
-                                                    VITimeSpentPerUser = db.VI_UserTimePerProject.Where(m => m.FK_ProjectId == id)
+                                                    VIComments = db.VI_Comments.OrderByDescending(m => m.WeekNr)
+                                                    //,VITimeSpentPerUser = db.VI_UserTimePerProject.Where(m => m.FK_ProjectId == id)
                                                 };
 
             return View(projectsViewModel);

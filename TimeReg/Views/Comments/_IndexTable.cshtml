@@ -88,6 +88,7 @@ INTENDED FOR PAGES WITH 1 TABLE
         //Enables search input
         $("#SearchInput").on("keyup", function () {
             var value = $(this).val().toLowerCase();
+            //Logic created to show/hide based on the previous/next depending on if the value is in the table "header" or the comment table row value
             $(".table tr.table-content").filter(function () {
             
                

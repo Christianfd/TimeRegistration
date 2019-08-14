@@ -13,9 +13,11 @@ $(document).ready(function () {
         //Enables search input
         $("#SearchInput").on("keyup", function() {
             var value = $(this).val().toLowerCase();
-            $(".table td").filter(function () {
+            $(".table tr:not(:first)").filter(function () {
                 $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
             });
+
+           // $(".table tr th").filter(function () { $(this).toggle(1 > -1) });
         });
     });
 

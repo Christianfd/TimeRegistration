@@ -9,7 +9,7 @@ namespace TimeReg.ViewModels
     {
         public VI_Projects VIProjects { get; set; }
         public IQueryable<VI_Comments> VIComments { get; set; }
-        public IQueryable<VI_UserTimePerProject> VITimeSpentPerUser { get; set; }
+        public List<ProjectUserTimeSumViewModel> VITimeSpentPerUser { get; set; }
     
     }
 }

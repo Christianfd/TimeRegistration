@@ -280,7 +280,8 @@
     <Compile Include="ViewModels\TaskTypeViewModel.cs" />
     <Compile Include="ViewModels\TimeTypeViewModel.cs" />
     <Compile Include="ViewModels\UsersViewModel.cs" />
-    <Compile Include="ViewModels\UserTimePerProjectViewModel.cs" />
+    <Compile Include="ViewModels\ViewModelTools\ProjectUserTimeSumViewModel.cs" />
+    <Compile Include="ViewModels\ViewModelTools\UserTimePerProjectViewModel.cs" />
     <Compile Include="ViewModels\ViewModelTools\WeeklyTimeViewModel.cs" />
     <Compile Include="ViewModels\VITimeRegistrationViewModel.cs" />
     <Compile Include="ViewModels\TimeRegistrationViewModel.cs" />
