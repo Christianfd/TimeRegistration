@@ -47,7 +47,28 @@
         <dd>
             @Html.DisplayFor(model => model.VIProjects.timeSum)
         </dd>
+        <dt>
+            Task Type
+        </dt>
+        <dd>
 
+            @*Getting task type by importing the view model containing the information (Importing is done in the projects controller), div's etc is done for styling*@
+            <div class="d-flex flew-row">
+
+                @foreach (var item in Model.VITimeSpentPerTaskType)
+                {
+                    <div class="p-2">
+                        <div class="font-weight-bold">
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </div>
+                        <div>
+                            @Html.DisplayFor(modelItem => item.timeSum) hours
+                        </div>
+                    </div>
+                }
+
+                </div>
+        </dd>
 
         <dt>
             Project Leader
@@ -56,13 +77,7 @@
         <dd>
             @Html.DisplayFor(model => model.VIProjects.UserName)
         </dd>
-        <dt>
-            Time Type
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.VIProjects.TimeTypeName)
-        </dd>
+       
 
         <dt>Requesting Organization</dt>
         <dd> @Html.DisplayFor(model => model.VIProjects.Organization)</dd>
@@ -72,7 +87,13 @@
 
         <dt>Customer Reference</dt>
         <dd>@Html.DisplayFor(model => model.VIProjects.CustomerRefName)</dd>
+        <dt>
+            Time Type
+        </dt>
 
+        <dd>
+            @Html.DisplayFor(model => model.VIProjects.TimeTypeName)
+        </dd>
     </dl>
 
 
@@ -92,6 +113,8 @@
             </th>
 
         </tr>
+
+        @*Displays the time spent per user on a given project using a standard separate table. Being collapsed by a press on a button. - Same method is used for comments in the below table.*@
         <tr>
             <th class="table-remove-float">
                 <div id="collapseUserList" style="display: none;">

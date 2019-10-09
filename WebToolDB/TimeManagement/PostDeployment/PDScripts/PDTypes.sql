@@ -11,13 +11,13 @@ Task Type:
 IF NOT EXISTS(SELECT TOP(1) [Name] FROM TimeManagement.TaskType)
 BEGIN
 DBCC CHECKIDENT ('[TimeManagement].[TaskType]', RESEED, 1) 
-INSERT INTO[TimeManagement].TaskType VALUES ( 'Not Assigned');
 INSERT INTO[TimeManagement].TaskType VALUES ( 'Development');
-INSERT INTO[TimeManagement].TaskType VALUES ( 'Eldesign');
-INSERT INTO[TimeManagement].TaskType VALUES ( 'Intern');
+INSERT INTO[TimeManagement].TaskType VALUES ( 'Purchase & Logistics');
+INSERT INTO[TimeManagement].TaskType VALUES ( 'Electrical Design');
+INSERT INTO[TimeManagement].TaskType VALUES ( 'Network & Fiber Technology');
 INSERT INTO[TimeManagement].TaskType VALUES ( 'LiDAR');
-INSERT INTO[TimeManagement].TaskType VALUES ( 'Project');
-INSERT INTO[TimeManagement].TaskType VALUES ( 'Support');
+INSERT INTO[TimeManagement].TaskType VALUES ( 'Department');
+INSERT INTO[TimeManagement].TaskType VALUES ( 'Technical Support');
 END
 
 /*

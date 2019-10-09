@@ -60,11 +60,35 @@ namespace TimeReg.Controllers
 	            GROUP BY [NK_Name], [FK_ProjectId]
                     ", PK_Id).OrderByDescending(m => m.timeSum);
 
+
+            //Query of strongly typed ProjectTaskTypeTimeSumViewModel class is used to group the time registrations
+            //correctly for the projects, instead of having an entry 
+            //per time registration per person in the project details page
+            var timeSpentPerTaskType = db.Database.SqlQuery<ProjectTaskTypeTimeSumViewModel>(@"
+            SELECT 
+			   [TimeManagement].[VI_TaskType].Name ,
+		        SUM([Time]) as [timeSum],
+		        [FK_ProjectId]
+	
+	            FROM [TimeManagement].[VI_TimeRegistration]
+				JOIN [TimeManagement].[VI_TaskType] on [VI_TimeRegistration].FK_TaskId = [TimeManagement].[VI_TaskType].PK_Id
+	            JOIN [TimeManagement].[VI_Projects] on [VI_TimeRegistration].[FK_ProjectId] = [VI_Projects].[PK_Id]
+
+	            where FK_ProjectId = @p0
+
+	            GROUP BY [FK_ProjectId], [VI_TaskType].[Name]
+                    ", PK_Id);
+          
+
+
+
+
             var projectsViewModel = new ProjectDetailsViewModel()
             {
                 VIProjects = projects,
                 VIComments = db.VI_Comments.OrderByDescending(m => m.WeekNr),
-                VITimeSpentPerUser = timeSpentPerUser.ToList()
+                VITimeSpentPerUser = timeSpentPerUser.ToList(),
+                VITimeSpentPerTaskType = timeSpentPerTaskType.ToList()
 
 
 
