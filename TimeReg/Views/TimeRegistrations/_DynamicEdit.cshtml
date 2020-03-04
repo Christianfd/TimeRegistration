@@ -108,7 +108,11 @@
 
 <script>
     $(".datepicker").datepicker({ dateFormat: 'dd/M/yy' }).val();
-    $(".selectpicker.dynmicUpdate").chosen();
+    $(".selectpicker").chosen({
+        no_results_text: "Oops, nothing found!"
+      , search_contains: true
+    });
+
 
     //Clipboard functionality
     function fallbackCopyTextToClipboard(text) {

@@ -12,7 +12,11 @@
 
 </head>
 <body>
-    @Html.Partial("_NavBar")
+@using Microsoft.AspNet.Identity
+@if (Request.IsAuthenticated)
+{
+    @Html.Action("NavBar", "WindowsAuth", new { ZId = User.Identity.GetUserName()})
+}
     <div class="container body-content">
         @RenderBody()
         <hr />

@@ -49,10 +49,12 @@ GRANT SELECT ON [TimeManagement].[VI_TimePerOrdernumber] TO [AD009\RA201_TMDBTIM
 GO
 
 
---Time Reg - "Insert", "Update"
+--Time Reg - "Insert", "Update", "Delete"
 GRANT EXECUTE ON [TimeManagement].[SP_AddTimeRegistration] TO [AD009\RA201_TMDBTIMEMANAGEMENT_USER_L];
 GO
 GRANT EXECUTE ON [TimeManagement].[SP_UpdateTimeRegistration] TO [AD009\RA201_TMDBTIMEMANAGEMENT_USER_L];
+GO
+GRANT EXECUTE ON [TimeManagement].[SP_RemoveTimeRegistration] TO [AD009\RA201_TMDBTIMEMANAGEMENT_USER_L];
 GO
 --Comment - "Insert",  "Update"
 GRANT EXECUTE ON [TimeManagement].[SP_AddComment] TO [AD009\RA201_TMDBTIMEMANAGEMENT_USER_L];

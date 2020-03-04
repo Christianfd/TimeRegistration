@@ -1,0 +1,20 @@
+﻿@using Microsoft.AspNet.Identity
+@if (ViewBag.Error == false)
+{
+    using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <ul class="nav navbar-nav navbar-right">
+            <li>
+                @Html.ActionLink("Hello " + (string)ViewBag.UserName + "!", "Index", "Users/Details/" + (int)ViewBag.UserId, routeValues: null, htmlAttributes: new { title = "Profile" })
+            </li>
+        </ul>
+    }
+}
+else
+{
+    <ul class="nav navbar-nav navbar-right">
+        <li>@Html.ActionLink("Activate User", "Index", "Home", routeValues: null, htmlAttributes: new {  })</li>
+    </ul>
+}

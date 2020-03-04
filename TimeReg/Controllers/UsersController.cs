@@ -102,16 +102,18 @@ namespace TimeReg.Controllers
              * Used to set ViewBags used by the date range picker to set a proper starting range. 
              * xxxDateController is used by the View
              * while xxxDateSQL is used in the SQL query due to mismatching formats..
-             * startDateController and endDateController is also used to get the weekly time registere 
+             * startDateController and endDateController is also used to get the weekly time registere
+             * Delta and delta + 6 respectively gets the beginning and end of week dates.
+             *  
              */
             var input = DateTime.Now.Date;
             int delta = DayOfWeek.Monday - input.DayOfWeek;
             if (delta > 0)
                 delta -= 7;
             var startDateController = input.AddDays(delta).Date.ToString("dd/MM/yyyy");
-            var endDateController = input.AddDays(6).Date.ToString("dd/MM/yyyy");
+            var endDateController = input.AddDays(delta + 6).Date.ToString("dd/MM/yyyy");
             var startDateSQL = input.AddDays(delta).Date.ToString("yyyy/MM/dd");
-            var endDateSQL = input.AddDays(6).Date.ToString("yyyy/MM/dd");
+            var endDateSQL = input.AddDays(delta + 6).Date.ToString("yyyy/MM/dd");
             ViewBag.startDateController = startDateController;
             ViewBag.endDateController = endDateController;
 
@@ -132,7 +134,42 @@ namespace TimeReg.Controllers
 			}
 
 
-        
+
+
+            //Below query gets a list contaning the time registered per day on a specific user.
+            var weekDayTimeTable = db.Database.SqlQuery<WeekDayTimeTable>(@"SELECT	 DATENAME(dw,[Date]) as [Date], sum(Time) as [TotalTime] 
+                                                                     FROM	[TimeManagement].[VI_TimeRegistration] 
+                                                                     WHERE FK_UserId = @p0 AND [Date] BETWEEN @p1 AND @p2
+                                                                     group by [Date]", id, startDateSQL, endDateSQL).ToList();
+
+            //This dictionary is created and then subsquetly added an entry for each day, so we can default to 0 rather easily.
+            Dictionary<string, double> WeekDayTimeTableDict = new Dictionary<string, double>();
+            WeekDayTimeTableDict.Add("Monday", 0);
+            WeekDayTimeTableDict.Add("Tuesday", 0);
+            WeekDayTimeTableDict.Add("Wednesday", 0);
+            WeekDayTimeTableDict.Add("Thursday", 0);
+            WeekDayTimeTableDict.Add("Friday", 0);
+            WeekDayTimeTableDict.Add("Saturday", 0);
+            WeekDayTimeTableDict.Add("Sunday", 0);
+
+            
+            //Loop over the results and update the dictionary values based on the key from the above query
+            foreach (var data in weekDayTimeTable)
+            {
+                try
+                {
+                    WeekDayTimeTableDict[data.Date] = data.TotalTime;
+                }
+                catch
+                {
+                    Console.WriteLine("Could not insert data.Date: " + data.Date);
+                    Console.WriteLine("With data.TotalTime value of: " + data.TotalTime);
+                }
+            }
+
+
+            //Assign the results to a ViewBag to be used in the razor page
+            ViewBag.WeekDayTimeTableDict = WeekDayTimeTableDict;
 
 
             //testing culture
@@ -245,7 +282,7 @@ namespace TimeReg.Controllers
                 if (delta > 0)
                     delta -= 7;
                 startDateController = input.AddDays(delta);
-                endDateController = startDateController.AddDays(6);
+                endDateController = startDateController.AddDays(delta + 6);
                 ViewBag.startDateController = startDateController;
                 ViewBag.endDateController = endDateController;
             } else

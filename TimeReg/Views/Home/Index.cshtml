@@ -11,7 +11,7 @@
     <h1>RepIT</h1>
     <span class="ui-state-error error-span" hidden="true"></span>
     <p class="lead">It just works</p>
-    <p><a href="TimeRegistrations" class="btn btn-primary btn-lg">Register Time &raquo;</a></p>
+    <p><a href="@Url.Content("~/TimeRegistrations")" class="btn btn-primary btn-lg">Register Time &raquo;</a></p>
 </div>
 
 <div class="row">
@@ -20,18 +20,18 @@
         <p>
             Click below to write a comment for your project for the weekly report.
         </p>
-        <p><a class="btn btn-secondary" href="Comments">Comment &raquo;</a></p>
+        <p><a class="btn btn-secondary" href="@Url.Content("~/Comments")">Comment &raquo;</a></p>
     </div>
     <div class="col-md-4">
         <h2>User Assignment</h2>
         <p>Go to the user assignment page to decide which projects show up when you register time.</p>
-        <p><a class="btn btn-secondary" href="UserAssignments">User Assignment &raquo;</a></p>
+        <p><a class="btn btn-secondary" href="@Url.Content("~/UserAssignments")">User Assignment &raquo;</a></p>
         <p> </p>
     </div>
     <div class="col-md-4">
         <h2>Project Index</h2>
         <p>You can easily find a project through the project list, which will feature sorting and filtering.</p>
-        <p><a class="btn btn-secondary" href="Projects">See Projects &raquo;</a></p>
+        <p><a class="btn btn-secondary" href="@Url.Content("~/Projects")">See Projects &raquo;</a></p>
     </div>
 </div>
 

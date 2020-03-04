@@ -26,19 +26,54 @@
             @Html.DisplayFor(model => model.First().NK_ZId)
         </dd>
         <hr />
-        <br/>
-      
+        <br />
+
         <dt>
             Time Registered
         </dt>
         <dd>
-              @ViewBag.WeeklyTime.TotalTime <i> Hours in Week @ViewBag.WeeklyTime.Week </i>
+            @ViewBag.WeeklyTime.TotalTime <i> Hours in Week @ViewBag.WeeklyTime.Week </i>
         </dd>
-
+        
     </dl>
 
 
+    <table class="table-striped">
+        <thead>
+            <tr>
+                <th>
+                    Day
+                </th>
+                <th>
+                    TimeReg
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @*Create a table and iterate over the table values to fill out the table
+            @item.Key and @item.Value is used as the standard LinQ approach of @Html.DisplayFor(modelItem => item.Key) simply doesn't work*@
+            @foreach (var item in ViewBag.WeekDayTimeTableDict)
+            {
+                <tr>
+                    <td>
+                        @item.Key
+                    </td>
+                    <td>
+                        @item.Value
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+
+
 </div>
+
+
+
+
+
 
 @*div containing the input needed for the date range picker.*@
 <div>
@@ -67,45 +102,45 @@
 </p>
 
 @section Scripts {
-  @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/jquery")
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/daterangepicker")
     <link rel="stylesheet" type="text/css" href="~/Scripts/DateRangePicker/daterangepicker.css" />
-    
 
-<script>
-    function UpdateDynamicTable() {
-        $.ajax({
-            url: '@Url.Content("~/Users/TimeTable")',
-            type: "GET",
-            data: { Id: @Model.First().PK_Id }
-        }).done(function (partialViewResult) {
-            $("#TableWrapperTimeTable").html(partialViewResult);
-        })
-    }
 
-    $(document).ready(function () {
-        UpdateDynamicTable();
-    });
+    <script>
+        function UpdateDynamicTable() {
+            $.ajax({
+                url: '@Url.Content("~/Users/TimeTable")',
+                type: "GET",
+                data: { Id: @Model.First().PK_Id }
+            }).done(function (partialViewResult) {
+                $("#TableWrapperTimeTable").html(partialViewResult);
+            })
+        }
 
-    function UpdateTimeTable(startDateJS, endDateJS) {
-        console.log("UpdateTimeTable triggered.");
-        console.log("Start Date: " + startDateJS);
-        console.log("End Date: " + endDateJS );
-        $.ajax({
-            url: '@Url.Content("~/Users/TimeTable")',
-            type: "GET",
-            data: { Id: @Model.First().PK_Id, startDate: startDateJS, endDate:endDateJS },
-        }).done(function (partialViewResult) {
-            $("#TableWrapperTimeTable").html(partialViewResult);
-            console.log("Succesfully got time entries");
+        $(document).ready(function () {
+            UpdateDynamicTable();
         });
-    }
 
-</script>
+        function UpdateTimeTable(startDateJS, endDateJS) {
+            console.log("UpdateTimeTable triggered.");
+            console.log("Start Date: " + startDateJS);
+            console.log("End Date: " + endDateJS );
+            $.ajax({
+                url: '@Url.Content("~/Users/TimeTable")',
+                type: "GET",
+                data: { Id: @Model.First().PK_Id, startDate: startDateJS, endDate:endDateJS },
+            }).done(function (partialViewResult) {
+                $("#TableWrapperTimeTable").html(partialViewResult);
+                console.log("Succesfully got time entries");
+            });
+        }
+
+    </script>
 
 
     <script>
@@ -145,7 +180,7 @@
                     "December"
                 ],
                 "firstDay":1
-             
+
             },
             "opens": "center",
             "drops": "up"
@@ -164,4 +199,4 @@
             UpdateTimeTable(startDate, endDate);
         });
     </script>
-    }
+}

@@ -283,6 +283,7 @@
     <Compile Include="ViewModels\ViewModelTools\ProjectUserTimeSumViewModel.cs" />
     <Compile Include="ViewModels\ViewModelTools\ProjectTaskTypeTimeSumViewModel.cs" />
     <Compile Include="ViewModels\ViewModelTools\UserTimePerProjectViewModel.cs" />
+    <Compile Include="ViewModels\ViewModelTools\WeekDayTimeTable.cs" />
     <Compile Include="ViewModels\ViewModelTools\WeeklyTimeViewModel.cs" />
     <Compile Include="ViewModels\VITimeRegistrationViewModel.cs" />
     <Compile Include="ViewModels\TimeRegistrationViewModel.cs" />
@@ -408,7 +409,7 @@
     <Content Include="Content\themes\base\tabs.css" />
     <Content Include="Content\themes\base\theme.css" />
     <Content Include="Content\themes\base\tooltip.css" />
-    <Content Include="favicon.ico" />
+    <Content Include="Views\favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\bootstrap.bundle.js" />
@@ -642,6 +643,7 @@
     <Content Include="Views\Users\_TimeTable.cshtml" />
     <Content Include="Views\TimeOverview\_TimeTable.cshtml" />
     <Content Include="Views\TimeOverview\_OrdernumberTable.cshtml" />
+    <Content Include="Views\Shared\_NavBarLinksPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -674,7 +676,7 @@
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>favicon.ico</ApplicationIcon>
+    <ApplicationIcon>Views\favicon.ico</ApplicationIcon>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />

@@ -20,7 +20,7 @@ namespace TimeReg.Controllers.Tools
 
         public ActionResult UserPartial(string ZId) {
 
-           
+           //Possibly move this to NavBar to make a single stored procedure call instead of two in a row.
             try
             {
                 var user = db.VI_Users.Where(m => m.NK_ZId == ZId).SingleOrDefault();
@@ -41,6 +41,13 @@ namespace TimeReg.Controllers.Tools
             }
             
             return PartialView("_WindowsAuthPartial");
+        }
+
+        public ActionResult NavBar(string ZId)
+        {
+            ViewBag.ZId = ZId;
+            //Add stored procedure to get the rights of the current person. 
+            return PartialView("_NavBar");
         }
 
         protected override void Dispose(bool disposing)

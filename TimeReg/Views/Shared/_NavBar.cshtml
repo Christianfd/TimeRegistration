@@ -42,15 +42,12 @@
 
             <ul class="nav navbar-nav mr-auto">
                 <li class="nav-item">@Html.ActionLink("Time Registration", "Index", "TimeRegistrations", null, new { @class = "nav-link" })</li>
+                @*Create functionality that checks for eg ViewBag.Rights < 3 then show below:*@
                 <li class="nav-item">@Html.ActionLink("Weekly Comment", "Index", "Comments", null, new { @class = "nav-link" })</li>
                 <li class="nav-item">@Html.ActionLink("Overview", "Index", "Overview", null, new { @class = "nav-link" })</li>
             </ul>
-
-            @using Microsoft.AspNet.Identity
-            @if (Request.IsAuthenticated)
-            {
-                @Html.Action("UserPartial", "WindowsAuth", new { ZId = User.Identity.GetUserName(), @class = "nav-link" })
-            }
+           
+                @Html.Action("UserPartial", "WindowsAuth", new { ZId = ViewBag.ZId, @class = "nav-link" })
         </div>
     </div>
 </nav>

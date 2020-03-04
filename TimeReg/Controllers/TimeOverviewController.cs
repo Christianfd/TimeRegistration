@@ -31,15 +31,17 @@ namespace TimeReg.Controllers
              * xxxDateController is used by the View
              * while xxxDateSQL is used in the SQL query due to mismatching formats..
              * startDateController and endDateController is also used to get the weekly time registere 
+             * Delta and delta + 6 respectively gets the beginning and end of week dates.
+             * 
              */
             var input = DateTime.Now.Date;
             int delta = DayOfWeek.Monday - input.DayOfWeek;
             if (delta > 0)
                 delta -= 7;
             var startDateController = input.AddDays(delta).Date.ToString("dd/MM/yyyy");
-            var endDateController = input.AddDays(6).Date.ToString("dd/MM/yyyy");
+            var endDateController = input.AddDays(delta + 6).Date.ToString("dd/MM/yyyy");
             var startDateSQL = input.AddDays(delta).Date.ToString("yyyy/MM/dd");
-            var endDateSQL = input.AddDays(6).Date.ToString("yyyy/MM/dd");
+            var endDateSQL = input.AddDays(delta + 6).Date.ToString("yyyy/MM/dd");
             ViewBag.startDateController = startDateController;
             ViewBag.endDateController = endDateController;
 
@@ -58,7 +60,7 @@ namespace TimeReg.Controllers
                 if (delta > 0)
                     delta -= 7;
                 startDateController = input.AddDays(delta);
-                endDateController = startDateController.AddDays(6);
+                endDateController = startDateController.AddDays(delta + 6);
                 ViewBag.startDateController = startDateController;
                 ViewBag.endDateController = endDateController;
             }
