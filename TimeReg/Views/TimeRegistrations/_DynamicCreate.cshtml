@@ -128,7 +128,12 @@
 </script>
 
 <script>
-    $(".datepicker").datepicker({ dateFormat: 'dd/M/yy' }).val();
+    $(".datepicker").datepicker({
+        dateFormat: 'dd/M/yy',
+        firstDay: 1
+        
+
+    }).val();
     $(".selectpicker").chosen({
         no_results_text: "Oops, nothing found!"
         ,search_contains: true
@@ -161,6 +166,8 @@
         navigator.clipboard.writeText(text).then(
           function () {
               console.log("Async: Copying to clipboard was successful!");
+              console.log("Value of time ");
+              console.log($("#Time").val())
           },
           function (err) {
               console.error("Async: Could not copy text: ", err);
@@ -173,6 +180,7 @@
 
     //Triggers Copy to clipboard on button click
     copyOrderBtn.addEventListener("click", function (event) {
+        
         var OrderNumberText = $("[id*='FK_OrderId'] :selected").text();
         //split and trims the value first
         OrderNumberText = OrderNumberSplit(OrderNumberText);

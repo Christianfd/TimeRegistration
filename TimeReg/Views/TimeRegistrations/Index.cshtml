@@ -51,7 +51,12 @@
         console.log(state);
         
         var form = $("#PartialViewModalBody").children('form');
-        if (state == 'full') {
+        if (state == 'Full') {
+       
+            //New method - Simply reload the modal. - Slower and consistent.
+            //$(".Create").trigger("click");
+           
+            //Old method for resetting modal below: - Faster so is used right now - Changes to modal form might make changes to method neccessary
             form.find(':input').each(function () {
                 switch (this.type) {
                     case 'password':
@@ -72,6 +77,8 @@
                 });
 
             });
+
+            
         } else if (state == 'partial') {
             form.find(':input').each(function () {
                 switch (this.type) {
@@ -120,6 +127,7 @@
                     //Based on the calling Id, we need to identify the dropdownlist in need of change:
                     if (id == "FK_UserId") { target = $("#FK_OrderId") }
                     if (id == "FK_OrderId") { target = $("#FK_ProjectId") }
+                    if (id == "FK_ProjectId") { target = $("#FK_OrderId")}
                 } else { return }
 
 
@@ -139,8 +147,8 @@
                 }
 
 
-                //Ajax Call is currently only needed When Chosing user or Order Number
-                if (id == 'FK_UserId' || id == 'FK_OrderId') {
+                //Ajax Call is currently only needed When Chosing user, ProjectId or Order Number
+                if (id == 'FK_UserId' || id == 'FK_OrderId' || id == "FK_ProjectId") {
                     $.getJSON('@Url.Action("AjaxDyanimcDropDown")', { dropDownKey: key, dropDownId: id }, function (result) {
                         if (result != null) {
 

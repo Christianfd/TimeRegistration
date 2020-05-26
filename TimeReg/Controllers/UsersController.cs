@@ -303,7 +303,7 @@ namespace TimeReg.Controllers
                              Date = viUserTimePerProject.Date,
                              Name = viUserTimePerProject.Name
 
-                         }).OrderByDescending(m => m.timeSum).ToList();
+                         }).OrderByDescending(m => m.Date).ToList();
 
             if (users == null)
             {

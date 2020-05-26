@@ -131,6 +131,14 @@ function AjaxDynamicHandler(CRUD, DynamicOriginId) {
 $("#PartialViewModalSaveButton").click(function () {
     var CRUD = $(this).data("crud");
     var form = $("#PartialViewModalBody").children('form');
+
+    //Checks if the html object #Time exists, if so converts any commas(,) to dots(.).
+    if ($("#Time").length) {
+        console.log("Time child found, convert , to .");
+        $("#Time").val($("#Time").val().replace(",", "."))
+        console.log("Conversion results: " + $("#Time").val());
+
+    }
     console.log(CRUD);
     console.log(form.serialize());
     switch (CRUD) {

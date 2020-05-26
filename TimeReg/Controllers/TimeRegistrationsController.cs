@@ -132,6 +132,25 @@ namespace TimeReg.Controllers
 
             }
 
+            if (id == "FK_ProjectId")
+            {
+                SelectList OrderNumberList = new SelectList(db.VI_Projects.Where(m => m.PK_Id == key), "FK_OrderNumber", "OrderName");
+
+
+
+                //Check to see if the choosen order number has any projects. If not they get access to all projects
+                if (OrderNumberList.Count() >= 1)
+                {
+                    return Json(OrderNumberList, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    OrderNumberList = new SelectList(db.VI_Projects, "FK_OrderNumber", "OrderName");
+                    return Json(OrderNumberList, JsonRequestBehavior.AllowGet);
+                }
+            
+
+            }
             return null;
          
         }
@@ -232,6 +251,7 @@ namespace TimeReg.Controllers
                     {
                         if (timeRegistration.Comment == null) { timeRegistration.Comment = "No Comment"; }
 
+                        
                         db.SP_AddTimeRegistration(timeRegistration.FK_UserId, timeRegistration.FK_ProjectId, timeRegistration.FK_OrderId, timeRegistration.FK_TaskId, timeRegistration.Time, timeRegistration.Date, DateTime.Now, timeRegistration.Comment);
                         db.SaveChanges();
                         //var messageModel = new TimeRegistrationViewModel { Message = "Your Entry has been added" };
